@@ -1,0 +1,6 @@
+use Test;
+use FontFactory::TT;
+
+pass "replace me";
+
+done-testing;

@@ -17,7 +17,9 @@ NotoSerif-Regular.ttf
 for @f -> $f {
     my $args = "locate $f";
     my $res = cmd $args;
-    say $res.out.lines.head;
+    my $df = $res.out.lines.head;
+    $args = "cp $df ./fonts";
+    $res = cmd $args;
 }
 
 

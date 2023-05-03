@@ -19,16 +19,16 @@ if not $dir.IO.d {
     exit;
 }
 
-my %h;
+my %f; # hash to hold fonts
 my @f = find :dir('/usr'), :type('file'), :name(/'.ttf'$/), :keep-going;
 for @f -> $f {
     my $b = $f.IO.basename;
-    next if %h{$b}:exists;
-    %h{$b} = $f;
+    next if %f{$b}:exists;
+    %f{$b} = $f;
 }
-my $nf = %h.elems;
+my $nf = %f.elems;
 say "Found $nf unique TrueType font files.";
 say "Copying them to dir '$dir'";
-for %h.kv -> $k, $v {
+for %f.kv -> $k, $v {
     copy $v, "$dir/$k", :createonly;
 }

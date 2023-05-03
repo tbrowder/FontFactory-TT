@@ -29,6 +29,6 @@ for @f -> $f {
 my $nf = %f.elems;
 say "Found $nf unique TrueType font files.";
 say "Copying them to dir '$dir'";
-for %f.kv -> $k, $v {
-    copy $v, "$dir/$k", :createonly;
+for %f.kv -> $basename, $f {
+    copy $f, "$dir/$basename", :createonly;
 }

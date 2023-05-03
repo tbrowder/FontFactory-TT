@@ -6,6 +6,10 @@ my $dir = "./fonts";
 if not @*ARGS {
     print qq:to/HERE/;
     Usage: {$*PROGRAM.basename} go
+
+    Finds TrueType font files and copies them to the
+      local '$dir' directory if not already there.
+
     HERE
     exit;
 }
@@ -26,34 +30,5 @@ my $nf = %h.elems;
 say "Found $nf unique TrueType font files.";
 say "Copying them to dir '$dir'";
 for %h.kv -> $k, $v {
-    copy $v, "$dir/$k";
+    copy $v, "$dir/$k", :createonly;
 }
-
-=finish
-my $args = "locate $f";
-    my $res = cmd $args;
-    my $df = $res.out.lines.head;
-    $args = "cp $df ./fonts";
-    $res = cmd $args;
-
-
-my @f = <
-NotoSans-Bold.ttf
-NotoSans-BoldItalic.ttf
-NotoSans-Italic.ttf
-NotoSans-Regular.ttf
-NotoMono-Regular.ttf
-NotoSerif-Bold.ttf
-NotoSerif-BoldItalic.ttf
-NotoSerif-Italic.ttf
-NotoSerif-Regular.ttf
->;
-
-for @f -> $f {
-    my $args = "locate $f";
-    my $res = cmd $args;
-    my $df = $res.out.lines.head;
-    $args = "cp $df ./fonts";
-    $res = cmd $args;
-}
-

@@ -1,6 +1,8 @@
 #!/bin/env raku
 
 use File::Find;
+use PDF::Font::Loader;
+use PDF::Content::FontObj;
 
 my $dir = "./fonts";
 if not @*ARGS {
@@ -9,7 +11,6 @@ if not @*ARGS {
     HERE
     exit;
 }
-
 if not $dir.IO.d {
     note "NOTE: Local directory '$dir' is required to continue.";
     exit;

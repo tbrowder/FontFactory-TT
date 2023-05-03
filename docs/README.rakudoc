@@ -12,6 +12,16 @@ use FontFactory::TT;
 
 =end code
 
+=head1 Installation
+
+To use this module, you must first collect all fonts you wish to
+use into one directory. Then assign an alias for each as a shortcut
+to the file or font name. These steps can be done with the help
+of several included programs:
+
+=item find-fonts.raku
+
+
 =head1 DESCRIPTION
 
 B<FontFactory::TT> is ...

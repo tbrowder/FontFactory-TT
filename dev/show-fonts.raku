@@ -8,26 +8,31 @@ my $dir = "./fonts";
 if not @*ARGS {
     print qq:to/HERE/;
     Usage: {$*PROGRAM.basename} go
+
+    Creates PDF pages demonstrating the TrueType fonts found
+      in directory '$dir'.
     HERE
     exit;
 }
 if not $dir.IO.d {
-    note "NOTE: Local directory '$dir' is required to continue.";
+    note "NOTE: Local directory '$dir' (with one or more TrueType\n  fonts) is required to continue.";
     exit;
 }
 
-my %h;
-my @f = find :dir('/usr'), :type('file'), :name(/'.ttf'$/), :keep-going;
+my %f;
+my @f = find :$dir, :type('file'), :name(/'.ttf'$/), :keep-going;
 for @f -> $f {
-    my $b = $f.IO.basename;
-    next if %h{$b}:exists;
-    %h{$b} = $f;
+    my $basename = $f.IO.basename;
+    next if %f{$basename}:exists;
+    %f{$basename} = $f;
 }
 my $nf = %h.elems;
 say "Found $nf unique TrueType font files.";
 say "Copying them to dir '$dir'";
-for %h.kv -> $k, $v {
-    copy $v, "$dir/$k";
+for %h.kv -> $basename, $f {
+    say "Working file '$f'...";
+
+    copy $f, "$dir/$basename";
 }
 
 =finish

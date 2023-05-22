@@ -10,7 +10,7 @@ of the old terminology, modern typesetting results in more accurate
 and easier production of beautiful printed products.
 
 A few terms need to be explained to understand the application of
-digital fonts using this module as well as B<Font::AFM> which is
+digital fonts using this module as well as B<????Font::AFM> which is
 central to it.
 
 Placing a single line of text using a font of a specific size
@@ -78,12 +78,12 @@ width = 0.0123 x 700 = 8.61
 =head1 B<class DocFont methods>
 
 The following methods are convenience methods not found in module
-C<Font::AFM> but are constructed fron data therein and have been
+C<???Font::AFM> but are constructed fron data therein and have been
 adjusted for the C<DocFont> object's font size.
 
 Some methods have short aliases for convenience in coding.
 
-=head2 B<Methods not in Font::AFM>
+=head2 B<Methods not in ????Font::AFM>
 
 =head3 B<StrikethroughPosition>
 
@@ -166,7 +166,7 @@ method StringBBox(Str $s?, Bool :$kern --> List) {...}
 
 alias: C<sbb>
 
-=head2 B<Methods found in Font::AFM>
+=head2 B<Methods found in ????Font::AFM>
 
 The following methods return the data extracted from Adobe's C<afm>
 file for the given font. The data returned by this module have the
@@ -327,7 +327,7 @@ method Descender {...}
 
 The following two methods are included for completeness, but should
 not be needed. The author believes they should be C<private> methods
-only used during the construction of the C>Font::AFM> class.
+only used during the construction of the C<???Font::AFM> class.
 
 =head3 B<kern>
 
@@ -339,7 +339,8 @@ method kern($string --> List) {...}
 
 =head3 B<KernData>
 
-A two-dimensional hash containing glyphs as keys, each with a hash of kerning characters and kern widths for the top-level glyph.
+A two-dimensional hash containing glyphs as keys, each with a hash 
+of kerning characters and kern widths for the top-level glyph.
 =begin code
 method KernData(--> Hash) {...}
 =end code

@@ -4,8 +4,8 @@ use Font::AFM;
 use Test;
 
 use lib <../lib>; 
-use FontFactory::Type1;
-use FontFactory::Type1::DocFont;
+use FontFactory::TT;
+use FontFactory::TT::DocFont;
 
 use lib <../t/lib>;
 use Utils;

@@ -4,15 +4,15 @@ use lib <../lib>;
 
 use PDF::Lite;
 use Font::AFM;
-use FontFactory::Type1;
-use FontFactory::Type1::Subs;
-use FontFactory::Type1::DocFont;
+use FontFactory::TT;
+use FontFactory::TT::Subs;
+use FontFactory::TT::DocFont;
 
 show-fonts;
 
 # use the factory
 my $pdf = PDF::Lite.new;
-my $ff  = FontFactory::Type1.new :$pdf;
+my $ff  = FontFactory::TT.new :$pdf;
 
 # define a DocFont
 # use a name that associates its face and size

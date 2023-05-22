@@ -35,7 +35,7 @@ For convenience you may want to create a another list to associate your oft-used
 with a short alias. That is done by creating a file named
 C<$HOME/.fontfactory-tt/my-fonts.list>.
 
-The file should look like this:
+The file should look something like this:
 
 =begin code
 # alias font-name     notes

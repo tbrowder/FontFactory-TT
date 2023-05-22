@@ -1,7 +1,7 @@
 use Test;
 use Font::AFM;
-use FontFactory::Type1;
-use FontFactory::Type1::Subs;
+use FontFactory::TT;
+use FontFactory::TT::Subs;
 
 use lib <./t/lib>;
 use Utils;
@@ -23,7 +23,7 @@ is $a.FontName, "Times-Roman";
 my $ff;
 # test 3
 lives-ok {
-    $ff = FontFactory::Type1.new;
+    $ff = FontFactory::TT.new;
 }
 
 # test 4

@@ -1,6 +1,6 @@
 use Test;
 use Font::AFM;
-use FontFactory::Type1;
+use FontFactory::TT;
 
 my $debug = 0;
 
@@ -18,7 +18,7 @@ lives-ok {
 }
 
 lives-ok {
-    $ff = FontFactory::Type1.new;
+    $ff = FontFactory::TT.new;
 }        
 
 lives-ok {

@@ -1,6 +1,6 @@
 use Test;
 use Proc::Easier;
-use FontFactory::Type1;
+use FontFactory::TT;
 
 plan 2;
 

@@ -1,7 +1,7 @@
 #!/bin/env raku
 
-use File::Find;
-use PDF::Font::Loader;
+#use File::Find;
+use PDF::Font::Loader:ver<0.6.10> :load-font, :Weight, :Stretch, :Slant;
 use PDF::Content::FontObj;
 
 my $dir = "./fonts";
@@ -19,6 +19,11 @@ if not $dir.IO.d {
     exit;
 }
 
+my PDF::Content::FontObj $fo = PDF::Font::Loader.load-font: :file<./fonts/Vera.ttf>, :!subset;
+say $fo.underline-position;
+
+=finish
+
 my %f;
 my @f = find :$dir, :type('file'), :name(/'.ttf'$/), :keep-going;
 for @f -> $f {
@@ -26,40 +31,13 @@ for @f -> $f {
     next if %f{$basename}:exists;
     %f{$basename} = $f;
 }
-my $nf = %h.elems;
+my $nf = %f.elems;
 say "Found $nf unique TrueType font files.";
-say "Copying them to dir '$dir'";
-for %h.kv -> $basename, $f {
+for %f.kv -> $basename, $f {
     say "Working file '$f'...";
 
-    copy $f, "$dir/$basename";
+    my PDF::Content::FontObj $fo = PDF::Font::Loader.load-font: :file<./fonts/Vera.ttf>; #($f), :!subset;
+    #my PDF::Content::FontObj $fo = load-font :file($f);
+    say $fo.gist;
+    last;
 }
-
-=finish
-my $args = "locate $f";
-    my $res = cmd $args;
-    my $df = $res.out.lines.head;
-    $args = "cp $df ./fonts";
-    $res = cmd $args;
-
-
-my @f = <
-NotoSans-Bold.ttf
-NotoSans-BoldItalic.ttf
-NotoSans-Italic.ttf
-NotoSans-Regular.ttf
-NotoMono-Regular.ttf
-NotoSerif-Bold.ttf
-NotoSerif-BoldItalic.ttf
-NotoSerif-Italic.ttf
-NotoSerif-Regular.ttf
->;
-
-for @f -> $f {
-    my $args = "locate $f";
-    my $res = cmd $args;
-    my $df = $res.out.lines.head;
-    $args = "cp $df ./fonts";
-    $res = cmd $args;
-}
-

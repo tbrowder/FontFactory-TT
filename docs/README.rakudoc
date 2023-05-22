@@ -2,7 +2,8 @@
 
 =head1 NAME
 
-B<FontFactory::TT> - 
+B<FontFactory::TT> - A Unicode font factory similar to C<FontFactory::Type1> but
+using TruType fonts.
 
 =head1 SYNOPSIS
 
@@ -14,7 +15,37 @@ use FontFactory::TT;
 
 =head1 Installation
 
-To use this module, you must first collect all fonts you wish to
+To use this module, you must first generate a list of all the TrueType and OpenType fonts
+available on your system. That is normally automatically accomplished during the first
+installation by C<zef> in its build step. The list will be stored in your C<$HOME>
+directory as C<$HOME/.fontfactory-tt/system-fonts.list>.
+That file looks like this:
+
+=begin code
+# font-name location
+Blarney.ttf /usr/src/fonts/Blarney.ttf
+...
+Courier.otf /use/local/fonts/Courier.otf
+=end code
+
+If that step fails, or for some reason (such as adding new fonts) you want to
+reinitialize the list, run C<ff-reload>. 
+
+For convenience you may want to create a another list to associate your oft-used fonts
+with a short alias. That is done by creating a file named
+C<$HOME/.fontfactory-tt/my-fonts.list>.
+
+The file should look like this:
+
+=begin code
+# alias font-name     notes
+  1     Blarney.ttf   my favorite serif font
+  m     Courier.otf   my favorite monospaced font
+  n     Pocus.ttf     my favorite sans serif font
+  j     Scroll.otf    best for Jewish calendars
+=end code
+
+collect all fonts you wish to
 use into one directory. Then assign an alias for each as a shortcut
 to the file or font name. These steps can be done with the help
 of several included programs:
@@ -27,6 +58,10 @@ of several included programs:
 B<FontFactory::TT> is ...
 
 =head1 AUTHOR
+
+=head1 See also
+
+=item Raku module C<FontFactory::Type1>>
 
 Tom Browder <tbrowder@acm.org>
 

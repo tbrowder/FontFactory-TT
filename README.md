@@ -3,7 +3,7 @@
 NAME
 ====
 
-**FontFactory** - A Unicode font factory similar to `FontFactory::Type1` but using TrueType, OpenType, and Type 1 fonts.
+**FontFactory** - A Unicode font factory similar to `FontFactory::Type1` but using *TrueType*, *OpenType*, and `Type 1` fonts.
 
 SYNOPSIS
 ========

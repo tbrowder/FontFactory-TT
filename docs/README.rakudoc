@@ -3,7 +3,7 @@
 =head1 NAME
 
 B<FontFactory> - A Unicode font factory similar to C<FontFactory::Type1> but
-using TrueType, OpenType, and Type 1 fonts.
+using I<TrueType>, I<OpenType>, and C<Type 1> fonts.
 
 =head1 SYNOPSIS
 

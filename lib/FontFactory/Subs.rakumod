@@ -1,11 +1,11 @@
-unit module FontFactory::TT::Subs;
+unit module FontFactory::Subs;
 
 use PDF::Lite;
 use Font::AFM;
 
-use FontFactory::TT::FontHash;
-use FontFactory::TT::BaseFont;
-use FontFactory::TT::DocFont;
+use FontFactory::FontHash;
+use FontFactory::BaseFont;
+use FontFactory::DocFont;
 
 sub show-fonts is export {
     my $max = 0;

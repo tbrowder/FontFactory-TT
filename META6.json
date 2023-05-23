@@ -6,17 +6,21 @@
   "build-depends": [
   ],
   "depends": [
+    "Font::FreeType"
   ],
   "description": "blah blah blah",
   "license": "Artistic-2.0",
-  "name": "FontFactory::TT",
+  "name": "FontFactory",
   "perl": "6.d",
   "provides": {
-    "FontFactory::TT": "lib/FontFactory/TT.rakumod"
+    "FontFactory": "lib/FontFactory.rakumod",
+    "FontFactory::BaseFont": "lib/FontFactory/BaseFont.rakumod",
+    "FontFactory::DocFont": "lib/FontFactory/DocFont.rakumod",
+    "FontFactory::Subs": "lib/FontFactory/Subs.rakumod"
   },
   "resources": [
   ],
-  "source-url": "",
+  "source-url": "https://github.com/tbrowder/FontFactory.git",
   "tags": [
   ],
   "test-depends": [

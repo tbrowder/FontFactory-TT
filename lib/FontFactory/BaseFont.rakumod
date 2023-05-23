@@ -1,4 +1,4 @@
-unit class FontFactory::Type1::BaseFont is export;
+unit class FontFactory::BaseFont is export;
 
 use PDF::Lite;
 use Font::AFM;

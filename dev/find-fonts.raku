@@ -1,9 +1,10 @@
 #!/bin/env raku
 
+use Proc::Easier;
 use File::Find;
 
 my $ofil  = "system-fonts.list";
-my $ofil2 = "FontHash.rakumod";
+my $ofil2 = "../lib/FontFactory/TT/FontHash.rakumod";
 if not @*ARGS {
     print qq:to/HERE/;
     Usage: {$*PROGRAM.basename} go
@@ -15,6 +16,8 @@ if not @*ARGS {
     exit;
 }
 
+# get the list using binary fc-list from package fontconfig
+my @al
 my $maxlen = 0;
 my %f; # hash to hold fonts
 my @ttf = find :dir('/usr'), :type('file'), :name(/'.ttf'$/), :keep-going, :exclude(/tbrowde|'my-public'|forks/);;

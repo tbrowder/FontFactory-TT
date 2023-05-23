@@ -1,8 +1,8 @@
-use FontFactory::TT::Subs;
-use FontFactory::TT::BaseFont;
-use FontFactory::TT::DocFont;
+use FontFactory::Subs;
+use FontFactory::BaseFont;
+use FontFactory::DocFont;
 
-unit class FontFactory::TT;
+unit class FontFactory;
 
 use PDF::Lite;
 use Font::AFM;
@@ -12,10 +12,10 @@ use Font::AFM;
 has PDF::Lite $.pdf; # can be provided by the caller
 
 # hash of BaseFonts keyed by their alias name
-has FontFactory::TT::BaseFont %.basefonts;
+has FontFactory::BaseFont %.basefonts;
 
 # hash of DocFonts keyed by an alias name which includes the font's size
-has FontFactory::TT::DocFont %.docfonts;
+has FontFactory::DocFont %.docfonts;
 
 submethod TWEAK {
     # provide if using standalone

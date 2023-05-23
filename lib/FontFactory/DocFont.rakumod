@@ -1,8 +1,8 @@
-unit class FontFactory::Type1::DocFont is export;
+unit class FontFactory::DocFont is export;
 
 use PDF::Lite;
 use Font::AFM;
-use FontFactory::Type1::BaseFont;
+use FontFactory::BaseFont;
 
 constant LLX  = 0; # bbox index for left bound
 constant LLY  = 1; # bbox index for lower bound

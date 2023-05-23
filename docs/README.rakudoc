@@ -3,7 +3,7 @@
 =head1 NAME
 
 B<FontFactory> - A Unicode font factory similar to C<FontFactory::Type1> but
-using TruType, OpenType, and Type 1 fonts.
+using TrueType, OpenType, and Type 1 fonts.
 
 =head1 SYNOPSIS
 
@@ -16,7 +16,7 @@ use FontFactory;
 =head1 Installation
 
 First, ensure your host has the C<fontconfig> and C<freetype> system libraries installed.
-It is also recommended to install the Google Noto fonts. On a Debian host they are in
+It is also recommended you install the Google Noto fonts. On a Debian host they are in
 package C<fonts-noto>.
 
 To use this module, you must first generate a list of all the TrueType and OpenType fonts

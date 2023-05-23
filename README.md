@@ -3,7 +3,7 @@
 NAME
 ====
 
-**FontFactory** - A Unicode font factory similar to `FontFactory::Type1` but using TruType, OpenType, and Type 1 fonts.
+**FontFactory** - A Unicode font factory similar to `FontFactory::Type1` but using TrueType, OpenType, and Type 1 fonts.
 
 SYNOPSIS
 ========
@@ -15,7 +15,7 @@ use FontFactory;
 Installation
 ============
 
-First, ensure your host has the `fontconfig` and `freetype` system libraries installed. It is also recommended to install the Google Noto fonts. On a Debian host they are in package `fonts-noto`.
+First, ensure your host has the `fontconfig` and `freetype` system libraries installed. It is also recommended you install the Google Noto fonts. On a Debian host they are in package `fonts-noto`.
 
 To use this module, you must first generate a list of all the TrueType and OpenType fonts available on your system. That is normally automatically accomplished during the first installation by `zef` in its build step. The list will be stored in your `$HOME` directory as `$HOME/.fontfactory-tt/system-fonts.list`. That file looks like this:
 

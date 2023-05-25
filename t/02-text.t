@@ -3,9 +3,9 @@ use PDF::Content;
 use PDF::Lite;
 use Font::AFM;
 
-use FontFactory::TT;
-use FontFactory::TT::Subs;
-use FontFactory::TT::FontList;
+use FontFactory;
+use FontFactory::Subs;
+use FontFactory::FontList;
 
 plan 38;
 
@@ -65,7 +65,7 @@ lives-ok {
 
 # quickie font factory checks
 lives-ok {
-    $ffact = FontFactory::TT.new: :$pdf;
+    $ffact = FontFactory.new: :$pdf;
 }, "getting a font factory";
 
 lives-ok {

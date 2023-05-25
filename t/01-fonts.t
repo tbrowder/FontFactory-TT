@@ -2,11 +2,11 @@ use Test;
 use PDF::Content;
 use PDF::Lite;
 use Font::AFM;
-use FontFactory::TT;
-use FontFactory::TT::Subs;
-use FontFactory::TT::BaseFont;
-use FontFactory::TT::DocFont;
-use FontFactory::TT::FontList;
+use FontFactory;
+use FontFactory::Subs;
+use FontFactory::BaseFont;
+use FontFactory::DocFont;
+use FontFactory::FontList;
 
 plan 119;
 

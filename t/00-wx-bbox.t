@@ -1,13 +1,13 @@
 use Test;
 use Font::AFM;
 
-use FontFactory::TT;
+use FontFactory;
 use lib <./t/lib>;
 use Utils;
 
 my $afm  = Font::AFM.new: :name<Times-Roman>;
 my $size = 10.3;
-my $ff   = $factory; #FontFactory::TT.new;
+my $ff   = $factory; #FontFactory.new;
 my $f    = $ff.get-font: 't10d3';
 my $sf   = $size/1000.0;
 my $exp;

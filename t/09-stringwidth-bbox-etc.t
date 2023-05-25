@@ -1,7 +1,7 @@
 use Test;
 use Font::AFM;
-use FontFactory::Type1;
-use FontFactory::Type1::DocFont;
+use FontFactory;
+use FontFactory::DocFont;
 use Data::Dump;
 
 use lib <./t/lib>;
@@ -27,7 +27,7 @@ lives-ok {
     $afm2 = Font::AFM.new: :name($name2);
 }
 lives-ok {
-    $ff = FontFactory::Type1.new;
+    $ff = FontFactory.new;
 }
 lives-ok {
     $f = $ff.get-font("t10d3");

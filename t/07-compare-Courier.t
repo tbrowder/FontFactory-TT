@@ -1,6 +1,6 @@
 use Test;
 use Font::AFM;
-use FontFactory::TT;
+use FontFactory;
 
 my $debug = 0;
 

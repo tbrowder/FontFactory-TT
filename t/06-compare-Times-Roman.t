@@ -1,6 +1,6 @@
 use Test;
 use Font::AFM;
-use FontFactory::TT;
+use FontFactory;
 use lib <./t/lib>;
 use Utils;
 

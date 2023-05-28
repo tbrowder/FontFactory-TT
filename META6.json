@@ -25,6 +25,7 @@
   "tags": [
   ],
   "test-depends": [
+    "FontFactory::Type1:ver<1.1.0>:auth<zef:tbrowder>:api<2>"
   ],
   "version": "0.0.1"
 }

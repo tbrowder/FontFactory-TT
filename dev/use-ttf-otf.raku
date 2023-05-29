@@ -10,13 +10,20 @@ use Font::FreeType::Face;
 use NativeCall;
 use Font::FreeType::Raw::Defs;
 
-my $fontfile = "./fonts/NotoSerif-Regular.ttf";
+my $fontfile  = "./fonts/NotoSerif-Regular.ttf";
+my $fontfile3 = "./fonts/URWBookman-Demi.otf";
+my $fontfile4 = "./fonts/URWBookman-Demi.t1";
+my $fontfilex = "./fonts/URWBookman-Demi.afm";
+
+
 if not @*ARGS {
     print qq:to/HERE/;
     Usage: {$*PROGRAM.basename} go [debug]
 
-    Tests use of Font::FreeType using font file:
+    Tests use of Font::FreeType using font files:
         $fontfile
+        $fontfile3
+        $fontfile4
     as input.
     HERE
     exit
@@ -28,11 +35,19 @@ my $debug = 0;
 say "Getting metrics...";
 my $ft = Font::FreeType.new;
 my $f = $ft.face: $fontfile, :load-flags(FT_LOAD_NO_HINTING);
+my $f3 = $ft.face: $fontfile3, :load-flags(FT_LOAD_NO_HINTING);
+my $f4 = $ft.face: $fontfile4, :load-flags(FT_LOAD_NO_HINTING);
+
 say $f.family-name;
+say $f3.family-name;
+say $f4.family-name;
 my $text = "To Wit";
 my $size = 12.3;
 say "setting font size to $size points";
-$f.set-char-size: $size, $size, 72, 72;
+$f.set-char-size: $size;
+$f3.set-char-size: $size;
+$f4.set-char-size: $size;
+
 =finish
 
 say "inspecting glyphs in text: '$text'";

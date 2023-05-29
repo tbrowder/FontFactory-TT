@@ -1,11 +1,13 @@
 #!/bin/env raku
-
 use Proc::Easier;
+use Data::Dump;
+use Data::Dump::Tree;
 use File::Find;
 
 my $ofil  = "system-fonts.list";
 my $ofil2 = "../lib/FontFactory/FontList.rakumod";
 my $ofil3 = "FontList.rakumod";
+my $ofil4 = "system-fonts-dups.list";
 if not @*ARGS {
     print qq:to/HERE/;
     Usage: {$*PROGRAM.basename} go | debug
@@ -32,61 +34,87 @@ if $debug {
     exit;
 }
 
-my %f; # hash to hold fonts keyed by basename (eliminate extensions !~~ /'.' [otf|ttf|t1]
-my @dups;
+my %fonts; # hash to hold fonts keyed by basename (eliminate extensions !~~ /'.' [otf|ttf|t1]
+my $dups = 0;  
+my %dups;  
 my $maxlen = 0;
 my $maxnam = '';
-for @fc-list -> $line {
+LINE: for @fc-list -> $line {
     # parse the line
     # the first field is the path to the font file
     my $path = $line.words.head;
+
+    =begin comment
     if $path ~~ /'[' / {
         # don't know how to handle these
-        next;
+        next LINE;
     }
-    if $path !~~ /'.' [otf|ttf|t1] ':' $/ {
-        next;
-    }
+    =end comment
+
+    # skip all but standard system directories
+    # /usr/share/fonts
+    # /usr/share/X11/fonts/Type1
+    # /usr/share/X11/fonts/TTF
+    # /usr/local/share/fonts
+    # ~/.fonts
+
+    #=begin comment
+    next LINE unless $path ~~ /^
+        | '/usr/share/fonts'
+        | '/usr/share/X11/fonts/Type1'
+        | '/usr/share/X11/fonts/TTF'
+        | '/usr/local/share/fonts'
+        | '~/.fonts'
+    /;
+    #=end comment
+
+    next LINE unless $path ~~ /'.' [otf|ttf|t1] ':' $/;
+
+    # get rid of the closing ':'
+    $path ~~ s/':'$//;
 
     my $font = $path.IO.basename;
-    # get rid of the closing ':'
-    $font ~~ s/':' $//;
-
-    if %f{$font}:exists {
-        # there shouldn't be any dups for system fonts, or should there?
-        note "WARNING: System font $font has one or more duplicates";
-        @dups.push: $path;
-        next;
+    if %dups{$font}:exists {
+        ++$dups;
+        ++%dups{$font}; 
     }
+    else {
+        %dups{$font} = 1;; 
+    }
+
+    my $dir  = $path.IO.parent;
+
+    #%(%fonts{$font}<dirs>){$dir} = 1;
+    %fonts{$font}<dirs>{$dir} = 1;
 
     my $len = $font.chars;
     if $len > $maxlen {
         $maxlen = $len;
         $maxnam = $font;
     }
-
-    my $dir  = $path.IO.parent;
-    %f{$font} = $dir;
 }
+ 
+#ddt %fonts; exit;
 
-my $nf = %f.elems;
+my $nf = %fonts.elems;
 say "Found $nf TrueType, OpenType, and Type 1 font files.";
-my $nd = @dups.elems;
-say "Found $nd duplicate font files." if $nd;
+say "Found $dups duplicate font files." if $dups;
 
 say "Creating a list of unique font files...";
 
 my $fh = open $ofil, :w;
-my $index  = 0;
-my %fonts;
-for %f.keys.sort -> $basename {
-    my $font = $basename;
+my $index = 0;
+my %fonts-indexed;
+my @indices;
+for %fonts.keys.sort -> $font {
     ++$index;
-    my $dir   = %f{$font};
-    my $dir   = %f{$font};
-    $fh.say: sprintf '%4d %-*s %s/', $index, $maxlen, $font, $dir;
-    %fonts{$font} = { index => $index, dir => $dir };
+    #my $dir = %(%fonts{$font}<dirs>).head;
+    my $dir = %fonts{$font}<dirs>.head.key;
+    $fh.say: sprintf '%4d %s %s', $index, $font, $dir;
 
+    %fonts{$font}<index> = $index;
+    %fonts-indexed{$index} = { font => $font, dir => $dir };
+    @indices.push: $index;
 }
 $fh.close;
 
@@ -104,16 +132,15 @@ constant %Fonts is export = [
 HERE
 
 my @b = %fonts.keys.sort;
-my @indices;
 # write the variable, middle part
 for @b -> $font {
-    my $dir   = %f{$font}<dir>;
-    my $index = %f{$font}<index>;
-    @indices.push: $index;
+    #my $dir   = %(%fonts{$font}<dirs>).head;
+    my $dir   = %fonts{$font}<dirs>.head.key;
+    my $index = %fonts{$font}<index>;
     $fh.print: qq:to/HERE/;
-        $font => \{ 
+        '$font' => \{ 
             index => $index,
-                 dir => "$dir",
+              dir => '$dir',
         },
     HERE      
 }
@@ -121,10 +148,36 @@ for @b -> $font {
 # write the constant, end part
 $fh.print: qq:to/HERE/;
 ];
+
 # invert the hash and have short names (aliases) as keys
-our %FontAliases is export = %Fonts.invert;
+constant %FontAliases is export = [
 HERE      
+# write the variable, middle part
+for @indices -> $index {
+    my $dir   = %fonts-indexed{$index}<dir>;
+    my $font  = %fonts-indexed{$index}<font>;
+    $fh.print: qq:to/HERE/;
+        $index => \{ 
+            font => '$font',
+             dir => '$dir',
+        },
+    HERE      
+}
+$fh.say: '];';
 $fh.close;
+
+if $dups {
+    $fh = open $ofil4, :w;
+    for %fonts.keys.sort -> $font {
+        if %fonts{$font}<dirs>.elems > 1 {
+            $fh.say: $font;
+            for %fonts{$font}<dirs>.keys -> $dir {
+                $fh.say: "    $dir";
+            }
+        }
+    }
+    $fh.close;
+}
 
 # copy rakumod to the dev dir
 copy $ofil2, $ofil3;
@@ -135,3 +188,9 @@ say "        basename:                $maxnam";
 say "See output file '$ofil'.";
 say "See output file '$ofil2'.";
 say "See output file '$ofil3'.";
+if $dups {
+    say "See output file '$ofil4'.";
+}
+else {
+}
+

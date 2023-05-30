@@ -3,7 +3,7 @@
 
 Modern typesetting involves using text and digital typefaces (fonts) placed on a page mimicing the earlier printing era with hand-placed lead type on a printing press, covered with a thin layer of ink, and pressed against paper to produce a printed page. While retaining some of the old terminology, modern typesetting results in more accurate and easier production of beautiful printed products.
 
-A few terms need to be explained to understand the application of digital fonts using this module as well as **????Font::AFM** which is central to it.
+A few terms need to be explained to understand the application of digital fonts using this module as well as **Font::FreeType** which is central to it.
 
 Placing a single line of text using a font of a specific size (expressed as a hight of N points where there are 72 points per inch) involves knowledge both a single character's metrics as well as its collective metrics when gathered as a multi-glyph line.
 
@@ -31,7 +31,7 @@ A glyph is a digital character in the chosen font and it has the following metri
 
   * Bottom bearing - The `y` value of the bottom side of a glyph's bounding box.
 
-  * Right bearing - The `x` value of the right side of a glyph's bounding box.
+  * Right bearing - The `x` value of the right side of a glyph's bounding box. Note the *FreeType Project* has a different definition: the distance from the glyph's maximum `x` value to its [advance] width.
 
   * Scale factor - A font's metrics are typically described as being in a rectangular coordinate system with a width of 1000 units. To get the equivalent of the dimensions in the chosen point size the values are multiplied by a scale factor: point size / 1000.
 

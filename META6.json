@@ -16,7 +16,6 @@
     "FontFactory": "lib/FontFactory.rakumod",
     "FontFactory::BaseFont": "lib/FontFactory/BaseFont.rakumod",
     "FontFactory::DocFont": "lib/FontFactory/DocFont.rakumod",
-    "FontFactory::FontHash": "lib/FontFactory/FontHash.rakumod",
     "FontFactory::FontList": "lib/FontFactory/FontList.rakumod",
     "FontFactory::Subs": "lib/FontFactory/Subs.rakumod"
   },

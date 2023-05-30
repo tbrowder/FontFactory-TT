@@ -10,7 +10,7 @@ of the old terminology, modern typesetting results in more accurate
 and easier production of beautiful printed products.
 
 A few terms need to be explained to understand the application of
-digital fonts using this module as well as B<????Font::AFM> which is
+digital fonts using this module as well as B<Font::FreeType> which is
 central to it.
 
 Placing a single line of text using a font of a specific size
@@ -57,6 +57,8 @@ their origins at the same point.
 =item Top bearing - The C<y> value of the top side of of a glyph's bounding box.
 =item Bottom bearing - The C<y> value of the bottom side of a glyph's bounding box.
 =item Right bearing - The C<x> value of the right side of a glyph's bounding box.
+Note the I<FreeType Project> has a different definition: the distance from the
+glyph's maximum C<x> value to its [advance] width.
 
 =begin item
 Scale factor - A font's metrics are typically described as being in a

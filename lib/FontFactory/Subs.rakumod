@@ -3,7 +3,7 @@ unit module FontFactory::Subs;
 use PDF::Lite;
 use Font::AFM;
 
-use FontFactory::FontHash;
+use FontFactory::FontList;
 use FontFactory::BaseFont;
 use FontFactory::DocFont;
 

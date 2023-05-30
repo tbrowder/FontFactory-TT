@@ -1,12 +1,12 @@
 use Test;
 use Font::AFM;
 
-my $first-line = "StartFontMetrics 4.1";
+my $first-line = "StartFontMetrics"; # {version}
 
-plan 6;
+plan 8;
 
 my @fonts = <
-   c.afm
+   URWBookman-Demi.afm
    c
    foo.afm
    foo
@@ -16,19 +16,22 @@ my @fonts = <
 my ($f, $file, $nam);
 for @fonts {
     $file = "./t/fonts/$_";
-    if $file.IO.lines.head ne $first-line {
+    if $file.IO.lines.head !~~ /$first-line/ {
+        dies-ok {
+            $f = Font::AFM.new: :name($_);
+        }, "fake afm $_";
         next;
     }
 
     lives-ok {
         $f = Font::AFM.new: :name($_);
-    }
+    }, "valid AFM $_";
 
-    isa-ok $f, Font::AFM;
+    isa-ok $f, Font::AFM, "valid class Font::AFM";;
 
     lives-ok {
         $f.FontName;
-    }
+    }, "gets FontName ok";
 }
 
 =finish

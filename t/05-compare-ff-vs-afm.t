@@ -3,21 +3,30 @@ use Font::AFM;
 use FontFactory;
 use FontFactory::Subs;
 
-use lib <./t/lib>;
-use Utils;
+%*ENV<METRICS> = "./t/fonts";
+
+# comparing an OpenTypen and its Type 1 binary and AFM files
+my $basename = "URWBookman-Demi";
+my $aname = "$basename";
+my $oname = "$basename.otf";
+my $tname = "$basename.t1";
+
+my ($a, $o, $t); # font or afm objects
+my $size = 10.3;
 
 # get the Font::AFM object to compare with
-my Font::AFM $a;
-my $name = "Times-Roman";
-my $size = 10.3;
 
 # test 1
 lives-ok {
-    $a .= core-font($name);
+    $a = Font::AFM.new: :name($aname);
 }
 
 # test 2
-is $a.FontName, "Times-Roman";
+is $a.FontName, "URWBookman-Demi";
+
+done-testing;
+
+=finish
 
 # get the FF equivalent
 my $ff;

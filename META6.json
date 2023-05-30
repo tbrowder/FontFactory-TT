@@ -17,6 +17,7 @@
     "FontFactory::BaseFont": "lib/FontFactory/BaseFont.rakumod",
     "FontFactory::DocFont": "lib/FontFactory/DocFont.rakumod",
     "FontFactory::FontHash": "lib/FontFactory/FontHash.rakumod",
+    "FontFactory::FontList": "lib/FontFactory/FontList.rakumod",
     "FontFactory::Subs": "lib/FontFactory/Subs.rakumod"
   },
   "resources": [
@@ -25,6 +26,7 @@
   "tags": [
   ],
   "test-depends": [
+    "Font::AFM",
     "FontFactory::Type1:ver<1.1.0>:auth<zef:tbrowder>:api<2>"
   ],
   "version": "0.0.1"

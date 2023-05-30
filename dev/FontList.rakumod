@@ -7042,15 +7042,15 @@ constant %Fonts is export = [
     },
     'LiberationMono-BoldItalic.ttf' => { 
         index => 1760,
-          dir => '/usr/share/fonts/truetype/liberation',
+          dir => '/usr/share/fonts/truetype/liberation2',
     },
     'LiberationMono-Italic.ttf' => { 
         index => 1761,
-          dir => '/usr/share/fonts/truetype/liberation2',
+          dir => '/usr/share/fonts/truetype/liberation',
     },
     'LiberationMono-Regular.ttf' => { 
         index => 1762,
-          dir => '/usr/share/fonts/truetype/liberation2',
+          dir => '/usr/share/fonts/truetype/liberation',
     },
     'LiberationSans-Bold.ttf' => { 
         index => 1763,
@@ -7058,7 +7058,7 @@ constant %Fonts is export = [
     },
     'LiberationSans-BoldItalic.ttf' => { 
         index => 1764,
-          dir => '/usr/share/fonts/truetype/liberation2',
+          dir => '/usr/share/fonts/truetype/liberation',
     },
     'LiberationSans-Italic.ttf' => { 
         index => 1765,
@@ -7086,7 +7086,7 @@ constant %Fonts is export = [
     },
     'LiberationSerif-Bold.ttf' => { 
         index => 1771,
-          dir => '/usr/share/fonts/truetype/liberation',
+          dir => '/usr/share/fonts/truetype/liberation2',
     },
     'LiberationSerif-BoldItalic.ttf' => { 
         index => 1772,
@@ -7098,7 +7098,7 @@ constant %Fonts is export = [
     },
     'LiberationSerif-Regular.ttf' => { 
         index => 1774,
-          dir => '/usr/share/fonts/truetype/liberation',
+          dir => '/usr/share/fonts/truetype/liberation2',
     },
     'LibreBarcode128-Regular.ttf' => { 
         index => 1775,
@@ -9406,7 +9406,7 @@ constant %Fonts is export = [
     },
     'NotoMusic-Regular.ttf' => { 
         index => 2351,
-          dir => '/usr/share/fonts/truetype/noto',
+          dir => '/usr/local/share/fonts/fonts-main/ofl/notomusic',
     },
     'NotoNaskhArabic-Bold.ttf' => { 
         index => 2352,
@@ -9502,19 +9502,19 @@ constant %Fonts is export = [
     },
     'NotoSans-Black.ttf' => { 
         index => 2375,
-          dir => '/usr/local/share/fonts/fonts-main/ofl/notosans',
+          dir => '/usr/share/fonts/truetype/noto',
     },
     'NotoSans-BlackItalic.ttf' => { 
         index => 2376,
-          dir => '/usr/local/share/fonts/fonts-main/ofl/notosans',
+          dir => '/usr/share/fonts/truetype/noto',
     },
     'NotoSans-Bold.ttf' => { 
         index => 2377,
-          dir => '/usr/share/fonts/truetype/noto',
+          dir => '/usr/local/share/fonts/fonts-main/ofl/notosans',
     },
     'NotoSans-BoldItalic.ttf' => { 
         index => 2378,
-          dir => '/usr/share/fonts/truetype/noto',
+          dir => '/usr/local/share/fonts/fonts-main/ofl/notosans',
     },
     'NotoSans-Condensed.ttf' => { 
         index => 2379,
@@ -9590,11 +9590,11 @@ constant %Fonts is export = [
     },
     'NotoSans-ExtraBold.ttf' => { 
         index => 2397,
-          dir => '/usr/local/share/fonts/fonts-main/ofl/notosans',
+          dir => '/usr/share/fonts/truetype/noto',
     },
     'NotoSans-ExtraBoldItalic.ttf' => { 
         index => 2398,
-          dir => '/usr/local/share/fonts/fonts-main/ofl/notosans',
+          dir => '/usr/share/fonts/truetype/noto',
     },
     'NotoSans-ExtraCondensed.ttf' => { 
         index => 2399,
@@ -9670,7 +9670,7 @@ constant %Fonts is export = [
     },
     'NotoSans-ExtraLight.ttf' => { 
         index => 2417,
-          dir => '/usr/share/fonts/truetype/noto',
+          dir => '/usr/local/share/fonts/fonts-main/ofl/notosans',
     },
     'NotoSans-ExtraLightItalic.ttf' => { 
         index => 2418,
@@ -9678,27 +9678,27 @@ constant %Fonts is export = [
     },
     'NotoSans-Italic.ttf' => { 
         index => 2419,
-          dir => '/usr/local/share/fonts/fonts-main/ofl/notosans',
+          dir => '/usr/share/fonts/truetype/noto',
     },
     'NotoSans-Light.ttf' => { 
         index => 2420,
-          dir => '/usr/local/share/fonts/fonts-main/ofl/notosans',
+          dir => '/usr/share/fonts/truetype/noto',
     },
     'NotoSans-LightItalic.ttf' => { 
         index => 2421,
-          dir => '/usr/local/share/fonts/fonts-main/ofl/notosans',
+          dir => '/usr/share/fonts/truetype/noto',
     },
     'NotoSans-Medium.ttf' => { 
         index => 2422,
-          dir => '/usr/local/share/fonts/fonts-main/ofl/notosans',
+          dir => '/usr/share/fonts/truetype/noto',
     },
     'NotoSans-MediumItalic.ttf' => { 
         index => 2423,
-          dir => '/usr/share/fonts/truetype/noto',
+          dir => '/usr/local/share/fonts/fonts-main/ofl/notosans',
     },
     'NotoSans-Regular.ttf' => { 
         index => 2424,
-          dir => '/usr/local/share/fonts/fonts-main/ofl/notosans',
+          dir => '/usr/share/fonts/truetype/noto',
     },
     'NotoSans-SemiBold.ttf' => { 
         index => 2425,
@@ -9706,7 +9706,7 @@ constant %Fonts is export = [
     },
     'NotoSans-SemiBoldItalic.ttf' => { 
         index => 2426,
-          dir => '/usr/share/fonts/truetype/noto',
+          dir => '/usr/local/share/fonts/fonts-main/ofl/notosans',
     },
     'NotoSans-SemiCondensed.ttf' => { 
         index => 2427,
@@ -9782,11 +9782,11 @@ constant %Fonts is export = [
     },
     'NotoSans-Thin.ttf' => { 
         index => 2445,
-          dir => '/usr/share/fonts/truetype/noto',
+          dir => '/usr/local/share/fonts/fonts-main/ofl/notosans',
     },
     'NotoSans-ThinItalic.ttf' => { 
         index => 2446,
-          dir => '/usr/share/fonts/truetype/noto',
+          dir => '/usr/local/share/fonts/fonts-main/ofl/notosans',
     },
     'NotoSansAdlam-Bold.ttf' => { 
         index => 2447,
@@ -9814,7 +9814,7 @@ constant %Fonts is export = [
     },
     'NotoSansAnatolianHieroglyphs-Regular.ttf' => { 
         index => 2453,
-          dir => '/usr/local/share/fonts/fonts-main/ofl/notosansanatolianhieroglyphs',
+          dir => '/usr/share/fonts/truetype/noto',
     },
     'NotoSansArabic-Black.ttf' => { 
         index => 2454,
@@ -10262,7 +10262,7 @@ constant %Fonts is export = [
     },
     'NotoSansAvestan-Regular.ttf' => { 
         index => 2565,
-          dir => '/usr/local/share/fonts/fonts-main/ofl/notosansavestan',
+          dir => '/usr/share/fonts/truetype/noto',
     },
     'NotoSansBalinese-Bold.ttf' => { 
         index => 2566,
@@ -10314,7 +10314,7 @@ constant %Fonts is export = [
     },
     'NotoSansBatak-Regular.ttf' => { 
         index => 2578,
-          dir => '/usr/share/fonts/truetype/noto',
+          dir => '/usr/local/share/fonts/fonts-main/ofl/notosansbatak',
     },
     'NotoSansBengali-Black.ttf' => { 
         index => 2579,
@@ -10422,7 +10422,7 @@ constant %Fonts is export = [
     },
     'NotoSansBhaiksuki-Regular.ttf' => { 
         index => 2605,
-          dir => '/usr/local/share/fonts/fonts-main/ofl/notosansbhaiksuki',
+          dir => '/usr/share/fonts/truetype/noto',
     },
     'NotoSansBrahmi-Regular.ttf' => { 
         index => 2606,
@@ -10430,11 +10430,11 @@ constant %Fonts is export = [
     },
     'NotoSansBuginese-Regular.ttf' => { 
         index => 2607,
-          dir => '/usr/share/fonts/truetype/noto',
+          dir => '/usr/local/share/fonts/fonts-main/ofl/notosansbuginese',
     },
     'NotoSansBuhid-Regular.ttf' => { 
         index => 2608,
-          dir => '/usr/local/share/fonts/fonts-main/ofl/notosansbuhid',
+          dir => '/usr/share/fonts/truetype/noto',
     },
     'NotoSansCanadianAboriginal-Black.ttf' => { 
         index => 2609,
@@ -10478,11 +10478,11 @@ constant %Fonts is export = [
     },
     'NotoSansCarian-Regular.ttf' => { 
         index => 2619,
-          dir => '/usr/local/share/fonts/fonts-main/ofl/notosanscarian',
+          dir => '/usr/share/fonts/truetype/noto',
     },
     'NotoSansCaucasianAlbanian-Regular.ttf' => { 
         index => 2620,
-          dir => '/usr/share/fonts/truetype/noto',
+          dir => '/usr/local/share/fonts/fonts-main/ofl/notosanscaucasianalbanian',
     },
     'NotoSansChakma-Regular.ttf' => { 
         index => 2621,
@@ -10578,15 +10578,15 @@ constant %Fonts is export = [
     },
     'NotoSansCuneiform-Regular.ttf' => { 
         index => 2644,
-          dir => '/usr/share/fonts/truetype/noto',
+          dir => '/usr/local/share/fonts/fonts-main/ofl/notosanscuneiform',
     },
     'NotoSansCypriot-Regular.ttf' => { 
         index => 2645,
-          dir => '/usr/share/fonts/truetype/noto',
+          dir => '/usr/local/share/fonts/fonts-main/ofl/notosanscypriot',
     },
     'NotoSansDeseret-Regular.ttf' => { 
         index => 2646,
-          dir => '/usr/local/share/fonts/fonts-main/ofl/notosansdeseret',
+          dir => '/usr/share/fonts/truetype/noto',
     },
     'NotoSansDevanagari-Black.ttf' => { 
         index => 2647,
@@ -10734,11 +10734,11 @@ constant %Fonts is export = [
     },
     'NotoSansDevanagariUI-Black.ttf' => { 
         index => 2683,
-          dir => '/usr/local/share/fonts/fonts-main/ofl/notosansdevanagariui',
+          dir => '/usr/share/fonts/truetype/noto',
     },
     'NotoSansDevanagariUI-Bold.ttf' => { 
         index => 2684,
-          dir => '/usr/share/fonts/truetype/noto',
+          dir => '/usr/local/share/fonts/fonts-main/ofl/notosansdevanagariui',
     },
     'NotoSansDevanagariUI-Condensed.ttf' => { 
         index => 2685,
@@ -10778,7 +10778,7 @@ constant %Fonts is export = [
     },
     'NotoSansDevanagariUI-ExtraBold.ttf' => { 
         index => 2694,
-          dir => '/usr/share/fonts/truetype/noto',
+          dir => '/usr/local/share/fonts/fonts-main/ofl/notosansdevanagariui',
     },
     'NotoSansDevanagariUI-ExtraCondensed.ttf' => { 
         index => 2695,
@@ -10818,7 +10818,7 @@ constant %Fonts is export = [
     },
     'NotoSansDevanagariUI-ExtraLight.ttf' => { 
         index => 2704,
-          dir => '/usr/share/fonts/truetype/noto',
+          dir => '/usr/local/share/fonts/fonts-main/ofl/notosansdevanagariui',
     },
     'NotoSansDevanagariUI-Light.ttf' => { 
         index => 2705,
@@ -10826,7 +10826,7 @@ constant %Fonts is export = [
     },
     'NotoSansDevanagariUI-Medium.ttf' => { 
         index => 2706,
-          dir => '/usr/local/share/fonts/fonts-main/ofl/notosansdevanagariui',
+          dir => '/usr/share/fonts/truetype/noto',
     },
     'NotoSansDevanagariUI-Regular.ttf' => { 
         index => 2707,
@@ -10834,7 +10834,7 @@ constant %Fonts is export = [
     },
     'NotoSansDevanagariUI-SemiBold.ttf' => { 
         index => 2708,
-          dir => '/usr/share/fonts/truetype/noto',
+          dir => '/usr/local/share/fonts/fonts-main/ofl/notosansdevanagariui',
     },
     'NotoSansDevanagariUI-SemiCondensed.ttf' => { 
         index => 2709,
@@ -11178,7 +11178,7 @@ constant %Fonts is export = [
     },
     'NotoSansDuployan-Regular.ttf' => { 
         index => 2794,
-          dir => '/usr/share/fonts/truetype/noto',
+          dir => '/usr/local/share/fonts/fonts-main/ofl/notosansduployan',
     },
     'NotoSansEgyptianHieroglyphs-Regular.ttf' => { 
         index => 2795,
@@ -11186,7 +11186,7 @@ constant %Fonts is export = [
     },
     'NotoSansElbasan-Regular.ttf' => { 
         index => 2796,
-          dir => '/usr/share/fonts/truetype/noto',
+          dir => '/usr/local/share/fonts/fonts-main/ofl/notosanselbasan',
     },
     'NotoSansElymaic-Regular.ttf' => { 
         index => 2797,
@@ -11490,7 +11490,7 @@ constant %Fonts is export = [
     },
     'NotoSansGlagolitic-Regular.ttf' => { 
         index => 2872,
-          dir => '/usr/share/fonts/truetype/noto',
+          dir => '/usr/local/share/fonts/fonts-main/ofl/notosansglagolitic',
     },
     'NotoSansGothic-Regular.ttf' => { 
         index => 2873,
@@ -11498,7 +11498,7 @@ constant %Fonts is export = [
     },
     'NotoSansGrantha-Regular.ttf' => { 
         index => 2874,
-          dir => '/usr/local/share/fonts/fonts-main/ofl/notosansgrantha',
+          dir => '/usr/share/fonts/truetype/noto',
     },
     'NotoSansGujarati-Black.ttf' => { 
         index => 2875,
@@ -11646,7 +11646,7 @@ constant %Fonts is export = [
     },
     'NotoSansGujaratiUI-Black.ttf' => { 
         index => 2911,
-          dir => '/usr/local/share/fonts/fonts-main/ofl/notosansgujaratiui',
+          dir => '/usr/share/fonts/truetype/noto',
     },
     'NotoSansGujaratiUI-Bold.ttf' => { 
         index => 2912,
@@ -11730,15 +11730,15 @@ constant %Fonts is export = [
     },
     'NotoSansGujaratiUI-ExtraLight.ttf' => { 
         index => 2932,
-          dir => '/usr/share/fonts/truetype/noto',
+          dir => '/usr/local/share/fonts/fonts-main/ofl/notosansgujaratiui',
     },
     'NotoSansGujaratiUI-Light.ttf' => { 
         index => 2933,
-          dir => '/usr/local/share/fonts/fonts-main/ofl/notosansgujaratiui',
+          dir => '/usr/share/fonts/truetype/noto',
     },
     'NotoSansGujaratiUI-Medium.ttf' => { 
         index => 2934,
-          dir => '/usr/local/share/fonts/fonts-main/ofl/notosansgujaratiui',
+          dir => '/usr/share/fonts/truetype/noto',
     },
     'NotoSansGujaratiUI-Regular.ttf' => { 
         index => 2935,
@@ -11786,7 +11786,7 @@ constant %Fonts is export = [
     },
     'NotoSansGujaratiUI-Thin.ttf' => { 
         index => 2946,
-          dir => '/usr/share/fonts/truetype/noto',
+          dir => '/usr/local/share/fonts/fonts-main/ofl/notosansgujaratiui',
     },
     'NotoSansGujarati[wdth,wght].ttf' => { 
         index => 2947,
@@ -11794,7 +11794,7 @@ constant %Fonts is export = [
     },
     'NotoSansGunjalaGondi-Regular.ttf' => { 
         index => 2948,
-          dir => '/usr/local/share/fonts/fonts-main/ofl/notosansgunjalagondi',
+          dir => '/usr/share/fonts/truetype/noto',
     },
     'NotoSansGurmukhi-Black.ttf' => { 
         index => 2949,
@@ -12118,11 +12118,11 @@ constant %Fonts is export = [
     },
     'NotoSansHanunoo-Regular.ttf' => { 
         index => 3029,
-          dir => '/usr/local/share/fonts/fonts-main/ofl/notosanshanunoo',
+          dir => '/usr/share/fonts/truetype/noto',
     },
     'NotoSansHatran-Regular.ttf' => { 
         index => 3030,
-          dir => '/usr/share/fonts/truetype/noto',
+          dir => '/usr/local/share/fonts/fonts-main/ofl/notosanshatran',
     },
     'NotoSansHebrew-Black.ttf' => { 
         index => 3031,
@@ -12274,15 +12274,15 @@ constant %Fonts is export = [
     },
     'NotoSansImperialAramaic-Regular.ttf' => { 
         index => 3068,
-          dir => '/usr/local/share/fonts/fonts-main/ofl/notosansimperialaramaic',
+          dir => '/usr/share/fonts/truetype/noto',
     },
     'NotoSansIndicSiyaqNumbers-Regular.ttf' => { 
         index => 3069,
-          dir => '/usr/share/fonts/truetype/noto',
+          dir => '/usr/local/share/fonts/fonts-main/ofl/notosansindicsiyaqnumbers',
     },
     'NotoSansInscriptionalPahlavi-Regular.ttf' => { 
         index => 3070,
-          dir => '/usr/share/fonts/truetype/noto',
+          dir => '/usr/local/share/fonts/fonts-main/ofl/notosansinscriptionalpahlavi',
     },
     'NotoSansInscriptionalParthian-Regular.ttf' => { 
         index => 3071,
@@ -12310,7 +12310,7 @@ constant %Fonts is export = [
     },
     'NotoSansKaithi-Regular.ttf' => { 
         index => 3077,
-          dir => '/usr/share/fonts/truetype/noto',
+          dir => '/usr/local/share/fonts/fonts-main/ofl/notosanskaithi',
     },
     'NotoSansKannada-Black.ttf' => { 
         index => 3078,
@@ -12930,11 +12930,11 @@ constant %Fonts is export = [
     },
     'NotoSansKhojki-Regular.ttf' => { 
         index => 3232,
-          dir => '/usr/local/share/fonts/fonts-main/ofl/notosanskhojki',
+          dir => '/usr/share/fonts/truetype/noto',
     },
     'NotoSansKhudawadi-Regular.ttf' => { 
         index => 3233,
-          dir => '/usr/local/share/fonts/fonts-main/ofl/notosanskhudawadi',
+          dir => '/usr/share/fonts/truetype/noto',
     },
     'NotoSansLao-Black.ttf' => { 
         index => 3234,
@@ -13238,15 +13238,15 @@ constant %Fonts is export = [
     },
     'NotoSansLepcha-Regular.ttf' => { 
         index => 3309,
-          dir => '/usr/local/share/fonts/fonts-main/ofl/notosanslepcha',
+          dir => '/usr/share/fonts/truetype/noto',
     },
     'NotoSansLimbu-Regular.ttf' => { 
         index => 3310,
-          dir => '/usr/share/fonts/truetype/noto',
+          dir => '/usr/local/share/fonts/fonts-main/ofl/notosanslimbu',
     },
     'NotoSansLinearA-Regular.ttf' => { 
         index => 3311,
-          dir => '/usr/share/fonts/truetype/noto',
+          dir => '/usr/local/share/fonts/fonts-main/ofl/notosanslineara',
     },
     'NotoSansLinearB-Regular.ttf' => { 
         index => 3312,
@@ -13274,15 +13274,15 @@ constant %Fonts is export = [
     },
     'NotoSansLycian-Regular.ttf' => { 
         index => 3318,
-          dir => '/usr/share/fonts/truetype/noto',
+          dir => '/usr/local/share/fonts/fonts-main/ofl/notosanslycian',
     },
     'NotoSansLydian-Regular.ttf' => { 
         index => 3319,
-          dir => '/usr/share/fonts/truetype/noto',
+          dir => '/usr/local/share/fonts/fonts-main/ofl/notosanslydian',
     },
     'NotoSansMahajani-Regular.ttf' => { 
         index => 3320,
-          dir => '/usr/share/fonts/truetype/noto',
+          dir => '/usr/local/share/fonts/fonts-main/ofl/notosansmahajani',
     },
     'NotoSansMalayalam-Black.ttf' => { 
         index => 3321,
@@ -13582,7 +13582,7 @@ constant %Fonts is export = [
     },
     'NotoSansMandaic-Regular.ttf' => { 
         index => 3395,
-          dir => '/usr/share/fonts/truetype/noto',
+          dir => '/usr/local/share/fonts/fonts-main/ofl/notosansmandaic',
     },
     'NotoSansManichaean-Regular.ttf' => { 
         index => 3396,
@@ -13590,11 +13590,11 @@ constant %Fonts is export = [
     },
     'NotoSansMarchen-Regular.ttf' => { 
         index => 3397,
-          dir => '/usr/local/share/fonts/fonts-main/ofl/notosansmarchen',
+          dir => '/usr/share/fonts/truetype/noto',
     },
     'NotoSansMasaramGondi-Regular.ttf' => { 
         index => 3398,
-          dir => '/usr/local/share/fonts/fonts-main/ofl/notosansmasaramgondi',
+          dir => '/usr/share/fonts/truetype/noto',
     },
     'NotoSansMath-Regular.ttf' => { 
         index => 3399,
@@ -13834,11 +13834,11 @@ constant %Fonts is export = [
     },
     'NotoSansMro-Regular.ttf' => { 
         index => 3458,
-          dir => '/usr/local/share/fonts/fonts-main/ofl/notosansmro',
+          dir => '/usr/share/fonts/truetype/noto',
     },
     'NotoSansMultani-Regular.ttf' => { 
         index => 3459,
-          dir => '/usr/local/share/fonts/fonts-main/ofl/notosansmultani',
+          dir => '/usr/share/fonts/truetype/noto',
     },
     'NotoSansMyanmar-Black.ttf' => { 
         index => 3460,
@@ -13990,7 +13990,7 @@ constant %Fonts is export = [
     },
     'NotoSansMyanmarUI-Bold.ttf' => { 
         index => 3497,
-          dir => '/usr/share/fonts/truetype/noto',
+          dir => '/usr/local/share/fonts/fonts-main/ofl/notosansmyanmarui',
     },
     'NotoSansMyanmarUI-Condensed.ttf' => { 
         index => 3498,
@@ -14082,7 +14082,7 @@ constant %Fonts is export = [
     },
     'NotoSansMyanmarUI-Regular.ttf' => { 
         index => 3520,
-          dir => '/usr/share/fonts/truetype/noto',
+          dir => '/usr/local/share/fonts/fonts-main/ofl/notosansmyanmarui',
     },
     'NotoSansMyanmarUI-SemiBold.ttf' => { 
         index => 3521,
@@ -14134,11 +14134,11 @@ constant %Fonts is export = [
     },
     'NotoSansNKo-Regular.ttf' => { 
         index => 3533,
-          dir => '/usr/share/fonts/truetype/noto',
+          dir => '/usr/local/share/fonts/fonts-main/ofl/notosansnko_todelist',
     },
     'NotoSansNabataean-Regular.ttf' => { 
         index => 3534,
-          dir => '/usr/local/share/fonts/fonts-main/ofl/notosansnabataean',
+          dir => '/usr/share/fonts/truetype/noto',
     },
     'NotoSansNagMundari[wght].ttf' => { 
         index => 3535,
@@ -14166,7 +14166,7 @@ constant %Fonts is export = [
     },
     'NotoSansOgham-Regular.ttf' => { 
         index => 3541,
-          dir => '/usr/local/share/fonts/fonts-main/ofl/notosansogham',
+          dir => '/usr/share/fonts/truetype/noto',
     },
     'NotoSansOlChiki-Bold.ttf' => { 
         index => 3542,
@@ -14198,23 +14198,23 @@ constant %Fonts is export = [
     },
     'NotoSansOldNorthArabian-Regular.ttf' => { 
         index => 3549,
-          dir => '/usr/share/fonts/truetype/noto',
+          dir => '/usr/local/share/fonts/fonts-main/ofl/notosansoldnortharabian',
     },
     'NotoSansOldPermic-Regular.ttf' => { 
         index => 3550,
-          dir => '/usr/local/share/fonts/fonts-main/ofl/notosansoldpermic',
+          dir => '/usr/share/fonts/truetype/noto',
     },
     'NotoSansOldPersian-Regular.ttf' => { 
         index => 3551,
-          dir => '/usr/share/fonts/truetype/noto',
+          dir => '/usr/local/share/fonts/fonts-main/ofl/notosansoldpersian',
     },
     'NotoSansOldSogdian-Regular.ttf' => { 
         index => 3552,
-          dir => '/usr/local/share/fonts/fonts-main/ofl/notosansoldsogdian',
+          dir => '/usr/share/fonts/truetype/noto',
     },
     'NotoSansOldSouthArabian-Regular.ttf' => { 
         index => 3553,
-          dir => '/usr/share/fonts/truetype/noto',
+          dir => '/usr/local/share/fonts/fonts-main/ofl/notosansoldsoutharabian',
     },
     'NotoSansOldTurkic-Regular.ttf' => { 
         index => 3554,
@@ -14310,11 +14310,11 @@ constant %Fonts is export = [
     },
     'NotoSansOriyaUI-Regular.ttf' => { 
         index => 3577,
-          dir => '/usr/share/fonts/truetype/noto',
+          dir => '/usr/local/share/fonts/fonts-main/ofl/notosansoriyaui',
     },
     'NotoSansOriyaUI-Thin.ttf' => { 
         index => 3578,
-          dir => '/usr/share/fonts/truetype/noto',
+          dir => '/usr/local/share/fonts/fonts-main/ofl/notosansoriyaui',
     },
     'NotoSansOriya[wdth,wght].ttf' => { 
         index => 3579,
@@ -14322,11 +14322,11 @@ constant %Fonts is export = [
     },
     'NotoSansOsage-Regular.ttf' => { 
         index => 3580,
-          dir => '/usr/share/fonts/truetype/noto',
+          dir => '/usr/local/share/fonts/fonts-main/ofl/notosansosage',
     },
     'NotoSansOsmanya-Regular.ttf' => { 
         index => 3581,
-          dir => '/usr/local/share/fonts/fonts-main/ofl/notosansosmanya',
+          dir => '/usr/share/fonts/truetype/noto',
     },
     'NotoSansPahawhHmong-Regular.ttf' => { 
         index => 3582,
@@ -14334,7 +14334,7 @@ constant %Fonts is export = [
     },
     'NotoSansPalmyrene-Regular.ttf' => { 
         index => 3583,
-          dir => '/usr/local/share/fonts/fonts-main/ofl/notosanspalmyrene',
+          dir => '/usr/share/fonts/truetype/noto',
     },
     'NotoSansPauCinHau-Regular.ttf' => { 
         index => 3584,
@@ -14358,7 +14358,7 @@ constant %Fonts is export = [
     },
     'NotoSansRunic-Regular.ttf' => { 
         index => 3589,
-          dir => '/usr/local/share/fonts/fonts-main/ofl/notosansrunic',
+          dir => '/usr/share/fonts/truetype/noto',
     },
     'NotoSansSC[wght].ttf' => { 
         index => 3590,
@@ -14370,15 +14370,15 @@ constant %Fonts is export = [
     },
     'NotoSansSaurashtra-Regular.ttf' => { 
         index => 3592,
-          dir => '/usr/local/share/fonts/fonts-main/ofl/notosanssaurashtra',
+          dir => '/usr/share/fonts/truetype/noto',
     },
     'NotoSansSharada-Regular.ttf' => { 
         index => 3593,
-          dir => '/usr/share/fonts/truetype/noto',
+          dir => '/usr/local/share/fonts/fonts-main/ofl/notosanssharada',
     },
     'NotoSansShavian-Regular.ttf' => { 
         index => 3594,
-          dir => '/usr/local/share/fonts/fonts-main/ofl/notosansshavian',
+          dir => '/usr/share/fonts/truetype/noto',
     },
     'NotoSansSiddham-Regular.ttf' => { 
         index => 3595,
@@ -14386,7 +14386,7 @@ constant %Fonts is export = [
     },
     'NotoSansSignWriting-Regular.ttf' => { 
         index => 3596,
-          dir => '/usr/local/share/fonts/fonts-main/ofl/notosanssignwriting',
+          dir => '/usr/share/fonts/truetype/noto',
     },
     'NotoSansSinhala-Black.ttf' => { 
         index => 3597,
@@ -14686,7 +14686,7 @@ constant %Fonts is export = [
     },
     'NotoSansSogdian-Regular.ttf' => { 
         index => 3671,
-          dir => '/usr/local/share/fonts/fonts-main/ofl/notosanssogdian',
+          dir => '/usr/share/fonts/truetype/noto',
     },
     'NotoSansSoraSompeng-Bold.ttf' => { 
         index => 3672,
@@ -14710,7 +14710,7 @@ constant %Fonts is export = [
     },
     'NotoSansSoyombo-Regular.ttf' => { 
         index => 3677,
-          dir => '/usr/local/share/fonts/fonts-main/ofl/notosanssoyombo',
+          dir => '/usr/share/fonts/truetype/noto',
     },
     'NotoSansSundanese-Bold.ttf' => { 
         index => 3678,
@@ -14734,7 +14734,7 @@ constant %Fonts is export = [
     },
     'NotoSansSylotiNagri-Regular.ttf' => { 
         index => 3683,
-          dir => '/usr/local/share/fonts/fonts-main/ofl/notosanssylotinagri',
+          dir => '/usr/share/fonts/truetype/noto',
     },
     'NotoSansSymbols-Black.ttf' => { 
         index => 3684,
@@ -14802,11 +14802,11 @@ constant %Fonts is export = [
     },
     'NotoSansTagalog-Regular.ttf' => { 
         index => 3700,
-          dir => '/usr/local/share/fonts/fonts-main/ofl/notosanstagalog',
+          dir => '/usr/share/fonts/truetype/noto',
     },
     'NotoSansTagbanwa-Regular.ttf' => { 
         index => 3701,
-          dir => '/usr/local/share/fonts/fonts-main/ofl/notosanstagbanwa',
+          dir => '/usr/share/fonts/truetype/noto',
     },
     'NotoSansTaiLe-Regular.ttf' => { 
         index => 3702,
@@ -14834,11 +14834,11 @@ constant %Fonts is export = [
     },
     'NotoSansTaiViet-Regular.ttf' => { 
         index => 3708,
-          dir => '/usr/local/share/fonts/fonts-main/ofl/notosanstaiviet',
+          dir => '/usr/share/fonts/truetype/noto',
     },
     'NotoSansTakri-Regular.ttf' => { 
         index => 3709,
-          dir => '/usr/local/share/fonts/fonts-main/ofl/notosanstakri',
+          dir => '/usr/share/fonts/truetype/noto',
     },
     'NotoSansTamil-Black.ttf' => { 
         index => 3710,
@@ -15866,11 +15866,11 @@ constant %Fonts is export = [
     },
     'NotoSansUgaritic-Regular.ttf' => { 
         index => 3966,
-          dir => '/usr/local/share/fonts/fonts-main/ofl/notosansugaritic',
+          dir => '/usr/share/fonts/truetype/noto',
     },
     'NotoSansVai-Regular.ttf' => { 
         index => 3967,
-          dir => '/usr/local/share/fonts/fonts-main/ofl/notosansvai',
+          dir => '/usr/share/fonts/truetype/noto',
     },
     'NotoSansWancho-Regular.ttf' => { 
         index => 3968,
@@ -16182,7 +16182,7 @@ constant %Fonts is export = [
     },
     'NotoSerifAhom-Regular.ttf' => { 
         index => 4045,
-          dir => '/usr/share/fonts/truetype/noto',
+          dir => '/usr/local/share/fonts/fonts-main/ofl/notoserifahom',
     },
     'NotoSerifArmenian-Black.ttf' => { 
         index => 4046,
@@ -16930,7 +16930,7 @@ constant %Fonts is export = [
     },
     'NotoSerifDogra-Regular.ttf' => { 
         index => 4232,
-          dir => '/usr/local/share/fonts/fonts-main/ofl/notoserifdogra',
+          dir => '/usr/share/fonts/truetype/noto',
     },
     'NotoSerifEthiopic-Black.ttf' => { 
         index => 4233,
@@ -17862,7 +17862,7 @@ constant %Fonts is export = [
     },
     'NotoSerifMyanmar-Black.ttf' => { 
         index => 4465,
-          dir => '/usr/local/share/fonts/fonts-main/ofl/notoserifmyanmar',
+          dir => '/usr/share/fonts/truetype/noto',
     },
     'NotoSerifMyanmar-Bold.ttf' => { 
         index => 4466,
@@ -17906,7 +17906,7 @@ constant %Fonts is export = [
     },
     'NotoSerifMyanmar-ExtraBold.ttf' => { 
         index => 4476,
-          dir => '/usr/local/share/fonts/fonts-main/ofl/notoserifmyanmar',
+          dir => '/usr/share/fonts/truetype/noto',
     },
     'NotoSerifMyanmar-ExtraCondensed.ttf' => { 
         index => 4477,
@@ -17946,15 +17946,15 @@ constant %Fonts is export = [
     },
     'NotoSerifMyanmar-ExtraLight.ttf' => { 
         index => 4486,
-          dir => '/usr/share/fonts/truetype/noto',
+          dir => '/usr/local/share/fonts/fonts-main/ofl/notoserifmyanmar',
     },
     'NotoSerifMyanmar-Light.ttf' => { 
         index => 4487,
-          dir => '/usr/local/share/fonts/fonts-main/ofl/notoserifmyanmar',
+          dir => '/usr/share/fonts/truetype/noto',
     },
     'NotoSerifMyanmar-Medium.ttf' => { 
         index => 4488,
-          dir => '/usr/local/share/fonts/fonts-main/ofl/notoserifmyanmar',
+          dir => '/usr/share/fonts/truetype/noto',
     },
     'NotoSerifMyanmar-Regular.ttf' => { 
         index => 4489,
@@ -20146,11 +20146,11 @@ constant %Fonts is export = [
     },
     'Roboto-Black.ttf' => { 
         index => 5036,
-          dir => '/usr/share/fonts/truetype/roboto/unhinted/RobotoTTF',
+          dir => '/usr/local/share/fonts/fonts-main/apache/roboto/static',
     },
     'Roboto-BlackItalic.ttf' => { 
         index => 5037,
-          dir => '/usr/local/share/fonts/fonts-main/apache/roboto/static',
+          dir => '/usr/share/fonts/truetype/roboto/unhinted/RobotoTTF',
     },
     'Roboto-Bold.ttf' => { 
         index => 5038,
@@ -20162,7 +20162,7 @@ constant %Fonts is export = [
     },
     'Roboto-Italic.ttf' => { 
         index => 5040,
-          dir => '/usr/share/fonts/truetype/roboto/unhinted/RobotoTTF',
+          dir => '/usr/local/share/fonts/fonts-main/apache/roboto/static',
     },
     'Roboto-Italic[wdth,wght].ttf' => { 
         index => 5041,
@@ -20174,7 +20174,7 @@ constant %Fonts is export = [
     },
     'Roboto-LightItalic.ttf' => { 
         index => 5043,
-          dir => '/usr/share/fonts/truetype/roboto/unhinted/RobotoTTF',
+          dir => '/usr/local/share/fonts/fonts-main/apache/roboto/static',
     },
     'Roboto-Medium.ttf' => { 
         index => 5044,
@@ -20182,19 +20182,19 @@ constant %Fonts is export = [
     },
     'Roboto-MediumItalic.ttf' => { 
         index => 5045,
-          dir => '/usr/share/fonts/truetype/roboto/unhinted/RobotoTTF',
+          dir => '/usr/local/share/fonts/fonts-main/apache/roboto/static',
     },
     'Roboto-Regular.ttf' => { 
         index => 5046,
-          dir => '/usr/local/share/fonts/fonts-main/apache/roboto/static',
+          dir => '/usr/share/fonts/truetype/roboto/unhinted/RobotoTTF',
     },
     'Roboto-Thin.ttf' => { 
         index => 5047,
-          dir => '/usr/share/fonts/truetype/roboto/unhinted/RobotoTTF',
+          dir => '/usr/local/share/fonts/fonts-main/apache/roboto/static',
     },
     'Roboto-ThinItalic.ttf' => { 
         index => 5048,
-          dir => '/usr/local/share/fonts/fonts-main/apache/roboto/static',
+          dir => '/usr/share/fonts/truetype/roboto/unhinted/RobotoTTF',
     },
     'RobotoCondensed-Bold.ttf' => { 
         index => 5049,
@@ -20202,11 +20202,11 @@ constant %Fonts is export = [
     },
     'RobotoCondensed-BoldItalic.ttf' => { 
         index => 5050,
-          dir => '/usr/share/fonts/truetype/roboto/unhinted',
+          dir => '/usr/local/share/fonts/fonts-main/apache/roboto/static',
     },
     'RobotoCondensed-Italic.ttf' => { 
         index => 5051,
-          dir => '/usr/share/fonts/truetype/roboto/unhinted',
+          dir => '/usr/local/share/fonts/fonts-main/apache/roboto/static',
     },
     'RobotoCondensed-Light.ttf' => { 
         index => 5052,
@@ -20218,11 +20218,11 @@ constant %Fonts is export = [
     },
     'RobotoCondensed-Medium.ttf' => { 
         index => 5054,
-          dir => '/usr/share/fonts/truetype/roboto/unhinted',
+          dir => '/usr/local/share/fonts/fonts-main/apache/roboto/static',
     },
     'RobotoCondensed-MediumItalic.ttf' => { 
         index => 5055,
-          dir => '/usr/share/fonts/truetype/roboto/unhinted',
+          dir => '/usr/local/share/fonts/fonts-main/apache/roboto/static',
     },
     'RobotoCondensed-Regular.ttf' => { 
         index => 5056,
@@ -20230,7 +20230,7 @@ constant %Fonts is export = [
     },
     'RobotoFlex[GRAD,XOPQ,XTRA,YOPQ,YTAS,YTDE,YTFI,YTLC,YTUC,opsz,slnt,wdth,wght].ttf' => { 
         index => 5057,
-          dir => '/usr/local/share/fonts/fonts-main/axisregistry/tests/data',
+          dir => '/usr/local/share/fonts/fonts-main/ofl/robotoflex',
     },
     'RobotoMono-Italic[wght].ttf' => { 
         index => 5058,
@@ -30362,15 +30362,15 @@ constant %FontAliases is export = [
     },
     1760 => { 
         font => 'LiberationMono-BoldItalic.ttf',
-         dir => '/usr/share/fonts/truetype/liberation',
+         dir => '/usr/share/fonts/truetype/liberation2',
     },
     1761 => { 
         font => 'LiberationMono-Italic.ttf',
-         dir => '/usr/share/fonts/truetype/liberation2',
+         dir => '/usr/share/fonts/truetype/liberation',
     },
     1762 => { 
         font => 'LiberationMono-Regular.ttf',
-         dir => '/usr/share/fonts/truetype/liberation2',
+         dir => '/usr/share/fonts/truetype/liberation',
     },
     1763 => { 
         font => 'LiberationSans-Bold.ttf',
@@ -30378,7 +30378,7 @@ constant %FontAliases is export = [
     },
     1764 => { 
         font => 'LiberationSans-BoldItalic.ttf',
-         dir => '/usr/share/fonts/truetype/liberation2',
+         dir => '/usr/share/fonts/truetype/liberation',
     },
     1765 => { 
         font => 'LiberationSans-Italic.ttf',
@@ -30406,7 +30406,7 @@ constant %FontAliases is export = [
     },
     1771 => { 
         font => 'LiberationSerif-Bold.ttf',
-         dir => '/usr/share/fonts/truetype/liberation',
+         dir => '/usr/share/fonts/truetype/liberation2',
     },
     1772 => { 
         font => 'LiberationSerif-BoldItalic.ttf',
@@ -30418,7 +30418,7 @@ constant %FontAliases is export = [
     },
     1774 => { 
         font => 'LiberationSerif-Regular.ttf',
-         dir => '/usr/share/fonts/truetype/liberation',
+         dir => '/usr/share/fonts/truetype/liberation2',
     },
     1775 => { 
         font => 'LibreBarcode128-Regular.ttf',
@@ -32726,7 +32726,7 @@ constant %FontAliases is export = [
     },
     2351 => { 
         font => 'NotoMusic-Regular.ttf',
-         dir => '/usr/share/fonts/truetype/noto',
+         dir => '/usr/local/share/fonts/fonts-main/ofl/notomusic',
     },
     2352 => { 
         font => 'NotoNaskhArabic-Bold.ttf',
@@ -32822,19 +32822,19 @@ constant %FontAliases is export = [
     },
     2375 => { 
         font => 'NotoSans-Black.ttf',
-         dir => '/usr/local/share/fonts/fonts-main/ofl/notosans',
+         dir => '/usr/share/fonts/truetype/noto',
     },
     2376 => { 
         font => 'NotoSans-BlackItalic.ttf',
-         dir => '/usr/local/share/fonts/fonts-main/ofl/notosans',
+         dir => '/usr/share/fonts/truetype/noto',
     },
     2377 => { 
         font => 'NotoSans-Bold.ttf',
-         dir => '/usr/share/fonts/truetype/noto',
+         dir => '/usr/local/share/fonts/fonts-main/ofl/notosans',
     },
     2378 => { 
         font => 'NotoSans-BoldItalic.ttf',
-         dir => '/usr/share/fonts/truetype/noto',
+         dir => '/usr/local/share/fonts/fonts-main/ofl/notosans',
     },
     2379 => { 
         font => 'NotoSans-Condensed.ttf',
@@ -32910,11 +32910,11 @@ constant %FontAliases is export = [
     },
     2397 => { 
         font => 'NotoSans-ExtraBold.ttf',
-         dir => '/usr/local/share/fonts/fonts-main/ofl/notosans',
+         dir => '/usr/share/fonts/truetype/noto',
     },
     2398 => { 
         font => 'NotoSans-ExtraBoldItalic.ttf',
-         dir => '/usr/local/share/fonts/fonts-main/ofl/notosans',
+         dir => '/usr/share/fonts/truetype/noto',
     },
     2399 => { 
         font => 'NotoSans-ExtraCondensed.ttf',
@@ -32990,7 +32990,7 @@ constant %FontAliases is export = [
     },
     2417 => { 
         font => 'NotoSans-ExtraLight.ttf',
-         dir => '/usr/share/fonts/truetype/noto',
+         dir => '/usr/local/share/fonts/fonts-main/ofl/notosans',
     },
     2418 => { 
         font => 'NotoSans-ExtraLightItalic.ttf',
@@ -32998,27 +32998,27 @@ constant %FontAliases is export = [
     },
     2419 => { 
         font => 'NotoSans-Italic.ttf',
-         dir => '/usr/local/share/fonts/fonts-main/ofl/notosans',
+         dir => '/usr/share/fonts/truetype/noto',
     },
     2420 => { 
         font => 'NotoSans-Light.ttf',
-         dir => '/usr/local/share/fonts/fonts-main/ofl/notosans',
+         dir => '/usr/share/fonts/truetype/noto',
     },
     2421 => { 
         font => 'NotoSans-LightItalic.ttf',
-         dir => '/usr/local/share/fonts/fonts-main/ofl/notosans',
+         dir => '/usr/share/fonts/truetype/noto',
     },
     2422 => { 
         font => 'NotoSans-Medium.ttf',
-         dir => '/usr/local/share/fonts/fonts-main/ofl/notosans',
+         dir => '/usr/share/fonts/truetype/noto',
     },
     2423 => { 
         font => 'NotoSans-MediumItalic.ttf',
-         dir => '/usr/share/fonts/truetype/noto',
+         dir => '/usr/local/share/fonts/fonts-main/ofl/notosans',
     },
     2424 => { 
         font => 'NotoSans-Regular.ttf',
-         dir => '/usr/local/share/fonts/fonts-main/ofl/notosans',
+         dir => '/usr/share/fonts/truetype/noto',
     },
     2425 => { 
         font => 'NotoSans-SemiBold.ttf',
@@ -33026,7 +33026,7 @@ constant %FontAliases is export = [
     },
     2426 => { 
         font => 'NotoSans-SemiBoldItalic.ttf',
-         dir => '/usr/share/fonts/truetype/noto',
+         dir => '/usr/local/share/fonts/fonts-main/ofl/notosans',
     },
     2427 => { 
         font => 'NotoSans-SemiCondensed.ttf',
@@ -33102,11 +33102,11 @@ constant %FontAliases is export = [
     },
     2445 => { 
         font => 'NotoSans-Thin.ttf',
-         dir => '/usr/share/fonts/truetype/noto',
+         dir => '/usr/local/share/fonts/fonts-main/ofl/notosans',
     },
     2446 => { 
         font => 'NotoSans-ThinItalic.ttf',
-         dir => '/usr/share/fonts/truetype/noto',
+         dir => '/usr/local/share/fonts/fonts-main/ofl/notosans',
     },
     2447 => { 
         font => 'NotoSansAdlam-Bold.ttf',
@@ -33134,7 +33134,7 @@ constant %FontAliases is export = [
     },
     2453 => { 
         font => 'NotoSansAnatolianHieroglyphs-Regular.ttf',
-         dir => '/usr/local/share/fonts/fonts-main/ofl/notosansanatolianhieroglyphs',
+         dir => '/usr/share/fonts/truetype/noto',
     },
     2454 => { 
         font => 'NotoSansArabic-Black.ttf',
@@ -33582,7 +33582,7 @@ constant %FontAliases is export = [
     },
     2565 => { 
         font => 'NotoSansAvestan-Regular.ttf',
-         dir => '/usr/local/share/fonts/fonts-main/ofl/notosansavestan',
+         dir => '/usr/share/fonts/truetype/noto',
     },
     2566 => { 
         font => 'NotoSansBalinese-Bold.ttf',
@@ -33634,7 +33634,7 @@ constant %FontAliases is export = [
     },
     2578 => { 
         font => 'NotoSansBatak-Regular.ttf',
-         dir => '/usr/share/fonts/truetype/noto',
+         dir => '/usr/local/share/fonts/fonts-main/ofl/notosansbatak',
     },
     2579 => { 
         font => 'NotoSansBengali-Black.ttf',
@@ -33742,7 +33742,7 @@ constant %FontAliases is export = [
     },
     2605 => { 
         font => 'NotoSansBhaiksuki-Regular.ttf',
-         dir => '/usr/local/share/fonts/fonts-main/ofl/notosansbhaiksuki',
+         dir => '/usr/share/fonts/truetype/noto',
     },
     2606 => { 
         font => 'NotoSansBrahmi-Regular.ttf',
@@ -33750,11 +33750,11 @@ constant %FontAliases is export = [
     },
     2607 => { 
         font => 'NotoSansBuginese-Regular.ttf',
-         dir => '/usr/share/fonts/truetype/noto',
+         dir => '/usr/local/share/fonts/fonts-main/ofl/notosansbuginese',
     },
     2608 => { 
         font => 'NotoSansBuhid-Regular.ttf',
-         dir => '/usr/local/share/fonts/fonts-main/ofl/notosansbuhid',
+         dir => '/usr/share/fonts/truetype/noto',
     },
     2609 => { 
         font => 'NotoSansCanadianAboriginal-Black.ttf',
@@ -33798,11 +33798,11 @@ constant %FontAliases is export = [
     },
     2619 => { 
         font => 'NotoSansCarian-Regular.ttf',
-         dir => '/usr/local/share/fonts/fonts-main/ofl/notosanscarian',
+         dir => '/usr/share/fonts/truetype/noto',
     },
     2620 => { 
         font => 'NotoSansCaucasianAlbanian-Regular.ttf',
-         dir => '/usr/share/fonts/truetype/noto',
+         dir => '/usr/local/share/fonts/fonts-main/ofl/notosanscaucasianalbanian',
     },
     2621 => { 
         font => 'NotoSansChakma-Regular.ttf',
@@ -33898,15 +33898,15 @@ constant %FontAliases is export = [
     },
     2644 => { 
         font => 'NotoSansCuneiform-Regular.ttf',
-         dir => '/usr/share/fonts/truetype/noto',
+         dir => '/usr/local/share/fonts/fonts-main/ofl/notosanscuneiform',
     },
     2645 => { 
         font => 'NotoSansCypriot-Regular.ttf',
-         dir => '/usr/share/fonts/truetype/noto',
+         dir => '/usr/local/share/fonts/fonts-main/ofl/notosanscypriot',
     },
     2646 => { 
         font => 'NotoSansDeseret-Regular.ttf',
-         dir => '/usr/local/share/fonts/fonts-main/ofl/notosansdeseret',
+         dir => '/usr/share/fonts/truetype/noto',
     },
     2647 => { 
         font => 'NotoSansDevanagari-Black.ttf',
@@ -34054,11 +34054,11 @@ constant %FontAliases is export = [
     },
     2683 => { 
         font => 'NotoSansDevanagariUI-Black.ttf',
-         dir => '/usr/local/share/fonts/fonts-main/ofl/notosansdevanagariui',
+         dir => '/usr/share/fonts/truetype/noto',
     },
     2684 => { 
         font => 'NotoSansDevanagariUI-Bold.ttf',
-         dir => '/usr/share/fonts/truetype/noto',
+         dir => '/usr/local/share/fonts/fonts-main/ofl/notosansdevanagariui',
     },
     2685 => { 
         font => 'NotoSansDevanagariUI-Condensed.ttf',
@@ -34098,7 +34098,7 @@ constant %FontAliases is export = [
     },
     2694 => { 
         font => 'NotoSansDevanagariUI-ExtraBold.ttf',
-         dir => '/usr/share/fonts/truetype/noto',
+         dir => '/usr/local/share/fonts/fonts-main/ofl/notosansdevanagariui',
     },
     2695 => { 
         font => 'NotoSansDevanagariUI-ExtraCondensed.ttf',
@@ -34138,7 +34138,7 @@ constant %FontAliases is export = [
     },
     2704 => { 
         font => 'NotoSansDevanagariUI-ExtraLight.ttf',
-         dir => '/usr/share/fonts/truetype/noto',
+         dir => '/usr/local/share/fonts/fonts-main/ofl/notosansdevanagariui',
     },
     2705 => { 
         font => 'NotoSansDevanagariUI-Light.ttf',
@@ -34146,7 +34146,7 @@ constant %FontAliases is export = [
     },
     2706 => { 
         font => 'NotoSansDevanagariUI-Medium.ttf',
-         dir => '/usr/local/share/fonts/fonts-main/ofl/notosansdevanagariui',
+         dir => '/usr/share/fonts/truetype/noto',
     },
     2707 => { 
         font => 'NotoSansDevanagariUI-Regular.ttf',
@@ -34154,7 +34154,7 @@ constant %FontAliases is export = [
     },
     2708 => { 
         font => 'NotoSansDevanagariUI-SemiBold.ttf',
-         dir => '/usr/share/fonts/truetype/noto',
+         dir => '/usr/local/share/fonts/fonts-main/ofl/notosansdevanagariui',
     },
     2709 => { 
         font => 'NotoSansDevanagariUI-SemiCondensed.ttf',
@@ -34498,7 +34498,7 @@ constant %FontAliases is export = [
     },
     2794 => { 
         font => 'NotoSansDuployan-Regular.ttf',
-         dir => '/usr/share/fonts/truetype/noto',
+         dir => '/usr/local/share/fonts/fonts-main/ofl/notosansduployan',
     },
     2795 => { 
         font => 'NotoSansEgyptianHieroglyphs-Regular.ttf',
@@ -34506,7 +34506,7 @@ constant %FontAliases is export = [
     },
     2796 => { 
         font => 'NotoSansElbasan-Regular.ttf',
-         dir => '/usr/share/fonts/truetype/noto',
+         dir => '/usr/local/share/fonts/fonts-main/ofl/notosanselbasan',
     },
     2797 => { 
         font => 'NotoSansElymaic-Regular.ttf',
@@ -34810,7 +34810,7 @@ constant %FontAliases is export = [
     },
     2872 => { 
         font => 'NotoSansGlagolitic-Regular.ttf',
-         dir => '/usr/share/fonts/truetype/noto',
+         dir => '/usr/local/share/fonts/fonts-main/ofl/notosansglagolitic',
     },
     2873 => { 
         font => 'NotoSansGothic-Regular.ttf',
@@ -34818,7 +34818,7 @@ constant %FontAliases is export = [
     },
     2874 => { 
         font => 'NotoSansGrantha-Regular.ttf',
-         dir => '/usr/local/share/fonts/fonts-main/ofl/notosansgrantha',
+         dir => '/usr/share/fonts/truetype/noto',
     },
     2875 => { 
         font => 'NotoSansGujarati-Black.ttf',
@@ -34966,7 +34966,7 @@ constant %FontAliases is export = [
     },
     2911 => { 
         font => 'NotoSansGujaratiUI-Black.ttf',
-         dir => '/usr/local/share/fonts/fonts-main/ofl/notosansgujaratiui',
+         dir => '/usr/share/fonts/truetype/noto',
     },
     2912 => { 
         font => 'NotoSansGujaratiUI-Bold.ttf',
@@ -35050,15 +35050,15 @@ constant %FontAliases is export = [
     },
     2932 => { 
         font => 'NotoSansGujaratiUI-ExtraLight.ttf',
-         dir => '/usr/share/fonts/truetype/noto',
+         dir => '/usr/local/share/fonts/fonts-main/ofl/notosansgujaratiui',
     },
     2933 => { 
         font => 'NotoSansGujaratiUI-Light.ttf',
-         dir => '/usr/local/share/fonts/fonts-main/ofl/notosansgujaratiui',
+         dir => '/usr/share/fonts/truetype/noto',
     },
     2934 => { 
         font => 'NotoSansGujaratiUI-Medium.ttf',
-         dir => '/usr/local/share/fonts/fonts-main/ofl/notosansgujaratiui',
+         dir => '/usr/share/fonts/truetype/noto',
     },
     2935 => { 
         font => 'NotoSansGujaratiUI-Regular.ttf',
@@ -35106,7 +35106,7 @@ constant %FontAliases is export = [
     },
     2946 => { 
         font => 'NotoSansGujaratiUI-Thin.ttf',
-         dir => '/usr/share/fonts/truetype/noto',
+         dir => '/usr/local/share/fonts/fonts-main/ofl/notosansgujaratiui',
     },
     2947 => { 
         font => 'NotoSansGujarati[wdth,wght].ttf',
@@ -35114,7 +35114,7 @@ constant %FontAliases is export = [
     },
     2948 => { 
         font => 'NotoSansGunjalaGondi-Regular.ttf',
-         dir => '/usr/local/share/fonts/fonts-main/ofl/notosansgunjalagondi',
+         dir => '/usr/share/fonts/truetype/noto',
     },
     2949 => { 
         font => 'NotoSansGurmukhi-Black.ttf',
@@ -35438,11 +35438,11 @@ constant %FontAliases is export = [
     },
     3029 => { 
         font => 'NotoSansHanunoo-Regular.ttf',
-         dir => '/usr/local/share/fonts/fonts-main/ofl/notosanshanunoo',
+         dir => '/usr/share/fonts/truetype/noto',
     },
     3030 => { 
         font => 'NotoSansHatran-Regular.ttf',
-         dir => '/usr/share/fonts/truetype/noto',
+         dir => '/usr/local/share/fonts/fonts-main/ofl/notosanshatran',
     },
     3031 => { 
         font => 'NotoSansHebrew-Black.ttf',
@@ -35594,15 +35594,15 @@ constant %FontAliases is export = [
     },
     3068 => { 
         font => 'NotoSansImperialAramaic-Regular.ttf',
-         dir => '/usr/local/share/fonts/fonts-main/ofl/notosansimperialaramaic',
+         dir => '/usr/share/fonts/truetype/noto',
     },
     3069 => { 
         font => 'NotoSansIndicSiyaqNumbers-Regular.ttf',
-         dir => '/usr/share/fonts/truetype/noto',
+         dir => '/usr/local/share/fonts/fonts-main/ofl/notosansindicsiyaqnumbers',
     },
     3070 => { 
         font => 'NotoSansInscriptionalPahlavi-Regular.ttf',
-         dir => '/usr/share/fonts/truetype/noto',
+         dir => '/usr/local/share/fonts/fonts-main/ofl/notosansinscriptionalpahlavi',
     },
     3071 => { 
         font => 'NotoSansInscriptionalParthian-Regular.ttf',
@@ -35630,7 +35630,7 @@ constant %FontAliases is export = [
     },
     3077 => { 
         font => 'NotoSansKaithi-Regular.ttf',
-         dir => '/usr/share/fonts/truetype/noto',
+         dir => '/usr/local/share/fonts/fonts-main/ofl/notosanskaithi',
     },
     3078 => { 
         font => 'NotoSansKannada-Black.ttf',
@@ -36250,11 +36250,11 @@ constant %FontAliases is export = [
     },
     3232 => { 
         font => 'NotoSansKhojki-Regular.ttf',
-         dir => '/usr/local/share/fonts/fonts-main/ofl/notosanskhojki',
+         dir => '/usr/share/fonts/truetype/noto',
     },
     3233 => { 
         font => 'NotoSansKhudawadi-Regular.ttf',
-         dir => '/usr/local/share/fonts/fonts-main/ofl/notosanskhudawadi',
+         dir => '/usr/share/fonts/truetype/noto',
     },
     3234 => { 
         font => 'NotoSansLao-Black.ttf',
@@ -36558,15 +36558,15 @@ constant %FontAliases is export = [
     },
     3309 => { 
         font => 'NotoSansLepcha-Regular.ttf',
-         dir => '/usr/local/share/fonts/fonts-main/ofl/notosanslepcha',
+         dir => '/usr/share/fonts/truetype/noto',
     },
     3310 => { 
         font => 'NotoSansLimbu-Regular.ttf',
-         dir => '/usr/share/fonts/truetype/noto',
+         dir => '/usr/local/share/fonts/fonts-main/ofl/notosanslimbu',
     },
     3311 => { 
         font => 'NotoSansLinearA-Regular.ttf',
-         dir => '/usr/share/fonts/truetype/noto',
+         dir => '/usr/local/share/fonts/fonts-main/ofl/notosanslineara',
     },
     3312 => { 
         font => 'NotoSansLinearB-Regular.ttf',
@@ -36594,15 +36594,15 @@ constant %FontAliases is export = [
     },
     3318 => { 
         font => 'NotoSansLycian-Regular.ttf',
-         dir => '/usr/share/fonts/truetype/noto',
+         dir => '/usr/local/share/fonts/fonts-main/ofl/notosanslycian',
     },
     3319 => { 
         font => 'NotoSansLydian-Regular.ttf',
-         dir => '/usr/share/fonts/truetype/noto',
+         dir => '/usr/local/share/fonts/fonts-main/ofl/notosanslydian',
     },
     3320 => { 
         font => 'NotoSansMahajani-Regular.ttf',
-         dir => '/usr/share/fonts/truetype/noto',
+         dir => '/usr/local/share/fonts/fonts-main/ofl/notosansmahajani',
     },
     3321 => { 
         font => 'NotoSansMalayalam-Black.ttf',
@@ -36902,7 +36902,7 @@ constant %FontAliases is export = [
     },
     3395 => { 
         font => 'NotoSansMandaic-Regular.ttf',
-         dir => '/usr/share/fonts/truetype/noto',
+         dir => '/usr/local/share/fonts/fonts-main/ofl/notosansmandaic',
     },
     3396 => { 
         font => 'NotoSansManichaean-Regular.ttf',
@@ -36910,11 +36910,11 @@ constant %FontAliases is export = [
     },
     3397 => { 
         font => 'NotoSansMarchen-Regular.ttf',
-         dir => '/usr/local/share/fonts/fonts-main/ofl/notosansmarchen',
+         dir => '/usr/share/fonts/truetype/noto',
     },
     3398 => { 
         font => 'NotoSansMasaramGondi-Regular.ttf',
-         dir => '/usr/local/share/fonts/fonts-main/ofl/notosansmasaramgondi',
+         dir => '/usr/share/fonts/truetype/noto',
     },
     3399 => { 
         font => 'NotoSansMath-Regular.ttf',
@@ -37154,11 +37154,11 @@ constant %FontAliases is export = [
     },
     3458 => { 
         font => 'NotoSansMro-Regular.ttf',
-         dir => '/usr/local/share/fonts/fonts-main/ofl/notosansmro',
+         dir => '/usr/share/fonts/truetype/noto',
     },
     3459 => { 
         font => 'NotoSansMultani-Regular.ttf',
-         dir => '/usr/local/share/fonts/fonts-main/ofl/notosansmultani',
+         dir => '/usr/share/fonts/truetype/noto',
     },
     3460 => { 
         font => 'NotoSansMyanmar-Black.ttf',
@@ -37310,7 +37310,7 @@ constant %FontAliases is export = [
     },
     3497 => { 
         font => 'NotoSansMyanmarUI-Bold.ttf',
-         dir => '/usr/share/fonts/truetype/noto',
+         dir => '/usr/local/share/fonts/fonts-main/ofl/notosansmyanmarui',
     },
     3498 => { 
         font => 'NotoSansMyanmarUI-Condensed.ttf',
@@ -37402,7 +37402,7 @@ constant %FontAliases is export = [
     },
     3520 => { 
         font => 'NotoSansMyanmarUI-Regular.ttf',
-         dir => '/usr/share/fonts/truetype/noto',
+         dir => '/usr/local/share/fonts/fonts-main/ofl/notosansmyanmarui',
     },
     3521 => { 
         font => 'NotoSansMyanmarUI-SemiBold.ttf',
@@ -37454,11 +37454,11 @@ constant %FontAliases is export = [
     },
     3533 => { 
         font => 'NotoSansNKo-Regular.ttf',
-         dir => '/usr/share/fonts/truetype/noto',
+         dir => '/usr/local/share/fonts/fonts-main/ofl/notosansnko_todelist',
     },
     3534 => { 
         font => 'NotoSansNabataean-Regular.ttf',
-         dir => '/usr/local/share/fonts/fonts-main/ofl/notosansnabataean',
+         dir => '/usr/share/fonts/truetype/noto',
     },
     3535 => { 
         font => 'NotoSansNagMundari[wght].ttf',
@@ -37486,7 +37486,7 @@ constant %FontAliases is export = [
     },
     3541 => { 
         font => 'NotoSansOgham-Regular.ttf',
-         dir => '/usr/local/share/fonts/fonts-main/ofl/notosansogham',
+         dir => '/usr/share/fonts/truetype/noto',
     },
     3542 => { 
         font => 'NotoSansOlChiki-Bold.ttf',
@@ -37518,23 +37518,23 @@ constant %FontAliases is export = [
     },
     3549 => { 
         font => 'NotoSansOldNorthArabian-Regular.ttf',
-         dir => '/usr/share/fonts/truetype/noto',
+         dir => '/usr/local/share/fonts/fonts-main/ofl/notosansoldnortharabian',
     },
     3550 => { 
         font => 'NotoSansOldPermic-Regular.ttf',
-         dir => '/usr/local/share/fonts/fonts-main/ofl/notosansoldpermic',
+         dir => '/usr/share/fonts/truetype/noto',
     },
     3551 => { 
         font => 'NotoSansOldPersian-Regular.ttf',
-         dir => '/usr/share/fonts/truetype/noto',
+         dir => '/usr/local/share/fonts/fonts-main/ofl/notosansoldpersian',
     },
     3552 => { 
         font => 'NotoSansOldSogdian-Regular.ttf',
-         dir => '/usr/local/share/fonts/fonts-main/ofl/notosansoldsogdian',
+         dir => '/usr/share/fonts/truetype/noto',
     },
     3553 => { 
         font => 'NotoSansOldSouthArabian-Regular.ttf',
-         dir => '/usr/share/fonts/truetype/noto',
+         dir => '/usr/local/share/fonts/fonts-main/ofl/notosansoldsoutharabian',
     },
     3554 => { 
         font => 'NotoSansOldTurkic-Regular.ttf',
@@ -37630,11 +37630,11 @@ constant %FontAliases is export = [
     },
     3577 => { 
         font => 'NotoSansOriyaUI-Regular.ttf',
-         dir => '/usr/share/fonts/truetype/noto',
+         dir => '/usr/local/share/fonts/fonts-main/ofl/notosansoriyaui',
     },
     3578 => { 
         font => 'NotoSansOriyaUI-Thin.ttf',
-         dir => '/usr/share/fonts/truetype/noto',
+         dir => '/usr/local/share/fonts/fonts-main/ofl/notosansoriyaui',
     },
     3579 => { 
         font => 'NotoSansOriya[wdth,wght].ttf',
@@ -37642,11 +37642,11 @@ constant %FontAliases is export = [
     },
     3580 => { 
         font => 'NotoSansOsage-Regular.ttf',
-         dir => '/usr/share/fonts/truetype/noto',
+         dir => '/usr/local/share/fonts/fonts-main/ofl/notosansosage',
     },
     3581 => { 
         font => 'NotoSansOsmanya-Regular.ttf',
-         dir => '/usr/local/share/fonts/fonts-main/ofl/notosansosmanya',
+         dir => '/usr/share/fonts/truetype/noto',
     },
     3582 => { 
         font => 'NotoSansPahawhHmong-Regular.ttf',
@@ -37654,7 +37654,7 @@ constant %FontAliases is export = [
     },
     3583 => { 
         font => 'NotoSansPalmyrene-Regular.ttf',
-         dir => '/usr/local/share/fonts/fonts-main/ofl/notosanspalmyrene',
+         dir => '/usr/share/fonts/truetype/noto',
     },
     3584 => { 
         font => 'NotoSansPauCinHau-Regular.ttf',
@@ -37678,7 +37678,7 @@ constant %FontAliases is export = [
     },
     3589 => { 
         font => 'NotoSansRunic-Regular.ttf',
-         dir => '/usr/local/share/fonts/fonts-main/ofl/notosansrunic',
+         dir => '/usr/share/fonts/truetype/noto',
     },
     3590 => { 
         font => 'NotoSansSC[wght].ttf',
@@ -37690,15 +37690,15 @@ constant %FontAliases is export = [
     },
     3592 => { 
         font => 'NotoSansSaurashtra-Regular.ttf',
-         dir => '/usr/local/share/fonts/fonts-main/ofl/notosanssaurashtra',
+         dir => '/usr/share/fonts/truetype/noto',
     },
     3593 => { 
         font => 'NotoSansSharada-Regular.ttf',
-         dir => '/usr/share/fonts/truetype/noto',
+         dir => '/usr/local/share/fonts/fonts-main/ofl/notosanssharada',
     },
     3594 => { 
         font => 'NotoSansShavian-Regular.ttf',
-         dir => '/usr/local/share/fonts/fonts-main/ofl/notosansshavian',
+         dir => '/usr/share/fonts/truetype/noto',
     },
     3595 => { 
         font => 'NotoSansSiddham-Regular.ttf',
@@ -37706,7 +37706,7 @@ constant %FontAliases is export = [
     },
     3596 => { 
         font => 'NotoSansSignWriting-Regular.ttf',
-         dir => '/usr/local/share/fonts/fonts-main/ofl/notosanssignwriting',
+         dir => '/usr/share/fonts/truetype/noto',
     },
     3597 => { 
         font => 'NotoSansSinhala-Black.ttf',
@@ -38006,7 +38006,7 @@ constant %FontAliases is export = [
     },
     3671 => { 
         font => 'NotoSansSogdian-Regular.ttf',
-         dir => '/usr/local/share/fonts/fonts-main/ofl/notosanssogdian',
+         dir => '/usr/share/fonts/truetype/noto',
     },
     3672 => { 
         font => 'NotoSansSoraSompeng-Bold.ttf',
@@ -38030,7 +38030,7 @@ constant %FontAliases is export = [
     },
     3677 => { 
         font => 'NotoSansSoyombo-Regular.ttf',
-         dir => '/usr/local/share/fonts/fonts-main/ofl/notosanssoyombo',
+         dir => '/usr/share/fonts/truetype/noto',
     },
     3678 => { 
         font => 'NotoSansSundanese-Bold.ttf',
@@ -38054,7 +38054,7 @@ constant %FontAliases is export = [
     },
     3683 => { 
         font => 'NotoSansSylotiNagri-Regular.ttf',
-         dir => '/usr/local/share/fonts/fonts-main/ofl/notosanssylotinagri',
+         dir => '/usr/share/fonts/truetype/noto',
     },
     3684 => { 
         font => 'NotoSansSymbols-Black.ttf',
@@ -38122,11 +38122,11 @@ constant %FontAliases is export = [
     },
     3700 => { 
         font => 'NotoSansTagalog-Regular.ttf',
-         dir => '/usr/local/share/fonts/fonts-main/ofl/notosanstagalog',
+         dir => '/usr/share/fonts/truetype/noto',
     },
     3701 => { 
         font => 'NotoSansTagbanwa-Regular.ttf',
-         dir => '/usr/local/share/fonts/fonts-main/ofl/notosanstagbanwa',
+         dir => '/usr/share/fonts/truetype/noto',
     },
     3702 => { 
         font => 'NotoSansTaiLe-Regular.ttf',
@@ -38154,11 +38154,11 @@ constant %FontAliases is export = [
     },
     3708 => { 
         font => 'NotoSansTaiViet-Regular.ttf',
-         dir => '/usr/local/share/fonts/fonts-main/ofl/notosanstaiviet',
+         dir => '/usr/share/fonts/truetype/noto',
     },
     3709 => { 
         font => 'NotoSansTakri-Regular.ttf',
-         dir => '/usr/local/share/fonts/fonts-main/ofl/notosanstakri',
+         dir => '/usr/share/fonts/truetype/noto',
     },
     3710 => { 
         font => 'NotoSansTamil-Black.ttf',
@@ -39186,11 +39186,11 @@ constant %FontAliases is export = [
     },
     3966 => { 
         font => 'NotoSansUgaritic-Regular.ttf',
-         dir => '/usr/local/share/fonts/fonts-main/ofl/notosansugaritic',
+         dir => '/usr/share/fonts/truetype/noto',
     },
     3967 => { 
         font => 'NotoSansVai-Regular.ttf',
-         dir => '/usr/local/share/fonts/fonts-main/ofl/notosansvai',
+         dir => '/usr/share/fonts/truetype/noto',
     },
     3968 => { 
         font => 'NotoSansWancho-Regular.ttf',
@@ -39502,7 +39502,7 @@ constant %FontAliases is export = [
     },
     4045 => { 
         font => 'NotoSerifAhom-Regular.ttf',
-         dir => '/usr/share/fonts/truetype/noto',
+         dir => '/usr/local/share/fonts/fonts-main/ofl/notoserifahom',
     },
     4046 => { 
         font => 'NotoSerifArmenian-Black.ttf',
@@ -40250,7 +40250,7 @@ constant %FontAliases is export = [
     },
     4232 => { 
         font => 'NotoSerifDogra-Regular.ttf',
-         dir => '/usr/local/share/fonts/fonts-main/ofl/notoserifdogra',
+         dir => '/usr/share/fonts/truetype/noto',
     },
     4233 => { 
         font => 'NotoSerifEthiopic-Black.ttf',
@@ -41182,7 +41182,7 @@ constant %FontAliases is export = [
     },
     4465 => { 
         font => 'NotoSerifMyanmar-Black.ttf',
-         dir => '/usr/local/share/fonts/fonts-main/ofl/notoserifmyanmar',
+         dir => '/usr/share/fonts/truetype/noto',
     },
     4466 => { 
         font => 'NotoSerifMyanmar-Bold.ttf',
@@ -41226,7 +41226,7 @@ constant %FontAliases is export = [
     },
     4476 => { 
         font => 'NotoSerifMyanmar-ExtraBold.ttf',
-         dir => '/usr/local/share/fonts/fonts-main/ofl/notoserifmyanmar',
+         dir => '/usr/share/fonts/truetype/noto',
     },
     4477 => { 
         font => 'NotoSerifMyanmar-ExtraCondensed.ttf',
@@ -41266,15 +41266,15 @@ constant %FontAliases is export = [
     },
     4486 => { 
         font => 'NotoSerifMyanmar-ExtraLight.ttf',
-         dir => '/usr/share/fonts/truetype/noto',
+         dir => '/usr/local/share/fonts/fonts-main/ofl/notoserifmyanmar',
     },
     4487 => { 
         font => 'NotoSerifMyanmar-Light.ttf',
-         dir => '/usr/local/share/fonts/fonts-main/ofl/notoserifmyanmar',
+         dir => '/usr/share/fonts/truetype/noto',
     },
     4488 => { 
         font => 'NotoSerifMyanmar-Medium.ttf',
-         dir => '/usr/local/share/fonts/fonts-main/ofl/notoserifmyanmar',
+         dir => '/usr/share/fonts/truetype/noto',
     },
     4489 => { 
         font => 'NotoSerifMyanmar-Regular.ttf',
@@ -43466,11 +43466,11 @@ constant %FontAliases is export = [
     },
     5036 => { 
         font => 'Roboto-Black.ttf',
-         dir => '/usr/share/fonts/truetype/roboto/unhinted/RobotoTTF',
+         dir => '/usr/local/share/fonts/fonts-main/apache/roboto/static',
     },
     5037 => { 
         font => 'Roboto-BlackItalic.ttf',
-         dir => '/usr/local/share/fonts/fonts-main/apache/roboto/static',
+         dir => '/usr/share/fonts/truetype/roboto/unhinted/RobotoTTF',
     },
     5038 => { 
         font => 'Roboto-Bold.ttf',
@@ -43482,7 +43482,7 @@ constant %FontAliases is export = [
     },
     5040 => { 
         font => 'Roboto-Italic.ttf',
-         dir => '/usr/share/fonts/truetype/roboto/unhinted/RobotoTTF',
+         dir => '/usr/local/share/fonts/fonts-main/apache/roboto/static',
     },
     5041 => { 
         font => 'Roboto-Italic[wdth,wght].ttf',
@@ -43494,7 +43494,7 @@ constant %FontAliases is export = [
     },
     5043 => { 
         font => 'Roboto-LightItalic.ttf',
-         dir => '/usr/share/fonts/truetype/roboto/unhinted/RobotoTTF',
+         dir => '/usr/local/share/fonts/fonts-main/apache/roboto/static',
     },
     5044 => { 
         font => 'Roboto-Medium.ttf',
@@ -43502,19 +43502,19 @@ constant %FontAliases is export = [
     },
     5045 => { 
         font => 'Roboto-MediumItalic.ttf',
-         dir => '/usr/share/fonts/truetype/roboto/unhinted/RobotoTTF',
+         dir => '/usr/local/share/fonts/fonts-main/apache/roboto/static',
     },
     5046 => { 
         font => 'Roboto-Regular.ttf',
-         dir => '/usr/local/share/fonts/fonts-main/apache/roboto/static',
+         dir => '/usr/share/fonts/truetype/roboto/unhinted/RobotoTTF',
     },
     5047 => { 
         font => 'Roboto-Thin.ttf',
-         dir => '/usr/share/fonts/truetype/roboto/unhinted/RobotoTTF',
+         dir => '/usr/local/share/fonts/fonts-main/apache/roboto/static',
     },
     5048 => { 
         font => 'Roboto-ThinItalic.ttf',
-         dir => '/usr/local/share/fonts/fonts-main/apache/roboto/static',
+         dir => '/usr/share/fonts/truetype/roboto/unhinted/RobotoTTF',
     },
     5049 => { 
         font => 'RobotoCondensed-Bold.ttf',
@@ -43522,11 +43522,11 @@ constant %FontAliases is export = [
     },
     5050 => { 
         font => 'RobotoCondensed-BoldItalic.ttf',
-         dir => '/usr/share/fonts/truetype/roboto/unhinted',
+         dir => '/usr/local/share/fonts/fonts-main/apache/roboto/static',
     },
     5051 => { 
         font => 'RobotoCondensed-Italic.ttf',
-         dir => '/usr/share/fonts/truetype/roboto/unhinted',
+         dir => '/usr/local/share/fonts/fonts-main/apache/roboto/static',
     },
     5052 => { 
         font => 'RobotoCondensed-Light.ttf',
@@ -43538,11 +43538,11 @@ constant %FontAliases is export = [
     },
     5054 => { 
         font => 'RobotoCondensed-Medium.ttf',
-         dir => '/usr/share/fonts/truetype/roboto/unhinted',
+         dir => '/usr/local/share/fonts/fonts-main/apache/roboto/static',
     },
     5055 => { 
         font => 'RobotoCondensed-MediumItalic.ttf',
-         dir => '/usr/share/fonts/truetype/roboto/unhinted',
+         dir => '/usr/local/share/fonts/fonts-main/apache/roboto/static',
     },
     5056 => { 
         font => 'RobotoCondensed-Regular.ttf',
@@ -43550,7 +43550,7 @@ constant %FontAliases is export = [
     },
     5057 => { 
         font => 'RobotoFlex[GRAD,XOPQ,XTRA,YOPQ,YTAS,YTDE,YTFI,YTLC,YTUC,opsz,slnt,wdth,wght].ttf',
-         dir => '/usr/local/share/fonts/fonts-main/axisregistry/tests/data',
+         dir => '/usr/local/share/fonts/fonts-main/ofl/robotoflex',
     },
     5058 => { 
         font => 'RobotoMono-Italic[wght].ttf',

@@ -104,6 +104,9 @@ LINE: for @fc-list -> $line {
     # must be scalable
     # must be outline
     my $f = $ft.face: $path, :load-flags(FT_LOAD_NO_HINTING);
+    next if not $f.is-kern;
+    next if not $f.is-scaleble;
+
     
     
 

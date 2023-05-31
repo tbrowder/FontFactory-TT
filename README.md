@@ -3,7 +3,7 @@
 NAME
 ====
 
-**FontFactory** - A Unicode font factory similar to `FontFactory::Type1` but using *TrueType*, *OpenType*, and `Type 1` fonts.
+**FontFactory** - A Unicode font factory similar to `FontFactory::Type1` but using *TrueType*, *OpenType*, and *Type 1* fonts.
 
 SYNOPSIS
 ========
@@ -25,28 +25,41 @@ First, ensure your host has the `fontconfig` and `freetype` system libraries ins
     # find . -type f -exec chmod -R 644 {} \;
     # fc-cache
 
-To use this module, you must first generate a list of all the TrueType and OpenType fonts available on your system. That is normally automatically accomplished during the first installation by `zef` in its build step. The list will be stored in your `$HOME` directory as `$HOME/.fontfactory-tt/system-fonts.list`. That file looks like this:
+Font licenses
+-------------
+
+Fonts installed on most systems are usually free for personal use, but may have restrictions for other uses. Please ensure you adhere to those requirements.
+
+Font lists
+----------
+
+### System fonts
+
+To use this module, you must first generate a list of all the TrueType, OpenType, and Type 1 fonts available on your system. That is normally automatically accomplished during the first installation by `zef` in its build step. The list will be stored in your `$HOME` directory as `$HOME/.fontfactory/system-fonts.list`. That file looks like this:
 
     # font-name location
     Blarney.ttf /usr/src/fonts/
-    ...
-    Courier.otf /use/local/fonts/
+      #... more entries
+    Courier.otf /usr/local/fonts/
+      #... more entries
 
 Note that all instances of the same font will be listed and you can edit the file to delete unwanted duplicates.
 
-If that step fails, or for some reason (such as adding new fonts) you want to reinitialize the list, run `ff-reload`. That run should retain the index number from the existing lists and not use those indices that are now empty.
+If that step fails, or for some reason (such as adding new fonts) you want to reinitialize the list, run `ff-reload`. **Caution**: That rerun will not retain the index number from the existing lists. If that is a concern, use a personal font list as desribed below.
 
-For convenience you may want to create a another list to associate your oft-used fonts with a short alias. That is done by creating a file named `$HOME/.fontfactory-tt/my-fonts.list`.
+### User fonts
+
+For convenience you may want to create a another list to associate your oft-used fonts with a short alias. That is done by creating a file named `$HOME/.fontfactory/my-fonts.list`.
 
 The file should look something like this:
 
-    # alias font-name     notes
-      1     Blarney.ttf   my favorite serif font
-      m     Courier.otf   my favorite monospaced font
-      n     Pocus.ttf     my favorite sans serif font
-      j     Scroll.otf    best for Jewish calendars
+    # alias font-name     location    notes (optional)
+      b1    Blarney.ttf   ~/.fonts    my favorite serif font
+      c     Courier.otf               my favorite monospaced font
+      p     Pocus.ttf                 my favorite sans serif font
+      s     Scroll.otf                best for Jewish calendars
 
-  * find-fonts.raku
+Note the fields **alias**, **font-name**, and **location** (parent directory) are required. The **alias** must begin with an alpha character to disambuate it from the numerical aliases of the system fonts. The **font-name** must include the suffix ('.otf', '.ttf', or '.t1'). The **notes** field is optional. 
 
 DESCRIPTION
 ===========

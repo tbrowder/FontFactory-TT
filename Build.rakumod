@@ -3,7 +3,7 @@ class Build {
     # $dist-path is: repo dir
     method build($dist-path) {
         #my $script = $dist-path.IO.add("bin/my-script").absolute;
-        my $script = $dist-path.IO.add("build/find-system-fonts.raku").absolute;
+        my $script = $dist-path.IO.add("bin/find-system-fonts").absolute;
 
         # We need to set this if our script uses any dependencies that
         # may not yet be installed but are in the process of being
@@ -12,7 +12,7 @@ class Build {
 
         # do it!
         #my $proc = run :cwd($dist-path), $*EXECUTABLE, @libs.map({"-I$_"}).flat, $script;
-        my $proc = run :cwd($dist-path), $*EXECUTABLE, @libs.map({"-I$_"}).flat, $script, "go";
+        my $proc = run :cwd($dist-path), $*EXECUTABLE, @libs.map({"-I$_"}).flat, $script, "build";
         exit $proc.exitcode;
     }
 }

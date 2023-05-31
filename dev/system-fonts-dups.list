@@ -2,8 +2,8 @@ LiberationMono-Bold.ttf
     /usr/share/fonts/truetype/liberation
     /usr/share/fonts/truetype/liberation2
 LiberationMono-BoldItalic.ttf
-    /usr/share/fonts/truetype/liberation2
     /usr/share/fonts/truetype/liberation
+    /usr/share/fonts/truetype/liberation2
 LiberationMono-Italic.ttf
     /usr/share/fonts/truetype/liberation
     /usr/share/fonts/truetype/liberation2
@@ -17,14 +17,14 @@ LiberationSans-BoldItalic.ttf
     /usr/share/fonts/truetype/liberation
     /usr/share/fonts/truetype/liberation2
 LiberationSans-Italic.ttf
-    /usr/share/fonts/truetype/liberation2
     /usr/share/fonts/truetype/liberation
+    /usr/share/fonts/truetype/liberation2
 LiberationSans-Regular.ttf
     /usr/share/fonts/truetype/liberation
     /usr/share/fonts/truetype/liberation2
 LiberationSerif-Bold.ttf
-    /usr/share/fonts/truetype/liberation2
     /usr/share/fonts/truetype/liberation
+    /usr/share/fonts/truetype/liberation2
 LiberationSerif-BoldItalic.ttf
     /usr/share/fonts/truetype/liberation
     /usr/share/fonts/truetype/liberation2
@@ -32,17 +32,17 @@ LiberationSerif-Italic.ttf
     /usr/share/fonts/truetype/liberation
     /usr/share/fonts/truetype/liberation2
 LiberationSerif-Regular.ttf
-    /usr/share/fonts/truetype/liberation2
     /usr/share/fonts/truetype/liberation
+    /usr/share/fonts/truetype/liberation2
 NotoMusic-Regular.ttf
     /usr/local/share/fonts/fonts-main/ofl/notomusic
     /usr/share/fonts/truetype/noto
 NotoSans-Black.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosans
+    /usr/share/fonts/truetype/noto
 NotoSans-BlackItalic.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosans
+    /usr/share/fonts/truetype/noto
 NotoSans-Bold.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosans
     /usr/share/fonts/truetype/noto
@@ -50,11 +50,11 @@ NotoSans-BoldItalic.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosans
     /usr/share/fonts/truetype/noto
 NotoSans-ExtraBold.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosans
+    /usr/share/fonts/truetype/noto
 NotoSans-ExtraBoldItalic.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosans
+    /usr/share/fonts/truetype/noto
 NotoSans-ExtraLight.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosans
     /usr/share/fonts/truetype/noto
@@ -62,26 +62,26 @@ NotoSans-ExtraLightItalic.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosans
     /usr/share/fonts/truetype/noto
 NotoSans-Italic.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosans
+    /usr/share/fonts/truetype/noto
 NotoSans-Light.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosans
+    /usr/share/fonts/truetype/noto
 NotoSans-LightItalic.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosans
+    /usr/share/fonts/truetype/noto
 NotoSans-Medium.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosans
+    /usr/share/fonts/truetype/noto
 NotoSans-MediumItalic.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosans
     /usr/share/fonts/truetype/noto
 NotoSans-Regular.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosans
+    /usr/share/fonts/truetype/noto
 NotoSans-SemiBold.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosans
+    /usr/share/fonts/truetype/noto
 NotoSans-SemiBoldItalic.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosans
     /usr/share/fonts/truetype/noto
@@ -92,29 +92,29 @@ NotoSans-ThinItalic.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosans
     /usr/share/fonts/truetype/noto
 NotoSansAnatolianHieroglyphs-Regular.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosansanatolianhieroglyphs
-NotoSansAvestan-Regular.ttf
     /usr/share/fonts/truetype/noto
+NotoSansAvestan-Regular.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosansavestan
+    /usr/share/fonts/truetype/noto
 NotoSansBatak-Regular.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosansbatak
     /usr/share/fonts/truetype/noto
 NotoSansBhaiksuki-Regular.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosansbhaiksuki
-NotoSansBrahmi-Regular.ttf
     /usr/share/fonts/truetype/noto
+NotoSansBrahmi-Regular.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosansbrahmi
+    /usr/share/fonts/truetype/noto
 NotoSansBuginese-Regular.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosansbuginese
     /usr/share/fonts/truetype/noto
 NotoSansBuhid-Regular.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosansbuhid
-NotoSansCarian-Regular.ttf
     /usr/share/fonts/truetype/noto
+NotoSansCarian-Regular.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosanscarian
+    /usr/share/fonts/truetype/noto
 NotoSansCaucasianAlbanian-Regular.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosanscaucasianalbanian
     /usr/share/fonts/truetype/noto
@@ -122,8 +122,8 @@ NotoSansChakma-Regular.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosanschakma
     /usr/share/fonts/truetype/noto
 NotoSansCoptic-Regular.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosanscoptic
+    /usr/share/fonts/truetype/noto
 NotoSansCuneiform-Regular.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosanscuneiform
     /usr/share/fonts/truetype/noto
@@ -131,11 +131,11 @@ NotoSansCypriot-Regular.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosanscypriot
     /usr/share/fonts/truetype/noto
 NotoSansDeseret-Regular.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosansdeseret
-NotoSansDevanagariUI-Black.ttf
     /usr/share/fonts/truetype/noto
+NotoSansDevanagariUI-Black.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosansdevanagariui
+    /usr/share/fonts/truetype/noto
 NotoSansDevanagariUI-Bold.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosansdevanagariui
     /usr/share/fonts/truetype/noto
@@ -146,20 +146,20 @@ NotoSansDevanagariUI-ExtraLight.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosansdevanagariui
     /usr/share/fonts/truetype/noto
 NotoSansDevanagariUI-Light.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosansdevanagariui
+    /usr/share/fonts/truetype/noto
 NotoSansDevanagariUI-Medium.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosansdevanagariui
+    /usr/share/fonts/truetype/noto
 NotoSansDevanagariUI-Regular.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosansdevanagariui
+    /usr/share/fonts/truetype/noto
 NotoSansDevanagariUI-SemiBold.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosansdevanagariui
     /usr/share/fonts/truetype/noto
 NotoSansDevanagariUI-Thin.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosansdevanagariui
+    /usr/share/fonts/truetype/noto
 NotoSansDuployan-Regular.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosansduployan
     /usr/share/fonts/truetype/noto
@@ -170,8 +170,8 @@ NotoSansElbasan-Regular.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosanselbasan
     /usr/share/fonts/truetype/noto
 NotoSansElymaic-Regular.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosanselymaic
+    /usr/share/fonts/truetype/noto
 NotoSansGlagolitic-Regular.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosansglagolitic
     /usr/share/fonts/truetype/noto
@@ -179,47 +179,47 @@ NotoSansGothic-Regular.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosansgothic
     /usr/share/fonts/truetype/noto
 NotoSansGrantha-Regular.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosansgrantha
+    /usr/share/fonts/truetype/noto
 NotoSansGujaratiUI-Black.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosansgujaratiui
+    /usr/share/fonts/truetype/noto
 NotoSansGujaratiUI-Bold.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosansgujaratiui
+    /usr/share/fonts/truetype/noto
 NotoSansGujaratiUI-ExtraBold.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosansgujaratiui
+    /usr/share/fonts/truetype/noto
 NotoSansGujaratiUI-ExtraLight.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosansgujaratiui
     /usr/share/fonts/truetype/noto
 NotoSansGujaratiUI-Light.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosansgujaratiui
+    /usr/share/fonts/truetype/noto
 NotoSansGujaratiUI-Medium.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosansgujaratiui
+    /usr/share/fonts/truetype/noto
 NotoSansGujaratiUI-Regular.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosansgujaratiui
+    /usr/share/fonts/truetype/noto
 NotoSansGujaratiUI-SemiBold.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosansgujaratiui
+    /usr/share/fonts/truetype/noto
 NotoSansGujaratiUI-Thin.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosansgujaratiui
     /usr/share/fonts/truetype/noto
 NotoSansGunjalaGondi-Regular.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosansgunjalagondi
-NotoSansHanunoo-Regular.ttf
     /usr/share/fonts/truetype/noto
+NotoSansHanunoo-Regular.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosanshanunoo
+    /usr/share/fonts/truetype/noto
 NotoSansHatran-Regular.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosanshatran
     /usr/share/fonts/truetype/noto
 NotoSansImperialAramaic-Regular.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosansimperialaramaic
+    /usr/share/fonts/truetype/noto
 NotoSansIndicSiyaqNumbers-Regular.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosansindicsiyaqnumbers
     /usr/share/fonts/truetype/noto
@@ -227,23 +227,23 @@ NotoSansInscriptionalPahlavi-Regular.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosansinscriptionalpahlavi
     /usr/share/fonts/truetype/noto
 NotoSansInscriptionalParthian-Regular.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosansinscriptionalparthian
+    /usr/share/fonts/truetype/noto
 NotoSansKaithi-Regular.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosanskaithi
     /usr/share/fonts/truetype/noto
 NotoSansKharoshthi-Regular.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosanskharoshthi
+    /usr/share/fonts/truetype/noto
 NotoSansKhojki-Regular.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosanskhojki
+    /usr/share/fonts/truetype/noto
 NotoSansKhudawadi-Regular.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosanskhudawadi
-NotoSansLepcha-Regular.ttf
     /usr/share/fonts/truetype/noto
+NotoSansLepcha-Regular.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosanslepcha
+    /usr/share/fonts/truetype/noto
 NotoSansLimbu-Regular.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosanslimbu
     /usr/share/fonts/truetype/noto
@@ -251,8 +251,8 @@ NotoSansLinearA-Regular.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosanslineara
     /usr/share/fonts/truetype/noto
 NotoSansLinearB-Regular.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosanslinearb
+    /usr/share/fonts/truetype/noto
 NotoSansLycian-Regular.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosanslycian
     /usr/share/fonts/truetype/noto
@@ -266,20 +266,20 @@ NotoSansMandaic-Regular.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosansmandaic
     /usr/share/fonts/truetype/noto
 NotoSansManichaean-Regular.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosansmanichaean
+    /usr/share/fonts/truetype/noto
 NotoSansMarchen-Regular.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosansmarchen
-NotoSansMasaramGondi-Regular.ttf
     /usr/share/fonts/truetype/noto
+NotoSansMasaramGondi-Regular.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosansmasaramgondi
+    /usr/share/fonts/truetype/noto
 NotoSansMath-Regular.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosansmath
     /usr/share/fonts/truetype/noto
 NotoSansMayanNumerals-Regular.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosansmayannumerals
+    /usr/share/fonts/truetype/noto
 NotoSansMendeKikakui-Regular.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosansmendekikakui
     /usr/share/fonts/truetype/noto
@@ -290,17 +290,17 @@ NotoSansMiao-Regular.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosansmiao
     /usr/share/fonts/truetype/noto
 NotoSansModi-Regular.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosansmodi
+    /usr/share/fonts/truetype/noto
 NotoSansMongolian-Regular.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosansmongolian
     /usr/share/fonts/truetype/noto
 NotoSansMro-Regular.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosansmro
-NotoSansMultani-Regular.ttf
     /usr/share/fonts/truetype/noto
+NotoSansMultani-Regular.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosansmultani
+    /usr/share/fonts/truetype/noto
 NotoSansMyanmarUI-Black.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosansmyanmarui
     /usr/share/fonts/truetype/noto
@@ -308,8 +308,8 @@ NotoSansMyanmarUI-Bold.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosansmyanmarui
     /usr/share/fonts/truetype/noto
 NotoSansMyanmarUI-ExtraBold.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosansmyanmarui
+    /usr/share/fonts/truetype/noto
 NotoSansMyanmarUI-ExtraLight.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosansmyanmarui
     /usr/share/fonts/truetype/noto
@@ -323,30 +323,30 @@ NotoSansMyanmarUI-Regular.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosansmyanmarui
     /usr/share/fonts/truetype/noto
 NotoSansMyanmarUI-SemiBold.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosansmyanmarui
+    /usr/share/fonts/truetype/noto
 NotoSansMyanmarUI-Thin.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosansmyanmarui
+    /usr/share/fonts/truetype/noto
 NotoSansNKo-Regular.ttf
+    /usr/local/share/fonts/fonts-main/ofl/notosansnko
     /usr/local/share/fonts/fonts-main/ofl/notosansnko_todelist
     /usr/share/fonts/truetype/noto
-    /usr/local/share/fonts/fonts-main/ofl/notosansnko
 NotoSansNabataean-Regular.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosansnabataean
+    /usr/share/fonts/truetype/noto
 NotoSansNewa-Regular.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosansnewa
     /usr/share/fonts/truetype/noto
 NotoSansNushu-Regular.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosansnushu
+    /usr/share/fonts/truetype/noto
 NotoSansOgham-Regular.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosansogham
-NotoSansOldHungarian-Regular.ttf
     /usr/share/fonts/truetype/noto
+NotoSansOldHungarian-Regular.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosansoldhungarian
+    /usr/share/fonts/truetype/noto
 NotoSansOldItalic-Regular.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosansolditalic
     /usr/share/fonts/truetype/noto
@@ -354,14 +354,14 @@ NotoSansOldNorthArabian-Regular.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosansoldnortharabian
     /usr/share/fonts/truetype/noto
 NotoSansOldPermic-Regular.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosansoldpermic
+    /usr/share/fonts/truetype/noto
 NotoSansOldPersian-Regular.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosansoldpersian
     /usr/share/fonts/truetype/noto
 NotoSansOldSogdian-Regular.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosansoldsogdian
+    /usr/share/fonts/truetype/noto
 NotoSansOldSouthArabian-Regular.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosansoldsoutharabian
     /usr/share/fonts/truetype/noto
@@ -372,8 +372,8 @@ NotoSansOriyaUI-Black.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosansoriyaui
     /usr/share/fonts/truetype/noto
 NotoSansOriyaUI-Bold.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosansoriyaui
+    /usr/share/fonts/truetype/noto
 NotoSansOriyaUI-Regular.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosansoriyaui
     /usr/share/fonts/truetype/noto
@@ -384,20 +384,20 @@ NotoSansOsage-Regular.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosansosage
     /usr/share/fonts/truetype/noto
 NotoSansOsmanya-Regular.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosansosmanya
+    /usr/share/fonts/truetype/noto
 NotoSansPahawhHmong-Regular.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosanspahawhhmong
     /usr/share/fonts/truetype/noto
 NotoSansPalmyrene-Regular.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosanspalmyrene
+    /usr/share/fonts/truetype/noto
 NotoSansPauCinHau-Regular.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosanspaucinhau
-NotoSansPhagsPa-Regular.ttf
     /usr/share/fonts/truetype/noto
+NotoSansPhagsPa-Regular.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosansphagspa
+    /usr/share/fonts/truetype/noto
 NotoSansPhoenician-Regular.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosansphoenician
     /usr/share/fonts/truetype/noto
@@ -408,77 +408,77 @@ NotoSansRejang-Regular.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosansrejang
     /usr/share/fonts/truetype/noto
 NotoSansRunic-Regular.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosansrunic
+    /usr/share/fonts/truetype/noto
 NotoSansSamaritan-Regular.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosanssamaritan
     /usr/share/fonts/truetype/noto
 NotoSansSaurashtra-Regular.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosanssaurashtra
+    /usr/share/fonts/truetype/noto
 NotoSansSharada-Regular.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosanssharada
     /usr/share/fonts/truetype/noto
 NotoSansShavian-Regular.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosansshavian
+    /usr/share/fonts/truetype/noto
 NotoSansSiddham-Regular.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosanssiddham
     /usr/share/fonts/truetype/noto
 NotoSansSignWriting-Regular.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosanssignwriting
+    /usr/share/fonts/truetype/noto
 NotoSansSogdian-Regular.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosanssogdian
+    /usr/share/fonts/truetype/noto
 NotoSansSoyombo-Regular.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosanssoyombo
-NotoSansSylotiNagri-Regular.ttf
     /usr/share/fonts/truetype/noto
+NotoSansSylotiNagri-Regular.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosanssylotinagri
+    /usr/share/fonts/truetype/noto
 NotoSansSymbols2-Regular.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosanssymbols2
     /usr/share/fonts/truetype/noto
 NotoSansTagalog-Regular.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosanstagalog
+    /usr/share/fonts/truetype/noto
 NotoSansTagbanwa-Regular.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosanstagbanwa
+    /usr/share/fonts/truetype/noto
 NotoSansTaiLe-Regular.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosanstaile
+    /usr/share/fonts/truetype/noto
 NotoSansTaiViet-Regular.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosanstaiviet
-NotoSansTakri-Regular.ttf
     /usr/share/fonts/truetype/noto
+NotoSansTakri-Regular.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosanstakri
+    /usr/share/fonts/truetype/noto
 NotoSansTamilSupplement-Regular.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosanstamilsupplement
     /usr/share/fonts/truetype/noto
 NotoSansTifinagh-Regular.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosanstifinagh
+    /usr/share/fonts/truetype/noto
 NotoSansTirhuta-Regular.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosanstirhuta
+    /usr/share/fonts/truetype/noto
 NotoSansUgaritic-Regular.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosansugaritic
-NotoSansVai-Regular.ttf
     /usr/share/fonts/truetype/noto
+NotoSansVai-Regular.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosansvai
+    /usr/share/fonts/truetype/noto
 NotoSansWancho-Regular.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosanswancho
     /usr/share/fonts/truetype/noto
 NotoSansWarangCiti-Regular.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notosanswarangciti
-NotoSansYi-Regular.ttf
     /usr/share/fonts/truetype/noto
+NotoSansYi-Regular.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosansyi
+    /usr/share/fonts/truetype/noto
 NotoSansZanabazarSquare-Regular.ttf
     /usr/local/share/fonts/fonts-main/ofl/notosanszanabazarsquare
     /usr/share/fonts/truetype/noto
@@ -486,35 +486,35 @@ NotoSerifAhom-Regular.ttf
     /usr/local/share/fonts/fonts-main/ofl/notoserifahom
     /usr/share/fonts/truetype/noto
 NotoSerifBalinese-Regular.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notoserifbalinese
-NotoSerifDogra-Regular.ttf
     /usr/share/fonts/truetype/noto
+NotoSerifDogra-Regular.ttf
     /usr/local/share/fonts/fonts-main/ofl/notoserifdogra
+    /usr/share/fonts/truetype/noto
 NotoSerifGrantha-Regular.ttf
     /usr/local/share/fonts/fonts-main/ofl/notoserifgrantha
     /usr/share/fonts/truetype/noto
 NotoSerifMyanmar-Black.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notoserifmyanmar
+    /usr/share/fonts/truetype/noto
 NotoSerifMyanmar-Bold.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notoserifmyanmar
+    /usr/share/fonts/truetype/noto
 NotoSerifMyanmar-ExtraBold.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notoserifmyanmar
+    /usr/share/fonts/truetype/noto
 NotoSerifMyanmar-ExtraLight.ttf
     /usr/local/share/fonts/fonts-main/ofl/notoserifmyanmar
     /usr/share/fonts/truetype/noto
 NotoSerifMyanmar-Light.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notoserifmyanmar
+    /usr/share/fonts/truetype/noto
 NotoSerifMyanmar-Medium.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notoserifmyanmar
+    /usr/share/fonts/truetype/noto
 NotoSerifMyanmar-Regular.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notoserifmyanmar
+    /usr/share/fonts/truetype/noto
 NotoSerifMyanmar-SemiBold.ttf
     /usr/local/share/fonts/fonts-main/ofl/notoserifmyanmar
     /usr/share/fonts/truetype/noto
@@ -522,23 +522,23 @@ NotoSerifMyanmar-Thin.ttf
     /usr/local/share/fonts/fonts-main/ofl/notoserifmyanmar
     /usr/share/fonts/truetype/noto
 NotoSerifTangut-Regular.ttf
-    /usr/share/fonts/truetype/noto
     /usr/local/share/fonts/fonts-main/ofl/notoseriftangut
+    /usr/share/fonts/truetype/noto
 OpenSans-Italic[wdth,wght].ttf
-    /usr/local/share/fonts/fonts-main/ofl/opensans
     /usr/local/share/fonts/fonts-main/axisregistry/tests/data
+    /usr/local/share/fonts/fonts-main/ofl/opensans
 OpenSans[wdth,wght].ttf
     /usr/local/share/fonts/fonts-main/axisregistry/tests/data
     /usr/local/share/fonts/fonts-main/ofl/opensans
 Playfair[opsz,wdth,wght].ttf
-    /usr/local/share/fonts/fonts-main/ofl/playfair
     /usr/local/share/fonts/fonts-main/axisregistry/tests/data
+    /usr/local/share/fonts/fonts-main/ofl/playfair
 Roboto-Black.ttf
     /usr/local/share/fonts/fonts-main/apache/roboto/static
     /usr/share/fonts/truetype/roboto/unhinted/RobotoTTF
 Roboto-BlackItalic.ttf
-    /usr/share/fonts/truetype/roboto/unhinted/RobotoTTF
     /usr/local/share/fonts/fonts-main/apache/roboto/static
+    /usr/share/fonts/truetype/roboto/unhinted/RobotoTTF
 Roboto-Bold.ttf
     /usr/local/share/fonts/fonts-main/apache/roboto/static
     /usr/share/fonts/truetype/roboto/unhinted/RobotoTTF
@@ -549,29 +549,29 @@ Roboto-Italic.ttf
     /usr/local/share/fonts/fonts-main/apache/roboto/static
     /usr/share/fonts/truetype/roboto/unhinted/RobotoTTF
 Roboto-Light.ttf
-    /usr/share/fonts/truetype/roboto/unhinted/RobotoTTF
     /usr/local/share/fonts/fonts-main/apache/roboto/static
+    /usr/share/fonts/truetype/roboto/unhinted/RobotoTTF
 Roboto-LightItalic.ttf
     /usr/local/share/fonts/fonts-main/apache/roboto/static
     /usr/share/fonts/truetype/roboto/unhinted/RobotoTTF
 Roboto-Medium.ttf
-    /usr/share/fonts/truetype/roboto/unhinted/RobotoTTF
     /usr/local/share/fonts/fonts-main/apache/roboto/static
+    /usr/share/fonts/truetype/roboto/unhinted/RobotoTTF
 Roboto-MediumItalic.ttf
     /usr/local/share/fonts/fonts-main/apache/roboto/static
     /usr/share/fonts/truetype/roboto/unhinted/RobotoTTF
 Roboto-Regular.ttf
-    /usr/share/fonts/truetype/roboto/unhinted/RobotoTTF
     /usr/local/share/fonts/fonts-main/apache/roboto/static
+    /usr/share/fonts/truetype/roboto/unhinted/RobotoTTF
 Roboto-Thin.ttf
     /usr/local/share/fonts/fonts-main/apache/roboto/static
     /usr/share/fonts/truetype/roboto/unhinted/RobotoTTF
 Roboto-ThinItalic.ttf
+    /usr/local/share/fonts/fonts-main/apache/roboto/static
     /usr/share/fonts/truetype/roboto/unhinted/RobotoTTF
-    /usr/local/share/fonts/fonts-main/apache/roboto/static
 RobotoCondensed-Bold.ttf
-    /usr/share/fonts/truetype/roboto/unhinted
     /usr/local/share/fonts/fonts-main/apache/roboto/static
+    /usr/share/fonts/truetype/roboto/unhinted
 RobotoCondensed-BoldItalic.ttf
     /usr/local/share/fonts/fonts-main/apache/roboto/static
     /usr/share/fonts/truetype/roboto/unhinted
@@ -579,11 +579,11 @@ RobotoCondensed-Italic.ttf
     /usr/local/share/fonts/fonts-main/apache/roboto/static
     /usr/share/fonts/truetype/roboto/unhinted
 RobotoCondensed-Light.ttf
-    /usr/share/fonts/truetype/roboto/unhinted
     /usr/local/share/fonts/fonts-main/apache/roboto/static
+    /usr/share/fonts/truetype/roboto/unhinted
 RobotoCondensed-LightItalic.ttf
-    /usr/share/fonts/truetype/roboto/unhinted
     /usr/local/share/fonts/fonts-main/apache/roboto/static
+    /usr/share/fonts/truetype/roboto/unhinted
 RobotoCondensed-Medium.ttf
     /usr/local/share/fonts/fonts-main/apache/roboto/static
     /usr/share/fonts/truetype/roboto/unhinted
@@ -594,5 +594,5 @@ RobotoCondensed-Regular.ttf
     /usr/local/share/fonts/fonts-main/apache/roboto/static
     /usr/share/fonts/truetype/roboto/unhinted
 RobotoFlex[GRAD,XOPQ,XTRA,YOPQ,YTAS,YTDE,YTFI,YTLC,YTUC,opsz,slnt,wdth,wght].ttf
-    /usr/local/share/fonts/fonts-main/ofl/robotoflex
     /usr/local/share/fonts/fonts-main/axisregistry/tests/data
+    /usr/local/share/fonts/fonts-main/ofl/robotoflex

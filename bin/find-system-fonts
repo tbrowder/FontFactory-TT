@@ -3,24 +3,46 @@ use Proc::Easier;
 use Data::Dump;
 use Data::Dump::Tree;
 use File::Find;
+use Font::FreeType;
+use Font::FreeType::Face;
+use Font::FreeType::Raw::Defs;
 
-my $ofil  = "./dev/system-fonts.list";
-my $ofil2 = "./lib/FontFactory/FontList.rakumod";
-my $ofil3 = "./dev/FontList.rakumod";
-my $ofil4 = "./dev/system-fonts-dups.list";
+my $HOME = %*ENV<HOME> // '.';
+my $pdir = $*CWD.IO.parent;
+#say "DEBUG: parent dir is: $pdir"; exit;
+
+my $ofil  = "$HOME/.fontfactory/system-fonts.list";
+my $ofil2 = "$pdir/lib/FontFactory/FontList.rakumod";
+
+# the following files are for development and are not generated
+# if the 'build' mode is selected
+my $ofil3 = "$pdir/dev/FontList.rakumod";
+my $ofil4 = "$pdir/dev/system-fonts.list";
+my $ofil5 = "$pdir/dev/system-fonts-dups.list";
+
 if not @*ARGS {
     print qq:to/HERE/;
-    Usage: {$*PROGRAM.basename} go | debug
+    Usage: {$*PROGRAM.basename} go | debug | build
 
     Finds TrueType, OpenType, and Type 1 font files and creates a list in
-      a rakumod file named '$ofil'
-      and two unique hashes in file '$ofil2'.
+    a user's \$HOME in a file named 
+        $ofil
+    and two unique hashes in file 
+        $ofil2
+
+    If the build mode is not used, other files generated are
+        $ofil3
+        $ofil4
+        $ofil5
+        
     HERE
     exit;
 }
 
 my $debug = 0;;
+my $build = 0;;
 ++$debug if @*ARGS.head ~~ /^:i d/;
+++$build if @*ARGS.head ~~ /^:i build/;
 
 # get the list using binary fc-list from package fontconfig
 my $exe     = "fc-list";
@@ -39,6 +61,7 @@ my $dups = 0;
 my %dups;  
 my $maxlen = 0;
 my $maxnam = '';
+my $ft = Font::FreeType.new;
 LINE: for @fc-list -> $line {
     # parse the line
     # the first field is the path to the font file
@@ -76,8 +99,13 @@ LINE: for @fc-list -> $line {
 
     my $dir  = $path.IO.parent;
 
-    #%(%fonts{$font}<dirs>){$dir} = 1;
     %fonts{$font}<dirs>{$dir} = 1;
+    # get the kern capability
+    # must be scalable
+    # must be outline
+    my $f = $ft.face: $path, :load-flags(FT_LOAD_NO_HINTING);
+    
+    
 
     my $len = $font.chars;
     if $len > $maxlen {
@@ -95,13 +123,18 @@ if $debug {
     say "Creating a list of unique font files...";
 }
 
+# create the home .fontfactory dir
+my $hdir = "$HOME/.fontfactory";
+unless $hdir.IO.d {
+    mkdir $hdir;
+}
+
 my $fh = open $ofil, :w;
 my $index = 0;
 my %fonts-indexed;
 my @indices;
 for %fonts.keys.sort -> $font {
     ++$index;
-    #my $dir = %(%fonts{$font}<dirs>).head;
     my $dir = %fonts{$font}<dirs>.head.key;
     $fh.say: sprintf '%4d %s %s', $index, $font, $dir;
 
@@ -162,12 +195,14 @@ for @indices -> $index {
 $fh.say: '];';
 $fh.close;
 
+exit if $build;
+
 if $dups {
-    $fh = open $ofil4, :w;
+    $fh = open $ofil5, :w;
     for %fonts.keys.sort -> $font {
         if %fonts{$font}<dirs>.elems > 1 {
             $fh.say: $font;
-            for %fonts{$font}<dirs>.keys -> $dir {
+            for %fonts{$font}<dirs>.keys.sort -> $dir {
                 $fh.say: "    $dir";
             }
         }
@@ -178,15 +213,14 @@ if $dups {
 # copy rakumod to the dev dir
 copy $ofil2, $ofil3;
 
-exit unless $debug;
-
 say "Normal end.";
 say "  note: max length of basenames: $maxlen";
 say "        basename:                $maxnam";
 say "See output file '$ofil'.";
 say "See output file '$ofil2'.";
 say "See output file '$ofil3'.";
+say "See output file '$ofil4'.";
 if $dups {
-    say "See output file '$ofil4'.";
+    say "See output file '$ofil5'.";
 }
 

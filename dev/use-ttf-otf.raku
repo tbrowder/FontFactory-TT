@@ -9,9 +9,9 @@ use Font::FreeType::Glyph;
 use Font::FreeType::Outline;
 use Font::FreeType::Raw::Defs;
 
-my $fontfile1 = "./fonts/NotoSerif-Regular.ttf";
-my $fontfile2 = "../t/fonts/URWBookman-Demi.otf";
-my $fontfile3 = "../t/fonts/URWBookman-Demi.t1";
+my $font1 = "./fonts/NotoSerif-Regular.ttf";
+my $font2 = "../t/fonts/URWBookman-Demi.otf";
+my $font3 = "../t/fonts/URWBookman-Demi.t1";
 
 my $fontfilex = "../t/fonts/URWBookman-Demi.afm";
 
@@ -20,9 +20,9 @@ if not @*ARGS {
     Usage: {$*PROGRAM.basename} go | show-all-glyphs [debug]
 
     Tests use of Font::FreeType using font files:
-        $fontfile1
-        $fontfile2
-        $fontfile3
+        $font1
+        $font2
+        $font3
     as input.
     HERE
     exit
@@ -39,17 +39,17 @@ for @*ARGS {
     }
 }
 
-#++$debug if @*ARGS.shift ~~ /^:i d/;
-++$all-glyphs if @*ARGS.shift ~~ /^:i [a|s]/;
-
 say "== Getting attributes and metrics...";
 my $S = "    ";
 my $ft = Font::FreeType.new;
-my $f1 = $ft.face: $fontfile1, :load-flags(FT_LOAD_NO_HINTING);
-my $f2 = $ft.face: $fontfile2, :load-flags(FT_LOAD_NO_HINTING);
-my $f3 = $ft.face: $fontfile3, :load-flags(FT_LOAD_NO_HINTING);
+my $f1 = $ft.face: $font1, :load-flags(FT_LOAD_NO_HINTING);
+my $f2 = $ft.face: $font2, :load-flags(FT_LOAD_NO_HINTING);
+my $f3 = $ft.face: $font3, :load-flags(FT_LOAD_NO_HINTING);
 
-for $f1, $f2, $f3 -> $f {
+#for $f1, $f2, $f3 -> $f {
+for $font3, $font2, $font1 -> $ffil {
+    my $f = $ft.face: $ffil, :load-flags(FT_LOAD_NO_HINTING);
+say "    font file name: $ffil";
 say "    family-name: ", $f.family-name;
 say "    postscript-name: ", $f.postscript-name;
 

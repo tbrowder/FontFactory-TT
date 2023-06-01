@@ -88,6 +88,13 @@ LINE: for @fc-list -> $line {
     # get rid of the closing ':'
     $path ~~ s/':'$//;
 
+    # skip files without kerning
+    # get the kern capability
+    # must be scalable
+    # must be outline
+    my $f = $ft.face: $path, :load-flags(FT_LOAD_NO_HINTING);
+    next if not $f.is-scalable;
+    
     my $font = $path.IO.basename;
     if %dups{$font}:exists {
         ++$dups;
@@ -100,15 +107,14 @@ LINE: for @fc-list -> $line {
     my $dir  = $path.IO.parent;
 
     %fonts{$font}<dirs>{$dir} = 1;
-    # get the kern capability
-    # must be scalable
-    # must be outline
-    my $f = $ft.face: $path, :load-flags(FT_LOAD_NO_HINTING);
-    next if not $f.is-kern;
-    next if not $f.is-scaleble;
 
-    
-    
+    # mark fonts with kern data
+    if $f.has-kerning {
+        %fonts{$font}<has-kerning> = True;
+    }
+    else {
+        %fonts{$font}<has-kerning> = False;
+    }
 
     my $len = $font.chars;
     if $len > $maxlen {
@@ -119,12 +125,6 @@ LINE: for @fc-list -> $line {
  
 #ddt %fonts; exit;
 
-my $nf = %fonts.elems;
-if $debug {
-    say "Found $nf TrueType, OpenType, and Type 1 font files.";
-    say "Found $dups duplicate font files." if $dups;
-    say "Creating a list of unique font files...";
-}
 
 # create the home .fontfactory dir
 my $hdir = "$HOME/.fontfactory";
@@ -136,13 +136,17 @@ my $fh = open $ofil, :w;
 my $index = 0;
 my %fonts-indexed;
 my @indices;
+my $nkerning = 0;
 for %fonts.keys.sort -> $font {
     ++$index;
     my $dir = %fonts{$font}<dirs>.head.key;
     $fh.say: sprintf '%4d %s %s', $index, $font, $dir;
 
+    my $kern = %fonts{$font}<has-kerning>;
+    ++$nkerning if $kern;
+
     %fonts{$font}<index> = $index;
-    %fonts-indexed{$index} = { font => $font, dir => $dir };
+    %fonts-indexed{$index} = { font => $font, dir => $dir, has-kerning => $kern };
     @indices.push: $index;
 }
 $fh.close;
@@ -169,10 +173,12 @@ for @b -> $font {
     #my $dir   = %(%fonts{$font}<dirs>).head;
     my $dir   = %fonts{$font}<dirs>.head.key;
     my $index = %fonts{$font}<index>;
+    my $kern  = %fonts{$font}<has-kerning>;
     $fh.print: qq:to/HERE/;
         '$font' => \{ 
-            index => $index,
-              dir => '$dir',
+            index       => $index,
+              dir       => '$dir',
+            has-kerning => $kern,
         },
     HERE      
 }
@@ -188,10 +194,12 @@ HERE
 for @indices -> $index {
     my $dir   = %fonts-indexed{$index}<dir>;
     my $font  = %fonts-indexed{$index}<font>;
+    my $kern  = %fonts-indexed{$index}<has-kerning>;
     $fh.print: qq:to/HERE/;
         $index => \{ 
-            font => '$font',
-             dir => '$dir',
+                   font => '$font',
+                    dir => '$dir',
+            has-kerning => $kern,
         },
     HERE      
 }
@@ -217,6 +225,11 @@ if $dups {
 copy $ofil2, $ofil3;
 
 say "Normal end.";
+my $nf = %fonts.elems;
+say "Found $nf TrueType, OpenType, and Type 1 font files.";
+say "Found $dups duplicate font files." if $dups;
+say "Found $nkerning fonts with kerning data.";
+say "Creating a list of unique font files...";
 say "  note: max length of basenames: $maxlen";
 say "        basename:                $maxnam";
 say "See output file '$ofil'.";

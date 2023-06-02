@@ -40,7 +40,6 @@ for @*ARGS {
 }
 
 say "== Getting attributes and metrics...";
-my $S = "    ";
 my $ft = Font::FreeType.new;
 my $f1 = $ft.face: $font1, :load-flags(FT_LOAD_NO_HINTING);
 my $f2 = $ft.face: $font2, :load-flags(FT_LOAD_NO_HINTING);
@@ -97,12 +96,16 @@ if $all-glyphs {
     my @charmap;
     #my $f1 = $ft.face: $fontfile1, :load-flags(FT_LOAD_NO_HINTING);
     $f.forall-chars: :!load, :flags(FT_LOAD_NO_HINTING), -> Font::FreeType::Glyph:D $_ {
-        ++$i;
         # apparently not all chars have an outline
         my $bbox = $_.is-outline ?? $_.outline.bbox !! False;
         if $bbox {
             $bbox = $_.outline.bbox;
         }
+        else {
+            next;
+        }
+        ++$i;
+
         # get other characteristics
         my $char-code = .char-code;
         my $index     = .index;
@@ -111,7 +114,7 @@ if $all-glyphs {
         my $hex       = $char-code.base(16);
         my $decimal   = $char-code;
         my $uniname   = $char.uniname;
-
+       
         # save the map as is for now
         @charmap[$index] = $char;
 

@@ -9,7 +9,7 @@ use Font::FreeType::Glyph;
 use Font::FreeType::Outline;
 use Font::FreeType::Raw::Defs;
 
-my $font1 = "./fonts/NotoSerif-Regular.ttf";
+my $font1 = "../t/fonts/DejaVuSerif.ttf";
 my $font2 = "../t/fonts/URWBookman-Demi.otf";
 my $font3 = "../t/fonts/URWBookman-Demi.t1";
 
@@ -46,7 +46,7 @@ my $f2 = $ft.face: $font2, :load-flags(FT_LOAD_NO_HINTING);
 my $f3 = $ft.face: $font3, :load-flags(FT_LOAD_NO_HINTING);
 
 #for $f1, $f2, $f3 -> $f {
-for $font3, $font2, $font1 -> $ffil {
+for $font1, $font2, $font3 -> $ffil {
     my $f = $ft.face: $ffil, :load-flags(FT_LOAD_NO_HINTING);
 say "    font file name: $ffil";
 say "    family-name: ", $f.family-name;
@@ -68,11 +68,15 @@ say "    is-sfnt: ", $f.is-sfnt;
 say "    has-horizontal-metrics: ", $f.has-horizontal-metrics;
 say "    has-vertical-metrics: ", $f.has-vertical-metrics;
 say "    has-kerning: ", $f.has-kerning;
+
 say "    has-glyph-names: ", $f.has-glyph-names;
 say "    has-reliable-glyph-names: ", $f.has-reliable-glyph-names;
 say "    is-bold: ", $f.is-bold;
 say "    is-italic: ", $f.is-italic;
 say "    num-glyphs: ", $f.num-glyphs;
+#if $f.named-infos {
+#    say "    named-infos: ", $f.named-infos;
+#}
 
 my $text = "To Wit";
 my $size = 12.3;
@@ -135,19 +139,52 @@ if $all-glyphs {
     exit;
 }
 
+my Array $charcodes;
 $f.for-glyphs: $text, -> $g {
     say "    ==== glyph attributes =====";
     say "    glyph name '{$g.name // 'not defined'}, Str '{$g.Str}', width {$g.width}, height {$g.height}"; 
-    say "        horizontal-advance {$g.horizontal-advance}";
-    say "        left-bearing {$g.left-bearing}";
-    say "        right-bearing {$g.right-bearing}";
+    say "        index ", $g.index;
+    say "        char-code ", $g.char-code;
+    say "        char-code.ord ", $g.char-code.ord;
+    say "        text '{$text}'";;
+    say "        text.ords (ords are char-codes) ", $text.ords.raku;
+    say "        text.ords.elems ", $text.ords.elems;
+    say "        text.comb.gist ", $text.comb.gist;
 
-    say "        char-code {$g.char-code}";
-    say "        index {$g.index}";
-    say "        is-outline {$g.is-outline}";
+    if not $charcodes.defined {
+        $charcodes = $text.ords.eager.Array;
+    }
+    say "        charcodes ", $charcodes.gist;
+    my $left  = $charcodes.head;
+    my $right = $charcodes[1] // 0;
+    say "        this charcode is ", $left;
+    say "        next charcode is ", $right;
+    say "        left char  ", $left.chr;
+    say "        right char ", $right.chr !~~ /\S/ ?? $right.chr !! 'none';
 
+    $charcodes.shift if $charcodes.elems;
+
+    say "        horizontal-advance ", $g.horizontal-advance;
+    say "        left-bearing ", $g.left-bearing;
+    say "        right-bearing ", $g.right-bearing;
+    say "        is-outline ", $g.is-outline;
     my $b = $g.outline.bbox;
     say "        bbox (char BBoX): ", sprintf("%f %f %f %f", $b.x-min, $b.y-min, $b.x-max, $b.y-max);
+    # get the charmap data entries: 
+    $left = $f.glyph-name-from-index: $g.index;
+    say "        \@charmaps[\$f.charmaps[{$g.index}]\}] = $left";
+
+=begin comment
+    if $f.has-kerning and $g.next {
+        my $left  = $prev-char.Str;
+        my $right = $g.Str;
+        my $v = $f.kerning: $left, $right;
+        my $x = $v.x;
+        my $y = $v.y;
+
+        say "        kerning '$left', '$right':", sprintf("%f %f", $x, $y);
+    }
+=end comment
 } 
     last;
 }

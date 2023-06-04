@@ -1,31 +1,37 @@
 unit class FontFactory::DocFont is export;
 
 use PDF::Lite;
+use PDF::Font::Loader;
 use Font::AFM;
+use Font::FreeType;
+use Font::FreeType::Face;
+
 use FontFactory::BaseFont;
 
-constant LLX  = 0; # bbox index for left bound
-constant LLY  = 1; # bbox index for lower bound
-constant URX  = 2; # bbox index for right bound
-constant URY  = 3; # bbox index for upper bound
+my constant LLX is export = 0; # bbox index for left bound
+my constant LLY is export = 1; # bbox index for lower bound
+my constant URX is export = 2; # bbox index for right bound
+my constant URY is export = 3; # bbox index for upper bound
 
 #use Data::Dump;
 
 #| This class represents the final font object and it includes the final size
-has BaseFont $.basefont is required;
-has          $.name     is required; #= font name or alias
+has Font::FreeType::Face $.face is required;
+
+has          $.name     is required; #= font file name: dir/name.suffix
+has          $.index               ; #= font index from FontFactory::FontList
+has          $.alias               ; #= font alias from $HOME/.fontfactory/my-fonts.list
+
 has          $.size     is required; #= desired size in points
-has          $.afm      is required; #= the Font::AFM object (note the object is immutable)
-has          $.font     is required; #= the PDF::Lite font object
 # convenience attrs
-has          $.sf;                   #= scale factor for the afm attrs vs the font size
+has          $.sf;                   #= scale factor for the font object's EM.size attrs vs the font size
 
 #| calculate the scale factor
 submethod TWEAK {
-    $!sf = $!size / 1000.0;
+    $!sf = $!size / $!font.em-size;
 }
 
-# Convenience methods (and aliases) from the afm object and size.
+# Convenience methods (and aliases) from the object and size.
 
 #| Define the position of the strikethrough line as the midheight of the lower-case 'm'
 method StrikethroughPosition {

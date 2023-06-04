@@ -1,0 +1,36 @@
+=begin pod
+
+=head1 Overview of the FontFactory
+
+Upon installtion, a list of system TrueType, OpenType, and Type1 
+fonts was created
+both in an installed module, C<FontFactory::FontList>,
+and in the users directory at C<$HOME/.fontfactory/system-fonts.list>.
+
+The user can create a usable font in three different ways:
+
+=begin code
+my $ff = FontFactory.new;
+my $font1 = $ff.get-font: $name, :$size; 
+  # where '$name' is the basename of a font with or without a standard suffix
+  # $size in points (72 points per inch) 
+my $font2 = $ff.get-font: :$index, :$size;
+  # where '$index' is the index number of a system font
+my $font3 = $ff.get-font: :$alias, :$size;
+  # where '$alias' is the alias name of a system font or a user's font
+=end code
+
+Included binary programs:
+
+=begin code
+$ ff-show-system-fonts
+$ ff-find-my-fonts
+$ ff-show-my-fonts
+=end code
+
+
+
+
+
+=end pod
+

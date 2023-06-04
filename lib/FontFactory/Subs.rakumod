@@ -7,6 +7,7 @@ use FontFactory::FontList;
 use FontFactory::BaseFont;
 use FontFactory::DocFont;
 
+=begin comment
 sub show-fonts is export {
     my $max = 0;
     for %Fonts.keys -> $k {
@@ -79,3 +80,4 @@ sub select-docfont(BaseFont :$basefont!,
                  :afm($basefont.rawafm),
                  :$size;
 }
+=end comment

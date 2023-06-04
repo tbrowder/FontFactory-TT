@@ -5,7 +5,7 @@ use FontFactory::Subs;
 
 %*ENV<METRICS> = "./t/fonts";
 
-# comparing an OpenTypen and its Type 1 binary and AFM files
+# comparing an OpenType font and its Type 1 binary and AFM files
 my $basename = "URWBookman-Demi";
 my $aname = "$basename";
 my $oname = "$basename.otf";

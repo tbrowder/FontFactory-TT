@@ -1,3 +1,5 @@
+use PDF::Font::Loader;
+
 use FontFactory::Subs;
 use FontFactory::BaseFont;
 use FontFactory::DocFont;
@@ -7,14 +9,10 @@ unit class FontFactory;
 use PDF::Lite;
 use Font::AFM;
 
-
-# needed to access corefonts
+# needed to load fonts
 has PDF::Lite $.pdf; # can be provided by the caller
 
-# hash of BaseFonts keyed by their alias name
-has FontFactory::BaseFont %.basefonts;
-
-# hash of DocFonts keyed by an alias name which includes the font's size
+# hash of DocFonts keyed by an alias or index name which includes the font's size
 has FontFactory::DocFont %.docfonts;
 
 submethod TWEAK {
@@ -23,8 +21,13 @@ submethod TWEAK {
     $!pdf = PDF::Lite.new;
 }
 
-method get-font($name --> DocFont) {
-    # "name" is a key in a specific format
+multi method get-font(Str :$alias!, :$size! --> DocFont) {
+}
+
+multi method get-font(UInt :$index!, :$size! --> DocFont) {
+}
+
+multi method get-font(Str :$name!, :$size! --> DocFont) {
     my $key;
 
     # pieces required to get the docfont

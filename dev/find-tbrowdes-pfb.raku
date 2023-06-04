@@ -11,18 +11,34 @@ my $ofil = "$HOME/.fontfactory-type1/my-fonts.list";
 
 if not @*ARGS {
     print qq:to/HERE/;
-    Usage: {$*PROGRAM.basename} go [debug]
+    Usage: {$*PROGRAM.basename} go | Delete [debug]
 
     Finds .pfa, .pfb, and .afm Type 1 font files and creates a list in
     tbrowder's \$HOME in a file named 
         $ofil
         
+    If the 'Delete' mode is selected, you will be asked for confirmation.
     HERE
     exit;
 }
 
-my $debug = 0;
-++$debug if @*ARGS.head ~~ /^:i d/;
+my $Delete = 0;
+my $debug  = 0;
+++$debug if @*ARGS.head ~~ /^ d/;
+++$Delete if @*ARGS.head ~~ /^ D/;
+
+if $Delete {
+    my $res = prompt "Are you sure? (Y/n): ";
+    if $res ~~ /Y/ {
+        say "Deleting file '$ofil'...";
+        unlink $ofil;
+        exit;
+    }
+    else {
+        say "Exiting without deleting any files.";
+        exit;
+    }
+}
 
 my @fils = find :dir("/home/tbrowde/mydata/tbrowde-home"), :name(/'.' [pfa|pfb|afm] $/);
 

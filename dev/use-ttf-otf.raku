@@ -66,7 +66,7 @@ say "    has-fixed-sizes: ", $f.has-fixed-sizes; # bitmap
 say "    is-fixed-width:", $f.is-fixed-width;
 say "    is-sfnt: ", $f.is-sfnt;
 say "    has-horizontal-metrics: ", $f.has-horizontal-metrics;
-say "    has-vertical-metrics: ", $f.has-vertical-metrics;
+iisay "    has-vertical-metrics: ", $f.has-vertical-metrics;
 say "    has-kerning: ", $f.has-kerning;
 
 say "    has-glyph-names: ", $f.has-glyph-names;
@@ -142,7 +142,8 @@ if $all-glyphs {
 my Array $charcodes;
 $f.for-glyphs: $text, -> $g {
     say "    ==== glyph attributes =====";
-    say "    glyph name '{$g.name // 'not defined'}, Str '{$g.Str}', width {$g.width}, height {$g.height}"; 
+    say "    char name (Str) '{$g.Str}'  glyph name '{$g.name // 'not defined'}'"; 
+    say "        width {$g.width}, height {$g.height}"; 
     say "        index ", $g.index;
     say "        char-code ", $g.char-code;
     say "        char-code.ord ", $g.char-code.ord;
@@ -154,11 +155,11 @@ $f.for-glyphs: $text, -> $g {
     if not $charcodes.defined {
         $charcodes = $text.ords.eager.Array;
     }
-    say "        charcodes ", $charcodes.gist;
+    say "        charcodes remaining to process ", $charcodes.gist;
     my $left  = $charcodes.head;
     my $right = $charcodes[1] // 0;
     say "        this charcode is ", $left;
-    say "        next charcode is ", $right;
+    say "        next charcode is ", $right ?? $right !! 'none';
     say "        left char  ", $left.chr;
     say "        right char ", $right.chr !~~ /\S/ ?? $right.chr !! 'none';
 
@@ -170,21 +171,18 @@ $f.for-glyphs: $text, -> $g {
     say "        is-outline ", $g.is-outline;
     my $b = $g.outline.bbox;
     say "        bbox (char BBoX): ", sprintf("%f %f %f %f", $b.x-min, $b.y-min, $b.x-max, $b.y-max);
-    # get the charmap data entries: 
     $left = $f.glyph-name-from-index: $g.index;
     say "        \@charmaps[\$f.charmaps[{$g.index}]\}] = $left";
 
-=begin comment
-    if $f.has-kerning and $g.next {
-        my $left  = $prev-char.Str;
-        my $right = $g.Str;
+    if $f.has-kerning and $right {
+        $left .= Str;
+        $right .= Str;
         my $v = $f.kerning: $left, $right;
         my $x = $v.x;
         my $y = $v.y;
 
         say "        kerning '$left', '$right':", sprintf("%f %f", $x, $y);
     }
-=end comment
 } 
     last;
 }

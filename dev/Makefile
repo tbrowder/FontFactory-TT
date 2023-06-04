@@ -1,5 +1,5 @@
 #all: test0
-#all: test1
+all: test1
 #all: test2
 #all: test3
 #all: test4
@@ -13,7 +13,7 @@
 #all: test1 test2 test3 test4 test5 test6 test7 test8 test99
 #all: test0 test1 test2 test3 test4 test5 test6 test7 test8 test9 test99
 
-all: test1 test5 test99
+#all: test1 test5 test99
 
 test0:
 	(cd ..; raku -Ilib ./t/00*t)

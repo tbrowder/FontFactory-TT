@@ -118,13 +118,13 @@ I<PDF-generating> modules.  It does that by defining a font
 class that includes a specific font face and size along
 with functions emulating those found in I<Font::AFM>.
 
-=head1 AUTHOR
-
 =head1 See also
 
 =item This author's Raku module C<FontFactory::Type1>.
 
 =item David Warring's large collection of PDF Raku module at L<https://github.com/pdf-raku>.
+
+=head1 AUTHOR
 
 Tom Browder <tbrowder@acm.org>
 

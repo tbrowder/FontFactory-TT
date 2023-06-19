@@ -401,7 +401,7 @@ constant %Fonts is export = [
     },
     'LiberationMono-Bold.ttf' => {
         index       => 80,
-          dir       => '/usr/share/fonts/truetype/liberation',
+          dir       => '/usr/share/fonts/truetype/liberation2',
         has-kerning => False,
     },
     'LiberationMono-BoldItalic.ttf' => {
@@ -431,7 +431,7 @@ constant %Fonts is export = [
     },
     'LiberationSans-Italic.ttf' => {
         index       => 86,
-          dir       => '/usr/share/fonts/truetype/liberation2',
+          dir       => '/usr/share/fonts/truetype/liberation',
         has-kerning => True,
     },
     'LiberationSans-Regular.ttf' => {
@@ -466,7 +466,7 @@ constant %Fonts is export = [
     },
     'LiberationSerif-BoldItalic.ttf' => {
         index       => 93,
-          dir       => '/usr/share/fonts/truetype/liberation',
+          dir       => '/usr/share/fonts/truetype/liberation2',
         has-kerning => True,
     },
     'LiberationSerif-Italic.ttf' => {
@@ -476,7 +476,7 @@ constant %Fonts is export = [
     },
     'LiberationSerif-Regular.ttf' => {
         index       => 95,
-          dir       => '/usr/share/fonts/truetype/liberation',
+          dir       => '/usr/share/fonts/truetype/liberation2',
         has-kerning => True,
     },
     'MathJax_AMS-Regular.otf' => {
@@ -13535,7 +13535,7 @@ constant %FontAliases is export = [
     },
     80 => {
                font => 'LiberationMono-Bold.ttf',
-                dir => '/usr/share/fonts/truetype/liberation',
+                dir => '/usr/share/fonts/truetype/liberation2',
         has-kerning => False,
     },
     81 => {
@@ -13565,7 +13565,7 @@ constant %FontAliases is export = [
     },
     86 => {
                font => 'LiberationSans-Italic.ttf',
-                dir => '/usr/share/fonts/truetype/liberation2',
+                dir => '/usr/share/fonts/truetype/liberation',
         has-kerning => True,
     },
     87 => {
@@ -13600,7 +13600,7 @@ constant %FontAliases is export = [
     },
     93 => {
                font => 'LiberationSerif-BoldItalic.ttf',
-                dir => '/usr/share/fonts/truetype/liberation',
+                dir => '/usr/share/fonts/truetype/liberation2',
         has-kerning => True,
     },
     94 => {
@@ -13610,7 +13610,7 @@ constant %FontAliases is export = [
     },
     95 => {
                font => 'LiberationSerif-Regular.ttf',
-                dir => '/usr/share/fonts/truetype/liberation',
+                dir => '/usr/share/fonts/truetype/liberation2',
         has-kerning => True,
     },
     96 => {

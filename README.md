@@ -88,15 +88,15 @@ DESCRIPTION
 
 **FontFactory** is a Unicode font factory similar to `FontFactory::Type1` but using *TrueType*, *OpenType*, and *Type 1* fonts. It rovides functions to ease using Unicode fonts with *PDF-generating* modules. It does that by defining a font class that includes a specific font face and size along with functions emulating those found in *Font::AFM*.
 
-AUTHOR
-======
-
 See also
 ========
 
   * This author's Raku module `FontFactory::Type1`.
 
   * David Warring's large collection of PDF Raku module at [https://github.com/pdf-raku](https://github.com/pdf-raku).
+
+AUTHOR
+======
 
 Tom Browder <tbrowder@acm.org>
 

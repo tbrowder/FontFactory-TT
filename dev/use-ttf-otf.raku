@@ -10,9 +10,10 @@ use Font::FreeType::Outline;
 use Font::FreeType::Raw::Defs;
 
 my $font1 = "../t/fonts/DejaVuSerif.ttf";
+
+# for testing
 my $font2 = "../t/fonts/URWBookman-Demi.otf";
 my $font3 = "../t/fonts/URWBookman-Demi.t1";
-
 my $fontfilex = "../t/fonts/URWBookman-Demi.afm";
 
 if not @*ARGS {

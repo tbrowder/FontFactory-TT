@@ -47,3 +47,10 @@ test9:
 
 test99:
 	(cd ..; raku -Ilib ./t/*99*t)
+
+go:
+	(cd ..; raku -Ilib ./build/bin/find-system-fonts go)
+
+build:
+	#(cd ..; raku ./build/bin/find-system-fonts build)
+	(cd ..; mi6 build )

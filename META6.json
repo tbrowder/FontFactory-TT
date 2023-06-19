@@ -6,8 +6,10 @@
   "build-depends": [
   ],
   "depends": [
+    "Text::Utils",
     "PDF::Font::Loader",
-    "Font::FreeType"
+    "Abbreviations",
+    "Font::FreeType:ver<0.4.7>"
   ],
   "description": "blah blah blah",
   "license": "Artistic-2.0",

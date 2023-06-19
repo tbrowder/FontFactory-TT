@@ -1,5 +1,61 @@
 unit module FontFactory::Subs;
 
+# moved from /build/bin.find-system-fonts
+
+=begin code
+# alias font-name     location    notes (optional)
+  100   Blarney.ttf   ~/.fonts    my favorite serif font
+  c     Courier.otf   /some/dir   my favorite monospaced font
+  p     Pocus.ttf     /some/dir   my favorite sans serif font
+  s     Scroll.otf    /some/dir   best for Jewish calendars
+=end code
+
+sub get-my-fonts() is export {
+}
+
+sub create-or-check-my-fonts-list($hdir, :$debug) is export(:build) {
+    use Text::Utils :strip-comment;
+    my $ofil = "$hdir/my-fonts.list";
+    if $ofil.IO.e {
+        # check it for proper format
+        my @errlines;
+        LINE: for $ofil.IO.kv -> $i, $line is copy {
+            my $lnum = $i + 1;
+            # a data line OR a comment
+            $line = strip-comment $line;
+            next if $line !~~ /\S/;
+            my @data = $line.words;
+            my $n = @data.elems;
+            if @data.elems < 3 {
+                my $s = "line $lnum: has only $n fields, need at least 3";
+                @errlines.push: $s;
+                next LINE;
+            }
+            my $key      = @data.shift;
+            my $basename = @data.shift;
+            my $path     = @data.shift;
+            my $font     = "$path/$basename";
+        }
+    }
+    else {
+        # create an empty one in the correct format
+        my $fh = open $ofil, :w;
+        $fh.print: q:to/HERE/;
+        # a valid data line contains three fields (words separated by one or more spaces):
+        #   1. alias
+        #   2. font-name (with extension)
+        #   3. location (path)
+        # all data on a line after the third field are ignored
+        # blank or comment lines like this are ignored
+        HERE
+        $fh.close;
+    }
+} # end sub
+
+
+=begin comment
+
+
 use PDF::Lite;
 use Font::AFM;
 
@@ -7,7 +63,6 @@ use FontFactory::FontList;
 use FontFactory::BaseFont;
 use FontFactory::DocFont;
 
-=begin comment
 sub show-fonts is export {
     my $max = 0;
     for %Fonts.keys -> $k {

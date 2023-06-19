@@ -1,0 +1,53 @@
+#!/bin/env raku
+
+use PDF::Lite;
+
+my $size = 12;
+my $prog = $*PROGRAM.basename;
+
+if not @*ARGS {
+    print qq:to/HERE/;
+    Usage: $prog <font indices> [size=M[.N]]
+
+    Creates a PDF page with font samples with a line of text for each
+    font index number listed. Note there are two different ways of indicating the
+    fonts to be used:
+
+        List:   212,234,506
+        Range:  220-300
+
+    The default size is 12 points, but another size may be specified. For
+    example:
+
+        \$ $prog 214-216 size=10.9
+
+    HERE
+    exit;
+}
+
+my @fonts;
+my $debug = 0;
+for @*ARGS {
+    when /^ (<[\d,]>+) $/ {
+         # list
+         my $list = ~$0;
+         @fonts = $list.split: /','/;
+
+    when /^ (\d+) '-' (\d+) $/ {
+         # range
+         my $start = +$0;
+         my $end   = +$1;
+         @fonts = $start..$end.eager;
+    }
+    when /^ 'size=' (\d+ ['.' \d+? ]?) $/ {
+         $size = +$0;
+    }
+    when /^ d $/ {
+         ++$debug
+    }
+}
+
+unless @fonts.elems {
+    say "NOTE: No font indices entered...exiting.";
+    exit;
+}

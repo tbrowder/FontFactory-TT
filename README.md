@@ -16,7 +16,7 @@ use FontFactory;
 Installation
 ============
 
-First, ensure your host has the `fontconfig` and `freetype` system libraries installed. Then, before installing this module you, should add any additional desired fonts such those available as packages for your system (for example, the Google Noto fonts are available in Debian package `fonts-noto`).
+First, ensure your host has the `fontconfig` and `freetype` system libraries installed. Then, before installing this module, you should add any additional desired fonts such those available as packages for your system (for example, the Google Noto fonts are available in Debian package `fonts-noto`).
 
 To get all the Google fonts, download them in a single, 1.1 Gb file: `wget https://github.com/google/fonts/archive/main.zip`. Then, as root, move the file into the recommended directory and unpack it:
 
@@ -52,7 +52,7 @@ To use this module, you must first generate a list of all the TrueType, OpenType
 
   * /usr/local/share/fonts
 
-That search is automatically accomplished during the first installation by `zef` in its build step. The list will be stored in your `$HOME` directory as `$HOME/.fontfactory/system-fonts.list`. That file looks something like this:
+That search is automatically accomplished during the installation by `zef` in its build step. The list will be stored in your `$HOME` directory as `$HOME/.fontfactory/system-fonts.list`. That file looks something like this:
 
     # font-name location
     Blarney.ttf /usr/src/fonts/

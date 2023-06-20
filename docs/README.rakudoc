@@ -18,7 +18,7 @@ use FontFactory;
 =head1 Installation
 
 First, ensure your host has the C<fontconfig> and C<freetype> system libraries installed.
-Then, before installing this module you, should add any additional desired fonts such those available
+Then, before installing this module, you should add any additional desired fonts such those available
 as packages for your system (for example, the Google Noto fonts are available in
 Debian package C<fonts-noto>).
 
@@ -61,7 +61,7 @@ directories searched are the following:
 =item /usr/share/X11/fonts/TTF
 =item /usr/local/share/fonts
 
-That search is automatically accomplished during the first
+That search is automatically accomplished during the
 installation by C<zef> in its build step. The list will be stored in your C<$HOME>
 directory as C<$HOME/.fontfactory/system-fonts.list>.
 That file looks something like this:

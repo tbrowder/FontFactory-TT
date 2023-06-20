@@ -192,6 +192,8 @@ $fh = open $ofil2, :w;
 $fh.print: qq:to/HERE/;
 unit module FontFactory::FontList;
 
+# Created {DateTime.new: now}
+
 constant %Fonts is export = [
     # These are the TrueType, OpenType, and Type 1
     # fonts found on the local host in the publicly

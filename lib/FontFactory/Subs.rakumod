@@ -10,8 +10,32 @@ unit module FontFactory::Subs;
   s     Scroll.otf    /some/dir   best for Jewish calendars
 =end code
 
-sub get-my-fonts() is export {
-}
+sub get-my-fonts(--> Hash) is export(:get-my-fonts) {
+    use Text::Utils :strip-comment;
+
+    my $hdir = %*ENV<HOME> // '';
+    my %my-fonts;
+    if $hdir {
+        my $ifil = "$hdir/.fontfactory/my-fonts.list";
+        unless $ifil.IO.r {
+            LINE: for $ifil.IO.lines -> $line is copy {
+                $line = strip-comment $line;
+                next LINE if $line !~~ /\S/;
+                my @w = $line.words;
+                next LINE if @w.elems < 2; # give no warning
+                my $alias = @w.shift;
+                next LINE if %my-fonts{$alias}:exists;
+                my $font = @w.shift;
+                next LINE if $line !~~ /'.' ttf|otf|t1 $/;
+                next LINE unless $line.IO.r;
+                %my-fonts{$alias} = $font;
+            }
+        }
+    }
+
+    %my-fonts;
+
+} # sub get-my-fonts(--> Hash) is export(:get-my-fonts) {
 
 sub create-or-check-my-fonts-list($hdir, :$debug) is export(:build) {
     use Text::Utils :strip-comment;

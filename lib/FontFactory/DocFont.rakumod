@@ -6,8 +6,6 @@ use Font::AFM;
 use Font::FreeType;
 use Font::FreeType::Face;
 
-use FontFactory::BaseFont;
-
 my constant LLX is export = 0; # bbox index for left bound
 my constant LLY is export = 1; # bbox index for lower bound
 my constant URX is export = 2; # bbox index for right bound
@@ -28,7 +26,7 @@ has          $.sf;                   #= scale factor for the font object's EM.si
 
 #| calculate the scale factor
 submethod TWEAK {
-	$!sf = $!size / $!font.em-size;
+	#$!sf = $!size / $!font.em-size;
 }
 
 =finish

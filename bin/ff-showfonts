@@ -1,0 +1,6 @@
+#!/bin/env raku
+
+use FontFactory;
+
+my $ff = FontFactory.new;
+$ff.show-fonts;

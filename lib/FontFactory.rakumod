@@ -61,6 +61,16 @@ method get-font($key, Numeric $size --> DocFont) {
 
 method show-fonts {
     # shows public as well as user fonts
+    if %my-fonts.elems {
+        for %my-fonts.kv -> $k, $v {
+            say $v
+        }
+    }
+    if %Fonts.elems {
+        for %Fonts.keys -> $k {
+            say $k
+        }
+    }
 }
 
 # end unit class FontFactory

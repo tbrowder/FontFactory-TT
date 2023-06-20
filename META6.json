@@ -18,6 +18,7 @@
   "provides": {
     "FontFactory": "lib/FontFactory.rakumod",
     "FontFactory::DocFont": "lib/FontFactory/DocFont.rakumod",
+    "FontFactory::FontList": "lib/FontFactory/FontList.rakumod",
     "FontFactory::Subs": "lib/FontFactory/Subs.rakumod"
   },
   "resources": [

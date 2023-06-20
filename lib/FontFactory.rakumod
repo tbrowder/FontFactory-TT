@@ -62,13 +62,18 @@ method get-font($key, Numeric $size --> DocFont) {
 method show-fonts {
     # shows public as well as user fonts
     if %my-fonts.elems {
-        for %my-fonts.kv -> $k, $v {
-            say $v
+        for %my-fonts.kv -> $k, $path {
+            next if not $path.IO.r;
+            say "$k   $path";
         }
     }
-    if %Fonts.elems {
-        for %Fonts.keys -> $k {
-            say $k
+    if %FontAliases.elems {
+        for %FontAliases.keys.sort({.Numeric}) -> $k {
+            my $dir = %FontAliases{$k}<dir>;
+            my $basename = %FontAliases{$k}<font>;
+            my $path = "$dir/$$basename";
+            next if not $path.IO.r;
+            say "$k   $path";
         }
     }
 }

@@ -49,58 +49,58 @@ my $f3 = $ft.face: $font3, :load-flags(FT_LOAD_NO_HINTING);
 #for $f1, $f2, $f3 -> $f {
 for $font1, $font2, $font3 -> $ffil {
     my $f = $ft.face: $ffil, :load-flags(FT_LOAD_NO_HINTING);
-say "    font file name: $ffil";
-say "    family-name: ", $f.family-name;
-say "    postscript-name: ", $f.postscript-name;
+    say "    font file name: $ffil";
+    say "    family-name: ", $f.family-name;
+    say "    postscript-name: ", $f.postscript-name;
 
-say "    underline-position: ", $f.underline-position;
-say "    underline-thickness: ", $f.underline-thickness;
-say "    units-per-EM: ", $f.units-per-EM;
-my $fb = $f.bounding-box;
-say "    bounding-box (FontBBoX): ", sprintf("%d %d %d %d", $fb.x-min, $fb.y-min, $fb.x-max, $fb.y-max);
-say "    ascender: ", $f.ascender;
-say "    descender: ", $f.descender;
-say "    font-format: ", $f.font-format;
+    say "    underline-position: ", $f.underline-position;
+    say "    underline-thickness: ", $f.underline-thickness;
+    say "    units-per-EM: ", $f.units-per-EM;
+    my $fb = $f.bounding-box;
+    say "    bounding-box (FontBBoX): ", sprintf("%d %d %d %d", $fb.x-min, $fb.y-min, $fb.x-max, $fb.y-max);
+    say "    ascender: ", $f.ascender;
+    say "    descender: ", $f.descender;
+    say "    font-format: ", $f.font-format;
 
-say "    is-scalable: ", $f.is-scalable;
-say "    has-fixed-sizes: ", $f.has-fixed-sizes; # bitmap
-say "    is-fixed-width:", $f.is-fixed-width;
-say "    is-sfnt: ", $f.is-sfnt;
-say "    has-horizontal-metrics: ", $f.has-horizontal-metrics;
-iisay "    has-vertical-metrics: ", $f.has-vertical-metrics;
-say "    has-kerning: ", $f.has-kerning;
+    say "    is-scalable: ", $f.is-scalable;
+    say "    has-fixed-sizes: ", $f.has-fixed-sizes; # bitmap
+    say "    is-fixed-width:", $f.is-fixed-width;
+    say "    is-sfnt: ", $f.is-sfnt;
+    say "    has-horizontal-metrics: ", $f.has-horizontal-metrics;
+    say "    has-vertical-metrics: ", $f.has-vertical-metrics;
+    say "    has-kerning: ", $f.has-kerning;
 
-say "    has-glyph-names: ", $f.has-glyph-names;
-say "    has-reliable-glyph-names: ", $f.has-reliable-glyph-names;
-say "    is-bold: ", $f.is-bold;
-say "    is-italic: ", $f.is-italic;
-say "    num-glyphs: ", $f.num-glyphs;
-#if $f.named-infos {
-#    say "    named-infos: ", $f.named-infos;
-#}
+    say "    has-glyph-names: ", $f.has-glyph-names;
+    say "    has-reliable-glyph-names: ", $f.has-reliable-glyph-names;
+    say "    is-bold: ", $f.is-bold;
+    say "    is-italic: ", $f.is-italic;
+    say "    num-glyphs: ", $f.num-glyphs;
+    #if $f.named-infos {
+    #    say "    named-infos: ", $f.named-infos;
+    #}
 
-my $text = "To Wit";
-my $size = 12.3;
-say "    setting font size to $size points";
-$f.set-char-size: $size;
+    my $text = "To Wit";
+    my $size = 12.3;
+    say "    setting font size to $size points";
+    $f.set-char-size: $size;
 
-# scale factor * units-per-EM = font-size
-# thus: scale factor = font-size / units-per-EM
-my $sf = $size/$f.units-per-EM;
-say "    scale factor: ", $sf;
-say "    adjusted face values:";
-say "        underline-position: ", $sf*$f.underline-position;
-say "        underline-thickness: ", $sf*$f.underline-thickness;
-say "        bounding-box (FontBBoX): ", sprintf("%f %f %f %f", $sf*$fb.x-min, $sf*$fb.y-min, $sf*$fb.x-max, $sf*$fb.y-max);
-say "        ascender: ", $sf*$f.ascender;
-say "        descender: ", $sf*$f.descender;
+    # scale factor * units-per-EM = font-size
+    # thus: scale factor = font-size / units-per-EM
+    my $sf = $size/$f.units-per-EM;
+    say "    scale factor: ", $sf;
+    say "    adjusted face values:";
+    say "        underline-position: ", $sf*$f.underline-position;
+    say "        underline-thickness: ", $sf*$f.underline-thickness;
+    say "        bounding-box (FontBBoX): ", sprintf("%f %f %f %f", $sf*$fb.x-min, $sf*$fb.y-min, $sf*$fb.x-max, $sf*$fb.y-max);
+    say "        ascender: ", $sf*$f.ascender;
+    say "        descender: ", $sf*$f.descender;
 
-if $all-glyphs {
-    my $i = 0;
-    my $mapped = True;
-    my @charmap;
-    #my $f1 = $ft.face: $fontfile1, :load-flags(FT_LOAD_NO_HINTING);
-    $f.forall-chars: :!load, :flags(FT_LOAD_NO_HINTING), -> Font::FreeType::Glyph:D $_ {
+    if $all-glyphs {
+        my $i = 0;
+        my $mapped = True;
+        my @charmap;
+        #my $f1 = $ft.face: $fontfile1, :load-flags(FT_LOAD_NO_HINTING);
+        $f.forall-chars: :!load, :flags(FT_LOAD_NO_HINTING), -> Font::FreeType::Glyph:D $_ {
         # apparently not all chars have an outline
         my $bbox = $_.is-outline ?? $_.outline.bbox !! False;
         if $bbox {

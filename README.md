@@ -10,13 +10,20 @@ SYNOPSIS
 
 ```raku
 use FontFactory;
-...to be completed...
+my $ff = FontFactory.new;
+$ff.showfonts;
+...show first few fonts
+my $font1 = $ff.get-font: 2, 10.2; # font at index 2, set size at 10.2 points
+say $font1.name;        # OUTPUT: 
+say $font1.has-kerning; # OUTPUT: 
+say $font1.FontBBox;    # OUTPUT: 
+say $font1.path;        # OUTPUT:
 ```
 
 Installation
 ============
 
-First, ensure your host has the `fontconfig` and `freetype` system libraries installed. Then, before installing this module, you should add any additional desired fonts such those available as packages for your system (for example, the Google Noto fonts are available in Debian package `fonts-noto`).
+First, ensure your host has the `fontconfig` and `freetype` system libraries installed. (They should be automatically installed by `zef` as required modules `Font::Freetype` and `FontConfig`). Then, before installing this module, you should add any additional desired fonts such those available as packages for your system (for example, the Google Noto fonts are available in Debian package `fonts-noto`).
 
 To get all the Google fonts, download them in a single, 1.1 Gb file: `wget https://github.com/google/fonts/archive/main.zip`. Then, as root, move the file into the recommended directory and unpack it:
 

@@ -9,15 +9,21 @@ I<PDF-generating> modules.
 =head1 SYNOPSIS
 
 =begin code :lang<raku>
-
 use FontFactory;
-...to be completed...
-
+my $ff = FontFactory.new;
+$ff.showfonts;
+...show first few fonts
+my $font1 = $ff.get-font: 2, 10.2; # font at index 2, set size at 10.2 points
+say $font1.name;        # OUTPUT: 
+say $font1.has-kerning; # OUTPUT: 
+say $font1.FontBBox;    # OUTPUT: 
+say $font1.path;        # OUTPUT: 
 =end code
 
 =head1 Installation
 
 First, ensure your host has the C<fontconfig> and C<freetype> system libraries installed.
+(They should be automatically installed by C<zef> as required modules C<Font::Freetype> and C<FontConfig>).
 Then, before installing this module, you should add any additional desired fonts such those available
 as packages for your system (for example, the Google Noto fonts are available in
 Debian package C<fonts-noto>).

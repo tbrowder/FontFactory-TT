@@ -5,6 +5,7 @@ use PDF::Font::Loader;
 use Font::AFM;
 use Font::FreeType;
 use Font::FreeType::Face;
+use Font::FreeType::SizeMetrics;
 
 my constant LLX is export = 0; # bbox index for left bound
 my constant LLY is export = 1; # bbox index for lower bound

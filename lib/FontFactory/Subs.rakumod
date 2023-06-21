@@ -22,13 +22,16 @@ sub get-my-fonts(--> Hash) is export(:get-my-fonts) {
                 $line = strip-comment $line;
                 next LINE if $line !~~ /\S/;
                 my @w = $line.words;
-                next LINE if @w.elems < 2; # give no warning
+                next LINE if @w.elems < 3; # give no warning
                 my $alias = @w.shift;
                 next LINE if %my-fonts{$alias}:exists;
                 my $font = @w.shift;
-                next LINE if $line !~~ /'.' ttf|otf|t1 $/;
-                next LINE unless $line.IO.r;
-                %my-fonts{$alias} = $font;
+                next LINE if $font !~~ /'.' ttf|otf|t1 $/;
+                my $dir = @w.shift;
+                next LINE unless $dir.IO.d;
+                my $path = "$dir/$font";
+                next LINE unless $path.IO.r;
+                %my-fonts{$alias} = $path;
             }
         }
     }
@@ -57,8 +60,18 @@ sub create-or-check-my-fonts-list($hdir, :$debug) is export(:build) {
             }
             my $key      = @data.shift;
             my $basename = @data.shift;
-            my $path     = @data.shift;
-            my $font     = "$path/$basename";
+            unless $basename ~~ /:i '.' ttf|otf|t1 $/ {
+                my $s = "line $lnum: font type extension not recognized: '$basename'";
+                @errlines.push: $s;
+                next LINE;
+            }
+            my $dir      = @data.shift;
+            my $font     = "$dir/$basename";
+            unless $font.IO.r {
+                my $s = "line $lnum: font file not found: '$font'";
+                @errlines.push: $s;
+                next LINE;
+            }
         }
     }
     else {

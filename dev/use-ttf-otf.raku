@@ -123,142 +123,93 @@ for $font1, $font2, $font3 -> $ffil {
         my @charmap;
         #my $f1 = $ft.face: $fontfile1, :load-flags(FT_LOAD_NO_HINTING);
         $f.forall-chars: :!load, :flags(FT_LOAD_NO_HINTING), -> Font::FreeType::Glyph:D $_ {
-        # apparently not all chars have an outline
-        my $bbox = $_.is-outline ?? $_.outline.bbox !! False;
-        if $bbox {
-            $bbox = $_.outline.bbox;
-        }
-        else {
-            next;
-        }
-        ++$i;
+            # apparently not all chars have an outline
+            my $bbox = $_.is-outline ?? $_.outline.bbox !! False;
+            if $bbox {
+                $bbox = $_.outline.bbox;
+            }
+            else {
+                next;
+            }
+            ++$i;
 
-        # get other characteristics
-        my $char-code = .char-code;
-        my $index     = .index;
+            # get other characteristics
+            my $char-code = .char-code;
+            my $index     = .index;
 
-        my $char      = $char-code.chr;
-        my $hex       = $char-code.base(16);
-        my $decimal   = $char-code;
-        my $uniname   = $char.uniname;
+            my $char      = $char-code.chr;
+            my $hex       = $char-code.base(16);
+            my $decimal   = $char-code;
+            my $uniname   = $char.uniname;
        
-        # save the map as is for now
-        @charmap[$index] = $char;
+            # save the map as is for now
+            @charmap[$index] = $char;
 
-        =begin comment
-        # don't need this here
-        if $mapped {
-            say join("\t", 'x' ~ .char-code.base(16) ~ '[' ~ .index ~ ']',
+            =begin comment
+            # don't need this here
+            if $mapped {
+                say join("\t", 'x' ~ .char-code.base(16) ~ '[' ~ .index ~ ']',
                      '/' ~ (.name//''),
                      $char.uniname,
                      $char.raku);
+            }
+            =end comment
+            say "    x$hex   $char-code  $index  $uniname   $char";
         }
-        =end comment
-        say "    x$hex   $char-code  $index  $uniname   $char";
+
+        say "\@charmap size: ", @charmap.elems;
+        say "Exit after showing all $i glyphs...";
+
+        exit;
     }
 
-    say "\@charmap size: ", @charmap.elems;
-    say "Exit after showing all $i glyphs...";
-    exit;
-}
+    my Array $charcodes;
+    $f.for-glyphs: $text, -> $g {
+        say "    ==== glyph attributes =====";
+        say "    char name (Str) '{$g.Str}'  glyph name '{$g.name // 'not defined'}'"; 
+        say "        width {$g.width}, height {$g.height}"; 
+        say "        index ", $g.index;
+        say "        char-code ", $g.char-code;
+        say "        char-code.ord ", $g.char-code.ord;
+        say "        text '{$text}'";;
+        say "        text.ords (ords are char-codes) ", $text.ords.raku;
+        say "        text.ords.elems ", $text.ords.elems;
+        say "        text.comb.gist ", $text.comb.gist;
 
-my Array $charcodes;
-$f.for-glyphs: $text, -> $g {
-    say "    ==== glyph attributes =====";
-    say "    char name (Str) '{$g.Str}'  glyph name '{$g.name // 'not defined'}'"; 
-    say "        width {$g.width}, height {$g.height}"; 
-    say "        index ", $g.index;
-    say "        char-code ", $g.char-code;
-    say "        char-code.ord ", $g.char-code.ord;
-    say "        text '{$text}'";;
-    say "        text.ords (ords are char-codes) ", $text.ords.raku;
-    say "        text.ords.elems ", $text.ords.elems;
-    say "        text.comb.gist ", $text.comb.gist;
+        if not $charcodes.defined {
+            $charcodes = $text.ords.eager.Array;
+        }
+        say "        charcodes remaining to process ", $charcodes.gist;
+        my $left  = $charcodes.head;
+        my $right = $charcodes[1] // 0;
+        say "        this charcode is ", $left;
+        say "        next charcode is ", $right ?? $right !! 'none';
+        say "        left char  ", $left.chr;
+        say "        right char ", $right.chr !~~ /\S/ ?? $right.chr !! 'none';
 
-    if not $charcodes.defined {
-        $charcodes = $text.ords.eager.Array;
-    }
-    say "        charcodes remaining to process ", $charcodes.gist;
-    my $left  = $charcodes.head;
-    my $right = $charcodes[1] // 0;
-    say "        this charcode is ", $left;
-    say "        next charcode is ", $right ?? $right !! 'none';
-    say "        left char  ", $left.chr;
-    say "        right char ", $right.chr !~~ /\S/ ?? $right.chr !! 'none';
+        $charcodes.shift if $charcodes.elems;
 
-    $charcodes.shift if $charcodes.elems;
+        say "        horizontal-advance ", $g.horizontal-advance;
+        say "        left-bearing ", $g.left-bearing;
+        say "        right-bearing ", $g.right-bearing;
+        say "        is-outline ", $g.is-outline;
+        my $b = $g.outline.bbox;
+        say "        bbox (char BBoX): ", sprintf("%f %f %f %f", $b.x-min, $b.y-min, $b.x-max, $b.y-max);
+        $left = $f.glyph-name-from-index: $g.index;
+        say "        \@charmaps[\$f.charmaps[{$g.index}]\}] = $left";
 
-    say "        horizontal-advance ", $g.horizontal-advance;
-    say "        left-bearing ", $g.left-bearing;
-    say "        right-bearing ", $g.right-bearing;
-    say "        is-outline ", $g.is-outline;
-    my $b = $g.outline.bbox;
-    say "        bbox (char BBoX): ", sprintf("%f %f %f %f", $b.x-min, $b.y-min, $b.x-max, $b.y-max);
-    $left = $f.glyph-name-from-index: $g.index;
-    say "        \@charmaps[\$f.charmaps[{$g.index}]\}] = $left";
+        if $f.has-kerning and $right {
+            $left .= Str;
+            $right .= Str;
+            my $v = $f.kerning: $left, $right;
+            my $x = $v.x;
+            my $y = $v.y;
 
-    if $f.has-kerning and $right {
-        $left .= Str;
-        $right .= Str;
-        my $v = $f.kerning: $left, $right;
-        my $x = $v.x;
-        my $y = $v.y;
-
-        say "        kerning '$left', '$right':", sprintf("%f %f", $x, $y);
-    }
-} 
+            say "        kerning '$left', '$right':", sprintf("%f %f", $x, $y);
+        }
+    } 
+    say "Showing only the first font.";
     last;
 }
+say "Exit at the very end!";
 
-=finish
-$f.forall-glyphs: , -> $g {
-    say "glyph Str '{$g.Str}', width {$g.width}, height {$g.height}"; 
-}
-
-=finish
-say "inspecting glyphs in text: '$text'";
-for $f.glyph-images($text) {
-    my $n = .name;
-    say "char: $n";
-}
-
-=finish
-
-#!/bin/env raku
-
-use Font::FreeType;
-use Font::FreeType::Native::Types;
-
-sub MAIN(Str $filename, Str $char is copy, UInt :$bold) {
-
-    my $face = Font::FreeType.new.face($filename,
-                                       :load-flags(FT_LOAD_NO_HINTING));
-    $face.set-char-size(24, 0, 600, 600);
-
-    # Accept character codes in hex or decimal, otherwise assume it's the
-    # actual character itself.
-    $char = :16($char).chr
-        if $char ~~ /^(<xdigit>**2..*)$/;
-
-    $face.for-glyphs: $char, {
-        die "Glyph has no outline.\n" unless .is-outline;
-
-        my $outline = .glyph-image.outline;
-        $outline.bold($_) with $bold;
-        my ($xmin, $ymin, $xmax, $ymax) = $outline.Array;
-
-        # display as EPS (Encapsulated Postscript)
-        print "%\%!PS-Adobe-3.0 EPSF-3.0\n",
-        "%%Creator: $*PROGRAM-NAME\n",
-        "%%BoundingBox: $xmin $ymin $xmax $ymax\n",
-        "%%Pages: 1\n",
-        "%\%EndComments\n\n",
-        "%\%Page: 1 1\n",
-        "gsave newpath\n",
-
-        $outline.postscript,
-
-        "closepath fill grestore\n",
-        "%\%EOF\n";
-    }
-}

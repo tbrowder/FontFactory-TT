@@ -8,6 +8,7 @@ use Font::FreeType::Face;
 use Font::FreeType::Glyph;
 use Font::FreeType::Outline;
 use Font::FreeType::Raw::Defs;
+use Font::FreeType::SizeMetrics;
 
 my $font1 = "../t/fonts/DejaVuSerif.ttf";
 
@@ -82,7 +83,26 @@ for $font1, $font2, $font3 -> $ffil {
     my $text = "To Wit";
     my $size = 12.3;
     say "    setting font size to $size points";
-    $f.set-char-size: $size;
+    #$f.set-char-size: $size;
+    $f.set-char-size: 12, 12, 72, 72; #$size;
+
+    # new module with function to get the metrics
+
+    my $fm = $f.scaled-metrics;
+    say "=== new scaled metrics:";
+    # attributes of $fm:
+    say "x-scale: ", $fm.x-scale;
+    say "y-scale: ", $fm.y-scale;
+    say "x-ppem: ", $fm.x-ppem;
+    say "y-ppem: ", $fm.y-ppem;
+    say "ascender: ", $fm.ascender;
+    say "descender: ", $fm.descender;
+    say "height: ", $fm.height;
+    say "max-advance: ", $fm.max-advance;
+    say "underline-position: ", $fm.underline-position;
+    say "underline-thickness: ", $fm.underline-thickness;
+    say "bbox: ", $fm.bbox; # an array
+    say "=== end of new scaled metrics:";
 
     # scale factor * units-per-EM = font-size
     # thus: scale factor = font-size / units-per-EM
@@ -91,7 +111,9 @@ for $font1, $font2, $font3 -> $ffil {
     say "    adjusted face values:";
     say "        underline-position: ", $sf*$f.underline-position;
     say "        underline-thickness: ", $sf*$f.underline-thickness;
-    say "        bounding-box (FontBBoX): ", sprintf("%f %f %f %f", $sf*$fb.x-min, $sf*$fb.y-min, $sf*$fb.x-max, $sf*$fb.y-max);
+    say "        bounding-box (FontBBoX): ", sprintf("%f %f %f %f", 
+                                             $sf*$fb.x-min, $sf*$fb.y-min, 
+                                             $sf*$fb.x-max, $sf*$fb.y-max);
     say "        ascender: ", $sf*$f.ascender;
     say "        descender: ", $sf*$f.descender;
 

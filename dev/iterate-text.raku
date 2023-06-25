@@ -12,6 +12,7 @@ use Font::FreeType::SizeMetrics;
 
 my $ffil = "../t/fonts/DejaVuSerif.ttf";
 
+=begin comment
 # we need a class to hold glyph values
 role Layout {
     # The distance from the origin to the left
@@ -72,8 +73,11 @@ class Char does Layout {
     has $.hex;
     has $.dec;
     has $.uniname;
-
 }
+=end comment
+
+use lib <../lib>;
+use FontFactory::Classes;
 
 my $text-in = "The Piano.";
 

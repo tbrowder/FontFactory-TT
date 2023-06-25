@@ -2,52 +2,136 @@
 
 use PDF::Lite;
 
+use lib <../lib>;
+use FontFactory::FontList;
+
 my $size = 12;
 my $prog = $*PROGRAM.basename;
 
+# prep text for a sample
+my $text;
+my $s1 = 'A'..'Z';
+my $s2 = 'a'..'z';
+my $s3 = 0..9;
+my $s4 = <@#$&*()'"%-+=/;:,!?.>;
+$text ~= $_ for $s1.eager;
+$text ~= $_ for $s2.eager;
+$text ~= $_ for $s3.eager;
+$text ~= $_ for $s4.comb;
+
 if not @*ARGS {
     print qq:to/HERE/;
-    Usage: $prog <font indices> [size=M[.N]]
-
+    Usage: $prog <search pattern> [size=M[.N]] [kern] [debug]
+     
     Creates a PDF page with font samples with a line of text for each
-    font index number listed. Note there are two different ways of indicating the
-    fonts to be used:
-
+    font found. Note there are three different ways of 
+    indicating the fonts to be used:
+     
+        Name:   <search pattern>
         List:   212,234,506
         Range:  220-300
-
-    The default size is 12 points, but another size may be specified. For
-    example:
-
+     
+    The <search pattern> is a list of one or more strings, each of
+    which is required to be found in a font name (not case sensitive).
+     
+    Entering 'kern' requires the fonts found to have kerning available.
+     
+    The default size is 12 points, but another size may be specified. 
+     
+    Examples:
+     
+        \$ $prog dejavu mono
         \$ $prog 214-216 size=10.9
-
-    HERE
+     
+    HERE 
     exit;
 }
 
 my @fonts;
 my $debug = 0;
+my @pattern;
+my $require-kern  = 0;
 for @*ARGS {
     when /^ (<[\d,]>+) $/ {
          # list
          my $list = ~$0;
          @fonts = $list.split: /','/;
-
+    }
     when /^ (\d+) '-' (\d+) $/ {
          # range
          my $start = +$0;
          my $end   = +$1;
-         @fonts = $start..$end.eager;
+         @fonts = ($start..$end).eager;
     }
     when /^ 'size=' (\d+ ['.' \d+? ]?) $/ {
          $size = +$0;
     }
-    when /^ d $/ {
+    when /^:i debug $/ {
          ++$debug
+    }
+    when /^:i kern $/ {
+         ++$require-kern
+    }
+    when /^ (\S+) $/ {
+        my $term = ~$0;
+        @pattern.push: $term;
     }
 }
 
-unless @fonts.elems {
-    say "NOTE: No font indices entered...exiting.";
+unless @pattern.elems or @fonts.elems {
+    say "NOTE: No font pattern or indices entered...exiting.";
     exit;
 }
+
+if @pattern.elems {
+    # search the names
+    for %Fonts.keys -> $name {
+        my $is-found = True;
+        for @pattern -> $pattern {
+            unless $name ~~ /:i $pattern / {
+                $is-found = False;
+                last;
+            }
+        }
+        @fonts.push(%Fonts{$name}<index>) if $is-found;
+    }
+}
+
+# check all found for any required kerning
+if $require-kern {
+    my @Fonts = @fonts;
+    @fonts = [];
+    for @Fonts.sort({.Numeric}) -> $i {
+        my $kern = %FontAliases{$i}<has-kerning>;
+        if $require-kern {
+            next if not $kern;
+        }
+        @fonts.push: $i;
+    }
+}
+
+if not @fonts.elems {
+    say "NOTE: No fonts found for your search criteria...exiting.";
+    exit;
+}
+
+say "Found {@fonts.elems} fonts:";
+for @fonts.sort({.Numeric}) -> $i {
+    my $kern = %FontAliases{$i}<has-kerning>;
+    if $require-kern {
+        next if not $kern;
+    }
+    my $font = %FontAliases{$i}<font>;
+    my $dir  = %FontAliases{$i}<dir>;
+    my ($name, $type) = $font.split: '.';
+
+    my $path = "$dir/$font";
+    say "  Index: $i";
+    say "    Name:  $name";
+    say "    Type:  $type";
+    say "    Kern?  $kern";
+    say "    Path:  $path";
+}
+
+say "Font samples will be set at $size points.";
+

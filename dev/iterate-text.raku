@@ -12,9 +12,70 @@ use Font::FreeType::SizeMetrics;
 
 my $ffil = "../t/fonts/DejaVuSerif.ttf";
 
-enum GH-Type is export < T-Char T-Hex T-Dec T-Uni >;
+# we need a class to hold glyph values
+role Layout {
+    # The distance from the origin to the left
+    # edge of the glyph image. Usually positive for
+    # horizontal layouts and negative for vertical
+    # ones.
+    has $.left-bearing;
 
-my $text-in = "The quick red fox jumped over the lazy dog.";
+    # The distance from the right edge of the glyph 
+    # image to the place where the origin of the next
+    # character should be (i.e., the end of the
+    # advance width). Only applies to horizontal
+    # layouts. Usually positive.
+    has $.right-bearing;
+
+    # The distance from the origin of the current glyph
+    # to the place where the next glyph's origin should
+    # be. Only applies to horizontal layouts. Always
+    # positive, so, for right-to-left text (such as
+    # Hebrew), it should be subtracted from the current
+    # glyph's position. 
+    has $.horizontal-advance;
+
+    # The distance from the origin of the current glyph
+    # to the place where the next glyph's origin should
+    # be. Only applies to vertical layouts. Always positive.
+    has $.vertical-advance;
+
+    # The width of the glyph's outline from the left edge
+    # to the right edge.
+    has $.width; 
+
+    # The height of the glyph.
+    has $.height;
+
+    # bbox info
+    has $.llx;
+    has $.lly;
+    has $.urx;
+    has $.ury;
+}
+
+class Char does Layout {
+    # Has same attributes as the ephemeral class Glyph
+    # plus bbox info from its GlyphImage.outline.
+
+    has $.format;
+    has $.is-outline;
+
+    # The name of the glyph, if the font format supports
+    # glyph names, otherwise undef.
+    has $.name;
+
+    # The unicode character represented by the glyph.
+    has $.Str; 
+
+    has $.char-code; # same as ord (dec value)
+    has $.hex;
+    has $.dec;
+    has $.uniname;
+
+}
+
+my $text-in = "The Piano.";
 
 if not @*ARGS {
     print qq:to/HERE/;
@@ -37,13 +98,15 @@ for @*ARGS {
     when /^:i d / {
         ++$debug;
     }
-    when /^:i g / {
+    when /^:i go / {
         ; # ok
     }
     default {
         $text-in = $_;
     }
 }
+
+say "DEBUG: input text: $text-in";
 
 my $ft = Font::FreeType.new;
 my $f = $ft.face: $ffil, :load-flags(FT_LOAD_NO_HINTING);
@@ -89,10 +152,7 @@ say "    setting font size to $size points";
 $f.set-char-size: $size;
 
 # new module with function to get the metrics
-my %chars = get-glyphs $f, :type(T-Char);
-my %uni   = get-glyphs $f, :type(T-Uni);
-my %hex   = get-glyphs $f, :type(T-Hex);
-my %dec   = get-glyphs $f, :type(T-Dec);
+my %chars = get-glyphs $f;
 
 say "Processing text '$text'";
 my @chars = $text.comb;
@@ -101,9 +161,9 @@ my $i = 0;
 my $width = 0;
 for @chars.kv -> $i, $c {
     my $glyph  = %chars{$c}:exists ?? %chars{$c} !! Nil;
+    my $lchar  = $c;
     my $rchar  = @chars[$i+1] // 0;
     my $g = $glyph;
-
 
     if $g ~~ Nil {
         say "WARNING: glyph for char '$c' not found";
@@ -117,13 +177,13 @@ for @chars.kv -> $i, $c {
     say "        left-bearing ", $g.left-bearing;
     say "        right-bearing ", $g.right-bearing;
     say "        is-outline ", $g.is-outline;
-    my $b = $g.outline.bbox;
-    say "        bbox (char BBoX): ", sprintf("%f %f %f %f", $b.x-min, $b.y-min, $b.x-max, $b.y-max);
+    say "        bbox (char BBoX): ", sprintf("%f %f %f %f", 
+                                      $g.llx, $g.lly, $g.urx, $g.ury);
     if $f.has-kerning and $rchar {
-        my $v = $f.kerning: $c, $rchar;
+        my $v = $f.kerning: $lchar, $rchar;
         my $x = $v.x;
         my $y = $v.y;
-        say "        kerning x, y '$c', '$rchar':", sprintf("%f %f", $x, $y);
+        say "        kerning<x:y> '$lchar' -> '$rchar' : ", sprintf("%f %f", $x, $y);
     }
 }
 
@@ -175,24 +235,40 @@ say "        ascender: ", $sf*$f.ascender;
 say "        descender: ", $sf*$f.descender;
 =end comment
 
-sub get-glyphs(Font::FreeType::Face:D $f, :$type = T-Char, :$debug --> Hash) is export {
+sub get-glyphs(Font::FreeType::Face:D $f,  :$debug --> Hash) is export {
     my %glyphs;
-    $f.forall-chars: :!load, :flags(FT_LOAD_NO_HINTING), -> Font::FreeType::Glyph:D $glyph {
-        # various types of hash keys
 
-        my $char = $glyph.char-code.chr;
-        my $uni  = $glyph.char-code.chr.uniname;
-        my $dec  = $glyph.char-code;
-        my $hex  = $glyph.char-code.base(16);
+    $f.forall-glyphs: :!load, :flags(FT_LOAD_NO_HINTING), -> Font::FreeType::Glyph:D $g {
+        my $char = $g.char-code.chr;
+        my $uni  = $g.char-code.chr.uniname;
+        my $dec  = $g.char-code;
+        my $hex  = $g.char-code.base(16);
 
-        my $key;
-        with $type {
-            when $_ ~~ T-Char { $key = $char }
-            when $_ ~~ T-Uni  { $key = $uni  }
-            when $_ ~~ T-Dec  { $key = $dec  }
-            when $_ ~~ T-Hex  { $key = $hex  }
-        }
-        %glyphs{$key} = $glyph;
+        my $bbox = $g.outline.bbox;
+        my $llx  = $bbox.x-min;
+        my $lly  = $bbox.y-min;
+        my $urx  = $bbox.x-max;
+        my $ury  = $bbox.y-max;
+
+        %glyphs{$char} = Char.new:
+            :left-bearing($g.left-bearing),
+            :right-bearing($g.right-bearing),
+            :horizontal-advance($g.horizontal-advance),
+            :vertical-advance($g.vertical-advance),
+            :width($g.width),
+            :height($g.height),
+            :format($g.format),
+            :uniname($uni),
+            :$dec,
+            :$hex,
+            :name($g.name // 0),
+            :Str($g.Str), # unicode character
+            :is-outline($g.is-outline),
+            :$llx,
+            :$lly,
+            :$urx,
+            :$ury,
+        ;
     }
 
     %glyphs;

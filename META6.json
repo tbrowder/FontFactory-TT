@@ -9,7 +9,7 @@
     "Text::Utils",
     "PDF::Font::Loader",
     "Abbreviations",
-    "Font::FreeType:ver<0.4.7>"
+    "Font::FreeType:ver<0.4.8>"
   ],
   "description": "blah blah blah",
   "license": "Artistic-2.0",

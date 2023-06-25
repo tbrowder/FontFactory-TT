@@ -31,14 +31,30 @@ if not @*ARGS {
 }
 
 my $all-glyphs = 0;
+my $max-show   = 0;
 my $debug = 0;
 for @*ARGS {
-    when /^:i s|a / {
+    when /^:i s|a $/ {
         ++$all-glyphs;
+    }
+    when /^ 'max=' (\d+) $/ {
+        $max-show = +$0;
     }
     when /^:i d / {
         ++$debug;
     }
+    when /^:i g / {
+        ; # ok
+    }
+    default {
+        die "FATAL: Unrecognized arg '$_'";
+    }
+}
+
+if 0 and $debug {
+    say "all-glyphs = ", $all-glyphs;
+    say "max-ahow = ", $max-show;
+    say "DEBUG exit"; exit;
 }
 
 say "== Getting attributes and metrics...";
@@ -117,21 +133,15 @@ for $font1, $font2, $font3 -> $ffil {
     say "        ascender: ", $sf*$f.ascender;
     say "        descender: ", $sf*$f.descender;
 
+
     if $all-glyphs {
-        my $i = 0;
         my $mapped = True;
         my @charmap;
-        #my $f1 = $ft.face: $fontfile1, :load-flags(FT_LOAD_NO_HINTING);
+        my @chardata;
+        my $i = 0;
         $f.forall-chars: :!load, :flags(FT_LOAD_NO_HINTING), -> Font::FreeType::Glyph:D $_ {
             # apparently not all chars have an outline
             my $bbox = $_.is-outline ?? $_.outline.bbox !! False;
-            if $bbox {
-                $bbox = $_.outline.bbox;
-            }
-            else {
-                next;
-            }
-            ++$i;
 
             # get other characteristics
             my $char-code = .char-code;
@@ -153,41 +163,70 @@ for $font1, $font2, $font3 -> $ffil {
                      $char.uniname,
                      $char.raku);
             }
+            say "    x$hex   $char-code  $index  $uniname   $char";
             =end comment
             say "    x$hex   $char-code  $index  $uniname   $char";
+            my $s = "    x$hex   $char-code  $index  $uniname   $char";
+            @chardata[$i] = $s;
+            say $i if $debug;
+            ++$i;
         }
 
         say "\@charmap size: ", @charmap.elems;
-        say "Exit after showing all $i glyphs...";
+        say "\@chardata size: ", @chardata.elems;
+        if $max-show {
+            my $j = 0;
+            for @chardata -> $line {
+                say $line;
+                ++$j;
+                last if $j == $max-show;
+            }
+            say "max-show = ", $max-show;
+        }
+        =begin comment
+        else {
+            .say for @chardata;
+        }
+        =end comment
+
+        say "Exit after showing glyphs...";
 
         exit;
     }
 
+    say "Processing text '$text'";
     my Array $charcodes;
+    my Array $chars; # c
     $f.for-glyphs: $text, -> $g {
         say "    ==== glyph attributes =====";
         say "    char name (Str) '{$g.Str}'  glyph name '{$g.name // 'not defined'}'"; 
+        next if 0;
+
         say "        width {$g.width}, height {$g.height}"; 
         say "        index ", $g.index;
         say "        char-code ", $g.char-code;
         say "        char-code.ord ", $g.char-code.ord;
-        say "        text '{$text}'";;
+        say "        text '$text'";;
         say "        text.ords (ords are char-codes) ", $text.ords.raku;
         say "        text.ords.elems ", $text.ords.elems;
         say "        text.comb.gist ", $text.comb.gist;
 
         if not $charcodes.defined {
             $charcodes = $text.ords.eager.Array;
+            $chars     = $text.comb.eager.Array;
         }
         say "        charcodes remaining to process ", $charcodes.gist;
         my $left  = $charcodes.head;
         my $right = $charcodes[1] // 0;
+        my $lchar = $chars.head;
+        my $rchar = $chars[1] // 0;
         say "        this charcode is ", $left;
         say "        next charcode is ", $right ?? $right !! 'none';
-        say "        left char  ", $left.chr;
-        say "        right char ", $right.chr !~~ /\S/ ?? $right.chr !! 'none';
+        say "        left char  ", $lchar; #$left.Str;
+        say "        right char ", $rchar ?? $rchar !! 'none';
 
         $charcodes.shift if $charcodes.elems;
+        $chars.shift     if $chars.elems;
 
         say "        horizontal-advance ", $g.horizontal-advance;
         say "        left-bearing ", $g.left-bearing;
@@ -196,16 +235,17 @@ for $font1, $font2, $font3 -> $ffil {
         my $b = $g.outline.bbox;
         say "        bbox (char BBoX): ", sprintf("%f %f %f %f", $b.x-min, $b.y-min, $b.x-max, $b.y-max);
         $left = $f.glyph-name-from-index: $g.index;
-        say "        \@charmaps[\$f.charmaps[{$g.index}]\}] = $left";
+        say "        \@charmaps[\$f.charmaps[{$g.index}]] = $left";
 
-        if $f.has-kerning and $right {
-            $left .= Str;
-            $right .= Str;
-            my $v = $f.kerning: $left, $right;
-            my $x = $v.x;
-            my $y = $v.y;
+        if $f.has-kerning and $rchar {
+            #$left .= Str;
+            #$right .= Str;
+            #my $v = $f.kerning: $left.Str, $right.Str;
+            my $v = $f.kerning: $lchar, $rchar;
+            my $x = $v.x; # * $sf;
+            my $y = $v.y; # * $sf;
 
-            say "        kerning '$left', '$right':", sprintf("%f %f", $x, $y);
+            say "        kerning x, y '$lchar', '$rchar':", sprintf("%f %f", $x, $y);
         }
     } 
     say "Showing only the first font.";

@@ -54,3 +54,8 @@ go:
 build:
 	#(cd ..; raku ./build/bin/find-system-fonts build)
 	(cd ..; mi6 build )
+
+pod:
+	raku --doc=Markdown ./rakupod/para.raku > para.md
+	raku --doc=Markdown ./rakupod/item.raku > item.md
+

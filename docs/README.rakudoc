@@ -22,29 +22,20 @@ say $font1.path;        # OUTPUT:
 
 =head1 Installation
 
+=head3 Preparation
+
 First, ensure your host has the C<fontconfig> and C<freetype> system libraries installed.
-(They should be automatically installed by C<zef> as required modules C<Font::Freetype> and C<FontConfig>).
+(They should be automatically installed by C<zef> as they are prequisites for required 
+modules C<Font::Freetype> and C<FontConfig>).
 Then, before installing this module, you should add any additional desired fonts such those available
 as packages for your system (for example, the Google Noto fonts are available in
 Debian package C<fonts-noto>).
 
-To get all the Google fonts, download them in a single, 1.1 Gb
-file: C<wget https://github.com/google/fonts/archive/main.zip>. Then, as root, move
-the file into the recommended directory and unpack it:
-
-=begin code
-# mv main.zip /usr/local/share/fonts
-# cd /usr/local/share/fonts
-# unzip main.zip
-...
-# rm main.zip
-# find . -type f -exec chmod -R 644 {} \;
-# fc-cache
-=end code
-
 To get a look at how your fonts appear when printed, install the program C<fntsample> (Debian
 package name is the same) and use it with a desired font file name to get a detailed
 sample on an output PDF file. See L<https://fntsample.sourceforge.net> for details.
+
+=head3 Install with C<zef>
 
 When you are satisfied with your font collection, proceed with C<zef install FontFactory>.
 
@@ -59,16 +50,17 @@ requirements.
 =head3 System fonts
 
 To use this module, you must first generate a list of all the TrueType, 
-OpenType, and Type 1 fonts available on your system. The only 
-directories searched are the following:
+OpenType, and Type 1 fonts available on your system. 
+That is automatically accomplished during the
+installation by C<zef> in its build step. 
+The only directories searched are the following:
 
 =item /usr/share/fonts
 =item /usr/share/X11/fonts/Type1
 =item /usr/share/X11/fonts/TTF
 =item /usr/local/share/fonts
 
-That search is automatically accomplished during the
-installation by C<zef> in its build step. The list will be stored in your C<$HOME>
+The list will be stored in your C<$HOME>
 directory as C<$HOME/.fontfactory/system-fonts.list>.
 That file looks something like this:
 
@@ -112,23 +104,25 @@ Note the fields B<alias>, B<font-name>, and B<location> (parent directory) are r
 The B<alias> is some key you want to use to refer to that font. (This directory
 will be searched before the system directories and its alias will override any
 identical system font alias.)
-The B<font-name> must include the suffix ('.otf', '.ttf', or '.t1').
+The B<font-name> B<must> include the suffix ('.otf', '.ttf', or '.t1').
 The B<notes> field is optional. 
 
 =head1 DESCRIPTION
 
 B<FontFactory> is a Unicode font factory similar to C<FontFactory::Type1> but
 using I<TrueType>, I<OpenType>, and I<Type 1> fonts.
-It rovides functions to ease using Unicode fonts with
+It provides functions to ease using Unicode fonts with
 I<PDF-generating> modules.  It does that by defining a font
-class that includes a specific font face and size along
-with functions emulating those found in I<Font::AFM>.
+class (C<class Font::Factory::DocFont> that includes a specific font face and size along
+with functions emulating many of those found in C<Font::AFM>.
+
+For more details, see the public methods described in L<METHODS|/METHODS.md>.
 
 =head1 See also
 
 =item This author's Raku module C<FontFactory::Type1>.
 
-=item David Warring's large collection of PDF Raku module at L<https://github.com/pdf-raku>.
+=item David Warring's large collection of PDF Raku modules at L<https://github.com/pdf-raku>.
 
 =head1 AUTHOR
 

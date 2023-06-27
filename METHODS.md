@@ -5,7 +5,7 @@ Modern typesetting involves using text and digital typefaces (fonts) placed on a
 
 A few terms need to be explained to understand the application of digital fonts using this module as well as **Font::FreeType** which is central to it.
 
-Placing a single line of text using a font of a specific size (expressed as a hight of N points where there are 72 points per inch) involves knowledge both a single character's metrics as well as its collective metrics when gathered as a multi-glyph line.
+Placing a single line of text using a font of a specific size (expressed as a hight of N points where there are 72 points per inch) involves knowledge of both a single character's metrics as well as its collective metrics when gathered as a multi-glyph line.
 
 A glyph is a digital character in the chosen font and it has the following metric characteristics described for our use in placing the character:
 
@@ -19,7 +19,7 @@ A glyph is a digital character in the chosen font and it has the following metri
 
   * Width 
 
-    1 - The horizontal distance from a glyph's origin to the right to the point where the next glyph's origin is designed to be placed. 
+    1 - The horizontal distance from a glyph's origin to the right to the point where the next glyph's origin is designed to be placed. (Note the *FreeType Project* calls it the 'horizontal-advance'.) 
 
     2 - The same as the first definition but applied to a set of glyphs as a line of text.
 
@@ -33,9 +33,9 @@ A glyph is a digital character in the chosen font and it has the following metri
 
   * Right bearing - The `x` value of the right side of a glyph's bounding box. Note the *FreeType Project* has a different definition: the distance from the glyph's maximum `x` value to its [advance] width.
 
-  * Scale factor - A font's metrics are typically described as being in a rectangular coordinate system with a width of 1000 units. To get the equivalent of the dimensions in the chosen point size the values are multiplied by a scale factor: point size / 1000.
+  * Scale factor - A font's metrics are typically described as being in a rectangular coordinate system with a width of 1000 or more 'units'. To get the equivalent of the dimensions in the chosen point size the values are multiplied by a scale factor: point size / [number of 'units'].
 
-    For example, given a character, say 'B', in a font with a size of 12.3 points with its glyph's raw metrics width being 700 units, find the glyph's final width in points:
+    For example, given a character, say 'B', in a font with a size of 12.3 points with its glyph's raw metrics width being 700 units in a 1000-unit square, find the glyph's final width in points:
 
         scale factor = 12.3/1000 = 0.0123
         width = 0.0123 x 700 = 8.61
@@ -43,12 +43,9 @@ A glyph is a digital character in the chosen font and it has the following metri
 **class DocFont methods**
 =========================
 
-The following methods are convenience methods not found in module `???Font::AFM` but are constructed fron data therein and have been adjusted for the `DocFont` object's font size.
+The following methods are similar to those found in module `Font::AFM` but are constructed from data herein and have been adjusted for the `DocFont` object's font size.
 
 Some methods have short aliases for convenience in coding.
-
-**Methods not in ????Font::AFM**
---------------------------------
 
 ### **StrikethroughPosition**
 
@@ -113,11 +110,6 @@ Returns a list of the bounding box of the input string or the FontBBox if a stri
     method StringBBox(Str $s?, Bool :$kern --> List) {...}
 
 alias: `sbb`
-
-**Methods found in ????Font::AFM**
-----------------------------------
-
-The following methods return the data extracted from Adobe's `afm` file for the given font. The data returned by this module have the values adjusted for the `DocFont` object's font size.
 
 ### **Wx**
 
@@ -209,7 +201,7 @@ Trademark or copyright notice, if applicable.
 
 ### **Comment**
 
-Comments found in the AFM file.
+Comments found in the font file.
 
     method Comment {...}
 
@@ -242,21 +234,4 @@ Typically the y-value of the top of the lowercase 'd'.
 Typically the y-value of the bottom of the lowercase 'p'.
 
     method Descender {...}
-
-Not needed by the normal user
------------------------------
-
-The following two methods are included for completeness, but should not be needed. The author believes they should be `private` methods only used during the construction of the `???Font::AFM` class.
-
-### **kern**
-
-Kern the string. Returns an array of string segments, separated by numeric kerning distances, and the overall width of the string.
-
-    method kern($string --> List) {...}
-
-### **KernData**
-
-A two-dimensional hash containing glyphs as keys, each with a hash of kerning characters and kern widths for the top-level glyph.
-
-    method KernData(--> Hash) {...}
 

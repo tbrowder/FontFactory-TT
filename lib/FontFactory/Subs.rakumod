@@ -1,7 +1,15 @@
+use Font::FreeType;
+use Font::FreeType::Face;
+use Font::FreeType::Glyph;
+use Font::FreeType::Outline;
+use Font::FreeType::Raw::Defs;
+use Font::FreeType::SizeMetrics;
+
 unit module FontFactory::Subs;
 
-# moved from /build/bin.find-system-fonts
+use FontFactory::Classes;
 
+# moved from /build/bin.find-system-fonts
 =begin code
 # alias font-name     location    notes (optional)
   100   Blarney.ttf   ~/.fonts    my favorite serif font
@@ -9,7 +17,6 @@ unit module FontFactory::Subs;
   p     Pocus.ttf     /some/dir   my favorite sans serif font
   s     Scroll.otf    /some/dir   best for Jewish calendars
 =end code
-
 sub get-my-fonts(--> Hash) is export(:get-my-fonts) {
     use Text::Utils :strip-comment;
 
@@ -78,7 +85,8 @@ sub create-or-check-my-fonts-list($hdir, :$debug) is export(:build) {
         # create an empty one in the correct format
         my $fh = open $ofil, :w;
         $fh.print: q:to/HERE/;
-        # a valid data line contains three fields (words separated by one or more spaces):
+        # a valid data line contains three fields (words separated by one or more
+	# spaces):
         #   1. alias
         #   2. font-name (with extension)
         #   3. location (path)
@@ -89,9 +97,51 @@ sub create-or-check-my-fonts-list($hdir, :$debug) is export(:build) {
     }
 } # end sub
 
+# moved from /dev/iterate-text.raku
+sub get-glyphs(Font::FreeType::Face:D $f,  :$debug --> Hash) is export {
+    my %glyphs;
+
+    $f.forall-glyphs: :!load, :flags(FT_LOAD_NO_HINTING), -> Font::FreeType::Glyph:D $g {
+        my $char = $g.char-code.chr;
+        my $uni  = $g.char-code.chr.uniname;
+        my $dec  = $g.char-code;
+        my $hex  = $g.char-code.base(16);
+
+        my $bbox = $g.outline.bbox;
+        my $llx  = $bbox.x-min;
+        my $lly  = $bbox.y-min;
+        my $urx  = $bbox.x-max;
+        my $ury  = $bbox.y-max;
+
+        # save ALL glyph data in a Char object
+        %glyphs{$char} = Char.new(
+            :left-bearing($g.left-bearing),
+            :right-bearing($g.right-bearing),
+            :horizontal-advance($g.horizontal-advance // 0),
+            :vertical-advance($g.vertical-advance // 0),
+            :width($g.width),
+            :height($g.height),
+            :format($g.format),
+            :uniname($uni),
+            :$dec,
+            :$hex,
+            :name($g.name // 0),
+            :Str($g.Str), # unicode character
+            :is-outline($g.is-outline),
+            :$llx,
+            :$lly,
+            :$urx,
+            :$ury,
+        );
+    }
+
+    %glyphs;
+
+} # end of sub
+
+=finish
 
 =begin comment
-
 
 use PDF::Lite;
 use Font::AFM;

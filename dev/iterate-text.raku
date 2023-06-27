@@ -12,72 +12,9 @@ use Font::FreeType::SizeMetrics;
 
 my $ffil = "../t/fonts/DejaVuSerif.ttf";
 
-=begin comment
-# we need a class to hold glyph values
-role Layout {
-    # The distance from the origin to the left
-    # edge of the glyph image. Usually positive for
-    # horizontal layouts and negative for vertical
-    # ones.
-    has $.left-bearing;
-
-    # The distance from the right edge of the glyph 
-    # image to the place where the origin of the next
-    # character should be (i.e., the end of the
-    # advance width). Only applies to horizontal
-    # layouts. Usually positive.
-    has $.right-bearing;
-
-    # The distance from the origin of the current glyph
-    # to the place where the next glyph's origin should
-    # be. Only applies to horizontal layouts. Always
-    # positive, so, for right-to-left text (such as
-    # Hebrew), it should be subtracted from the current
-    # glyph's position. 
-    has $.horizontal-advance;
-
-    # The distance from the origin of the current glyph
-    # to the place where the next glyph's origin should
-    # be. Only applies to vertical layouts. Always positive.
-    has $.vertical-advance;
-
-    # The width of the glyph's outline from the left edge
-    # to the right edge.
-    has $.width; 
-
-    # The height of the glyph.
-    has $.height;
-
-    # bbox info
-    has $.llx;
-    has $.lly;
-    has $.urx;
-    has $.ury;
-}
-
-class Char does Layout {
-    # Has same attributes as the ephemeral class Glyph
-    # plus bbox info from its GlyphImage.outline.
-
-    has $.format;
-    has $.is-outline;
-
-    # The name of the glyph, if the font format supports
-    # glyph names, otherwise undef.
-    has $.name;
-
-    # The unicode character represented by the glyph.
-    has $.Str; 
-
-    has $.char-code; # same as ord (dec value)
-    has $.hex;
-    has $.dec;
-    has $.uniname;
-}
-=end comment
-
 use lib <../lib>;
 use FontFactory::Classes;
+use FontFactory::Subs;
 
 my $text-in = "The Piano.";
 
@@ -117,36 +54,36 @@ my $f = $ft.face: $ffil, :load-flags(FT_LOAD_NO_HINTING);
 my $fb = $f.bounding-box;
 
 if $debug {
-say "== Getting attributes and metrics...";
+   say "== Getting attributes and metrics...";
+   say "    font file name: $ffil";
+   say "    family-name: ", $f.family-name;
+   say "    postscript-name: ", $f.postscript-name;
 
-say "    font file name: $ffil";
-say "    family-name: ", $f.family-name;
-say "    postscript-name: ", $f.postscript-name;
+   say "    underline-position: ", $f.underline-position;
+   say "    underline-thickness: ", $f.underline-thickness;
+   say "    units-per-EM: ", $f.units-per-EM;
+   say "    bounding-box (FontBBoX): ",
+               sprintf("%d %d %d %d", $fb.x-min, $fb.y-min, $fb.x-max, $fb.y-max);
+   say "    ascender: ", $f.ascender;
+   say "    descender: ", $f.descender;
+   say "    font-format: ", $f.font-format;
 
-say "    underline-position: ", $f.underline-position;
-say "    underline-thickness: ", $f.underline-thickness;
-say "    units-per-EM: ", $f.units-per-EM;
-say "    bounding-box (FontBBoX): ", sprintf("%d %d %d %d", $fb.x-min, $fb.y-min, $fb.x-max, $fb.y-max);
-say "    ascender: ", $f.ascender;
-say "    descender: ", $f.descender;
-say "    font-format: ", $f.font-format;
+   say "    is-scalable: ", $f.is-scalable;
+   say "    has-fixed-sizes: ", $f.has-fixed-sizes; # bitmap
+   say "    is-fixed-width:", $f.is-fixed-width;
+   say "    is-sfnt: ", $f.is-sfnt;
+   say "    has-horizontal-metrics: ", $f.has-horizontal-metrics;
+   say "    has-vertical-metrics: ", $f.has-vertical-metrics;
+   say "    has-kerning: ", $f.has-kerning;
 
-say "    is-scalable: ", $f.is-scalable;
-say "    has-fixed-sizes: ", $f.has-fixed-sizes; # bitmap
-say "    is-fixed-width:", $f.is-fixed-width;
-say "    is-sfnt: ", $f.is-sfnt;
-say "    has-horizontal-metrics: ", $f.has-horizontal-metrics;
-say "    has-vertical-metrics: ", $f.has-vertical-metrics;
-say "    has-kerning: ", $f.has-kerning;
-
-say "    has-glyph-names: ", $f.has-glyph-names;
-say "    has-reliable-glyph-names: ", $f.has-reliable-glyph-names;
-say "    is-bold: ", $f.is-bold;
-say "    is-italic: ", $f.is-italic;
-say "    num-glyphs: ", $f.num-glyphs;
-#if $f.named-infos {
-#    say "    named-infos: ", $f.named-infos;
-#}
+   say "    has-glyph-names: ", $f.has-glyph-names;
+   say "    has-reliable-glyph-names: ", $f.has-reliable-glyph-names;
+   say "    is-bold: ", $f.is-bold;
+   say "    is-italic: ", $f.is-italic;
+   say "    num-glyphs: ", $f.num-glyphs;
+   #if $f.named-infos {
+   #    say "    named-infos: ", $f.named-infos;
+   #}
 }
 
 my $text = $text-in;
@@ -239,6 +176,8 @@ say "        ascender: ", $sf*$f.ascender;
 say "        descender: ", $sf*$f.descender;
 =end comment
 
+=begin comment
+# moved to /lib/FontFactory/Subs.rakumod
 sub get-glyphs(Font::FreeType::Face:D $f,  :$debug --> Hash) is export {
     my %glyphs;
 
@@ -254,11 +193,12 @@ sub get-glyphs(Font::FreeType::Face:D $f,  :$debug --> Hash) is export {
         my $urx  = $bbox.x-max;
         my $ury  = $bbox.y-max;
 
-        %glyphs{$char} = Char.new:
+        # save ALL glyph data in a Char object
+        %glyphs{$char} = Char.new(
             :left-bearing($g.left-bearing),
             :right-bearing($g.right-bearing),
-            :horizontal-advance($g.horizontal-advance),
-            :vertical-advance($g.vertical-advance),
+            :horizontal-advance($g.horizontal-advance // 0),
+            :vertical-advance($g.vertical-advance // 0),
             :width($g.width),
             :height($g.height),
             :format($g.format),
@@ -272,12 +212,13 @@ sub get-glyphs(Font::FreeType::Face:D $f,  :$debug --> Hash) is export {
             :$lly,
             :$urx,
             :$ury,
-        ;
+        );
     }
 
     %glyphs;
 
 } # end of sub
+=end comment
 
 =finish
 

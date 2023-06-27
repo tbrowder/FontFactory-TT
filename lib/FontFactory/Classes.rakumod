@@ -2,12 +2,12 @@ unit module FontFactory::Classes;
 
 role Layout is export {
     # The distance from the origin to the left
-    # edge of the glyph image. Usually positive for
+    # edge of the leftmost glyph image. Usually positive for
     # horizontal layouts and negative for vertical
     # ones.
     has $.left-bearing;
 
-    # The distance from the right edge of the glyph 
+    # The distance from the right edge of the rightmost glyph 
     # image to the place where the origin of the next
     # character should be (i.e., the end of the
     # advance width). Only applies to horizontal
@@ -27,14 +27,14 @@ role Layout is export {
     # be. Only applies to vertical layouts. Always positive.
     has $.vertical-advance;
 
-    # The width of the glyph's outline from the left edge
-    # to the right edge.
+    # The width of the set of glyphs outlines from the leftmost edge
+    # to the rightmost edge.
     has $.width; 
 
-    # The height of the glyph.
+    # The height of the glyph or highest of a set of glyphs.
     has $.height;
 
-    # bbox info
+    # Bbox info for the set of glyphs
     has $.llx;
     has $.lly;
     has $.urx;

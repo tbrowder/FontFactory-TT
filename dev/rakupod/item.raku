@@ -7,3 +7,5 @@
 
 =end item
 
+
+say $=pod;

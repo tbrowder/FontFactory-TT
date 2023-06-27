@@ -15,7 +15,7 @@ central to it.
 
 Placing a single line of text using a font of a specific size
 (expressed as a hight of N points where there are 72 points per inch)
-involves knowledge both a single character's metrics as well as its
+involves knowledge of both a single character's metrics as well as its
 collective metrics when gathered as a multi-glyph line.
 
 A glyph is a digital character in the chosen font and it has the
@@ -43,7 +43,7 @@ Width
 
 1 - The horizontal distance from a glyph's origin to the
 right to the point where the next glyph's origin is designed to be
-placed. 
+placed. (Note the I<FreeType Project> calls it the 'horizontal-advance'.) 
 
 2 - The same as the first definition but applied to a set of
 glyphs as a line of text.
@@ -62,12 +62,12 @@ glyph's maximum C<x> value to its [advance] width.
 
 =begin item
 Scale factor - A font's metrics are typically described as being in a
-rectangular coordinate system with a width of 1000 units. To get the
+rectangular coordinate system with a width of 1000 or more 'units'. To get the
 equivalent of the dimensions in the chosen point size the values are
-multiplied by a scale factor: point size / 1000.
+multiplied by a scale factor: point size / [number of 'units'].
 
 For example, given a character, say 'B', in a font with a size of 12.3
-points with its glyph's raw metrics width being 700 units, find the
+points with its glyph's raw metrics width being 700 units in a 1000-unit square, find the
 glyph's final width in points:
 
 =begin code
@@ -79,13 +79,11 @@ width = 0.0123 x 700 = 8.61
 
 =head1 B<class DocFont methods>
 
-The following methods are convenience methods not found in module
-C<???Font::AFM> but are constructed fron data therein and have been
+The following methods are similar to those found in module
+C<Font::AFM> but are constructed from data herein and have been
 adjusted for the C<DocFont> object's font size.
 
 Some methods have short aliases for convenience in coding.
-
-=head2 B<Methods not in ????Font::AFM>
 
 =head3 B<StrikethroughPosition>
 
@@ -167,12 +165,6 @@ method StringBBox(Str $s?, Bool :$kern --> List) {...}
 =end code
 
 alias: C<sbb>
-
-=head2 B<Methods found in ????Font::AFM>
-
-The following methods return the data extracted from Adobe's C<afm>
-file for the given font. The data returned by this module have the
-values adjusted for the C<DocFont> object's font size.
 
 =head3 B<Wx>
 
@@ -283,7 +275,7 @@ method Notice {...}
 
 =head3 B<Comment>
 
-Comments found in the AFM file.
+Comments found in the font file.
 =begin code
 method Comment {...}
 =end code
@@ -324,28 +316,5 @@ Typically the y-value of the bottom of the lowercase 'p'.
 =begin code
 method Descender {...}
 =end code
-
-=head2 Not needed by the normal user
-
-The following two methods are included for completeness, but should
-not be needed. The author believes they should be C<private> methods
-only used during the construction of the C<???Font::AFM> class.
-
-=head3 B<kern>
-
-Kern the string. Returns an array of string segments, separated
-by numeric kerning distances, and the overall width of the string.
-=begin code
-method kern($string --> List) {...}
-=end code
-
-=head3 B<KernData>
-
-A two-dimensional hash containing glyphs as keys, each with a hash 
-of kerning characters and kern widths for the top-level glyph.
-=begin code
-method KernData(--> Hash) {...}
-=end code
-
 
 =end pod

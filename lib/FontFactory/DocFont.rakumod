@@ -7,6 +7,8 @@ use Font::FreeType;
 use Font::FreeType::Face;
 use Font::FreeType::SizeMetrics;
 
+use FontFactory::Classes;
+
 my constant LLX is export = 0; # bbox index for left bound
 my constant LLY is export = 1; # bbox index for lower bound
 my constant URX is export = 2; # bbox index for right bound
@@ -25,9 +27,21 @@ has          $.size     is required; #= desired size in points
 # convenience attrs
 has          $.sf;                   #= scale factor for the font object's EM.size attrs vs the font size
 
+has          Char %.chars;
+
 #| calculate the scale factor
 submethod TWEAK {
-	#$!sf = $!size / $!font.em-size;
+    #$!sf = $!size / $!font.em-size;
+
+    # get the first N Char objects of a set of glyphs
+}
+
+#| Given the char-code of a character, return its Char object 
+method get-char(UInt $char-code) {
+    unless %!chars{$char-code}:exists {
+        # get it 
+    }
+    %!chars{$char-code};
 }
 
 =finish

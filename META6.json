@@ -17,6 +17,7 @@
   "perl": "6.d",
   "provides": {
     "FontFactory": "lib/FontFactory.rakumod",
+    "FontFactory::Classes": "lib/FontFactory/Classes.rakumod",
     "FontFactory::DocFont": "lib/FontFactory/DocFont.rakumod",
     "FontFactory::FontList": "lib/FontFactory/FontList.rakumod",
     "FontFactory::Subs": "lib/FontFactory/Subs.rakumod"

@@ -40,8 +40,11 @@ submethod TWEAK {
     $!sm = $!face.scaled-metrics;
     $!sf = $!size / $!face.units-per-EM;
 
+    # go completely lazy as recommended
+    =begin comment
     # get the first N Char objects of a set of glyphs
     %!chars = get-glyphs $!face;
+    =end comment
 }
 
 #| Given a character, return its Char object 

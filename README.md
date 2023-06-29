@@ -11,7 +11,7 @@ SYNOPSIS
 ```raku
 use FontFactory;
 my $ff = FontFactory.new;
-$ff.show-fonts;
+$ff.showfonts;
 ...show first few fonts
 my $font1 = $ff.get-font: 2, 10.2; # font at index 2, set size at 10.2 points
 say $font1.name;        # OUTPUT: 

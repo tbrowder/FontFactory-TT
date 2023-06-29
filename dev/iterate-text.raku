@@ -101,23 +101,27 @@ my @chars = $text.comb;
 my $i = 0;
 my $width = 0;
 for @chars.kv -> $i, $c {
-    my $glyph  = %chars{$c}:exists ?? %chars{$c} !! Nil;
+    my $glyph;
+    if %chars{$c}:exists {
+        $glyph = %chars{$c};
+    }
+    else {
+        note %chars.raku;
+        die "FATAL: no glyph found for char '$c'";
+    }
     my $lchar  = $c;
     my $rchar  = @chars[$i+1] // 0;
     my $g = $glyph;
 
-    if $g ~~ Nil {
-        say "WARNING: glyph for char '$c' not found";
-        next;
-    }
     my $w = $g.width;
     my $h = $g.height;
-    say "  char $i is '$c', its width is $w, its height is $h" if 1 or $debug;
+    say "  char $i is '$c', its width is $w, its height is $h";
 
     say "        horizontal-advance ", $g.horizontal-advance;
     say "        left-bearing ", $g.left-bearing;
     say "        right-bearing ", $g.right-bearing;
     say "        is-outline ", $g.is-outline;
+    say "        format ", $g.format;
     say "        bbox (char BBoX): ", sprintf("%f %f %f %f", 
                                       $g.llx, $g.lly, $g.urx, $g.ury);
     if $f.has-kerning and $rchar {

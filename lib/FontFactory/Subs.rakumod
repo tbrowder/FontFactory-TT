@@ -51,7 +51,7 @@ sub create-or-check-my-fonts-list($hdir, :$debug) is export(:build) {
     use Text::Utils :strip-comment;
     my $ofil = "$hdir/my-fonts.list";
     if $ofil.IO.e {
-        # check it for proper format
+        # check it for propeir format
         my @errlines;
         LINE: for $ofil.IO.kv -> $i, $line is copy {
             my $lnum = $i + 1;
@@ -98,15 +98,17 @@ sub create-or-check-my-fonts-list($hdir, :$debug) is export(:build) {
 } # end sub
 
 # moved from /dev/iterate-text.raku
-sub get-glyphs(Font::FreeType::Face:D $f,  :$debug --> Hash) is export {
+multi sub get-glyphs(Font::FreeType::Face:D $f, $text, :$debug --> Hash) is export {
     my %glyphs;
 
-    $f.forall-glyphs: :!load, :flags(FT_LOAD_NO_HINTING), -> Font::FreeType::Glyph:D $g {
+    $f.forall-glyphs: $text, :!load, :flags(FT_LOAD_NO_HINTING), -> Font::FreeType::Glyph:D $g {
+        %glyphs{$g.char-code.chr} = Char.new: $g;
+
+        =begin comment
         my $char = $g.char-code.chr;
         my $uni  = $g.char-code.chr.uniname;
         my $dec  = $g.char-code;
         my $hex  = $g.char-code.base(16);
-
         my $bbox = $g.outline.bbox;
         my $llx  = $bbox.x-min;
         my $lly  = $bbox.y-min;
@@ -114,7 +116,41 @@ sub get-glyphs(Font::FreeType::Face:D $f,  :$debug --> Hash) is export {
         my $ury  = $bbox.y-max;
 
         # save ALL glyph data in a Char object
+        # keyed by $char
         %glyphs{$char} = Char.new(
+        =end comment
+    }
+    %glyphs;
+
+} # end sub
+
+multi sub get-glyphs(Font::FreeType::Face:D $f, :$debug --> Hash) is export {
+    my %glyphs;
+
+    # get the first N
+    my $N = 300;
+    my $i = 0;
+    $f.forall-glyphs: :!load, :flags(FT_LOAD_NO_HINTING), -> Font::FreeType::Glyph:D $g {
+        %glyphs{$g.char-code.chr} = Char.new: $g;
+        ++$i;
+        last if $i >= $N;
+
+        =begin comment
+        my Char $c = Char.new: $g;
+
+        my $char = $g.char-code.chr;
+        my $uni  = $g.char-code.chr.uniname;
+        my $dec  = $g.char-code;
+        my $hex  = $g.char-code.base(16);
+        my $bbox = $g.outline.bbox;
+        my $llx  = $bbox.x-min;
+        my $lly  = $bbox.y-min;
+        my $urx  = $bbox.x-max;
+        my $ury  = $bbox.y-max;
+
+        # save ALL glyph data in a Char object
+        # keyed by $char-code
+        %glyphs{$dec} = Char.new(
             :left-bearing($g.left-bearing),
             :right-bearing($g.right-bearing),
             :horizontal-advance($g.horizontal-advance // 0),
@@ -133,6 +169,7 @@ sub get-glyphs(Font::FreeType::Face:D $f,  :$debug --> Hash) is export {
             :$urx,
             :$ury,
         );
+        =end comment
     }
 
     %glyphs;

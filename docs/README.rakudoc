@@ -11,7 +11,7 @@ I<PDF-generating> modules.
 =begin code :lang<raku>
 use FontFactory;
 my $ff = FontFactory.new;
-$ff.showfonts;
+$ff.show-fonts;
 ...show first few fonts
 my $font1 = $ff.get-font: 2, 10.2; # font at index 2, set size at 10.2 points
 say $font1.name;        # OUTPUT: 
@@ -24,10 +24,7 @@ say $font1.path;        # OUTPUT:
 
 =head3 Preparation
 
-First, ensure your host has the C<fontconfig> and C<freetype> system libraries installed.
-(They should be automatically installed by C<zef> as they are prequisites for required 
-modules C<Font::Freetype> and C<FontConfig>).
-Then, before installing this module, you should add any additional desired fonts such those available
+Before installing this module, you should add any additional desired fonts such those available
 as packages for your system (for example, the Google Noto fonts are available in
 Debian package C<fonts-noto>).
 
@@ -61,7 +58,9 @@ The only directories searched are the following:
 =item /usr/local/share/fonts
 
 The list will be stored in your C<$HOME>
+
 directory as C<$HOME/.fontfactory/system-fonts.list>.
+(An empty file will be created if it doesn't exist.)
 That file looks something like this:
 
 =begin code
@@ -72,12 +71,14 @@ Courier.otf /usr/local/fonts/
   #... more entries
 =end code
 
-Note that all instances of the same font will be listed and you can
+Note that all instances of the same font will be listed, and you can
 edit the file to delete unwanted duplicates. That list is for your
 reference and is not used by this module.
 
 If for some reason (such as adding new fonts or deleting some) you want to
-reinitialize the list, uninstall this module and reinstall it.
+reinitialize the ayatem file list, uninstall this module and reinstall it.
+The user list will not be touched, but any referenced system font 
+may have moved or have been deleted.
 
 =head3 User fonts
 

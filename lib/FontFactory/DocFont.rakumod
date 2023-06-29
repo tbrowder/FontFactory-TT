@@ -5,9 +5,11 @@ use PDF::Font::Loader;
 use Font::AFM;
 use Font::FreeType;
 use Font::FreeType::Face;
+use Font::FreeType::Raw::Defs;
 use Font::FreeType::SizeMetrics;
 
 use FontFactory::Classes;
+use FontFactory::Subs;
 
 my constant LLX is export = 0; # bbox index for left bound
 my constant LLY is export = 1; # bbox index for lower bound
@@ -20,28 +22,35 @@ my constant URY is export = 3; # bbox index for upper bound
 has Font::FreeType::Face $.face is required;
 
 has          $.name     is required; #= font file name: dir/name.suffix
+has          $.size     is required; #= desired size in points
+
+# other attrs 
+=begin comment
+# do I need these?
 has          $.index               ; #= font index from FontFactory::FontList
 has          $.alias               ; #= font alias from $HOME/.fontfactory/my-fonts.list
-
-has          $.size     is required; #= desired size in points
-# convenience attrs
+=end comment
+has          $.sm                  ; #= scaled metrics
 has          $.sf;                   #= scale factor for the font object's EM.size attrs vs the font size
+has     Char %.chars;
 
-has          Char %.chars;
-
-#| calculate the scale factor
 submethod TWEAK {
-    #$!sf = $!size / $!font.em-size;
+    $!face .= new: $!name, :load-flags(FT_LOAD_NO_HINTING);
+    $!face.set-char-size: $!size;
+    $!sm = $!face.scaled-metrics;
+    $!sf = $!size / $!face.units-per-EM;
 
     # get the first N Char objects of a set of glyphs
+    %!chars = get-glyphs $!face;
 }
 
-#| Given the char-code of a character, return its Char object 
-method get-char(UInt $char-code) {
-    unless %!chars{$char-code}:exists {
-        # get it 
+#| Given a character, return its Char object 
+method glyph(Str $char --> Char) {
+    unless %!chars{$char}:exists {
+        my Char $c = get-glyphs $!face, $char;
+        %!chars{$char} = $c;
     }
-    %!chars{$char-code};
+    %!chars{$char};
 }
 
 =finish

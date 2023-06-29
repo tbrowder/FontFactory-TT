@@ -11,7 +11,7 @@ SYNOPSIS
 ```raku
 use FontFactory;
 my $ff = FontFactory.new;
-$ff.showfonts;
+$ff.show-fonts;
 ...show first few fonts
 my $font1 = $ff.get-font: 2, 10.2; # font at index 2, set size at 10.2 points
 say $font1.name;        # OUTPUT: 
@@ -25,7 +25,7 @@ Installation
 
 ### Preparation
 
-First, ensure your host has the `fontconfig` and `freetype` system libraries installed. (They should be automatically installed by `zef` as they are prequisites for required modules `Font::Freetype` and `FontConfig`). Then, before installing this module, you should add any additional desired fonts such those available as packages for your system (for example, the Google Noto fonts are available in Debian package `fonts-noto`).
+Before installing this module, you should add any additional desired fonts such those available as packages for your system (for example, the Google Noto fonts are available in Debian package `fonts-noto`).
 
 To get a look at how your fonts appear when printed, install the program `fntsample` (Debian package name is the same) and use it with a desired font file name to get a detailed sample on an output PDF file. See [https://fntsample.sourceforge.net](https://fntsample.sourceforge.net) for details.
 
@@ -53,7 +53,9 @@ To use this module, you must first generate a list of all the TrueType, OpenType
 
   * /usr/local/share/fonts
 
-The list will be stored in your `$HOME` directory as `$HOME/.fontfactory/system-fonts.list`. That file looks something like this:
+The list will be stored in your `$HOME`
+
+directory as `$HOME/.fontfactory/system-fonts.list`. (An empty file will be created if it doesn't exist.) That file looks something like this:
 
     # font-name location
     Blarney.ttf /usr/src/fonts/
@@ -61,9 +63,9 @@ The list will be stored in your `$HOME` directory as `$HOME/.fontfactory/system-
     Courier.otf /usr/local/fonts/
       #... more entries
 
-Note that all instances of the same font will be listed and you can edit the file to delete unwanted duplicates. That list is for your reference and is not used by this module.
+Note that all instances of the same font will be listed, and you can edit the file to delete unwanted duplicates. That list is for your reference and is not used by this module.
 
-If for some reason (such as adding new fonts or deleting some) you want to reinitialize the list, uninstall this module and reinstall it.
+If for some reason (such as adding new fonts or deleting some) you want to reinitialize the ayatem file list, uninstall this module and reinstall it. The user list will not be touched, but any referenced system font may have moved or have been deleted.
 
 ### User fonts
 

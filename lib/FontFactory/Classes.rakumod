@@ -1,6 +1,7 @@
 unit module FontFactory::Classes;
 
 role Layout is export {
+
     # The distance from the origin to the left
     # edge of the leftmost glyph image. Usually positive for
     # horizontal layouts and negative for vertical
@@ -45,8 +46,12 @@ class Char does Layout is export {
     # Has same attributes as the ephemeral class Glyph
     # plus bbox info from its GlyphImage.outline.
 
-    has $.format;
-    has $.is-outline;
+    use Font::FreeType;
+    use Font::FreeType::Face;
+    use Font::FreeType::Glyph;
+    use Font::FreeType::Outline;
+    use Font::FreeType::Raw::Defs;
+    use Font::FreeType::SizeMetrics;
 
     # The name of the glyph, if the font format supports
     # glyph names, otherwise undef.
@@ -59,6 +64,57 @@ class Char does Layout is export {
     has $.hex;
     has $.dec;
     has $.uniname;
+    has $.is-outline;
+    has $.format;
+
+    has $.char-width;
+    has $.char-height;
+
+    
+    method new(Font::FreeType::Glyph $g) {
+        self.bless(
+            :char($g.char-code.chr),
+
+            # synonyms
+            :char-code($g.char-code),
+            :ord($g.char-code),
+            :dec($g.char-code),
+
+            :hex($g.char-code.base(16)),
+
+            :uniname($g.char-code.chr.uniname),
+
+            :llx($g.outline.bbox.x-min),
+            :lly($g.outline.bbox.y-min),
+            :urx($g.outline.bbox.x-max),
+            :ury($g.outline.bbox.y-max),
+
+            :left-bearing($g.left-bearing),
+            :right-bearing($g.right-bearing),
+
+            # note width name we use here IS the same as Adobe uses
+            :width($g.horizontal-advance // 0),
+            :horizontal-advance($g.horizontal-advance // 0),
+
+            :vertical-advance($g.vertical-advance // 0),
+            :char-width($g.width),
+            :char-height($g.height),
+            :height($g.height),
+
+            :format($g.format),
+            :is-outline($g.is-outline),
+            =begin comment
+            :($g.),
+            :($g.),
+            :($g.),
+            :($g.),
+            :($g.),
+            :($g.),
+            :($g.),
+            :($g.),
+            =end comment
+        )
+    }
 }
 
 class Word does Layout is export {

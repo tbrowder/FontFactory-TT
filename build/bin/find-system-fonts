@@ -100,7 +100,6 @@ LINE: for @fc-list -> $line {
     # get rid of the closing ':'
     $path ~~ s/':'$//;
 
-    # skip files without kerning
     # get the kern capability
     # must be scalable
     # must be outline

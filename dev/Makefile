@@ -1,4 +1,4 @@
-all: test0
+#all: test0
 #all: test1
 #all: test2
 #all: test3
@@ -13,7 +13,7 @@ all: test0
 #all: test1 test2 test3 test4 test5 test6 test7 test8 test99
 #all: test0 test1 test2 test3 test4 test5 test6 test7 test8 test9 test99
 
-#all: test1 test5 test99
+#all: test0 textxt
 
 test0:
 	(cd ..; raku -Ilib ./t/00*basi*t ; raku -Ilib ./t/*00*load*t )
@@ -47,6 +47,9 @@ test9:
 
 test99:
 	(cd ..; raku -Ilib ./t/*99*t)
+
+testxt:
+	(cd ..; raku -Ilib ./xt/*t)
 
 go:
 	(cd ..; raku -Ilib ./build/bin/find-system-fonts go)

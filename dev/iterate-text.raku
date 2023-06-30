@@ -113,11 +113,12 @@ for @chars.kv -> $i, $c {
     my $rchar  = @chars[$i+1] // 0;
     my $g = $glyph;
 
+    my $cw = $g.char-width;
     my $w = $g.width;
     my $h = $g.height;
-    say "  char $i is '$c', its width is $w, its height is $h";
+    say "  char $i is '$c', its char width is $cw, its height is $h";
 
-    say "        horizontal-advance ", $g.horizontal-advance;
+    say "        horizontal-advance (Adobe width) ", $g.horizontal-advance;
     say "        left-bearing ", $g.left-bearing;
     say "        right-bearing ", $g.right-bearing;
     say "        is-outline ", $g.is-outline;

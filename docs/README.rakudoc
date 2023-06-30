@@ -58,27 +58,23 @@ The only directories searched are the following:
 =item /usr/local/share/fonts
 
 The list will be stored in your C<$HOME>
-
 directory as C<$HOME/.fontfactory/system-fonts.list>.
-(An empty file will be created if it doesn't exist.)
 That file looks something like this:
 
 =begin code
-# font-name location
-Blarney.ttf /usr/src/fonts/
+# font-index font-name location has-kerning?
+2 Blarney.ttf /usr/src/fonts/ KERN
   #... more entries
-Courier.otf /usr/local/fonts/
+243 Courier.otf /usr/local/fonts/
   #... more entries
 =end code
 
-Note that all instances of the same font will be listed, and you can
-edit the file to delete unwanted duplicates. That list is for your
-reference and is not used by this module.
-
-If for some reason (such as adding new fonts or deleting some) you want to
-reinitialize the ayatem file list, uninstall this module and reinstall it.
-The user list will not be touched, but any referenced system font 
-may have moved or have been deleted.
+Note that there may be multiple instances of the same font on your system
+but only one will be listed. This module uses that file, but you can regenerate
+it at any time by running C<ff-find-fonts>. You may delete any font entries
+but do not change the format of the first three fields of remaing data lines. Comments
+starting with a C<#> are allowed and ignored from there to the end of the
+line.
 
 =head3 User fonts
 
@@ -95,7 +91,7 @@ The file should look something like this:
 #   3. location (path)
 # all data on a line after the third field are ignored
 # blank or comment lines like this are ignored
-  100   Blarney.ttf   ~/.fonts    my favorite serif font
+  100   Blarney.ttf   ~/.fonts    kerning my favorite serif font
   c     Courier.otf   /some/dir   my favorite monospaced font
   p     Pocus.ttf     /some/dir   my favorite sans serif font
   s     Scroll.otf    /some/dir   best for Jewish calendars
@@ -103,7 +99,7 @@ The file should look something like this:
 
 Note the fields B<alias>, B<font-name>, and B<location> (parent directory) are required. 
 The B<alias> is some key you want to use to refer to that font. (This directory
-will be searched before the system directories and its alias will override any
+will be searched before the system fonts list and its alias will override any
 identical system font alias.)
 The B<font-name> B<must> include the suffix ('.otf', '.ttf', or '.t1').
 The B<notes> field is optional. 

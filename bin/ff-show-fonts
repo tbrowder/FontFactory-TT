@@ -2,7 +2,6 @@
 use PDF::Lite;
 use lib <../lib>;
 use FontFactory;
-use FontFactory::FontList;
 
 my $ff = FontFactory.new;
 $ff.show-fonts

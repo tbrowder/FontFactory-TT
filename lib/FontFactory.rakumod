@@ -1,7 +1,6 @@
 use PDF::Font::Loader;
 
 use FontFactory::DocFont;
-use FontFactory::FontList;
 
 unit class FontFactory;
 
@@ -29,6 +28,7 @@ submethod TWEAK {
 }
 
 method get-font($key, Numeric $size --> DocFont) {
+    use FontFactory::FontList;
     # first search my-fonts
     my ($dir, $basename, $has-kerning, $path);
     if %my-fonts{$key}:exists {

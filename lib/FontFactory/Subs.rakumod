@@ -183,7 +183,7 @@ multi sub get-glyphs(Font::FreeType::Face:D $f, :$debug --> Hash) is export {
 use PDF::Lite;
 use Font::AFM;
 
-use FontFactory::FontList;
+use#FontFactory::FontList;
 use FontFactory::BaseFont;
 use FontFactory::DocFont;
 

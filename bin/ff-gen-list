@@ -15,17 +15,13 @@ my $HOME = %*ENV<HOME> // '.';
 my $pdir = $*CWD; #.IO.parent;
 #say "DEBUG: parent dir is: $pdir"; exit;
 
-#use lib "$pdir/lib";
-#use FontFactory::Subs;
 
 my $ofil  = "$HOME/.fontfactory/system-fonts.list";
 # not touched unless it doesn't exist:
 my $ofil6 = "$HOME/.fontfactory/my-fonts.list";
-my $ofil2 = "$pdir/lib/FontFactory/FontList.rakumod";
 
 # the following files are for development and are not generated
 # if the 'build' mode is selected
-my $ofil3 = "$pdir/dev/FontList.rakumod";
 my $ofil4 = "$pdir/dev/system-fonts.list";
 my $ofil5 = "$pdir/dev/system-fonts-dups.list";
 my $ofil7 = "$pdir/dev/fntsample-fonts.list";
@@ -37,8 +33,6 @@ if not @*ARGS {
     Finds TrueType, OpenType, and Type 1 font files and creates a list in
       a user's \$HOME in a file named
         $ofil
-      and three unique hashes in file
-        $ofil2
 
     Creates the following empty file if it doesn't exist
         $ofil6

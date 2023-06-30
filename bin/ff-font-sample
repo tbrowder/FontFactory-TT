@@ -1,7 +1,6 @@
 #!/bin/env raku
 use PDF::Lite;
 use lib <../lib>;
-use FontFactory::FontList;
 
 my $size = 12;
 my $prog = $*PROGRAM.basename;

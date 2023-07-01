@@ -9,39 +9,52 @@ use Font::FreeType;
 use Font::FreeType::Face;
 use Font::FreeType::Raw::Defs;
 
+use lib <../lib>;
 use FontFactory::Subs :build;
 
 my $HOME = %*ENV<HOME> // '.';
-my $pdir = $*CWD; #.IO.parent;
-#say "DEBUG: parent dir is: $pdir"; exit;
-
+my $pdir; # repo dir
+my $cdir = $*CWD;
+if $cdir ~~ /[bin|dev]$/ {
+    $pdir = $cdir.parent;
+}
+elsif $cdir ~~ /Factory ['.git']? $/ {
+    $pdir = '.';
+}
+else {
+    die "FATAL: Unexpected parent directory '$pdir'";
+}
 
 my $ofil  = "$HOME/.fontfactory/system-fonts.list";
-# not touched unless it doesn't exist:
-my $ofil6 = "$HOME/.fontfactory/my-fonts.list";
+# created as an empty file if it doesn't exist, checked
+# if it does:
+my $ofil2 = "$HOME/.fontfactory/my-fonts.list";
 
 # the following files are for development and are not generated
-# if the 'build' mode is selected
-my $ofil4 = "$pdir/dev/system-fonts.list";
-my $ofil5 = "$pdir/dev/system-fonts-dups.list";
-my $ofil7 = "$pdir/dev/fntsample-fonts.list";
+# if the 'build' mode is selected (unless 'debug' is selected)
+my $ofil3 = "$pdir/dev/system-fonts.list";
+my $ofil4 = "$pdir/dev/system-fonts-dups.list";
+my $ofil5 = "$pdir/dev/fntsample-fonts.list";
 
 if not @*ARGS {
     print qq:to/HERE/;
-    Usage: {$*PROGRAM.basename} go | debug | build
+    Usage: {$*PROGRAM.basename} go | build [debug]
 
     Finds TrueType, OpenType, and Type 1 font files and creates a list in
-      a user's \$HOME in a file named
-        $ofil
+    a user's \$HOME in a new file (an old one is overwritten) named
 
-    Creates the following empty file if it doesn't exist
-        $ofil6
+        \$HOME/.fontfactory/system-fonts.list # any existing file is overwritten
+
+    Creates the following empty file if it doesn't exist (checks it if it
+    does):
+
+        \$HOME/.fontfactory/my-fonts.list
 
     If the build mode is not used, other files generated are
-        $ofil3
-        $ofil4
-        $ofil5
-        $ofil7
+
+        \$REPODIR/dev/system-fonts.list 
+        \$REPODIR/dev/system-fonts-dups.list
+        \$REPODIR/dev/fntsample-fonts.list
 
     HERE
     exit;
@@ -49,22 +62,36 @@ if not @*ARGS {
 
 my $debug = 0;
 my $build = 0;
-++$debug if @*ARGS.head ~~ /^:i d/;
-++$build if @*ARGS.head ~~ /^:i build/;
+for @*ARGS {
+    when /^:i d/ {
+        ++$debug;
+    }
+    when /^:i g/ { 
+        ; # ok
+    }
+    when /^:i build/ {
+        ++$build;
+    }
+}
+
+if 0 and $debug {
+    say "DEBUG: parent dir is: '$pdir'"; 
+    exit;
+}
 
 # get the list using binary fc-list from package fontconfig
 my $exe     = "fc-list";
 my $res     = cmd $exe;
 my @fc-list = $res.out.lines;
 
-if $debug {
+if 0 and $debug {
     .say for @fc-list;
     say "Found {@fc-list.elems} fc-list files";
     say "Debug: dumping fc-list after collecting the list. Early exit";
     exit;
 }
 
-my %fonts; # hash to hold fonts keyed by basename (eliminate extensions !~~ /'.' [otf|ttf|t1]
+my %fonts; # hash to hold fonts keyed by basename (keep suffix to show type)
 my $dups   = 0;
 my %dups;
 my $maxlen = 0;
@@ -96,7 +123,6 @@ LINE: for @fc-list -> $line {
 
     # get the kern capability
     # must be scalable
-    # must be outline
     my $f = $ft.face: $path, :load-flags(FT_LOAD_NO_HINTING);
     next if not $f.is-scalable;
 
@@ -130,14 +156,13 @@ LINE: for @fc-list -> $line {
 
 #ddt %fonts; exit;
 
-# create the home .fontfactory dir
+# create the home .fontfactory dir if need be
 my $hdir = "$HOME/.fontfactory";
-unless $hdir.IO.d {
-    mkdir $hdir;
-}
+unless $hdir.IO.d { mkdir $hdir; }
+
 # create the home .fontfactory/my-fonts.list if it doesn't exist
 # throw if it's not in the correct format
-create-or-check-my-fonts-list $hdir;
+check-my-fonts-list $hdir;
 
 if 0 and $debug {
     # get abbreviations of the system fonts
@@ -156,6 +181,7 @@ if 0 and $debug {
     say "DEBUG exit"; exit;
 }
 
+# Create the "$HOME/.fontfactory/system-fonts.list" file
 my $fh = open $ofil, :w;
 my $index = 0;
 my %fonts-indexed;
@@ -164,77 +190,28 @@ my $nkerning = 0;
 for %fonts.keys.sort -> $font {
     ++$index;
     my $dir = %fonts{$font}<dirs>.head.key;
-    $fh.say: sprintf '%4d %s %s', $index, $font, $dir;
-
     my $kern = %fonts{$font}<has-kerning>;
-    ++$nkerning if $kern;
 
+    if $kern {
+        $fh.say: sprintf '%4d %s %s HAS-KERNING', $index, $font, $dir;
+    }
+    else {
+        $fh.say: sprintf '%4d %s %s', $index, $font, $dir;
+    }
+
+
+    ++$nkerning if $kern;
     %fonts{$font}<index> = $index;
     %fonts-indexed{$index} = { font => $font, dir => $dir, has-kerning => $kern };
     @indices.push: $index;
 }
 $fh.close;
-
-if $debug {
-    say "Creating a hash for FontFactory::FontList use...";
-}
-
-$fh = open $ofil2, :w;
-
-# write the constant, top part
-$fh.print: qq:to/HERE/;
-unit module FontFactory::FontList;
-
-# Created {DateTime.new: now}
-
-constant %Fonts is export = [
-    # These are the TrueType, OpenType, and Type 1
-    # fonts found on the local host in the publicly
-    # available standard font directories.
-HERE
-
-my @b = %fonts.keys.sort;
-# write the variable, middle part
-for @b -> $font {
-    my $dir   = %fonts{$font}<dirs>.head.key;
-    my $index = %fonts{$font}<index>;
-    my $kern  = %fonts{$font}<has-kerning>;
-    $fh.print: qq:to/HERE/;
-        '$font' => \{
-            index       => $index,
-              dir       => '$dir',
-            has-kerning => $kern,
-        },
-    HERE
-}
-
-# write the constant, end part
-$fh.print: qq:to/HERE/;
-];
-
-# Invert the hash and have short names (aliases) as keys
-constant %FontAliases is export = [
-HERE
-# write the variable, middle part
-for @indices -> $index {
-    my $dir   = %fonts-indexed{$index}<dir>;
-    my $font  = %fonts-indexed{$index}<font>;
-    my $kern  = %fonts-indexed{$index}<has-kerning>;
-    $fh.print: qq:to/HERE/;
-        $index => \{
-                   font => '$font',
-                    dir => '$dir',
-            has-kerning => $kern,
-        },
-    HERE
-}
-$fh.say: '];';
-$fh.close;
+# end creating the "$HOME/.fontfactory/system-fonts.list" file
 
 exit if $build;
 
 if $dups {
-    $fh = open $ofil5, :w;
+    $fh = open $ofil4, :w;
     for %fonts.keys.sort -> $font {
         if %fonts{$font}<dirs>.elems > 1 {
             $fh.say: $font;
@@ -247,7 +224,7 @@ if $dups {
 }
 
 # write a detailed font list for the developer
-$fh = open $ofil4, :w;
+$fh = open $ofil3, :w;
 $index = 0;
 for %fonts.keys.sort -> $font {
     ++$index;
@@ -257,15 +234,12 @@ for %fonts.keys.sort -> $font {
 $fh.close;
 
 # write a plain font path list for use by 'fntsample'
-$fh = open $ofil7, :w;
+$fh = open $ofil5, :w;
 for %fonts.keys.sort -> $font {
     my $dir = %fonts{$font}<dirs>.head.key;
     $fh.say: "$dir/$font";
 }
 $fh.close;
-
-# copy rakumod to the dev dir
-copy $ofil2, $ofil3;
 
 say "Normal end.";
 my $nf = %fonts.elems;
@@ -276,60 +250,8 @@ say "Creating a list of unique font files...";
 say "  note: max length of basenames: $maxlen";
 say "        basename:                $maxnam";
 say "See output file '$ofil'.";
-say "See output file '$ofil2'.";
 say "See output file '$ofil3'.";
-say "See output file '$ofil4'.";
 if $dups {
-    say "See output file '$ofil5'.";
+    say "See output file '$ofil4'.";
 }
-say "See output file '$ofil7'.";
-
-=begin comment
-# moved to FontFactory::Subs
-# subroutines
-# format:
-#=begin code
-# alias font-name     location    notes (optional)
-#  100   Blarney.ttf   ~/.fonts    my favorite serif font
-#  c     Courier.otf   /some/dir   my favorite monospaced font
-#  p     Pocus.ttf     /some/dir   my favorite sans serif font
-#  s     Scroll.otf    /some/dir   best for Jewish calendars
-#=end code
-sub create-or-check-my-fonts-list($hdir, :$debug) {
-    my $ofil = "$hdir/my-fonts.list";
-    if $ofil.IO.e {
-        # check it for proper format
-        my @errlines;
-        for $ofil.IO.kv -> $i, $line is copy {
-            my $lnum = $i + 1;
-            # a data line OR a comment
-            $line = strip-comment $line;
-            next if $line !~~ /\S/;
-            my @data = $line.words;
-            my $n = @data.elems;
-            if @data.elems < 3 {
-                my $s = "line $lnum: has only $n fields, need at least 3";
-                @errlines.push: $s;
-                next LINE;
-            }
-            my $key      = @data.shift;
-            my $basename = @data.shift;
-            my $path     = @data.shift;
-            my $font     = "$path/$basename";
-        }
-    }
-    else {
-        # create an empty one in the correct format
-        my $fh = open $ofil, :w;
-        $fh.print: q:to/HERE/;
-        # a valid data line contains three fields (words separated by one or more spaces):
-        #   1. alias
-        #   2. font-name (with extension)
-        #   3. location (path)
-        # all data on a line after the third field are ignored
-        # blank or comment lines like this are ignored
-        HERE
-        $fh.close;
-    }
-} # end sub
-=end comment
+say "See output file '$ofil5'.";

@@ -47,9 +47,12 @@ sub get-my-fonts(--> Hash) is export(:get-my-fonts) {
 
 } # sub get-my-fonts(--> Hash) is export(:get-my-fonts) {
 
-sub create-or-check-my-fonts-list($hdir, :$debug) is export(:build) {
+sub check-my-fonts-list($homedir, :$debug) is export(:build) {
+    # Creates it if it doesn't exist
+    die "FATAL: No such \$HOME ($homedir)" if not $homedir.IO.d;
+
     use Text::Utils :strip-comment;
-    my $ofil = "$hdir/my-fonts.list";
+    my $ofil = "$homedir/my-fonts.list";
     if $ofil.IO.e {
         # check it for propeir format
         my @errlines;

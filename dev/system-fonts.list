@@ -121,9 +121,9 @@
  121 LeagueSpartan-Regular.otf /usr/share/fonts/opentype/league-spartan
  122 LeagueSpartan-SemiBold.otf /usr/share/fonts/opentype/league-spartan
  123 LiberationMono-Bold.ttf /usr/share/fonts/truetype/liberation
- 124 LiberationMono-BoldItalic.ttf /usr/share/fonts/truetype/liberation
- 125 LiberationMono-Italic.ttf /usr/share/fonts/truetype/liberation2
- 126 LiberationMono-Regular.ttf /usr/share/fonts/truetype/liberation2
+ 124 LiberationMono-BoldItalic.ttf /usr/share/fonts/truetype/liberation2
+ 125 LiberationMono-Italic.ttf /usr/share/fonts/truetype/liberation
+ 126 LiberationMono-Regular.ttf /usr/share/fonts/truetype/liberation
  127 LiberationSans-Bold.ttf /usr/share/fonts/truetype/liberation2
  128 LiberationSans-BoldItalic.ttf /usr/share/fonts/truetype/liberation2
  129 LiberationSans-Italic.ttf /usr/share/fonts/truetype/liberation

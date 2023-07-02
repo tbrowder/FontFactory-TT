@@ -4,6 +4,7 @@ use Text::Utils :strip-comment;
 unit class FontFactory;
 
 use FontFactory::DocFont;
+use FontFactory::Subs;
 
 use PDF::Lite;
 use Font::AFM;
@@ -11,16 +12,23 @@ use Font::AFM;
 # needed to load fonts
 has PDF::Lite $.pdf; # can be provided by the caller
 
-# hash of DocFonts, keyed by a user-supplied name,
-# which includes the font's size
+# hash of DocFonts, keyed by a user-supplied name, which includes the
+# font's size
 has FontFactory::DocFont %.docfonts;
 
-my %my-fonts; 
+# hash of fonts and location, etc.
+# hash layout
+# key (alias) => path (dir/basename)
+#             => has-kerning
+
+has %.my-fonts;
+has %.system-fonts;
+
 submethod TWEAK {
 
-#    use FontFactory::Subs :get-my-fonts;
-#    # read the user's my-fonts.list
-#    %my-fonts = get-my-fonts; 
+    # use FontFactory::Subs :get-*-fonts;
+    %!my-fonts     = get-my-fonts;
+    %!system-fonts = get-system-fonts;
 
     # finally:
 
@@ -30,37 +38,52 @@ submethod TWEAK {
 }
 
 method get-font($key, Numeric $size --> DocFont) {
-    use FontFactory::FontList;
     # first search my-fonts
+    # hash layout
+    # key (alias) => path (dir/basename)
+    #             => has-kerning
     my ($dir, $basename, $has-kerning, $path);
-    if %my-fonts{$key}:exists {
-        # keyed by alias, value is path
-        $path = %my-fonts{$key};
+    if %!my-fonts{$key}:exists {
+        # keyed by alias
+        $path        = %!my-fonts{$key}<path>;
+        $has-kerning = %!my-fonts{$key}<has-kerning>;
     }
-    elsif %FontAliases{$key}:exists {
-        # keyed by alias (index number)
-        #   font (basename)
-        #   dir
-        #   has-kerning
-        $basename    = %FontAliases{$key}<font>;
-        $dir         = %FontAliases{$key}<dir>;
-        $has-kerning = %FontAliases{$key}<has-kerning>;
-        $path        = "$dir/$basename";
+    elsif %!system-fonts{$key}:exists {
+        # keyed by alias
+        $path        = %!system-fonts{$key}<path>;
+        $has-kerning = %!system-fonts{$key}<has-kerning>;
     }
-    elsif %Fonts{$key}:exists {  
-        # keyed by font file basename
-        #   index
-        #   dir
-        #   has-kerning
-        $basename    = $key;
-        $dir         = %Fonts{$key}<dir>;
-        $has-kerning = %Fonts{$key}<has-kerning>;
-        $path        = "$dir/$basename";
+    else {
+        # use a default font provided with the module
     }
 
     DocFont.new: :$path, :$size;
 }
 
+# end unit class FontFactory
+
+
+=begin comment
+# not used now
+method get-fonts(--> Hash) {
+    # Returns a hash indexed by a font's alias (index or alias name)
+    my $hdir = %*ENV<HOME>;
+    die "FATAL: No \$HOME directory found" if not $hdir.IO.r;
+    my $fdir = "$hdir/.fontfactory";
+    die "FATAL: No '\$HOME/.fontfactory' directory found" if not $fdir.IO.r;
+
+    my %fonts;
+    # key => basename
+    #        dir
+    #        has-kerning
+
+    %fonts
+}
+=end comment
+
+=finish
+
+=begin comment
 method show-fonts {
     # shows public as well as user fonts
     my $hdir = %*ENV<HOME>;
@@ -135,5 +158,4 @@ method show-fonts {
         say "No system fonts found.";
     }
 }
-
-# end unit class FontFactory
+=end comment

@@ -4,8 +4,9 @@ use FontFactory;
 use FontFactory::DocFont;
 use FontFactory::Subs;
 use FontFactory::Classes;
-#use FontFactory::FontList;
 
-pass "loads ok";
+my $ff = FontFactory.new;
+
+isa-ok $ff, FontFactory;
 
 done-testing;

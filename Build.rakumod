@@ -2,8 +2,8 @@
 class Build {
     # $dist-path is: repo dir
     method build($dist-path) {
-        my $bfile = "find-system-fonts";
-        my $script = $dist-path.IO.add("build/bin/$bfile").absolute;
+        my $bfile = "ff-gen-list";
+        my $script = $dist-path.IO.add("bin/$bfile").absolute;
 
         # We need to set this if our script uses any dependencies that
         # may not yet be installed but are in the process of being
@@ -12,7 +12,6 @@ class Build {
 
         # do it (note additional args after the executable $script!
         my $proc = run :cwd($dist-path), $*EXECUTABLE, @libs.map({"-I$_"}).flat, $script, "build";
-        #my $proc = run :cwd($dist-path), $*EXECUTABLE, $script, "build";
         exit $proc.exitcode;
     }
 }

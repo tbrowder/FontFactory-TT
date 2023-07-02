@@ -9,7 +9,7 @@ use Font::FreeType;
 use Font::FreeType::Face;
 use Font::FreeType::Raw::Defs;
 
-use lib <../lib>;
+use FontFactory;
 use FontFactory::Subs :build;
 
 my $HOME = %*ENV<HOME> // '.';
@@ -43,7 +43,7 @@ if not @*ARGS {
     Finds TrueType, OpenType, and Type 1 font files and creates a list in
     a user's \$HOME in a new file (an old one is overwritten) named
 
-        \$HOME/.fontfactory/system-fonts.list # any existing file is overwritten
+        \$HOME/.fontfactory/system-fonts.list 
 
     Creates the following empty file if it doesn't exist (checks it if it
     does):
@@ -162,7 +162,8 @@ unless $hdir.IO.d { mkdir $hdir; }
 
 # create the home .fontfactory/my-fonts.list if it doesn't exist
 # throw if it's not in the correct format
-check-my-fonts-list $hdir;
+# add/check/correct for kerning
+check-my-fonts-list $hdir, :free-type;
 
 if 0 and $debug {
     # get abbreviations of the system fonts

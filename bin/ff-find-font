@@ -1,0 +1,21 @@
+#!/bin/env raku
+use PDF::Lite;
+use FontFactory;
+
+if not @*ARGS {
+    print qq:to/HERE/;
+    Usage: {$*PROGRAM.basename} <text or index args>
+
+    Search contents of the user's and system font lists.
+
+    Args may be either index or text. Text arguments are
+    not case sensitive. Index arguments may be a list 
+    or a range.
+
+    HERE
+    exit
+}
+
+#my $ff = FontFactory.new;
+#$ff.find-fonts;
+

@@ -1,6 +1,6 @@
 #!/bin/env raku
 use PDF::Lite;
-use lib <../lib>;
+use FontFactory;
 
 my $size = 12;
 my $prog = $*PROGRAM.basename;
@@ -37,13 +37,15 @@ if not @*ARGS {
      
     Examples:
      
-        \$ $prog dejavu mono
-        \$ $prog 214-216 size=10.9
+        \${$prog} dejavu mono
+        \${$prog} 214-216 size=10.9
      
     HERE 
     exit;
 }
 
+my $ff = FontFactory.new;
+my %fonts = $ff.get-fonts;
 my @fonts;
 my $debug = 0;
 my @pattern;
@@ -82,15 +84,16 @@ unless @pattern.elems or @fonts.elems {
 
 if @pattern.elems {
     # search the names
-    for %Fonts.keys -> $name {
+    for %fonts.keys -> $alias {
         my $is-found = True;
+        my $name = %fonts{$alias}<name>;
         for @pattern -> $pattern {
             unless $name ~~ /:i $pattern / {
                 $is-found = False;
                 last;
             }
         }
-        @fonts.push(%Fonts{$name}<index>) if $is-found;
+        @fonts.push(%fonts{$alias}) if $is-found;
     }
 }
 
@@ -98,6 +101,7 @@ if @pattern.elems {
 if $require-kern {
     my @Fonts = @fonts;
     @fonts = [];
+    =begin comment
     for @Fonts.sort({.Numeric}) -> $i {
         my $kern = %FontAliases{$i}<has-kerning>;
         if $require-kern {
@@ -105,6 +109,7 @@ if $require-kern {
         }
         @fonts.push: $i;
     }
+    =end comment
 }
 
 if not @fonts.elems {
@@ -113,17 +118,17 @@ if not @fonts.elems {
 }
 
 say "Found {@fonts.elems} fonts:";
-for @fonts.sort({.Numeric}) -> $i {
-    my $kern = %FontAliases{$i}<has-kerning>;
+for @fonts.keys.sort({.Str, .Numeric}) -> $alias {
+    my $kern = %fonts{$alias}<has-kerning>;
     if $require-kern {
         next if not $kern;
     }
-    my $font = %FontAliases{$i}<font>;
-    my $dir  = %FontAliases{$i}<dir>;
+    my $font = %fonts{$alias}<font>;
+    my $dir  = %fonts{$alias}<dir>;
     my ($name, $type) = $font.split: '.';
 
     my $path = "$dir/$font";
-    say "  Index: $i";
+    say "  Alias: $alias";
     say "    Name:  $name";
     say "    Type:  $type";
     say "    Kern?  $kern";

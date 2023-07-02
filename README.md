@@ -3,7 +3,7 @@
 NAME
 ====
 
-**FontFactory** - Provides functions to ease using Unicode *TrueType*, *OpenType*, and *Type 1* fonts with *PDF-generating* modules. 
+**FontFactory** - Provides functions to ease using Unicode *TrueType*, *OpenType*, and *Type 1* fonts with *PDF-generating* modules.
 
 SYNOPSIS
 ========
@@ -14,9 +14,9 @@ my $ff = FontFactory.new;
 $ff.showfonts;
 ...show first few fonts
 my $font1 = $ff.get-font: 2, 10.2; # font at index 2, set size at 10.2 points
-say $font1.name;        # OUTPUT: 
-say $font1.has-kerning; # OUTPUT: 
-say $font1.FontBBox;    # OUTPUT: 
+say $font1.name;        # OUTPUT:
+say $font1.has-kerning; # OUTPUT:
+say $font1.FontBBox;    # OUTPUT:
 say $font1.path;        # OUTPUT:
 ```
 
@@ -53,19 +53,15 @@ To use this module, you must first generate a list of all the TrueType, OpenType
 
   * /usr/local/share/fonts
 
-The list will be stored in your `$HOME`
+The list will be stored in your `$HOME` directory as `$HOME/.fontfactory/system-fonts.list`. That file looks something like this:
 
-directory as `$HOME/.fontfactory/system-fonts.list`. (An empty file will be created if it doesn't exist.) That file looks something like this:
-
-    # font-name location
-    Blarney.ttf /usr/src/fonts/
+    # font-index font-name location has-kerning?
+    2 Blarney.ttf /usr/src/fonts/ HAS-KERNING
       #... more entries
-    Courier.otf /usr/local/fonts/
+    243 Courier.otf /usr/local/fonts/
       #... more entries
 
-Note that all instances of the same font will be listed, and you can edit the file to delete unwanted duplicates. That list is for your reference and is not used by this module.
-
-If for some reason (such as adding new fonts or deleting some) you want to reinitialize the ayatem file list, uninstall this module and reinstall it. The user list will not be touched, but any referenced system font may have moved or have been deleted.
+Note that there may be multiple instances of the same font on your system but only one will be listed. This module uses that file, but you can regenerate it at any time by running `ff-find-fonts`. You may delete any font entries but do not change the format of the first three fields of remaing data lines. Comments starting with a `#` are allowed and ignored from there to the end of the line.
 
 ### User fonts
 
@@ -73,23 +69,27 @@ For convenience you may want to create a another list to associate your oft-used
 
 The file should look something like this:
 
-    # a valid data line contains three fields (words separated by one or more spaces):
-    #   1. alias 
+    # A valid data line contains three fields (words separated by one or more
+    # spaces):
+    #   1. alias
     #   2. font-name (with extension)
     #   3. location (path)
-    # all data on a line after the third field are ignored
-    # blank or comment lines like this are ignored
-      100   Blarney.ttf   ~/.fonts    my favorite serif font
+    # All data on a line after the third field are ignored with one exception:
+    # any 'KERN' or 'kern' found will flag the font as having a kerning capability.
+    # Blank or comment lines like this are ignored.
+      100   Blarney.ttf   ~/.fonts    kerning my favorite serif font
       c     Courier.otf   /some/dir   my favorite monospaced font
       p     Pocus.ttf     /some/dir   my favorite sans serif font
       s     Scroll.otf    /some/dir   best for Jewish calendars
 
-Note the fields **alias**, **font-name**, and **location** (parent directory) are required. The **alias** is some key you want to use to refer to that font. (This directory will be searched before the system directories and its alias will override any identical system font alias.) The **font-name** **must** include the suffix ('.otf', '.ttf', or '.t1'). The **notes** field is optional. 
+Note the fields **alias**, **font-name**, and **location** (parent directory) are required. The **alias** is some key you want to use to refer to that font. (This directory will be searched before the system fonts list and its alias will override any identical system font alias.) The **font-name** **must** include the suffix ('.otf', '.ttf', or '.t1'). The **notes** field is optional.
 
 DESCRIPTION
 ===========
 
 **FontFactory** is a Unicode font factory similar to `FontFactory::Type1` but using *TrueType*, *OpenType*, and *Type 1* fonts. It provides functions to ease using Unicode fonts with *PDF-generating* modules. It does that by defining a font class (`class Font::Factory::DocFont` that includes a specific font face and size along with functions emulating many of those found in `Font::AFM`.
+
+The functions permit the user to completely describe his or her desired page layout before placing it on a PDF page of the intended size.
 
 For more details, see the public methods described in [METHODS](/METHODS.md).
 

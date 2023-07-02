@@ -1,7 +1,16 @@
 #!/bin/env raku
 use PDF::Lite;
-
 use FontFactory;
+
+if not @*ARGS {
+    print qq:to/HERE/;
+    Usage: {$*PROGRAM.basename} go
+
+    Shows the contents of the user's and system font lists.
+
+    HERE
+    exit
+}
 
 my $ff = FontFactory.new;
 $ff.show-fonts;

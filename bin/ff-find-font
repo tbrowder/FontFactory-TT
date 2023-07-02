@@ -1,6 +1,6 @@
 #!/bin/env raku
-#use PDF::Lite;
-#use FontFactory;
+use PDF::Lite;
+use FontFactory;
 
 if not @*ARGS {
     print qq:to/HERE/;
@@ -16,6 +16,6 @@ if not @*ARGS {
     exit
 }
 
-#my $ff = FontFactory.new;
-#$ff.find-fonts;
+my $ff = FontFactory.new;
+$ff.find-fonts;
 

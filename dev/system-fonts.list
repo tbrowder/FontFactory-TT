@@ -121,11 +121,11 @@
  121 LeagueSpartan-Regular.otf /usr/share/fonts/opentype/league-spartan
  122 LeagueSpartan-SemiBold.otf /usr/share/fonts/opentype/league-spartan
  123 LiberationMono-Bold.ttf /usr/share/fonts/truetype/liberation
- 124 LiberationMono-BoldItalic.ttf /usr/share/fonts/truetype/liberation2
- 125 LiberationMono-Italic.ttf /usr/share/fonts/truetype/liberation
+ 124 LiberationMono-BoldItalic.ttf /usr/share/fonts/truetype/liberation
+ 125 LiberationMono-Italic.ttf /usr/share/fonts/truetype/liberation2
  126 LiberationMono-Regular.ttf /usr/share/fonts/truetype/liberation
  127 LiberationSans-Bold.ttf /usr/share/fonts/truetype/liberation2
- 128 LiberationSans-BoldItalic.ttf /usr/share/fonts/truetype/liberation2
+ 128 LiberationSans-BoldItalic.ttf /usr/share/fonts/truetype/liberation
  129 LiberationSans-Italic.ttf /usr/share/fonts/truetype/liberation
  130 LiberationSans-Regular.ttf /usr/share/fonts/truetype/liberation
  131 LiberationSansNarrow-Bold.ttf /usr/share/fonts/truetype/liberation
@@ -133,9 +133,9 @@
  133 LiberationSansNarrow-Italic.ttf /usr/share/fonts/truetype/liberation
  134 LiberationSansNarrow-Regular.ttf /usr/share/fonts/truetype/liberation
  135 LiberationSerif-Bold.ttf /usr/share/fonts/truetype/liberation2
- 136 LiberationSerif-BoldItalic.ttf /usr/share/fonts/truetype/liberation
- 137 LiberationSerif-Italic.ttf /usr/share/fonts/truetype/liberation2
- 138 LiberationSerif-Regular.ttf /usr/share/fonts/truetype/liberation2
+ 136 LiberationSerif-BoldItalic.ttf /usr/share/fonts/truetype/liberation2
+ 137 LiberationSerif-Italic.ttf /usr/share/fonts/truetype/liberation
+ 138 LiberationSerif-Regular.ttf /usr/share/fonts/truetype/liberation
  139 Lilach.otf /usr/share/fonts/opentype/ldco
  140 Lilach.ttf /usr/share/fonts/truetype/ldco
  141 LinBiolinum_K.otf /usr/share/fonts/opentype/linux-libertine

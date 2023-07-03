@@ -12,6 +12,7 @@ use Font::AFM;
 # Needed to load fonts
 has PDF::Lite $.pdf; # can be provided by the caller
 
+# IS THIS NEEDED?
 # Hash of DocFonts, keyed by a user-supplied name, which includes the
 # font's size
 has FontFactory::DocFont %.docfonts;
@@ -49,7 +50,7 @@ submethod TWEAK {
 
     my %my-fonts = get-my-fonts;
     for %my-fonts.keys -> $k {
-        if $!fonts{$k}:exists {
+        if %!fonts{$k}:exists {
             # replace the system font with the personal font
             my $syspath = %!fonts{$k}<path>;
 
@@ -63,14 +64,14 @@ submethod TWEAK {
                 # save the sysfont in a new index
                 my $syskern = %!fonts{$k}<has-kerning>;
                 my $syskey  = ++$new-index;
-                $!fonts{$syskey}<path>        = $syspath;
-                $!fonts{$syskey}<has-kerning> = $syskern;
+                %!fonts{$syskey}<path>        = $syspath;
+                %!fonts{$syskey}<has-kerning> = $syskern;
             }
 
             # save my font in the original slot, $k
             my $mykern = %my-fonts{$k}<has-kerning>;
-            $!fonts{$k}<path>        = $mypath;
-            $!fonts{$k}<has-kerning> = $mykern;
+            %!fonts{$k}<path>        = $mypath;
+            %!fonts{$k}<has-kerning> = $mykern;
         }
     }
     #=== end move this code to Subs
@@ -112,7 +113,18 @@ method show-fonts {
     =end comment
 }
 
-method get-font($key, Numeric $size --> DocFont) {
+method get-font($key,          #= the unique index in the current font list
+                Numeric $size, #= N[.N]
+                #:$uniq-name! 
+                --> DocFont
+               ) {
+
+    # create a unique internal name
+    my $id = "$key|$size";
+    if %!docfonts{$id}:exists {
+        return %!docfonts{$id};
+    }
+    # neee to create a new DocFont
     # first search my-fonts
     # hash layout
     # key (alias) => path (dir/basename)
@@ -132,7 +144,9 @@ method get-font($key, Numeric $size --> DocFont) {
         $has-kerning = True;
     }
 
-    DocFont.new: :name($path), :$size;
+    # need a face
+    my $face = self.face($path);
+    DocFont.new: :$face, :$size;
 }
 
 # end unit class FontFactory

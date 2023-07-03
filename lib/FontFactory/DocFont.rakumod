@@ -5,6 +5,7 @@ use PDF::Font::Loader;
 use Font::AFM;
 use Font::FreeType;
 use Font::FreeType::Face;
+use Font::FreeType::Glyph;
 use Font::FreeType::Raw::Defs;
 use Font::FreeType::SizeMetrics;
 
@@ -27,13 +28,8 @@ has          $.size     is required; #= desired size in points
 has Font::FreeType::Face $.face; 
 
 # other attrs 
-=begin comment
-# do I need these?
-has          $.index               ; #= font index from FontFactory::FontList
-has          $.alias               ; #= font alias from $HOME/.fontfactory/my-fonts.list
-=end comment
-has          $.sm                  ; #= scaled metrics
-has          $.sf;                   #= scale factor for the font object's EM.size attrs vs the font size
+has          $.sm;    #= scaled metrics
+has          $.sf;    #= scale factor for the font object's EM.size attrs vs the font size
 has     Char %.chars;
 
 submethod TWEAK {

@@ -20,23 +20,44 @@ has FontFactory::DocFont %.docfonts;
 # hash layout
 # key (alias) => path (dir/basename)
 #             => has-kerning
-
-has %.my-fonts;
-# Absolutely required:
-has %.system-fonts;
+has %.fonts;
 
 submethod TWEAK {
 
     # use FontFactory::Subs :get-*-fonts;
-    %!my-fonts     = get-my-fonts;
-    %!system-fonts = get-system-fonts;
+
+    # System fonts are absolutely required:
+    %!fonts = get-system-fonts;
     # all is for naught if system-fonts are not loaded!
-    if not %!system-fonts.elems {
+    if not %!fonts.elems {
         die qq:to/HERE/;
         FATAL: No system fonts were found! 
                Please file an issue with
                pertinent details.
         HERE
+    }
+
+    # Get any personal fonts (their keys override those of
+    # any system fonts). Ensure the replaced font gets a 
+    # new numerical key unless the basenames are the same.
+    my $new-index = %!fonts.elems + 1;
+
+    my %my-fonts = get-my-fonts;
+    for %my-fonts.keys -> $k {
+        if $!fonts{$k}:exists {
+            # replace it with the personal font
+            my $syskey  = $k
+            my $syspath = %!fonts{$k}<path>;
+            my $syskern = %!fonts{$k}<has-kerning>;
+
+            my $mykey  = $k;
+            my $mypath = %!fonts{$k}<path>;
+            my $mykern = %!fonts{$k}<has-kerning>;
+            
+            $!fonts{$k}<path>        = $mypath;
+            $!fonts{$k}<has-kerning> = $mykern;
+
+        }
     }
 
     # finally:

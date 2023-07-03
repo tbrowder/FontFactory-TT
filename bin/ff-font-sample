@@ -48,7 +48,7 @@ if not @*ARGS {
 }
 
 my $ff = FontFactory.new;
-my %fonts = $ff.get-fonts;
+#my %fonts = $ff.get-fonts;
 my @fonts;
 my $debug = 0;
 my @pattern;

@@ -9,10 +9,10 @@ use FontFactory::Subs;
 use PDF::Lite;
 use Font::AFM;
 
-# needed to load fonts
+# Needed to load fonts
 has PDF::Lite $.pdf; # can be provided by the caller
 
-# hash of DocFonts, keyed by a user-supplied name, which includes the
+# Hash of DocFonts, keyed by a user-supplied name, which includes the
 # font's size
 has FontFactory::DocFont %.docfonts;
 
@@ -22,6 +22,7 @@ has FontFactory::DocFont %.docfonts;
 #             => has-kerning
 
 has %.my-fonts;
+# Absolutely required:
 has %.system-fonts;
 
 submethod TWEAK {
@@ -29,12 +30,48 @@ submethod TWEAK {
     # use FontFactory::Subs :get-*-fonts;
     %!my-fonts     = get-my-fonts;
     %!system-fonts = get-system-fonts;
+    # all is for naught if system-fonts are not loaded!
+    if not %!system-fonts.elems {
+        die qq:to/HERE/;
+        FATAL: No system fonts were found! 
+               Please file an issue with
+               pertinent details.
+        HERE
+    }
 
     # finally:
 
     # provide if using standalone
     return if $!pdf;
     $!pdf = PDF::Lite.new;
+}
+
+method show-fonts {
+    say "=== User Fonts ===";
+    if not %!my-fonts.elems {
+        say "    None found.";
+    }
+    else {
+        for %!my-fonts.keys.sort -> $k {
+            my $path = %!my-fonts{$k}<path>;
+            next if not $path.IO.r;
+            say sprintf "%4.4s $path", $k;
+        }
+    }
+    say "=== End User Fonts ===";
+
+    say "=== System Fonts ===";
+    if not %!system-fonts.elems {
+        say "    None found.";
+    }
+    else {
+        for %!system-fonts.keys.sort({.Numeric}) -> $k {
+            my $path = %!system-fonts{$k}<path>;
+            next if not $path.IO.r;
+            say sprintf "%4.4s $path", $k;
+        }
+    }
+    say "=== End System Fonts ===";
 }
 
 method get-font($key, Numeric $size --> DocFont) {
@@ -55,9 +92,14 @@ method get-font($key, Numeric $size --> DocFont) {
     }
     else {
         # use a default font provided with the module
+        # in resources
+        #   DejaVuSerif.ttf
+        #   
+        $path        = %!system-fonts{$key}<path>;
+        $has-kerning = True;
     }
 
-    DocFont.new: :$path, :$size;
+    DocFont.new: :name($path), :$size;
 }
 
 # end unit class FontFactory

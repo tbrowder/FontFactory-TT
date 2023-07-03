@@ -2,6 +2,9 @@
 use PDF::Lite;
 use FontFactory;
 
+# Note this algorithm for specifying files is similar
+# to that used in 'ff-font-sample'.
+
 if not @*ARGS {
     print qq:to/HERE/;
     Usage: {$*PROGRAM.basename} <text or index args>
@@ -17,5 +20,5 @@ if not @*ARGS {
 }
 
 my $ff = FontFactory.new;
-$ff.find-fonts;
+#$ff.find-fonts;
 

@@ -25,7 +25,7 @@ sub get-my-fonts(--> Hash) is export {
     # key (alias) => path (dir/basename)
     #             => has-kerning
 
-    my $hdir = %*ENV<HOME> // '';
+    my $hdir = %*ENV<HOME>:exists ?? %*ENV<HOME> !! '';
     my %my-fonts;
     if $hdir {
         my $ifil = "$hdir/.fontfactory/my-fonts.list";
@@ -67,11 +67,11 @@ sub get-system-fonts(--> Hash) is export {
     # hash layout
     # key (alias) => path (dir/basename)
     #             => has-kerning
-    my $hdir = %*ENV<HOME> // '';
+    my $hdir = %*ENV<HOME>:exists ?? %*ENV<HOME> !! '';
     my %system-fonts;
     if $hdir {
         my $ifil = "$hdir/.fontfactory/system-fonts.list";
-        unless $ifil.IO.r {
+        if $ifil.IO.r {
             LINE: for $ifil.IO.lines -> $line {
                 my @w = $line.words;
                 next LINE if @w.elems < 3; # give no warning
@@ -84,12 +84,19 @@ sub get-system-fonts(--> Hash) is export {
                 my $path = "$dir/$font";
                 next LINE unless $path.IO.r;
 
-                my $has-kerning = @w.elems and @w.head ~~ /:i kern/ ?? True !! False;
+                my $has-kerning = (@w.elems and @w.head ~~ /:i kern/) ?? True !! False;
                 %system-fonts{$alias}<path>        = $path;
                 %system-fonts{$alias}<has-kerning> = $has-kerning;
             }
         }
+        else {
+            die "FATAL: No '$hdir/.fontfactory/system-fonts.list' file found";
+        }
     }
+    else {
+        die "FATAL: No '\$HOME/.fontfactory/system-fonts.list' file found";
+    }
+
 
     %system-fonts;
 } # sub get-system-fonts(--> Hash) is export

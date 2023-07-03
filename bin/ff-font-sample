@@ -16,6 +16,9 @@ $text ~= $_ for $s2.eager;
 $text ~= $_ for $s3.eager;
 $text ~= $_ for $s4.comb;
 
+# Note this algorithm for specifying files is similar
+# to that used in 'ff-find-font'.
+
 if not @*ARGS {
     print qq:to/HERE/;
     Usage: $prog <search pattern> [size=M[.N]] [kern] [debug]

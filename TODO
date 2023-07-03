@@ -1,0 +1,49 @@
+Reorganize the font handling.
+
+After much experimenting, I think the best
+way to organize the fonts are into two lists.
+
+List creation with Build
+------------------------
+
+The static arrays created in $HOME/.fontfactory/system-fonts.list 
+will contain lines like this:
+
+  basename directory [KERN if True]
+
+The format of the user's file, 'my-fonts.list', will be slightly
+different:
+
+  basename directory notes (which may contain KERN)
+
+When creating a FontFactory object, the two lists will be 
+combined, but any user fonts found in the system fonts
+list will be eliminated. The combined list will be
+sorted alpabetically by basename.
+The user font lines will have its lines look like this:
+
+  basename directory [KERN if True] [USER if True] [any notes]
+
+
+Showing fonts
+-------------
+
+When showing the fonts, the list will look like this:
+
+  [list index + 1] basename [KERN if True] [USER if True] [any notes]
+
+Finding fonts
+-------------
+
+The user can search by:
+
+  "index" numbers [indexed from one as shown]
+  patterns [non-case sensitive pieces of a basename]
+
+All matches result in the same format as "Showing fonts."
+
+Using a font
+------------
+
+The user selects an index number, a size, and a desired reference name. 
+The index number and size are used to create a DocFont object.

@@ -82,6 +82,8 @@ submethod TWEAK {
 }
 
 method show-fonts {
+    # redo per TODO
+    =begin comment
     say "=== User Fonts ===";
     if not %!my-fonts.elems {
         say "    None found.";
@@ -107,6 +109,7 @@ method show-fonts {
         }
     }
     say "=== End System Fonts ===";
+    =end comment
 }
 
 method get-font($key, Numeric $size --> DocFont) {
@@ -115,22 +118,17 @@ method get-font($key, Numeric $size --> DocFont) {
     # key (alias) => path (dir/basename)
     #             => has-kerning
     my ($dir, $basename, $has-kerning, $path);
-    if %!my-fonts{$key}:exists {
+    if %!fonts{$key}:exists {
         # keyed by alias
-        $path        = %!my-fonts{$key}<path>;
-        $has-kerning = %!my-fonts{$key}<has-kerning>;
-    }
-    elsif %!system-fonts{$key}:exists {
-        # keyed by alias
-        $path        = %!system-fonts{$key}<path>;
-        $has-kerning = %!system-fonts{$key}<has-kerning>;
+        $path        = %!fonts{$key}<path>;
+        $has-kerning = %!fonts{$key}<has-kerning>;
     }
     else {
         # use a default font provided with the module
         # in resources
         #   DejaVuSerif.ttf
         #   
-        $path        = %!system-fonts{$key}<path>;
+        $path        = ""; #%!system-fonts{$key}<path>;
         $has-kerning = True;
     }
 

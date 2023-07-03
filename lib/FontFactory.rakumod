@@ -21,14 +21,19 @@ has FontFactory::DocFont %.docfonts;
 # key (alias) => path (dir/basename)
 #             => has-kerning
 has %.fonts;
+has Bool $.user-fonts = False; # set to true iff found
 
 submethod TWEAK {
 
     # use FontFactory::Subs :get-*-fonts;
 
+    #=== Move this code to Subs as new sub 'get-fonts'.
+    # Combine inside it subs 'get-my-fonts' and 'get-system-font'.
+    # It should be slightly more efficient.
+    #
     # System fonts are absolutely required:
     %!fonts = get-system-fonts;
-    # all is for naught if system-fonts are not loaded!
+    # All is for naught if system-fonts are not loaded!
     if not %!fonts.elems {
         die qq:to/HERE/;
         FATAL: No system fonts were found! 
@@ -40,28 +45,37 @@ submethod TWEAK {
     # Get any personal fonts (their keys override those of
     # any system fonts). Ensure the replaced font gets a 
     # new numerical key unless the basenames are the same.
-    my $new-index = %!fonts.elems + 1;
+    my $new-index = %!fonts.elems; # Any saved system font will take the next index.
 
     my %my-fonts = get-my-fonts;
     for %my-fonts.keys -> $k {
         if $!fonts{$k}:exists {
-            # replace it with the personal font
-            my $syskey  = $k
+            # replace the system font with the personal font
             my $syspath = %!fonts{$k}<path>;
-            my $syskern = %!fonts{$k}<has-kerning>;
 
-            my $mykey  = $k;
-            my $mypath = %!fonts{$k}<path>;
-            my $mykern = %!fonts{$k}<has-kerning>;
-            
+            # save the system font in a new index, but only if the basenames
+            # are different.
+            my $sysname = $syspath.IO.basename;
+            my $mypath  = %my-fonts{$k}<path>;
+            my $myname  = $mypath.IO.basename;
+
+            if $sysname ne $myname {
+                # save the sysfont in a new index
+                my $syskern = %!fonts{$k}<has-kerning>;
+                my $syskey  = ++$new-index;
+                $!fonts{$syskey}<path>        = $syspath;
+                $!fonts{$syskey}<has-kerning> = $syskern;
+            }
+
+            # save my font in the original slot, $k
+            my $mykern = %my-fonts{$k}<has-kerning>;
             $!fonts{$k}<path>        = $mypath;
             $!fonts{$k}<has-kerning> = $mykern;
-
         }
     }
+    #=== end move this code to Subs
 
     # finally:
-
     # provide if using standalone
     return if $!pdf;
     $!pdf = PDF::Lite.new;

@@ -28,6 +28,12 @@
   "tags": [
   ],
   "test-depends": [
+    "Abbreviations",
+    "Proc::Easier",
+    "Data::Dump",
+    "Data::Dump::Tree",
+    "File::Find",
+    "Font::FreeType",
     "Font::AFM",
     "FontFactory::Type1:ver<1.1.0>:auth<zef:tbrowder>:api<2>"
   ],

@@ -1,5 +1,7 @@
 use PDF::Font::Loader;
 use Text::Utils :strip-comment;
+use Font::FreeType;
+use Font::FreeType:Face;
 
 unit class FontFactory;
 
@@ -12,8 +14,7 @@ use Font::AFM;
 # Needed to load fonts
 has PDF::Lite $.pdf; # can be provided by the caller
 
-# IS THIS NEEDED?
-# Hash of DocFonts, keyed by a user-supplied name, which includes the
+# Eliminate duplicate DocFonts. Hash is keyed by "key|size".
 # font's size
 has FontFactory::DocFont %.docfonts;
 
@@ -24,7 +25,11 @@ has FontFactory::DocFont %.docfonts;
 has %.fonts;
 has Bool $.user-fonts = False; # set to true iff found
 
+has Font::FreeType $.ft;
+
 submethod TWEAK {
+
+    $!ft .= new.
 
     # use FontFactory::Subs :get-*-fonts;
 
@@ -46,7 +51,8 @@ submethod TWEAK {
     # Get any personal fonts (their keys override those of
     # any system fonts). Ensure the replaced font gets a 
     # new numerical key unless the basenames are the same.
-    my $new-index = %!fonts.elems; # Any saved system font will take the next index.
+    # Any saved system font will take the next index.
+    my $new-index = %!fonts.elems; 
 
     my %my-fonts = get-my-fonts;
     for %my-fonts.keys -> $k {
@@ -79,6 +85,8 @@ submethod TWEAK {
     # finally:
     # provide if using standalone
     return if $!pdf;
+
+    # else we need our own
     $!pdf = PDF::Lite.new;
 }
 
@@ -115,7 +123,6 @@ method show-fonts {
 
 method get-font($key,          #= the unique index in the current font list
                 Numeric $size, #= N[.N]
-                #:$uniq-name! 
                 --> DocFont
                ) {
 
@@ -124,7 +131,8 @@ method get-font($key,          #= the unique index in the current font list
     if %!docfonts{$id}:exists {
         return %!docfonts{$id};
     }
-    # neee to create a new DocFont
+
+    # Need to create a new DocFont
     # first search my-fonts
     # hash layout
     # key (alias) => path (dir/basename)
@@ -145,8 +153,10 @@ method get-font($key,          #= the unique index in the current font list
     }
 
     # need a face
-    my $face = self.face($path);
-    DocFont.new: :$face, :$size;
+    my $face = $!ft.face.new: :name($path), :load-flags(FT_LOAD_NO_HINTING);
+    my $df = DocFont.new: :$face, :$size, :$id;
+    %!docfonts{$id} = $df;
+    $df
 }
 
 # end unit class FontFactory

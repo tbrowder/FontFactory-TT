@@ -21,11 +21,9 @@ my constant URY is export = 3; # bbox index for upper bound
 
 #| This class represents the final font object and it includes the final size
 
-has          $.name     is required; #= font file name: dir/name.suffix
-has          $.size     is required; #= desired size in points
-
-#| added in submethod TWEAK
-has Font::FreeType::Face $.face; 
+has Font::FreeType $.face is required; #= ??? font file name: dir/name.suffix
+has                $.size is required; #= desired size in points
+has                $.id   is required; #= "$key|$size" which should be unique
 
 # other attrs 
 has          $.sm;    #= scaled metrics
@@ -33,7 +31,7 @@ has          $.sf;    #= scale factor for the font object's EM.size attrs vs the
 has     Char %.chars;
 
 submethod TWEAK {
-    $!face .= new: :name($!name), :load-flags(FT_LOAD_NO_HINTING);
+    #$!face .= new: :name($!name), :load-flags(FT_LOAD_NO_HINTING);
     $!face.set-char-size: $!size;
     $!sm = $!face.scaled-metrics;
     $!sf = $!size / $!face.units-per-EM;

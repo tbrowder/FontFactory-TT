@@ -30,14 +30,14 @@ Showing fonts
 
 When showing the fonts, the list will look like this:
 
-  [list index + 1] basename [KERN if True] [USER if True] [any notes]
+  [list index] basename [KERN if True] [USER if True] [any notes]
 
 Finding fonts
 -------------
 
 The user can search by:
 
-  "index" numbers [indexed from one as shown]
+  "index" numbers [indexed from zero]
   patterns [non-case sensitive pieces of a basename]
 
 All matches result in the same format as "Showing fonts."

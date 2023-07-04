@@ -56,9 +56,9 @@ my $fb = $f.bounding-box;
 if $debug {
    say "== Getting attributes and metrics...";
    say "    font file name: $ffil";
+
    say "    family-name: ", $f.family-name;
    say "    postscript-name: ", $f.postscript-name;
-
    say "    underline-position: ", $f.underline-position;
    say "    underline-thickness: ", $f.underline-thickness;
    say "    units-per-EM: ", $f.units-per-EM;
@@ -67,7 +67,6 @@ if $debug {
    say "    ascender: ", $f.ascender;
    say "    descender: ", $f.descender;
    say "    font-format: ", $f.font-format;
-
    say "    is-scalable: ", $f.is-scalable;
    say "    has-fixed-sizes: ", $f.has-fixed-sizes; # bitmap
    say "    is-fixed-width:", $f.is-fixed-width;
@@ -75,7 +74,6 @@ if $debug {
    say "    has-horizontal-metrics: ", $f.has-horizontal-metrics;
    say "    has-vertical-metrics: ", $f.has-vertical-metrics;
    say "    has-kerning: ", $f.has-kerning;
-
    say "    has-glyph-names: ", $f.has-glyph-names;
    say "    has-reliable-glyph-names: ", $f.has-reliable-glyph-names;
    say "    is-bold: ", $f.is-bold;
@@ -166,7 +164,6 @@ say "underline-position: ", $fm.underline-position;
 say "underline-thickness: ", $fm.underline-thickness;
 say "bbox: ", $fm.bbox; # an array
 say "=== end of new scaled metrics:";
-
 # scale factor * units-per-EM = font-size
 # thus: scale factor = font-size / units-per-EM
 my $sf = $size/$f.units-per-EM;

@@ -1,7 +1,10 @@
 use PDF::Font::Loader;
 use Text::Utils :strip-comment;
 use Font::FreeType;
-use Font::FreeType:Face;
+use Font::FreeType::Face;
+use Font::FreeType::Raw::Defs;
+use Font::FreeType::Glyph;
+#use Font::FreeType::Outline;
 
 unit class FontFactory;
 
@@ -29,7 +32,7 @@ has Font::FreeType $.ft;
 
 submethod TWEAK {
 
-    $!ft .= new.
+    $!ft .= new;
 
     # use FontFactory::Subs :get-*-fonts;
 
@@ -121,15 +124,24 @@ method show-fonts {
     =end comment
 }
 
-method get-font($key,          #= the unique index in the current font list
-                Numeric $size, #= N[.N]
-                --> DocFont
-               ) {
+method get-docfont($key,          #= normally the unique index in the current font list
+                   Numeric $size, #= N[.N]
+                   --> DocFont
+                  ) {
 
     # create a unique internal name
     my $id = "$key|$size";
     if %!docfonts{$id}:exists {
         return %!docfonts{$id};
+    }
+
+    # $key could be a Str path
+    if $key.IO.r {
+        # need a face
+        my $face = $!ft.face: $key, :load-flags(FT_LOAD_NO_HINTING);
+        my $df = DocFont.new: :$face, :$size, :$id;
+        %!docfonts{$id} = $df;
+        return $df
     }
 
     # Need to create a new DocFont
@@ -153,7 +165,7 @@ method get-font($key,          #= the unique index in the current font list
     }
 
     # need a face
-    my $face = $!ft.face.new: :name($path), :load-flags(FT_LOAD_NO_HINTING);
+    my $face = $!ft.face: $path, :load-flags(FT_LOAD_NO_HINTING);
     my $df = DocFont.new: :$face, :$size, :$id;
     %!docfonts{$id} = $df;
     $df

@@ -21,21 +21,75 @@ my constant URY is export = 3; # bbox index for upper bound
 
 #| This class represents the final font object and it includes the final size
 
-has Font::FreeType $.face is required; #= ??? font file name: dir/name.suffix
-has                $.size is required; #= desired size in points
-has                $.id   is required; #= "$key|$size" which should be unique
+has Font::FreeType::Face $.face is required; #= from desired font file
+has                      $.size is required; #= desired size in points
+has                      $.id   is required; #= "$key|$size" which should be unique
 
 # other attrs 
 has          $.sm;    #= scaled metrics
 has          $.sf;    #= scale factor for the font object's EM.size attrs vs the font size
 has     Char %.chars;
 
+# 11 scaled font metrics only valid AFTER .set-char-size is called in TWEAK
+has $.x-scale;
+has $.y-scale;
+has $.x-ppem;
+has $.y-ppem;
+has $.ascender;
+has $.descender;
+has $.height;
+has $.max-advance;
+has $.underline-position;
+has $.underline-thickness;
+has $.bbox; # an array
+
 submethod TWEAK {
-    #$!face .= new: :name($!name), :load-flags(FT_LOAD_NO_HINTING);
     $!face.set-char-size: $!size;
     $!sm = $!face.scaled-metrics;
     $!sf = $!size / $!face.units-per-EM;
 
+    # 11 scaled font metrics only valid AFTER .set-char-size is called in TWEAK
+    $!x-scale = $!sm.;
+    $!y-scale = $!sm.;
+    $!x-ppem = $!sm.;
+    $!y-ppem = $!sm.;
+    $!ascender = $!sm.;
+    $!descender = $!sm.;
+    $!height = $!sm.;
+    $!max-advance = $!sm.;
+    $!underline-position = $!sm.;
+    $!underline-thickness = $!sm.;
+    $!bbox = $!sm.; # an array
+    
+=begin comment
+my $fm = $f.scaled-metrics;
+say "=== new scaled metrics:";
+# attributes of $fm:
+say "x-scale: ", $fm.x-scale;
+say "y-scale: ", $fm.y-scale;
+say "x-ppem: ", $fm.x-ppem;
+say "y-ppem: ", $fm.y-ppem;
+say "ascender: ", $fm.ascender;
+say "descender: ", $fm.descender;
+say "height: ", $fm.height;
+say "max-advance: ", $fm.max-advance;
+say "underline-position: ", $fm.underline-position;
+say "underline-thickness: ", $fm.underline-thickness;
+say "bbox: ", $fm.bbox; # an array
+say "=== end of new scaled metrics:";
+# scale factor * units-per-EM = font-size
+# thus: scale factor = font-size / units-per-EM
+my $sf = $size/$f.units-per-EM;
+say "    scale factor: ", $sf;
+say "    adjusted face values:";
+say "        underline-position: ", $sf*$f.underline-position;
+say "        underline-thickness: ", $sf*$f.underline-thickness;
+say "        bounding-box (FontBBoX): ", sprintf("%f %f %f %f", 
+                                         $sf*$fb.x-min, $sf*$fb.y-min, 
+                                         $sf*$fb.x-max, $sf*$fb.y-max);
+say "        ascender: ", $sf*$f.ascender;
+say "        descender: ", $sf*$f.descender;
+=end comment
     # go completely lazy as recommended
     =begin comment
     # get the first N Char objects of a set of glyphs

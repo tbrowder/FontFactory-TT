@@ -30,6 +30,22 @@ has          $.sm;    #= scaled metrics
 has          $.sf;    #= scale factor for the font object's EM.size attrs vs the font size
 has     Char %.chars;
 
+has          $.units-per-EM;
+has          $.postscript-name;
+has          $.family-name;
+has          $.has-kerning;
+has          $.is-scalable;
+has          $.is-sfnt;                  # is OpenType
+has          $.has-horizontal-metrics;
+has          $.has-vertical-metrics;
+has          $.has-glyph-names;
+has          $.has-reliable-glyph-names;
+has          $.is-bold;
+has          $.is-italic;
+has          $.font-format;              # TruType, Type 1, BDF, PCF, Type 42, CID Type 42, CFF, PFR, or Windows FNT
+has          $.num-glyphs;
+has          $.num-faces;                # usually only one
+
 # 11 scaled font metrics only valid AFTER .set-char-size is called in TWEAK
 has $.x-scale;
 has $.y-scale;
@@ -37,7 +53,7 @@ has $.x-ppem;
 has $.y-ppem;
 has $.ascender;
 has $.descender;
-has $.height;
+has $.height;              # line height: recommended distance between baselines
 has $.max-advance;
 has $.underline-position;
 has $.underline-thickness;
@@ -48,18 +64,38 @@ submethod TWEAK {
     $!sm = $!face.scaled-metrics;
     $!sf = $!size / $!face.units-per-EM;
 
-    # 11 scaled font metrics only valid AFTER .set-char-size is called in TWEAK
-    $!x-scale = $!sm.;
-    $!y-scale = $!sm.;
-    $!x-ppem = $!sm.;
-    $!y-ppem = $!sm.;
-    $!ascender = $!sm.;
-    $!descender = $!sm.;
-    $!height = $!sm.;
-    $!max-advance = $!sm.;
-    $!underline-position = $!sm.;
-    $!underline-thickness = $!sm.;
-    $!bbox = $!sm.; # an array
+    $!postscript-name = $!face.postscript-name;
+    $!family-name = $!face.family-name;
+    $!has-kerning = $!face.has-kerning;
+    $!is-scalable = $!face.is-scalable;
+    $!units-per-EM = $!face.units-per-EM;
+
+    # is OpenType
+    $!is-sfnt = $!face.is-sfnt;
+    $!has-horizontal-metrics = $!face.has-horizontal-metrics;
+    $!has-vertical-metrics = $!face.has-vertical-metrics;
+    $!has-glyph-names = $!face.has-glyph-names;
+    $!has-reliable-glyph-names = $!face.has-reliable-glyph-names;
+    $!is-bold = $!face.is-bold;
+    $!is-italic = $!face.is-italic;
+    # TruType, Type 1, BDF, PCF, Type 42, CID Type 42, CFF, PFR, or Windows FNT
+    $!font-format = $!face.font-format;
+    $!num-glyphs = $!face.num-glyphs;
+    # usually only one
+    $!num-faces = $!face.num-faces;
+
+    # 12 scaled font metrics only valid AFTER .set-char-size is called in TWEAK
+    $!x-scale = $!sm.x-scale;
+    $!y-scale = $!sm.y-scale;
+    $!x-ppem = $!sm.x-ppem;
+    $!y-ppem = $!sm.y-ppem;
+    $!ascender = $!sm.ascender;
+    $!descender = $!sm.descender;
+    $!height = $!sm.height;
+    $!max-advance = $!sm.max-advance;
+    $!underline-position = $!sm.underline-position;
+    $!underline-thickness = $!sm.underline-thickness;
+    $!bbox = $!sm.bbox; # an array
     
 =begin comment
 my $fm = $f.scaled-metrics;

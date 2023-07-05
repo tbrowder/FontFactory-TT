@@ -21,7 +21,7 @@ is $df.is-bold, False;
 is $df.is-italic, False;
 is $df.font-format, "TrueType";
 
-my Char $c = $df.glyph: 'A';
+my GChar $c = $df.glyph: 'A';
 is $c.Str, 'A';
 
 done-testing;

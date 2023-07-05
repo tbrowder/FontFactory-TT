@@ -25,10 +25,10 @@ has Font::FreeType::Face $.face is required; #= from desired font file
 has                      $.size is required; #= desired size in points
 has                      $.id   is required; #= "$key|$size" which should be unique
 
-# other attrs 
+# other attrs
 has          $.sm;    #= scaled metrics
 has          $.sf;    #= scale factor for the font object's EM.size attrs vs the font size
-has     Char %.chars; #= hash of Glyphs keyed by a Str char
+has    GChar %.chars; #= hash of Glyphs keyed by a Str char
 
 has          $.units-per-EM;
 has          $.postscript-name;
@@ -96,7 +96,7 @@ submethod TWEAK {
     $!underline-position  = $!sm.underline-position;
     $!underline-thickness = $!sm.underline-thickness;
     $!bbox                = $!sm.bbox; # an array
-    
+
     # scale factor * units-per-EM = font-size
     # thus: scale factor = font-size / units-per-EM
 
@@ -107,11 +107,11 @@ submethod TWEAK {
     =end comment
 }
 
-#| Given a character, return its Char object 
-method glyph(Str $char --> Char) {
+#| Given a character, return its Char object
+method glyph($char --> GChar) {
     unless %!chars{$char}:exists {
         # get the needed glyph from lib/*/Subs.rakumod
-        my Char $c = get-glyph $!face, $char;
+        my GChar $c = get-glyph $!face, $char;
         %!chars{$char} = $c;
     }
     %!chars{$char};

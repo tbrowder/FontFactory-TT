@@ -4,6 +4,7 @@ use Font::FreeType::Glyph;
 use Font::FreeType::Outline;
 use Font::FreeType::Raw::Defs;
 use Font::FreeType::SizeMetrics;
+use Data::Dump;
 
 unit module FontFactory::Subs;
 
@@ -161,18 +162,27 @@ sub check-my-fonts-list($homedir, :$free-type,:$debug) is export(:build) {
     }
 } # end sub
 
-sub get-glyph(Font::FreeType::Face:D $f, $text, :$debug --> Char) is export {
-    my Char $c;
+sub get-glyph(Font::FreeType::Face:D $f, $text, :$debug --> GChar) is export {
+    my GChar $c;
     $f.forall-glyphs: $text, :!load, :flags(FT_LOAD_NO_HINTING), -> Font::FreeType::Glyph:D $g {
-        $c = Char.new;
+        $c = GChar.new;
         # set all attrs here, remember, $g disappears when leaving here
         my @attrs = <
+            Str
+            name
+            char-code
+            left-bearing
+            right-bearing
+            horizontal-advance
+            vertical-advance
+            width
+            height
+            is-outline
         >;
         for @attrs -> $a {
-            $c."$a" = $g."$a";
+            $c."$a"() = $g."$a"();
         }
-
-
+        note Dump({$c});exit;
 
         last;
     }
@@ -184,10 +194,10 @@ multi sub get-glyphs(Font::FreeType::Face:D $f, $text, :$debug --> Hash) is expo
     my %glyphs;
 
     $f.forall-glyphs: $text, :!load, :flags(FT_LOAD_NO_HINTING), -> Font::FreeType::Glyph:D $g {
-        $c = Char.new;
+        my $c = GChar.new;
         # set all attrs here, remember, $g disappears when leaving here
 
-        %glyphs{$g.char-code.chr} = Char.new: $g;
+        %glyphs{$g.char-code.chr} = GChar.new: $g;
 
         =begin comment
         my $char = $g.char-code.chr;
@@ -216,7 +226,7 @@ multi sub get-glyphs(Font::FreeType::Face:D $f, :$debug --> Hash) is export {
     my $N = 300;
     my $i = 0;
     $f.forall-glyphs: :!load, :flags(FT_LOAD_NO_HINTING), -> Font::FreeType::Glyph:D $g {
-        %glyphs{$g.char-code.chr} = Char.new: $g;
+        %glyphs{$g.char-code.chr} = GChar.new: $g;
         ++$i;
         last if $i >= $N;
 

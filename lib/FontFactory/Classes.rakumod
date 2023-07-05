@@ -8,7 +8,7 @@ role Layout is export {
     # ones.
     has $.left-bearing;
 
-    # The distance from the right edge of the rightmost glyph 
+    # The distance from the right edge of the rightmost glyph
     # image to the place where the origin of the next
     # character should be (i.e., the end of the
     # advance width). Only applies to horizontal
@@ -20,8 +20,8 @@ role Layout is export {
     # be. Only applies to horizontal layouts. Always
     # positive, so, for right-to-left text (such as
     # Hebrew), it should be subtracted from the current
-    # glyph's position. 
-    has $.horizontal-advance;
+    # glyph's position.
+    #has $.horizontal-advance;
 
     # The distance from the origin of the current glyph
     # to the place where the next glyph's origin should
@@ -30,7 +30,7 @@ role Layout is export {
 
     # The width of the set of glyphs outlines from the leftmost edge
     # to the rightmost edge.
-    has $.width; 
+    has $.width;
 
     # The height of the glyph or highest of a set of glyphs.
     has $.height;
@@ -42,7 +42,8 @@ role Layout is export {
     has $.ury;
 }
 
-class Char does Layout is export {
+#class Char does Layout is export {
+class GChar is export {
     # Has same attributes as the ephemeral class Glyph
     # plus bbox info from its GlyphImage.outline.
 
@@ -70,9 +71,9 @@ class Char does Layout is export {
 
     # 10 "primary" attrs
 =begin comment
-Str 
+Str
 name
-char-code 
+char-code
 left-bearing
 right-bearing
 horizontal-advance
@@ -84,7 +85,7 @@ is-outline
 
     has $.Str is rw;
     has $.name is rw;
-    has $.char-code is rw; 
+    has $.char-code is rw;
     has $.left-bearing is rw;
     has $.right-bearing is rw;
     has $.horizontal-advance is rw;
@@ -113,7 +114,7 @@ is-outline
 }
 
 class Word does Layout is export {
-    has Char @.chars;
+    has GChar @.chars;
 }
 
 class Line does Layout is export {
@@ -131,4 +132,3 @@ class Page does Layout is export {
 class Doc does Layout is export {
     has Page @.pages;
 }
-

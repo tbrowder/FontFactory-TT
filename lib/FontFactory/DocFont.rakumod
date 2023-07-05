@@ -110,7 +110,7 @@ submethod TWEAK {
 #| Given a character, return its Char object 
 method glyph(Str $char --> Char) {
     unless %!chars{$char}:exists {
-        my Char $c = get-glyphs $!face, $char;
+        my Char $c = get-glyph $!face, $char;
         %!chars{$char} = $c;
     }
     %!chars{$char};

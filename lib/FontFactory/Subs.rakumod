@@ -161,6 +161,15 @@ sub check-my-fonts-list($homedir, :$free-type,:$debug) is export(:build) {
     }
 } # end sub
 
+sub get-glyph(Font::FreeType::Face:D $f, $text, :$debug --> Char) is export {
+    my Char $c;
+    $f.forall-glyphs: $text, :!load, :flags(FT_LOAD_NO_HINTING), -> Font::FreeType::Glyph:D $g {
+        $c = Char.new: $g;
+        last;
+    }
+    $c
+} # end sub
+
 # moved from /dev/iterate-text.raku
 multi sub get-glyphs(Font::FreeType::Face:D $f, $text, :$debug --> Hash) is export {
     my %glyphs;

@@ -55,70 +55,61 @@ class Char does Layout is export {
 
     # The name of the glyph, if the font format supports
     # glyph names, otherwise undef.
-    has $.name;
 
-    # The unicode character represented by the glyph.
-    has $.Str; 
-
+    =begin comment
     # the unicode code
-    has $.char-code; # same as ord (dec value)
     has $.hex;
     has $.dec;
     has $.ord;
-
-    has $.uniname;
-    has $.is-outline;
-    has $.format;
-
     has $.char-width;  # from bbox
     has $.char-height; # from bbox
+    =end comment
 
+    # These attrs are from Font::FreeType::Glyph
+    # (note attrs 'index' and 'format' are not of interest as of now)
+
+    # 10 "primary" attrs
+=begin comment
+Str 
+name
+char-code 
+left-bearing
+right-bearing
+horizontal-advance
+vertical-advance
+width
+height
+is-outline
+=end comment
+
+    has $.Str is rw;
+    has $.name is rw;
+    has $.char-code is rw; 
+    has $.left-bearing is rw;
+    has $.right-bearing is rw;
+    has $.horizontal-advance is rw;
+    has $.vertical-advance is rw;
+    has $.width is rw;
+    has $.height is rw;
+    has $.is-outline is rw;
+
+    =begin comment
     method new(Font::FreeType::Glyph :$glyph) {
         my $g = $glyph;
         self.bless(
             :char($g.char-code.chr),
-            :Str($g.Str),
-
             # synonyms
-            :char-code($g.char-code),
             :ord($g.char-code),
             :dec($g.char-code),
-
             :hex($g.char-code.base(16)),
-
             :uniname($g.char-code.chr.uniname),
-
             :llx($g.outline.bbox.x-min),
             :lly($g.outline.bbox.y-min),
             :urx($g.outline.bbox.x-max),
             :ury($g.outline.bbox.y-max),
-
-            :left-bearing($g.left-bearing),
-            :right-bearing($g.right-bearing),
-
-            # note width name we use here IS the same as Adobe uses
-            :width($g.horizontal-advance // 0),
-            :horizontal-advance($g.horizontal-advance // 0),
-
-            :vertical-advance($g.vertical-advance // 0),
-            :char-width($g.width),
-            :char-height($g.height),
-            :height($g.height),
-
-            :format($g.format),
-            :is-outline($g.is-outline),
-            =begin comment
-            :($g.),
-            :($g.),
-            :($g.),
-            :($g.),
-            :($g.),
-            :($g.),
-            :($g.),
-            :($g.),
-            =end comment
         )
     }
+    =end comment
 }
 
 class Word does Layout is export {

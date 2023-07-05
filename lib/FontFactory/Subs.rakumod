@@ -166,7 +166,11 @@ sub get-glyph(Font::FreeType::Face:D $f, $text, :$debug --> Char) is export {
     $f.forall-glyphs: $text, :!load, :flags(FT_LOAD_NO_HINTING), -> Font::FreeType::Glyph:D $g {
         $c = Char.new;
         # set all attrs here, remember, $g disappears when leaving here
-
+        my @attrs = <
+        >;
+        for @attrs -> $a {
+            $c."$a" = $g."$a";
+        }
 
 
 

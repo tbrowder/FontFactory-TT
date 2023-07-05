@@ -1,6 +1,5 @@
 #!/bin/env raku
 
-use Data::Dump::Tree;
 use Data::Dump;
 
 use Font::FreeType;

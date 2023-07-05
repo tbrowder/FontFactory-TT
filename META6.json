@@ -6,10 +6,14 @@
   "build-depends": [
   ],
   "depends": [
+    "Abbreviations",
+    "Proc::Easier",
+    "Data::Dump",
+    "File::Find",
+    "Font::AFM",
     "Text::Utils",
     "PDF::Font::Loader",
-    "Abbreviations",
-    "Font::FreeType:ver<0.4.8>"
+    "Font::FreeType:ver<0.4.9>"
   ],
   "description": "blah blah blah",
   "license": "Artistic-2.0",
@@ -19,7 +23,6 @@
     "FontFactory": "lib/FontFactory.rakumod",
     "FontFactory::Classes": "lib/FontFactory/Classes.rakumod",
     "FontFactory::DocFont": "lib/FontFactory/DocFont.rakumod",
-    "FontFactory::FontList": "lib/FontFactory/FontList.rakumod",
     "FontFactory::Subs": "lib/FontFactory/Subs.rakumod"
   },
   "resources": [
@@ -28,14 +31,6 @@
   "tags": [
   ],
   "test-depends": [
-    "Abbreviations",
-    "Proc::Easier",
-    "Data::Dump",
-    "Data::Dump::Tree",
-    "File::Find",
-    "Font::FreeType",
-    "Font::AFM",
-    "FontFactory::Type1:ver<1.1.0>:auth<zef:tbrowder>:api<2>"
   ],
   "version": "0.0.1"
 }

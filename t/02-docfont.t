@@ -23,4 +23,5 @@ is $df.font-format, "TrueType";
 
 my $g = $df.glyph: 'A';
 is $g.Str, 'A';
+
 done-testing;

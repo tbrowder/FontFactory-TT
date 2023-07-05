@@ -65,37 +65,37 @@ submethod TWEAK {
     $!sf = $!size / $!face.units-per-EM;
 
     $!postscript-name = $!face.postscript-name;
-    $!family-name = $!face.family-name;
-    $!has-kerning = $!face.has-kerning;
-    $!is-scalable = $!face.is-scalable;
-    $!units-per-EM = $!face.units-per-EM;
+    $!family-name     = $!face.family-name;
+    $!has-kerning     = $!face.has-kerning;
+    $!is-scalable     = $!face.is-scalable;
+    $!units-per-EM    = $!face.units-per-EM;
 
     # is OpenType:
-    $!is-sfnt = $!face.is-sfnt;
-    $!has-horizontal-metrics = $!face.has-horizontal-metrics;
-    $!has-vertical-metrics = $!face.has-vertical-metrics;
-    $!has-glyph-names = $!face.has-glyph-names;
+    $!is-sfnt                  = $!face.is-sfnt;
+    $!has-horizontal-metrics   = $!face.has-horizontal-metrics;
+    $!has-vertical-metrics     = $!face.has-vertical-metrics;
+    $!has-glyph-names          = $!face.has-glyph-names;
     $!has-reliable-glyph-names = $!face.has-reliable-glyph-names;
-    $!is-bold = $!face.is-bold;
-    $!is-italic = $!face.is-italic;
+    $!is-bold                  = $!face.is-bold;
+    $!is-italic                = $!face.is-italic;
     # TruType, Type 1, BDF, PCF, Type 42, CID Type 42, CFF, PFR, or Windows FNT
-    $!font-format = $!face.font-format;
-    $!num-glyphs = $!face.num-glyphs;
+    $!font-format              = $!face.font-format;
+    $!num-glyphs               = $!face.num-glyphs;
     # usually only one
-    $!num-faces = $!face.num-faces;
+    $!num-faces                = $!face.num-faces;
 
     # 11 scaled font metrics only valid AFTER .set-char-size is called in TWEAK
-    $!x-scale = $!sm.x-scale;
-    $!y-scale = $!sm.y-scale;
-    $!x-ppem = $!sm.x-ppem;
-    $!y-ppem = $!sm.y-ppem;
-    $!ascender = $!sm.ascender;
-    $!descender = $!sm.descender;
-    $!height = $!sm.height;
-    $!max-advance = $!sm.max-advance;
-    $!underline-position = $!sm.underline-position;
+    $!x-scale             = $!sm.x-scale;
+    $!y-scale             = $!sm.y-scale;
+    $!x-ppem              = $!sm.x-ppem;
+    $!y-ppem              = $!sm.y-ppem;
+    $!ascender            = $!sm.ascender;
+    $!descender           = $!sm.descender;
+    $!height              = $!sm.height;
+    $!max-advance         = $!sm.max-advance;
+    $!underline-position  = $!sm.underline-position;
     $!underline-thickness = $!sm.underline-thickness;
-    $!bbox = $!sm.bbox; # an array
+    $!bbox                = $!sm.bbox; # an array
     
     # scale factor * units-per-EM = font-size
     # thus: scale factor = font-size / units-per-EM
@@ -110,6 +110,7 @@ submethod TWEAK {
 #| Given a character, return its Char object 
 method glyph(Str $char --> Char) {
     unless %!chars{$char}:exists {
+        # get the needed glyph from lib/*/Subs.rakumod
         my Char $c = get-glyph $!face, $char;
         %!chars{$char} = $c;
     }

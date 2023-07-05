@@ -164,7 +164,7 @@ sub check-my-fonts-list($homedir, :$free-type,:$debug) is export(:build) {
 
 sub get-glyph(Font::FreeType::Face:D $f, $text, :$debug --> GChar) is export {
     my GChar $c;
-    $f.forall-glyphs: $text, :!load, :flags(FT_LOAD_NO_HINTING), -> Font::FreeType::Glyph:D $g {
+    $f.for-glyphs: $text, -> Font::FreeType::Glyph:D $g {
         $c = GChar.new;
         # set all attrs here, remember, $g disappears when leaving here
         my @attrs = <
@@ -182,7 +182,7 @@ sub get-glyph(Font::FreeType::Face:D $f, $text, :$debug --> GChar) is export {
         for @attrs -> $a {
             $c."$a"() = $g."$a"();
         }
-        note Dump({$c});exit;
+        #note Dump($c);exit;
 
         last;
     }

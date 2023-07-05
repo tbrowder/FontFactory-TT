@@ -70,7 +70,7 @@ submethod TWEAK {
     $!is-scalable = $!face.is-scalable;
     $!units-per-EM = $!face.units-per-EM;
 
-    # is OpenType
+    # is OpenType:
     $!is-sfnt = $!face.is-sfnt;
     $!has-horizontal-metrics = $!face.has-horizontal-metrics;
     $!has-vertical-metrics = $!face.has-vertical-metrics;
@@ -84,7 +84,7 @@ submethod TWEAK {
     # usually only one
     $!num-faces = $!face.num-faces;
 
-    # 12 scaled font metrics only valid AFTER .set-char-size is called in TWEAK
+    # 11 scaled font metrics only valid AFTER .set-char-size is called in TWEAK
     $!x-scale = $!sm.x-scale;
     $!y-scale = $!sm.y-scale;
     $!x-ppem = $!sm.x-ppem;
@@ -97,8 +97,8 @@ submethod TWEAK {
     $!underline-thickness = $!sm.underline-thickness;
     $!bbox = $!sm.bbox; # an array
     
-# scale factor * units-per-EM = font-size
-# thus: scale factor = font-size / units-per-EM
+    # scale factor * units-per-EM = font-size
+    # thus: scale factor = font-size / units-per-EM
 
     # go completely lazy as recommended
     =begin comment

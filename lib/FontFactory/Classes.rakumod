@@ -60,15 +60,18 @@ class Char does Layout is export {
     # The unicode character represented by the glyph.
     has $.Str; 
 
+    # the unicode code
     has $.char-code; # same as ord (dec value)
     has $.hex;
     has $.dec;
+    has $.ord;
+
     has $.uniname;
     has $.is-outline;
     has $.format;
 
-    has $.char-width;
-    has $.char-height;
+    has $.char-width;  # from bbox
+    has $.char-height; # from bbox
 
     method new(Font::FreeType::Glyph :$glyph) {
         my $g = $glyph;

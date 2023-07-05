@@ -70,10 +70,11 @@ class Char does Layout is export {
     has $.char-width;
     has $.char-height;
 
-    
-    method new(Font::FreeType::Glyph $g) {
+    method new(Font::FreeType::Glyph :$glyph) {
+        my $g = $glyph;
         self.bless(
             :char($g.char-code.chr),
+            :Str($g.Str),
 
             # synonyms
             :char-code($g.char-code),

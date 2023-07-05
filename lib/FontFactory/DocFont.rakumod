@@ -28,7 +28,7 @@ has                      $.id   is required; #= "$key|$size" which should be uni
 # other attrs 
 has          $.sm;    #= scaled metrics
 has          $.sf;    #= scale factor for the font object's EM.size attrs vs the font size
-has     Char %.chars;
+has     Char %.chars; #= hash of Glyphs keyed by a Str char
 
 has          $.units-per-EM;
 has          $.postscript-name;

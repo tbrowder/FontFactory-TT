@@ -3,7 +3,7 @@ use Test;
 use FontFactory;
 use FontFactory::DocFont;
 #use FontFactory::Subs;
-#use FontFactory::Classes;
+use FontFactory::Classes;
 
 my $ff = FontFactory.new;
 isa-ok $ff, FontFactory;
@@ -21,7 +21,7 @@ is $df.is-bold, False;
 is $df.is-italic, False;
 is $df.font-format, "TrueType";
 
-my $g = $df.glyph: 'A';
-is $g.Str, 'A';
+my Char $c = $df.glyph: 'A';
+is $c.Str, 'A';
 
 done-testing;

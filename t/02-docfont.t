@@ -20,6 +20,8 @@ is $df.is-sfnt, True;
 is $df.is-bold, False;
 is $df.is-italic, False;
 is $df.font-format, "TrueType";
+is $df.has-horizontal-metrics, True;
+is $df.has-vertical-metrics, False;
 
 my GChar $c = $df.glyph: 'A';
 is $c.Str, 'A';

@@ -162,10 +162,10 @@ sub check-my-fonts-list($homedir, :$free-type,:$debug) is export(:build) {
     }
 } # end sub
 
-sub get-glyph(Font::FreeType::Face:D $f, $text, :$debug --> GChar) is export {
-    my GChar $c;
+sub get-gchars(Font::FreeType::Face:D $f, $text, :$debug --> List) is export {
+    my @gchars;
     $f.for-glyphs: $text, -> Font::FreeType::Glyph:D $g {
-        $c = GChar.new;
+        my $c = GChar.new;
         # set all attrs here, remember, $g disappears when leaving here
         my @attrs = <
             Str
@@ -182,13 +182,26 @@ sub get-glyph(Font::FreeType::Face:D $f, $text, :$debug --> GChar) is export {
         for @attrs -> $a {
             $c."$a"() = $g."$a"();
         }
-        #note Dump($c);exit;
 
-        last;
+        # some adjustments
+        if not $f.has-vertical-metrics {
+            $c.vertical-advance = 0;
+        }
+        if not $f.has-horizontal-metrics {
+            $c.horizzontal-advance = 0;
+        }
+
+        #note Dump($c);exit;
+        #last;
+
+        @gchars.push: $c;
     }
-    $c
+    @gchars
 } # end sub
 
+=finish
+
+=begin comment
 # moved from /dev/iterate-text.raku
 multi sub get-glyphs(Font::FreeType::Face:D $f, $text, :$debug --> Hash) is export {
     my %glyphs;
@@ -270,8 +283,8 @@ multi sub get-glyphs(Font::FreeType::Face:D $f, :$debug --> Hash) is export {
     %glyphs;
 
 } # end of sub
+=end comment
 
-=finish
 
 =begin comment
 

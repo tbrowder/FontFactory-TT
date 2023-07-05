@@ -3,7 +3,6 @@
 use Abbreviations;
 use Proc::Easier;
 use Data::Dump;
-use Data::Dump::Tree;
 use File::Find;
 use Font::FreeType;
 use Font::FreeType::Face;

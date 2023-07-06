@@ -24,12 +24,14 @@ my constant URY is export = 3; # bbox index for upper bound
 has Font::FreeType::Face $.face is required; #= from desired font file
 has                      $.size is required; #= desired size in points
 has                      $.id   is required; #= "$key|$size" which should be unique
+has                      $.name is required; #= basename of the input font file
 
 # other attrs
-has          $.sm;    #= scaled metrics
-has          $.sf;    #= scale factor for the font object's EM.size attrs vs the font size
-has    GChar %.chars; #= hash of Glyphs keyed by a Str char
+has          $.sm;       #= scaled metrics
+has          $.sf;       #= scale factor for the font object's EM.size attrs vs the font size
+has    GChar %.chars;    #= hash of Glyphs keyed by a Str char
 
+# derived from the face and other Font::FreeType modules
 has          $.units-per-EM;
 has          $.postscript-name;
 has          $.family-name;

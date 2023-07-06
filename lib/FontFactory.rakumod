@@ -138,7 +138,7 @@ method get-docfont($key,          #= normally the unique index in the current fo
     if $key.IO.r {
         # need a face
         my $face = $!ft.face: $key, :load-flags(FT_LOAD_NO_HINTING);
-        my $df = DocFont.new: :$face, :$size, :$id;
+        my $df = DocFont.new: :$face, :$size, :$id, :name($key.IO.basename);
         %!docfonts{$id} = $df;
         return $df
     }
@@ -165,7 +165,7 @@ method get-docfont($key,          #= normally the unique index in the current fo
 
     # need a face
     my $face = $!ft.face: $path, :load-flags(FT_LOAD_NO_HINTING);
-    my $df = DocFont.new: :$face, :$size, :$id;
+    my $df = DocFont.new: :$face, :$size, :$id, :name($path.IO.basename);
     %!docfonts{$id} = $df;
     $df
 }

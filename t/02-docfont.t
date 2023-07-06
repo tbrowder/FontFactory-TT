@@ -11,6 +11,7 @@ isa-ok $ff, FontFactory;
 my $df = $ff.get-docfont: "t/fonts/DejaVuSerif.ttf", 14;
 isa-ok $df, FontFactory::DocFont;
 is $df.size, 14;
+is $df.name, "DejaVuSerif.ttf", "font file basenane";
 is $df.postscript-name, "DejaVuSerif";
 is $df.family-name, "DejaVu Serif";
 is $df.has-kerning, True;

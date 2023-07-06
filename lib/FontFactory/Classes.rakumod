@@ -1,5 +1,7 @@
 unit module FontFactory::Classes;
 
+use FontFactory::GChar;
+
 role Layout is export {
     # Note this role is NOT to be used with class GChar
     # UNLESS the conflicting values are made as methods.
@@ -53,6 +55,7 @@ role Layout is export {
     has $.ury;
 }
 
+=begin comment
 class GChar is export {
     # Has same of the same attributes as the ephemeral class Glyph
     # plus bbox info from its GlyphImage.outline.
@@ -80,18 +83,18 @@ class GChar is export {
     # (note attrs 'index' and 'format' are not of interest as of now)
 
     # 10 "primary" attrs
-=begin comment
-Str
-name
-char-code
-left-bearing
-right-bearing
-horizontal-advance
-vertical-advance
-width
-height
-is-outline
-=end comment
+    =begin comment
+    Str
+    name
+    char-code
+    left-bearing
+    right-bearing
+    horizontal-advance
+    vertical-advance
+    width
+    height
+    is-outline
+    =end comment
 
     has $.Str is rw;
     has $.name is rw;
@@ -122,6 +125,7 @@ is-outline
     }
     =end comment
 }
+=end comment
 
 class String does Layout is export {
     # may have spaces

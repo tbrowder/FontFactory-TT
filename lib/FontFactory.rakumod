@@ -17,8 +17,7 @@ use Font::AFM;
 # Needed to load fonts
 has PDF::Lite $.pdf; # can be provided by the caller
 
-# Eliminate duplicate DocFonts. Hash is keyed by "key|size".
-# font's size
+# Eliminate duplicate DocFonts. Hash is keyed by "key|size".  # font's size
 has FontFactory::DocFont %.docfonts;
 
 # hash of fonts and location, etc.
@@ -172,7 +171,6 @@ method get-docfont($key,          #= normally the unique index in the current fo
 }
 
 # end unit class FontFactory
-
 
 =begin comment
 # not used now

@@ -23,6 +23,7 @@
     "FontFactory": "lib/FontFactory.rakumod",
     "FontFactory::Classes": "lib/FontFactory/Classes.rakumod",
     "FontFactory::DocFont": "lib/FontFactory/DocFont.rakumod",
+    "FontFactory::GChar": "lib/FontFactory/GChar.rakumod",
     "FontFactory::Subs": "lib/FontFactory/Subs.rakumod"
   },
   "resources": [

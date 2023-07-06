@@ -8,7 +8,8 @@ use Data::Dump;
 
 unit module FontFactory::Subs;
 
-use FontFactory::Classes;
+#use FontFactory::Classes;
+use FontFactory::GChar;
 
 # moved from /build/bin.find-system-fonts
 =begin code

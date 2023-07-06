@@ -163,6 +163,9 @@ sub check-my-fonts-list($homedir, :$free-type,:$debug) is export(:build) {
 } # end sub
 
 sub get-gchar(Font::FreeType::Face:D $f, $text, :$debug --> GChar) is export {
+    my $char = $text.comb.head;
+    my @gchars = get-gchars $f, $char;
+    @gchars.head;
 } # end sub
 
 sub get-gchars(Font::FreeType::Face:D $f, $text, :$debug --> List) is export {

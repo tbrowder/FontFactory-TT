@@ -111,7 +111,7 @@ submethod TWEAK {
 method glyph($char --> GChar) {
     unless %!chars{$char}:exists {
         # get the needed glyph from lib/*/Subs.rakumod
-        my GChar $c = get-glyph $!face, $char;
+        my GChar $c = get-gchar $!face, $char;
         %!chars{$char} = $c;
     }
     %!chars{$char};

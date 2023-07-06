@@ -107,7 +107,7 @@ submethod TWEAK {
     =end comment
 }
 
-#| Given a character, return its Char object
+#| Given a character, return its GChar object
 method glyph($char --> GChar) {
     unless %!chars{$char}:exists {
         # get the needed glyph from lib/*/Subs.rakumod
@@ -115,6 +115,13 @@ method glyph($char --> GChar) {
         %!chars{$char} = $c;
     }
     %!chars{$char};
+}
+
+#| Given a string of characters, return its GChar objects
+method glyphs($chars --> List) {
+    my @gchars;
+    @gchars.push(self.glyph($_)) for $chars.comb;
+    @gchars;
 }
 
 =finish

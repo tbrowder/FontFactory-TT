@@ -162,6 +162,9 @@ sub check-my-fonts-list($homedir, :$free-type,:$debug) is export(:build) {
     }
 } # end sub
 
+sub get-gchar(Font::FreeType::Face:D $f, $text, :$debug --> GChar) is export {
+} # end sub
+
 sub get-gchars(Font::FreeType::Face:D $f, $text, :$debug --> List) is export {
     my @gchars;
     $f.for-glyphs: $text, -> Font::FreeType::Glyph:D $g {

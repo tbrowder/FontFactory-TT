@@ -61,21 +61,22 @@ The list will be stored in your `$HOME` directory as `$HOME/.fontfactory/system-
     243 Courier.otf /usr/local/fonts/
       #... more entries
 
-Note that there may be multiple instances of the same font on your system but only one will be listed. This module uses that file, but you can regenerate it at any time by running `ff-find-fonts`. You may delete any font entries but do not change the format of the first three fields of remaing data lines. Comments starting with a `#` are allowed and ignored from there to the end of the line.
+Note that there may be multiple instances of the same font on your system, but only one will be listed. This module uses that file, but you can regenerate it at any time by running `ff-gen-list`. You may delete any font entries in the lists, but do not change the format of the first three fields of remaing data lines. Comments starting with a `#` are allowed, and the text is ignored from there to the end of the line.
 
 ### User fonts
 
-For convenience you may want to create a another list to associate your oft-used fonts with a short alias. That is done by creating a file named `$HOME/.fontfactory/my-fonts.list`.
+For convenience, you may want to create a another list to associate your oft-used fonts with a short alias. That is done by creating a file named `$HOME/.fontfactory/my-fonts.list`.
 
 The file should look something like this:
 
-    # A valid data line contains three fields (words separated by one or more
-    # spaces):
+    # A valid data line contains three fields (words separated by one 
+    # or more spaces):
     #   1. alias
     #   2. font-name (with extension)
-    #   3. location (path)
-    # All data on a line after the third field are ignored with one exception:
-    # any 'KERN' or 'kern' found will flag the font as having a kerning capability.
+    #   3. location (parent directoty)
+    # All data on a line after the third field are ignored with one 
+    # exception: any 'KERN' or 'kern' found will flag the font as having a 
+    # kerning capability.
     # Blank or comment lines like this are ignored.
       100   Blarney.ttf   ~/.fonts    kerning my favorite serif font
       c     Courier.otf   /some/dir   my favorite monospaced font
@@ -87,7 +88,7 @@ Note the fields **alias**, **font-name**, and **location** (parent directory) ar
 DESCRIPTION
 ===========
 
-**FontFactory** is a Unicode font factory similar to `FontFactory::Type1` but using *TrueType*, *OpenType*, and *Type 1* fonts. It provides functions to ease using Unicode fonts with *PDF-generating* modules. It does that by defining a font class (`class Font::Factory::DocFont` that includes a specific font face and size along with functions emulating many of those found in `Font::AFM`.
+**FontFactory** is a Unicode font factory similar to `FontFactory::Type1`, but using *TrueType*, *OpenType*, and *Type 1* fonts. It provides functions to ease using Unicode fonts with *PDF-generating* modules. It does that by defining a font class (`class Font::Factory::DocFont` that includes a specific font face and size along with functions emulating many of those found in `Font::AFM`.
 
 The functions permit the user to completely describe his or her desired page layout before placing it on a PDF page of the intended size.
 

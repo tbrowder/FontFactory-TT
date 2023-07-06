@@ -70,28 +70,29 @@ like this:
 =end code
 
 Note that there may be multiple instances of the same font on your
-system but only one will be listed. This module uses that file, but
-you can regenerate it at any time by running C<ff-find-fonts>. You may
-delete any font entries but do not change the format of the first
+system, but only one will be listed. This module uses that file, but
+you can regenerate it at any time by running C<ff-gen-list>. You may
+delete any font entries in the lists, but do not change the format of the first
 three fields of remaing data lines. Comments starting with a C<#> are
-allowed and ignored from there to the end of the line.
+allowed, and the text is ignored from there to the end of the line.
 
 =head3 User fonts
 
-For convenience you may want to create a another list to associate
+For convenience, you may want to create a another list to associate
 your oft-used fonts with a short alias. That is done by creating a
 file named C<$HOME/.fontfactory/my-fonts.list>.
 
 The file should look something like this:
 
 =begin code
-# A valid data line contains three fields (words separated by one or more
-# spaces):
+# A valid data line contains three fields (words separated by one 
+# or more spaces):
 #   1. alias
 #   2. font-name (with extension)
-#   3. location (path)
-# All data on a line after the third field are ignored with one exception:
-# any 'KERN' or 'kern' found will flag the font as having a kerning capability.
+#   3. location (parent directoty)
+# All data on a line after the third field are ignored with one 
+# exception: any 'KERN' or 'kern' found will flag the font as having a 
+# kerning capability.
 # Blank or comment lines like this are ignored.
   100   Blarney.ttf   ~/.fonts    kerning my favorite serif font
   c     Courier.otf   /some/dir   my favorite monospaced font
@@ -108,7 +109,7 @@ The B<notes> field is optional.
 
 =head1 DESCRIPTION
 
-B<FontFactory> is a Unicode font factory similar to C<FontFactory::Type1> but
+B<FontFactory> is a Unicode font factory similar to C<FontFactory::Type1>, but
 using I<TrueType>, I<OpenType>, and I<Type 1> fonts.
 It provides functions to ease using Unicode fonts with
 I<PDF-generating> modules.  It does that by defining a font

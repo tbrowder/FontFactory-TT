@@ -118,6 +118,15 @@ with functions emulating many of those found in C<Font::AFM>.
 The functions permit the user to completely describe his or her desired page
 layout before placing it on a PDF page of the intended size.
 
+=head2 Typical work flow with its current capability
+
+=item Show fonts avaliable on your host by key, basename, directory, and kerning capability
+=item Search for a specific font by name pattern or attribute (e.g., serif, monospaced, bold, italic, kerning)
+=item Generate PDF documents with samples of selected fonts and sizes
+=item Get metrics for a string suitable for typesetting in the desired font and size
+=item Get full use of thousands of Unicode glyphs in PDF documents
+
+
 For more details, see the public methods described in L<METHODS|/METHODS.md>.
 
 =head1 See also

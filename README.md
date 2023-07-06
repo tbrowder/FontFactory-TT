@@ -91,6 +91,19 @@ DESCRIPTION
 
 The functions permit the user to completely describe his or her desired page layout before placing it on a PDF page of the intended size.
 
+Typical work flow with its current capability
+---------------------------------------------
+
+  * Show fonts avaliable on your host by key, basename, directory, and kerning capability
+
+  * Search for a specific font by name pattern or attribute (e.g., serif, monospaced, bold, italic, kerning)
+
+  * Generate PDF documents with samples of selected fonts and sizes
+
+  * Get metrics for a string suitable for typesetting in the desired font and size
+
+  * Get full use of thousands of Unicode glyphs in PDF documents
+
 For more details, see the public methods described in [METHODS](/METHODS.md).
 
 See also

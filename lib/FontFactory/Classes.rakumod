@@ -3,6 +3,7 @@ unit module FontFactory::Classes;
 use FontFactory::GChar;
 
 role Layout is export {
+
     # Note this role is NOT to be used with class GChar
     # UNLESS the conflicting values are made as methods.
 

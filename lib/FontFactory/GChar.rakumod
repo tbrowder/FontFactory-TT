@@ -1,4 +1,4 @@
-unit class FontFactory::GChar;
+unit class FontFactory::GChar is export;
 
     # Has same of the same attributes as the ephemeral class Glyph
     # plus bbox info from its GlyphImage.outline.

@@ -18,11 +18,13 @@ or her favorite font (which must be free; a link to a source is required).
 The default text for a given language is (as suggested by \@patrickb on IRC \#raku)
 a 'pangram' from L<Wikipedia|https://en.wikipedia.org/wiki/Pangram#> as referenced
 in the following table.
+A more complete list is at <Clagnut.com|https:/clagnut.com/blog/2380/#Sample_font_displays_in_other_languages_using_pangrams>.
 
 =begin table :caption<Pangrams by language code>
-Code | Pangram   | Notes
------+-----------+-------
-EN   | The quick brown fox jumped over the lazy dog. | 1
+Code | Language  | Pangram   | Notes
+-----+-----------+-----------+------
+EN   | English   | The quick brown fox jumped over the lazy dog. | 1
+DE   | German    |           |
 end table
 
 =head1 Pangram notes

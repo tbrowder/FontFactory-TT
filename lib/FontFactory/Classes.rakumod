@@ -2,7 +2,7 @@ unit module FontFactory::Classes;
 
 use FontFactory::GChar;
 
-role Layout is export {
+role Metrics is export {
 
     # Note this role is NOT to be used with class GChar
     # UNLESS the conflicting values are made as methods.
@@ -56,25 +56,36 @@ role Layout is export {
     has $.ury;
 }
 
-class String does Layout is export {
-    # may have spaces
+class String does Metrics is export {
+    # may have spaces, may NOT have embedded newlines
+    has       $.text is required;
     has GChar @.chars;
+    TWEAK {
+        die "FATAL: a String may not have embedded newlines" if $!text ~~ /\n/;
+    }
 }
 
-class Word does Layout is export {
-    # may NOT have spaces
+class Word does Metrics is export {
+    # may NOT have spaces, may NOT have embedded newlines
+    has       $.text is required;
     has GChar @.chars;
+    TWEAK {
+        die "FATAL: a Word may not have spaces or embedded newlines" if $!text ~~ /\n|\s/;
+    }
 }
 
 class Line does Layout is export {
+    # for metrics add the spaces between Words
     has Word @.words;
 }
 
 class Para does Layout is export {
+    # for metrics add the line spacing between Lines
     has Line @.lines;
 }
 
 class Page does Layout is export {
+    # for metrics add the spacing between Paras
     has Para @.paras;
 }
 

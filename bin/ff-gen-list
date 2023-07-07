@@ -9,7 +9,7 @@ use Font::FreeType::Face;
 use Font::FreeType::Raw::Defs;
 
 use FontFactory;
-use FontFactory::Subs :build;
+use FontFactory::FF-Subs :build;
 
 my $HOME = %*ENV<HOME> // '.';
 my $pdir; # repo dir
@@ -42,7 +42,7 @@ if not @*ARGS {
     Finds TrueType, OpenType, and Type 1 font files and creates a list in
     a user's \$HOME in a new file (an old one is overwritten) named
 
-        \$HOME/.fontfactory/system-fonts.list 
+        \$HOME/.fontfactory/system-fonts.list
 
     Creates the following empty file if it doesn't exist (checks it if it
     does):
@@ -51,7 +51,7 @@ if not @*ARGS {
 
     If the build mode is not used, other files generated are
 
-        \$REPODIR/dev/system-fonts.list 
+        \$REPODIR/dev/system-fonts.list
         \$REPODIR/dev/system-fonts-dups.list
         \$REPODIR/dev/fntsample-fonts.list
 
@@ -65,7 +65,7 @@ for @*ARGS {
     when /^:i d/ {
         ++$debug;
     }
-    when /^:i g/ { 
+    when /^:i g/ {
         ; # ok
     }
     when /^:i build/ {
@@ -74,7 +74,7 @@ for @*ARGS {
 }
 
 if 0 and $debug {
-    say "DEBUG: parent dir is: '$pdir'"; 
+    say "DEBUG: parent dir is: '$pdir'";
     exit;
 }
 

@@ -2,7 +2,7 @@ use Test;
 
 use FontFactory;
 #use FontFactory::DocFont;
-use FontFactory::Subs;
+use FontFactory::FF-Subs;
 #use FontFactory::Classes;
 
 my @exefils = <
@@ -11,7 +11,7 @@ my @exefils = <
     ff-find-font
     ff-font-sample
 >;
-    
+
 plan @exefils.elems;
 
 for @exefils -> $f {
@@ -66,4 +66,3 @@ lives-ok {
 lives-ok {
     run "./bin/ff-font-sample"
 }, "execute ff-font-sample";
-

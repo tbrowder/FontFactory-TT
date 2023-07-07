@@ -10,7 +10,7 @@ unit module FontFactory::DocFont::DF-Subs;
 
 use FontFactory::DocFont::GChar;
 
-sub get-gchar(Font::FreeType::Face:D $f, $text, :$debug --> GChar) is export {
+sub get-gchar(Font::FreeType::Face:D $f, $text, :$debug --> FontFactory::DocFont::GChar) is export {
     my $char = $text.comb.head;
     my @gchars = get-gchars $f, $char;
     @gchars.head;
@@ -19,7 +19,7 @@ sub get-gchar(Font::FreeType::Face:D $f, $text, :$debug --> GChar) is export {
 sub get-gchars(Font::FreeType::Face:D $f, $text, :$debug --> List) is export {
     my @gchars;
     $f.for-glyphs: $text, -> Font::FreeType::Glyph:D $g {
-        my $c = GChar.new;
+        my $c = FontFactory::DocFont::GChar.new;
         # set all attrs here, remember, $g disappears when leaving here
         my @attrs = <
             Str

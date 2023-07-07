@@ -25,7 +25,7 @@ is $df.font-format, "TrueType";
 is $df.has-horizontal-metrics, True;
 is $df.has-vertical-metrics, False;
 
-my GChar $c = $df.glyph: 'A';
+my FontFactory::DocFont::GChar $c = $df.glyph: 'A';
 isa-ok $c, FontFactory::DocFont::GChar;
 is $c.Str, 'A';
 

@@ -9,8 +9,8 @@ use Font::FreeType::Glyph;
 use Font::FreeType::Raw::Defs;
 use Font::FreeType::SizeMetrics;
 
-use FontFactory::GChar;
-use FontFactory::Subs;
+use FontFactory::DocFont::GChar;
+use FontFactory::DocFont::DF-Subs;
 #use FontFactory::Classes;
 
 my constant LLX is export = 0; # bbox index for left bound

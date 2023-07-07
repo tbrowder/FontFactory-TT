@@ -5,7 +5,7 @@
 I am collecting suggested lines of text for
 publishing font samples in languages other
 than English. The contributed examples
-should be submitted as an issue at L<>.
+should be submitted as an issue at L<https://github.com/tbrowder/FontFactory>.
 
 The data submitted should include the two-letter ISO
 code for the language along with the contributer's
@@ -16,15 +16,11 @@ is a 'pangram' from L<Wikipedia|https://en.wikipedia.org/wiki/Pangram#> as refer
 in the following table.
 
 =begin table :caption<Pangrams by language code>
-Code | Reference
-EN   | 1
-DE   | 2
+Code | Pangram   | Notes
+-----+-----------+-------
+EN   | The quick brown fox jumped over the lazy dog.
 =end table
 
-=head1 References
-
-1. [EN] The quick brown fox jumped over the lazy dog.
-
-2. [DE] 
+=head1 Pangram notes
 
 =end pod

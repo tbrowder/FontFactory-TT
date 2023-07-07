@@ -1,7 +1,7 @@
 Languages for font samples
 ==========================
 
-I am collecting suggested lines of text for publishing font samples in languages other than English. The contributed examples should be submitted as an issue at []().
+I am collecting suggested lines of text for publishing font samples in languages other than English. The contributed examples should be submitted as an issue at [https://github.com/tbrowder/FontFactory](https://github.com/tbrowder/FontFactory).
 
 The data submitted should include the two-letter ISO code for the language along with the contributer's desired name for attribution.
 
@@ -9,15 +9,14 @@ The default text for a given language is (as suggested by \@patrickb on IRC \#ra
 
 <table class="pod-table">
 <caption>Pangrams by language code</caption>
+<thead><tr>
+<th>Code</th> <th>Pangram</th> <th>Notes</th>
+</tr></thead>
 <tbody>
-<tr> <td>Code</td> <td>Reference</td> </tr> <tr> <td>EN</td> <td>1</td> </tr> <tr> <td>DE</td> <td>2</td> </tr>
+<tr> <td>EN</td> <td>The quick brown fox jumped over the lazy dog.</td> <td></td> </tr>
 </tbody>
 </table>
 
-References
-==========
-
-1. [EN] The quick brown fox jumped over the lazy dog.
-
-2. [DE] 
+Pangram notes
+=============
 

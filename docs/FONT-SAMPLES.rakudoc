@@ -6,21 +6,26 @@ I am collecting suggested lines of text for
 publishing font samples in languages other
 than English. The contributed examples
 should be submitted as an issue at L<https://github.com/tbrowder/FontFactory>.
+The first contributer for a given language will be considered authoritative
+and must provide suitable contact data (a Github repo reference owned by
+the contributer is acceptable).
 
 The data submitted should include the two-letter ISO
 code for the language along with the contributer's
-desired name for attribution.
+desired name for attribution. The submitter can also suggest his
+or her favorite font (which must be free; a link to a source is required).
 
 The default text for a given language is (as suggested by \@patrickb on IRC \#raku)
-is a 'pangram' from L<Wikipedia|https://en.wikipedia.org/wiki/Pangram#> as referenced
+a 'pangram' from L<Wikipedia|https://en.wikipedia.org/wiki/Pangram#> as referenced
 in the following table.
 
 =begin table :caption<Pangrams by language code>
 Code | Pangram   | Notes
 -----+-----------+-------
-EN   | The quick brown fox jumped over the lazy dog.
-=end table
+EN   | The quick brown fox jumped over the lazy dog. | 1
+end table
 
 =head1 Pangram notes
 
+1. [EN] The default font is '' (included with this module).
 =end pod

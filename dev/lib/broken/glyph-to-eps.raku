@@ -7,7 +7,7 @@ sub MAIN(Str $filename, Str $char is copy, UInt :$bold) {
 
     my $face = Font::FreeType.new.face($filename,
                                        :load-flags(FT_LOAD_NO_HINTING));
-    $face.set-char-size(24, 0, 600, 600);
+    $face.set-font-size(24, 0, 600, 600);
 
     # Accept character codes in hex or decimal, otherwise assume it's the
     # actual character itself.

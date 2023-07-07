@@ -1,7 +1,7 @@
 unit class FontFactory::DocFont::GChar;
 
 # Has same of the same attributes as the ephemeral class Font::FreeType::Glyph
-# plus bbox info from its GlyphImage.outline.
+# plus bounding-box info from its GlyphImage.outline.
 
 use Font::FreeType;
 use Font::FreeType::Face;
@@ -18,8 +18,8 @@ use Font::FreeType::SizeMetrics;
 has $.hex;
 has $.dec;
 has $.ord;
-has $.char-width;  # from bbox
-has $.char-height; # from bbox
+has $.char-width;  # from bounding-box
+has $.char-height; # from bounding-box
 =end comment
 
 # These attrs are from Font::FreeType::Glyph
@@ -60,10 +60,10 @@ method new(Font::FreeType::Glyph :$glyph) {
         :dec($g.char-code),
         :hex($g.char-code.base(16)),
         :uniname($g.char-code.chr.uniname),
-        :llx($g.outline.bbox.x-min),
-        :lly($g.outline.bbox.y-min),
-        :urx($g.outline.bbox.x-max),
-        :ury($g.outline.bbox.y-max),
+        :llx($g.outline.bounding-box.x-min),
+        :lly($g.outline.bounding-box.y-min),
+        :urx($g.outline.bounding-box.x-max),
+        :ury($g.outline.bounding-box.y-max),
     )
 }
 =end comment

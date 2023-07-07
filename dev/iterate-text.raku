@@ -87,7 +87,7 @@ my $text = $text-in;
 my $size = 12.3;
 say "    setting font size to $size points";
 
-$f.set-char-size: $size;
+$f.set-font-size: $size;
 
 # new module with function to get the metrics
 my %chars = get-glyphs $f;
@@ -161,7 +161,7 @@ say "height: ", $fm.height;
 say "max-advance: ", $fm.max-advance;
 say "underline-position: ", $fm.underline-position;
 say "underline-thickness: ", $fm.underline-thickness;
-say "bbox: ", $fm.bbox; # an array
+say "bbox: ", $fm.bounding-box; # an array
 say "=== end of new scaled metrics:";
 # scale factor * units-per-EM = font-size
 # thus: scale factor = font-size / units-per-EM
@@ -188,7 +188,7 @@ sub get-glyphs(Font::FreeType::Face:D $f,  :$debug --> Hash) is export {
         my $dec  = $g.char-code;
         my $hex  = $g.char-code.base(16);
 
-        my $bbox = $g.outline.bbox;
+        my $bbox = $g.outline.bounding-box;
         my $llx  = $bbox.x-min;
         my $lly  = $bbox.y-min;
         my $urx  = $bbox.x-max;
@@ -265,7 +265,7 @@ $f.for-glyphs: $text, -> $g {
     say "        left-bearing ", $g.left-bearing;
     say "        right-bearing ", $g.right-bearing;
     say "        is-outline ", $g.is-outline;
-    my $b = $g.outline.bbox;
+    my $b = $g.outline.bounding-box;
     say "        bbox (char BBoX): ", sprintf("%f %f %f %f", $b.x-min, $b.y-min, $b.x-max, $b.y-max);
     $left = $f.glyph-name-from-index: $g.index;
     say "        \@charmaps[\$f.charmaps[{$g.index}\}] = $left";

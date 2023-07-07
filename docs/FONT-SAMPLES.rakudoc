@@ -25,7 +25,7 @@ Code | Language  | Pangram   | Notes
 -----+-----------+-----------+------
 EN   | English   | The quick brown fox jumped over the lazy dog. | 1
 DE   | German    |           |
-end table
+=end table
 
 =head1 Pangram notes
 

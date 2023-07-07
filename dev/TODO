@@ -9,12 +9,12 @@ Use my FontFactory::Type1 and URWBookman-Demi
 fonts (.otf, .t1, .afm) as the primary check 
 for data consistency for this module.
 
-For the 'set-char-size' routine we only need to set
+For the 'set-font-size' routine we only need to set
 the width in points for outline use. We can also
 set width different than size for special effects:
 
 See lib/Font/FreeType/Face.rakumod:
-    method set-char-six(Numeric $width, Numeric $height = $width,
+    method set-font-size(Numeric $width, Numeric $height = $width,
                         Uint $horiz-res = 0, UInt $vert-res = 0) {
 
 

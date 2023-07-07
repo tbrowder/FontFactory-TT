@@ -20,7 +20,7 @@ enum <x y>;
 
 sub MAIN($font-filename, $output-filename, Int :$size=72, Int :$dpi=600, Int :$border=23, Str :$text="\xC2g.", Bool :$shape ) {
     my Font::FreeType::Face $ft-face = Font::FreeType.face($font-filename);
-    $ft-face.set-char-size($size, 0, $dpi, $dpi);
+    $ft-face.set-font-size($size, 0, $dpi, $dpi);
     my @metrics = do if $shape {
         if (try require HarfBuzz::Font::FreeType) === Nil {
             die "HarfBuzz::Font::FreeType must be installed to use the --shape option";

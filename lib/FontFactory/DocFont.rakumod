@@ -13,10 +13,10 @@ use FontFactory::DocFont::GChar;
 use FontFactory::DocFont::DF-Subs;
 #use FontFactory::Classes;
 
-my constant LLX is export = 0; # bbox index for left bound
-my constant LLY is export = 1; # bbox index for lower bound
-my constant URX is export = 2; # bbox index for right bound
-my constant URY is export = 3; # bbox index for upper bound
+my constant LLX is export = 0; # bounding-box index for left bound
+my constant LLY is export = 1; # bounding-box index for lower bound
+my constant URX is export = 2; # bounding-box index for right bound
+my constant URY is export = 3; # bounding-box index for upper bound
 
 #use Data::Dump;
 
@@ -49,7 +49,7 @@ has          $.font-format;              # TruType, Type 1, BDF, PCF, Type 42, C
 has          $.num-glyphs;
 has          $.num-faces;                # usually only one
 
-# 11 scaled font metrics only valid AFTER .set-char-size is called in TWEAK
+# 11 scaled font metrics only valid AFTER .set-font-size is called in TWEAK
 has $.x-scale;
 has $.y-scale;
 has $.x-ppem;
@@ -60,10 +60,10 @@ has $.height;              # line height: recommended distance between baselines
 has $.max-advance;
 has $.underline-position;
 has $.underline-thickness;
-has $.bbox; # an array
+has $.bounding-box; # an array
 
 submethod TWEAK {
-    $!face.set-char-size: $!size;
+    $!face.set-font-size: $!size;
     $!sm = $!face.scaled-metrics;
     $!sf = $!size / $!face.units-per-EM;
 
@@ -87,7 +87,7 @@ submethod TWEAK {
     # usually only one
     $!num-faces                = $!face.num-faces;
 
-    # 11 scaled font metrics only valid AFTER .set-char-size is called in TWEAK
+    # 11 scaled font metrics only valid AFTER .set-font-size is called in TWEAK
     $!x-scale             = $!sm.x-scale;
     $!y-scale             = $!sm.y-scale;
     $!x-ppem              = $!sm.x-ppem;
@@ -98,7 +98,7 @@ submethod TWEAK {
     $!max-advance         = $!sm.max-advance;
     $!underline-position  = $!sm.underline-position;
     $!underline-thickness = $!sm.underline-thickness;
-    $!bbox                = $!sm.bbox; # an array
+    $!bounding-box        = $!sm.bounding-box; # an array
 
     # scale factor * units-per-EM = font-size
     # thus: scale factor = font-size / units-per-EM

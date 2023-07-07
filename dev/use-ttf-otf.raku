@@ -99,8 +99,8 @@ for $font1, $font2, $font3 -> $ffil {
     my $text = "To Wit";
     my $size = 12.3;
     say "    setting font size to $size points";
-    #$f.set-char-size: $size;
-    $f.set-char-size: 12, 12, 72, 72; #$size;
+    #$f.set-font-size: $size;
+    $f.set-font-size: 12, 12, 72, 72; #$size;
 
     # new module with function to get the metrics
 

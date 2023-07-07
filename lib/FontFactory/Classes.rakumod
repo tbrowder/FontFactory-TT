@@ -62,10 +62,13 @@ class String does Metrics is export {
     has GChar @.chars;
     TWEAK {
         die "FATAL: a String may not have embedded newlines" if $!text ~~ /\n/;
+
+        # convert text to GChars
+        # calculate overall metrics
     }
 }
 
-class Word does Metrics is export {
+class Word is String is export {
     # may NOT have spaces, may NOT have embedded newlines
     has       $.text is required;
     has GChar @.chars;
@@ -77,16 +80,25 @@ class Word does Metrics is export {
 class Line does Layout is export {
     # for metrics add the spaces between Words
     has Word @.words;
+    TWEAK {
+        # calculate overall metrics
+    }
 }
 
 class Para does Layout is export {
     # for metrics add the line spacing between Lines
     has Line @.lines;
+    TWEAK {
+        # calculate overall metrics
+    }
 }
 
 class Page does Layout is export {
     # for metrics add the spacing between Paras
     has Para @.paras;
+    TWEAK {
+        # calculate overall metrics
+    }
 }
 
 class Doc does Layout is export {

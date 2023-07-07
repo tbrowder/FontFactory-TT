@@ -27,6 +27,7 @@
     "FontFactory::Subs": "lib/FontFactory/Subs.rakumod"
   },
   "resources": [
+    "fonts/DejaVuSerif.ttf"
   ],
   "source-url": "https://github.com/tbrowder/FontFactory.git",
   "tags": [

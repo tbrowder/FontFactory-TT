@@ -4,6 +4,7 @@ use FontFactory;
 use FontFactory::DocFont;
 use FontFactory::Subs;
 use FontFactory::GChar;
+#use FontFactory::Classes;
 
 my $ff = FontFactory.new;
 isa-ok $ff, FontFactory;
@@ -36,5 +37,8 @@ is @gchars[0].Str, 'a';
 is @gchars[1].Str, 'B';
 is @gchars[2].Str, ' ';
 is @gchars[3].Str, 'd';
+
+#my $s = $df.String: "some text;
+#isa-ok $s, FontFactory::String;
 
 done-testing;

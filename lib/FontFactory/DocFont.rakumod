@@ -11,6 +11,7 @@ use Font::FreeType::SizeMetrics;
 
 use FontFactory::GChar;
 use FontFactory::Subs;
+#use FontFactory::Classes;
 
 my constant LLX is export = 0; # bbox index for left bound
 my constant LLY is export = 1; # bbox index for lower bound
@@ -125,6 +126,13 @@ method glyphs($chars --> List) {
     @gchars.push(self.glyph($_)) for $chars.comb;
     @gchars;
 }
+
+=begin comment
+#| Provid a String from text
+method String(Str:D $text --> FontFactory::Classes::String) {
+    FontFactory::Classes::String.new: $text;
+}
+=end comment
 
 =finish
 

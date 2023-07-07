@@ -2,8 +2,9 @@ use Test;
 
 use FontFactory;
 use FontFactory::DocFont;
-use FontFactory::Subs;
-use FontFactory::GChar;
+use FontFactory::FF-Subs;
+use FontFactory::DocFont::GChar;
+use FontFactory::DocFont::DF-Subs;
 
 my $ff = FontFactory.new;
 isa-ok $ff, FontFactory;
@@ -24,17 +25,20 @@ is $df.font-format, "TrueType";
 is $df.has-horizontal-metrics, True;
 is $df.has-vertical-metrics, False;
 
-my GChar $c = $df.glyph: 'A';
-isa-ok $c, FontFactory::GChar;
+my FontFactory::DocFont::GChar $c = $df.glyph: 'A';
+isa-ok $c, FontFactory::DocFont::GChar;
 is $c.Str, 'A';
 
 my @gchars = get-gchars $df.face, "aB d";
 for @gchars {
-    isa-ok $_, FontFactory::GChar;
+    isa-ok $_, FontFactory::DocFont::GChar;
 }
 is @gchars[0].Str, 'a';
 is @gchars[1].Str, 'B';
 is @gchars[2].Str, ' ';
 is @gchars[3].Str, 'd';
+
+#my $s = $df.String: "some text;
+#isa-ok $s, FontFactory::String;
 
 done-testing;

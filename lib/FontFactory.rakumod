@@ -9,7 +9,7 @@ use Font::FreeType::Glyph;
 unit class FontFactory;
 
 use FontFactory::DocFont;
-use FontFactory::Subs;
+use FontFactory::FF-Subs;
 
 use PDF::Lite;
 use Font::AFM;
@@ -44,17 +44,17 @@ submethod TWEAK {
     # All is for naught if system-fonts are not loaded!
     if not %!fonts.elems {
         die qq:to/HERE/;
-        FATAL: No system fonts were found! 
+        FATAL: No system fonts were found!
                Please file an issue with
                pertinent details.
         HERE
     }
 
     # Get any personal fonts (their keys override those of
-    # any system fonts). Ensure the replaced font gets a 
+    # any system fonts). Ensure the replaced font gets a
     # new numerical key unless the basenames are the same.
     # Any saved system font will take the next index.
-    my $new-index = %!fonts.elems; 
+    my $new-index = %!fonts.elems;
 
     my %my-fonts = get-my-fonts;
     for %my-fonts.keys -> $k {
@@ -158,7 +158,7 @@ method get-docfont($key,          #= normally the unique index in the current fo
         # use a default font provided with the module
         # in resources
         #   DejaVuSerif.ttf
-        #   
+        #
         $path        = ""; #%!system-fonts{$key}<path>;
         $has-kerning = True;
     }

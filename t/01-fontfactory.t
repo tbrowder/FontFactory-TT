@@ -1,9 +1,9 @@
 use Test;
 
 use FontFactory;
+use FontFactory::FF-Subs;
 use FontFactory::DocFont;
-use FontFactory::Subs;
-use FontFactory::Classes;
+use FontFactory::DocFont::DF-Subs;
 
 my $ff = FontFactory.new;
 

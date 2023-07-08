@@ -60,7 +60,6 @@ sub get-my-fonts(--> Hash) is export {
 # alias font-name     location    kerning?
    1 1015sn.ttf /usr/share/fonts/truetype/aenigma HAS-KERNING
 =end code
-
 sub get-system-fonts(--> Hash) is export {
 
     # hash layout

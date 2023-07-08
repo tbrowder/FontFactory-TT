@@ -1,8 +1,21 @@
-unit module FontFactory::Classes;
+unit module FontFactory::DocFont::Classes;
 
-use FontFactory::GChar;
+sub EXPORT {
+    Map.new:
+        # use the 'short' name
+        'GChar'   => FontFactory::DocFont::Classes::GChar,
+        'Metrics' => FontFactory::DocFont::Classes::Metrics,
+        'String'  => FontFactory::DocFont::Classes::String,
+        'Word'    => FontFactory::DocFont::Classes::Word,
+        'Line'    => FontFactory::DocFont::Classes::Line,
+        'Para'    => FontFactory::DocFont::Classes::Para,
+        'Page'    => FontFactory::DocFont::Classes::Page,
+        'Doc'     => FontFactory::DocFont::Classes::Doc,
+        '' => ?,
+        ;
+}
 
-role Metrics is export {
+role FontFactory:DocFont::Classes::Metrics {
 
     # Note this role is NOT to be used with class GChar
     # UNLESS the conflicting values are made as methods.
@@ -56,7 +69,7 @@ role Metrics is export {
     has $.ury;
 }
 
-class String does Metrics is export {
+class FontFactory:DocFont::Classes::String does FontFactory:DocFont::Classes::Metrics {
     # may have spaces, may NOT have embedded newlines
     has       $.text is required;
     has GChar @.chars;
@@ -68,7 +81,7 @@ class String does Metrics is export {
     }
 }
 
-class Word is String is export {
+class FontFactory:DocFont::Classes::Word is FontFactory:DocFont::Classes::String {
     # may NOT have spaces, may NOT have embedded newlines
     has       $.text is required;
     has GChar @.chars;
@@ -77,7 +90,7 @@ class Word is String is export {
     }
 }
 
-class Line does Layout is export {
+class FontFactory:DocFont::Classes::Line does FontFactory:DocFont::Classes::Metrics {
     # for metrics add the spaces between Words
     has Word @.words;
     TWEAK {
@@ -85,7 +98,7 @@ class Line does Layout is export {
     }
 }
 
-class Para does Layout is export {
+class FontFactory:DocFont::Classes::Para does FontFactory:DocFont::Classes::Metrics {
     # for metrics add the line spacing between Lines
     has Line @.lines;
     TWEAK {
@@ -93,7 +106,7 @@ class Para does Layout is export {
     }
 }
 
-class Page does Layout is export {
+class FontFactory:DocFont::Classes::Page does FontFactory:DocFont::Classes::Metrics {
     # for metrics add the spacing between Paras
     has Para @.paras;
     TWEAK {
@@ -101,6 +114,6 @@ class Page does Layout is export {
     }
 }
 
-class Doc does Layout is export {
+class FontFactory:DocFont::Classes::Doc {
     has Page @.pages;
 }

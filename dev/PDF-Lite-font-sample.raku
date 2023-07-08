@@ -3,6 +3,8 @@
 use PDF::Lite;
 use PDF::Content::Page :PageSizes, :&to-landscape;
 
+use PDF::Font::Loader :load-font;
+
 # preview of title of output pdf
 my $ofil = "PDF-Lite-font-sample.pdf";
 
@@ -11,17 +13,39 @@ my @m = %m.keys.sort;
 
 my $debug = 0;
 if not @*ARGS.elems {
+    my $p = $*PROGRAM.basename;
+
     print qq:to/HERE/;
-    Usage: {$*PROGRAM.basename} in=<input data file> [A4] [debug]
+    Usage: $p in=<input data file> [Options]
+               OR
+           $p search=criterion1,criterian2,...,criterionN [Options]
+               OR
+           $p list
 
-    Produces font samples for the selcted fonts in a PDF doc:
-        $ofil
+    Options
+        paper=A4  Use A4 paper instead of the default US Letter
+                    for output file:
+                      $ofil
+        lang=XY   Where XY is the two-character ISO language code
+                    which limits the search to fonts which support
+                    language XY.
+        show      For the 'search' mode, list the font files found
+                    to STDOUT instead of producing a PDF document.
+        list      List known languages and pangrams (see below).
 
-    The output is for US Letter paper unless the A4 option is used.
+    Either input method can provide multiple font files to sample.
 
-    The input file contains data lines in the following format:
+    Choosing a language will also provide a default pangram if 
+    it is known to 'FontFactory'. File an issue if your desired
+    language is not available. See more information about pangrams
+    and a large list of them for many languages at
+    'https:://clagnut.com'.
+
+    The optional input file contains data lines in the following format:
        # comment
-       text: ABCDEF....    # line of text for the sample
+       # add an optional line of text for the sample, otherwise the default 
+       #   pangram for the selected language is used
+       text: ABCDEF....    # optional
        <font key 1 | path> 
        <font key 2 | path> 
        ...
@@ -32,8 +56,9 @@ if not @*ARGS.elems {
 
 my ($text, $page);
 
-my $media1 = 'Letter';
-my $media2 = 'A4';
+my $m1 = 'Letter';
+my $m2 = 'A4';
+my $media = $m1; # the default
 
 for 1..4 -> $num {
     if $num == 1 {
@@ -50,7 +75,8 @@ for 1..4 -> $num {
     }
 
     my $pdf = PDF::Lite.new;
-    my $font = $pdf.core-font(:family<Times>, :weight<bold>);
+    my $font-file = find-font :family<DejaVu>, style<serif>;
+    my $font        load-font $font-file;
 
     # first page
     $pdf.media-box = %(PageSizes.enums){$media1};

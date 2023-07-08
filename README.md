@@ -73,7 +73,7 @@ The file should look something like this:
     # or more spaces):
     #   1. alias
     #   2. font-name (with extension)
-    #   3. location (parent directoty)
+    #   3. location (parent directory)
     # All data on a line after the third field are ignored with one 
     # exception: any 'KERN' or 'kern' found will flag the font as having a 
     # kerning capability.

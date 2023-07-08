@@ -133,7 +133,7 @@ method get-docfont($key,          #= normally the unique index in the current fo
     if $key.IO.r {
         # need a face
         my $face = $!ft.face: $key, :load-flags(FT_LOAD_NO_HINTING);
-        my $df = DocFont.new: :$face, :$size, :$id, :name($key.IO.basename);
+        my $df = DocFont.new: :$face, :$size, :$id, :path($key);
         %!docfonts{$id} = $df;
         return $df
     }
@@ -160,10 +160,28 @@ method get-docfont($key,          #= normally the unique index in the current fo
 
     # need a face
     my $face = $!ft.face: $path, :load-flags(FT_LOAD_NO_HINTING);
-    my $df = DocFont.new: :$face, :$size, :$id, :name($path.IO.basename);
+    my $df = DocFont.new: :$face, :$size, :$id, :$path;
     %!docfonts{$id} = $df;
     $df
 }
+
+
+my constant %params = [
+    # key is two-letter ISO language code (lower-case)
+    en => {                                                    
+        pangram  => "The quick red fox jumped over the lazy brown dog.",
+        language => "English",
+        notes    => "default",
+    },
+    =begin comment
+    xy => {
+        pangram  => "",
+        language => "",
+        notes    => "default OR the contributer",
+    },
+    =end comment
+
+];
 
 # end unit class FontFactory
 

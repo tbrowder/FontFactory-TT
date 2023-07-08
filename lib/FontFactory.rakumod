@@ -33,12 +33,8 @@ submethod TWEAK {
 
     $!ft .= new;
 
-    # use FontFactory::Subs :get-*-fonts;
+    # use FontFactory::FF-Subs :get-*-fonts;
 
-    #=== Move this code to Subs as new sub 'get-fonts'.
-    # Combine inside it subs 'get-my-fonts' and 'get-system-font'.
-    # It should be slightly more efficient.
-    #
     # System fonts are absolutely required:
     %!fonts = get-system-fonts;
     # All is for naught if system-fonts are not loaded!
@@ -82,7 +78,6 @@ submethod TWEAK {
             %!fonts{$k}<has-kerning> = $mykern;
         }
     }
-    #=== end move this code to Subs
 
     # finally:
     # provide if using standalone

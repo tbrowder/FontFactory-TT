@@ -25,7 +25,7 @@ my constant URY is export = 3; # bounding-box index for upper bound
 has Font::FreeType::Face $.face is required; #= from desired font file
 has                      $.size is required; #= desired size in points
 has                      $.id   is required; #= "$key|$size" which should be unique
-has                      $.name is required; #= basename of the input font file
+has                      $.path is required; #= path of the input font file
 
 # other attrs
 has          $.sm;       #= scaled metrics
@@ -109,6 +109,9 @@ submethod TWEAK {
     %!chars = get-glyphs $!face;
     =end comment
 }
+
+#| Provide basename
+method name  { $!path.IO.basename }
 
 #| Given a character, return its GChar object
 method glyph($char --> GChar) {

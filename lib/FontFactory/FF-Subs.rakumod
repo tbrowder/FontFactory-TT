@@ -174,10 +174,9 @@ my constant %default-samples is export = [
     en => {
         lang => 'English',
         text => 'ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz',
-    }
-
+    },
     fr => {
-        lang => 'French'
+        lang => 'French',
         text => 'Quizdeltagerne spiste jordbær med fløde, mens cirkusklovnen Walther spillede på xylofon.',
         font => "",
     },
@@ -231,4 +230,4 @@ my constant %default-samples is export = [
         text => 'Чуєш їх, доцю, га? Кумедна ж ти, прощайся без ґольфів!',
         font => "",
     },
-}
+];

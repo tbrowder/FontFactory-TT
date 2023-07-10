@@ -167,100 +167,68 @@ my constant %default-samples is export = [
     #         font => "",
     #     }
     nl => {
-        lang => 'Dutch', 
+        lang => 'Dutch',
         text => 'Quizdeltagerne spiste jordbær med fløde, mens cirkusklovnen Walther spillede pålofon.',
         font => "",
     },
+    en => {
+        lang => 'English',
+        text => 'ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz',
+    }
 
-'English',            | en   | 
-'ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz',
-
-French             | fr   | 
-Quizdeltagerne spiste jordbær med fløde, mens cirkusklovnen Walther spillede på xylofon.
-
-German             | de   | 
-Zwölf Boxkämpfer jagen Viktor quer über den großen Sylter Deich
-
-Indonesian         | id   | 
-Saya lihat foto Hamengkubuwono XV bersama enam zebra purba cantik yang jatuh dari Al Quranmu.
-
-Italian            | it   | 
-Ma la volpe, col suo balzo, ha raggiunto il quieto Fido.
-
-Norwegian (Bokmål) | nb    
-En god stil må først og fremst være klar. Den må være passende. Aristoteles.
-
-Norwegian (Nyorsk) | nn   |
-
-Polish             | pl   | 
-Pchnąć w tę łódź jeża lub ośm skrzyń fig
-
-Romanian           | ro   | 
-Agera vulpe maronie sare peste câinele cel leneş.
-
-Russian            | ru   | 
-Съешь ещё этих мягких французских булок да выпей же чаю
-
-Spanish            | es   | 
-El veloz murciélago hindú comía feliz cardillo y kiwi. La cigüeña tocaba el saxofón detrás del palenque de paja.
-
-Ukranian           | uk   | 
-'Чуєш їх, доцю, га? Кумедна ж ти, прощайся без ґольфів!
-
-    key => {
-        lang => "",
-        text => "",
+    fr => {
+        lang => 'French'
+        text => 'Quizdeltagerne spiste jordbær med fløde, mens cirkusklovnen Walther spillede på xylofon.',
         font => "",
     },
-    key => {
-        lang => "",
-        text => "",
+    de => {
+        lang => 'German',
+        text => 'Zwölf Boxkämpfer jagen Viktor quer über den großen Sylter Deich.',
         font => "",
     },
-    key => {
-        lang => "",
-        text => "",
+    id => {
+        lang => 'Indonesian',
+        text => 'Saya lihat foto Hamengkubuwono XV bersama enam zebra purba cantik yang jatuh dari Al Quranmu.',
         font => "",
     },
-    key => {
-        lang => "",
-        text => "",
+    it => {
+        lang => 'Italian',
+        text => 'Ma la volpe, col suo balzo, ha raggiunto il quieto Fido.',
         font => "",
     },
-    key => {
-        lang => "",
-        text => "",
+    nb => {
+        lang => 'Norwegian (Bokmål)',
+        text => 'En god stil må først og fremst være klar. Den må være passende. Aristoteles.',
         font => "",
     },
-    key => {
-        lang => "",
-        text => "",
+    nn => {
+        lang => 'Norwegian (Nyorsk)',
+        text => "NONE YET",
         font => "",
     },
-    key => {
-        lang => "",
-        text => "",
+    pl => {
+        lang => 'Polish',
+        text => 'Pchnąć w tę łódź jeża lub ośm skrzyń fig.',
         font => "",
     },
-    key => {
-        lang => "",
-        text => "",
+    ro => {
+        lang => 'Romanian',
+        text => 'Agera vulpe maronie sare peste câinele cel leneş.',
         font => "",
     },
-    key => {
-        lang => "",
-        text => "",
+    ru => {
+        lang => 'Russian',
+        text => 'Съешь ещё этих мягких французских булок да выпей же чаю.',
         font => "",
     },
-    key => {
-        lang => "",
-        text => "",
+    es => {
+        lang => 'Spanish',
+        text => 'El veloz murciélago hindú comía feliz cardillo y kiwi. La cigüeña tocaba el saxofón detrás del palenque de paja.',
         font => "",
     },
-    key => {
-        lang => "",
-        text => "",
+    uk => {
+        lang => 'Ukranian',
+        text => 'Чуєш їх, доцю, га? Кумедна ж ти, прощайся без ґольфів!',
         font => "",
     },
 }
-

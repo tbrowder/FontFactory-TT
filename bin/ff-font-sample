@@ -1,5 +1,7 @@
 #!/bin/env raku
 use PDF::Lite;
+
+use lib <../lib>;
 use FontFactory;
 
 my $size = 12;

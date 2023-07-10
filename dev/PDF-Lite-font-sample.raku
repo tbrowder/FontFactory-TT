@@ -44,7 +44,7 @@ if not @*ARGS.elems {
     The optional input file contains data lines in the following format:
        # comment
        # add an optional line of text for the sample, otherwise the default 
-       #   pangram for the selected language is used
+       #   for the selected language is used
        text: ABCDEF....    # optional
        <font key 1 | path> 
        <font key 2 | path> 

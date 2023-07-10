@@ -47,3 +47,8 @@ Using a font
 
 The user selects an index number, a size, and a desired reference name. 
 The index number and size are used to create a DocFont object.
+
+Font samples
+------------
+
+

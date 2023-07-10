@@ -1,4 +1,4 @@
-Desigj, improve, and document better the FF object
+Design, improve, and document better the FF object
 
 The goal is to produce a final product providing the
 same methods as FontFactory::Type1 plus any

@@ -16,30 +16,28 @@ if not @*ARGS.elems {
     my $p = $*PROGRAM.basename;
 
     print qq:to/HERE/;
-    Usage: $p in=<input data file> [Options]
-               OR
-           $p search=criterion1,criterian2,...,criterionN [Options]
-               OR
-           $p list
+    Usage: $p <mode> [options]
+
+    Modes
+        in=X   Where X is an input data file (see format below)
+        look=X Where X is a comma-separated list of font search
+                 patterns (not case sensitive)
+        show   Show the default sample text for 13 languages 
+        print  Create a PDF of the default text samples
 
     Options
         paper=A4  Use A4 paper instead of the default US Letter
                     for output file:
                       $ofil
         lang=XY   Where XY is the two-character ISO language code
-                    which limits the search to fonts which support
+                    which limits a search to fonts which support
                     language XY.
-        show      For the 'search' mode, list the font files found
-                    to STDOUT instead of producing a PDF document.
-        list      List known languages and pangrams (see below).
 
-    Either input method can provide multiple font files to sample.
+    File an issue if your desired language is not available in the
+    sample text list ('show' and 'print' modes). 
 
-    Choosing a language will also provide a default pangram if 
-    it is known to 'FontFactory'. File an issue if your desired
-    language is not available. See more information about pangrams
-    and a large list of them for many languages at
-    'https:://clagnut.com'.
+    See more information about pangrams and a large list of them 
+    for many languages at 'https:://clagnut.com'.
 
     The optional input file contains data lines in the following format:
        # comment

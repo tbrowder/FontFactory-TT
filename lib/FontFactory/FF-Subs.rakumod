@@ -159,25 +159,108 @@ sub check-my-fonts-list($homedir, :$free-type,:$debug) is export(:build) {
     }
 } # end sub
 
-my constant %default-samples is export {
+my constant %default-samples is export = [
     # keyed by two-character ISO language code
     #     key => {
+    #         lang => "",
     #         text => "",
     #         font => "",
     #     }
-Dutch              | nl   | Quizdeltagerne spiste jordbær med fløde, mens cirkusklovnen Walther spillede på xylofon.
-English            | en   | ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz
-French             | fr   | Quizdeltagerne spiste jordbær med fløde, mens cirkusklovnen Walther spillede på xylofon.
-German             | de   | Zwölf Boxkämpfer jagen Viktor quer über den großen Sylter Deich
-Indonesian         | id   | Saya lihat foto Hamengkubuwono XV bersama enam zebra purba cantik yang jatuh dari Al Quranmu.
-Italian            | it   | Ma la volpe, col suo balzo, ha raggiunto il quieto Fido.
-Norwegian (Bokmål) | nb   | En god stil må først og fremst være klar. Den må være passende. Aristoteles.
+    nl => {
+        lang => 'Dutch', 
+        text => 'Quizdeltagerne spiste jordbær med fløde, mens cirkusklovnen Walther spillede pålofon.',
+        font => "",
+    },
+
+'English',            | en   | 
+'ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz',
+
+French             | fr   | 
+Quizdeltagerne spiste jordbær med fløde, mens cirkusklovnen Walther spillede på xylofon.
+
+German             | de   | 
+Zwölf Boxkämpfer jagen Viktor quer über den großen Sylter Deich
+
+Indonesian         | id   | 
+Saya lihat foto Hamengkubuwono XV bersama enam zebra purba cantik yang jatuh dari Al Quranmu.
+
+Italian            | it   | 
+Ma la volpe, col suo balzo, ha raggiunto il quieto Fido.
+
+Norwegian (Bokmål) | nb    
+En god stil må først og fremst være klar. Den må være passende. Aristoteles.
+
 Norwegian (Nyorsk) | nn   |
-Polish             | pl   | Pchnąć w tę łódź jeża lub ośm skrzyń fig
-Romanian           | ro   | Agera vulpe maronie sare peste câinele cel leneş.
-Russian            | ru   | Съешь ещё этих мягких французских булок да выпей же чаю
-Spanish            | es   | El veloz murciélago hindú comía feliz cardillo y kiwi. La cigüeña tocaba el saxofón detrás del palenque de paja.
-Ukranian           | uk   | Чуєш їх, доцю, га? Кумедна ж ти, прощайся без ґольфів!
-   
+
+Polish             | pl   | 
+Pchnąć w tę łódź jeża lub ośm skrzyń fig
+
+Romanian           | ro   | 
+Agera vulpe maronie sare peste câinele cel leneş.
+
+Russian            | ru   | 
+Съешь ещё этих мягких французских булок да выпей же чаю
+
+Spanish            | es   | 
+El veloz murciélago hindú comía feliz cardillo y kiwi. La cigüeña tocaba el saxofón detrás del palenque de paja.
+
+Ukranian           | uk   | 
+'Чуєш їх, доцю, га? Кумедна ж ти, прощайся без ґольфів!
+
+    key => {
+        lang => "",
+        text => "",
+        font => "",
+    },
+    key => {
+        lang => "",
+        text => "",
+        font => "",
+    },
+    key => {
+        lang => "",
+        text => "",
+        font => "",
+    },
+    key => {
+        lang => "",
+        text => "",
+        font => "",
+    },
+    key => {
+        lang => "",
+        text => "",
+        font => "",
+    },
+    key => {
+        lang => "",
+        text => "",
+        font => "",
+    },
+    key => {
+        lang => "",
+        text => "",
+        font => "",
+    },
+    key => {
+        lang => "",
+        text => "",
+        font => "",
+    },
+    key => {
+        lang => "",
+        text => "",
+        font => "",
+    },
+    key => {
+        lang => "",
+        text => "",
+        font => "",
+    },
+    key => {
+        lang => "",
+        text => "",
+        font => "",
+    },
 }
 

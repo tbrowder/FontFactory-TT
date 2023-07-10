@@ -18,20 +18,49 @@ or her favorite font (which must be free; a link to a source is required).
 The default text for a given language, other than English, is (as suggested by \@patrickb on IRC \#raku)
 a 'pangram' from L<Wikipedia|https://en.wikipedia.org/wiki/Pangram#> as referenced
 in the following table.
-A more complete list is at <Clagnut.com|https:/clagnut.com/blog/2380/#Sample_font_displays_in_other_languages_using_pangrams>. 
+A more complete list is at <Clagnut.com|https:/clagnut.com/blog/2380/#Sample_font_displays_in_other_languages_using_pangrams>.
 
 For English I will use the alphabet in order as shown below, and I would prefer that same thing
 for all the languages, but the pangram will suffice until I get native language input from
 interested parties.
 
-=begin table :caption<Text samples by language code>
-Code | Language  | Text      | Notes
------+-----------+-----------+------
-EN   | English   | ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz
-DE   | German    |           |
+=begin table :caption<Text samples by language and code>
+Language           | Code | Text       | Notes
+-------------------+------+------------+------
+Dutch              | nl   |
+English            | en   | ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz
+Frencha            | fr   |
+German             | de   |
+Indonesian         | id   |
+Italian            | it   |
+Norwegian (Bokmål) | nb   |
+Norwegian (Nyorsk) | nn   |
+Polish             | pl   |
+Romanian           | ro   |
+Russian            | ru   |
+Spanish            | es   |
+Ukranian           | uk   |
 =end table
 
-=head1 Pangram notes
+=begin table :caption<Fonts used by language and code>
+Language           | Code | Font        | Notes
+-------------------+------+-------------+------
+Dutch              | nl   |             |
+English            | en   | DejaVuSerif | 1
+Frencha            | fr   |             |
+German             | de   |             |
+Indonesian         | id   |             |
+Italian            | it   |             |
+Norwegian (Bokmål) | nb   |             |
+Norwegian (Nyorsk) | nn   |             |
+Polish             | pl   |             |
+Romanian           | ro   |             |
+Russian            | ru   |             |
+Spanish            | es   |             |
+Ukranian           | uk   |             |
+=end table
 
-1. [EN] The default font is '' (included with this module).
+=head1 Notes
+
+1. [en] The default font is 'DejaVuSerif.ttf' (included with this module).
 =end pod

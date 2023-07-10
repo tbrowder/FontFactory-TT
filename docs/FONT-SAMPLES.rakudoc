@@ -15,15 +15,19 @@ code for the language along with the contributer's
 desired name for attribution. The submitter can also suggest his
 or her favorite font (which must be free; a link to a source is required).
 
-The default text for a given language is (as suggested by \@patrickb on IRC \#raku)
+The default text for a given language, other than English, is (as suggested by \@patrickb on IRC \#raku)
 a 'pangram' from L<Wikipedia|https://en.wikipedia.org/wiki/Pangram#> as referenced
 in the following table.
-A more complete list is at <Clagnut.com|https:/clagnut.com/blog/2380/#Sample_font_displays_in_other_languages_using_pangrams>.
+A more complete list is at <Clagnut.com|https:/clagnut.com/blog/2380/#Sample_font_displays_in_other_languages_using_pangrams>. 
 
-=begin table :caption<Pangrams by language code>
-Code | Language  | Pangram   | Notes
+For English I will use the alphabet in order as shown below, and I would prefer that same thing
+for all the languages, but the pangram will suffice until I get native language input from
+interested parties.
+
+=begin table :caption<Text samples by language code>
+Code | Language  | Text      | Notes
 -----+-----------+-----------+------
-EN   | English   | The quick brown fox jumps over the lazy dog. | 1
+EN   | English   | ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz
 DE   | German    |           |
 =end table
 

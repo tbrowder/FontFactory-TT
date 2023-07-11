@@ -7,12 +7,13 @@
   ],
   "depends": [
     "Abbreviations",
-    "Proc::Easier",
     "Data::Dump",
     "File::Find",
     "Font::AFM",
+    "JSON::Fast",
     "Text::Utils",
     "PDF::Font::Loader",
+    "Proc::Easier",
     "Font::FreeType:ver<0.5.0>"
   ],
   "description": "A management aid for using TrueType and OpenType fonts.",

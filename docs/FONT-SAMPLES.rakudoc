@@ -2,27 +2,28 @@
 
 =head1 Languages for font samples
 
-I am collecting suggested lines of text for
-publishing font samples in languages other
-than English. The contributed examples
-should be submitted as an issue at L<https://github.com/tbrowder/FontFactory>.
-The first contributer for a given language will be considered authoritative
-and must provide suitable contact data (a Github repository reference owned by
-the contributer is acceptable).
+I am collecting suggested lines of text for publishing font samples in
+languages other than English. The contributed examples should be
+submitted as an issue at L<https://github.com/tbrowder/FontFactory>.
+The first contributer for a given language will be considered
+authoritative and must provide suitable contact data (a Github
+repository reference owned by the contributer is acceptable).
 
-The data submitted should include the two-letter ISO
-code for the language along with the contributer's
-desired name for attribution. The submitter can also suggest his
-or her favorite font (which must be free; a link to a source is required).
+The data submitted should include the two-letter ISO code for the
+language along with the contributer's desired name for
+attribution. The submitter can also suggest his or her favorite font
+(which must be free; a link to a source is required).
 
-The default text for a given language, other than English, is (as suggested by \@patrickb on IRC \#raku)
-a 'pangram' from L<Wikipedia|https://en.wikipedia.org/wiki/Pangram#> as referenced
-in the following table.
-A more complete list is at L<Clagnut.com|https:/clagnut.com/blog/2380/#Sample_font_displays_in_other_languages_using_pangrams>.
+The default text for a given language, other than English, is (as
+suggested by \@patrickb on IRC \#raku) a 'pangram' from
+L<Wikipedia|https://en.wikipedia.org/wiki/Pangram#> as referenced in
+the following table.  A more complete list is at
+L<Clagnut.com|https://clagnut.com/blog/2380/#Sample_font_displays_in_other_languages_using_pangrams>.
 
-For English I will use the alphabet in order as shown below, and I would prefer that same thing
-for all the languages, but the pangram will suffice until I get native language input from
-interested parties.
+For English I will use the alphabet in order as shown below, and I
+would prefer that same thing for all the languages, but the pangram
+will suffice until I get native language input from interested
+parties.
 
 =begin table :caption<Text samples by language and code>
 Language           | Code | Text       | Notes
@@ -30,19 +31,19 @@ Language           | Code | Text       | Notes
 Dutch              | nl   | Quizdeltagerne spiste jordbær med fløde, mens cirkusklovnen Walther spillede på xylofon.
 English            | en   | ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz
 French             | fr   | Quizdeltagerne spiste jordbær med fløde, mens cirkusklovnen Walther spillede på xylofon.
-German             | de   | Zwölf Boxkämpfer jagen Viktor quer über den großen Sylter De.ch
+German             | de   | Zwölf Boxkämpfer jagen Viktor quer über den großen Sylter Deich.
 Indonesian         | id   | Saya lihat foto Hamengkubuwono XV bersama enam zebra purba cantik yang jatuh dari Al Quranmu.
 Italian            | it   | Ma la volpe, col suo balzo, ha raggiunto il quieto Fido.
 Norwegian (Bokmål) | nb   | En god stil må først og fremst være klar. Den må være passende. Aristoteles.
-Norwegian (Nyorsk) | nn   |
-Polish             | pl   | Pchnąć w tę łódź jeża lub ośm skrzyń .ig
+Norwegian (Nyorsk) | nn   | Vår sære Zulu fra badeøya spilte jo whist og quickstep i min taxi. | 2
+Polish             | pl   | Pchnąć w tę łódź jeża lub ośm skrzyń fig.
 Romanian           | ro   | Agera vulpe maronie sare peste câinele cel leneş.
 Russian            | ru   | Съешь ещё этих мягких французских булок да выпей же.
 Spanish            | es   | El veloz murciélago hindú comía feliz cardillo y kiwi. La cigüeña tocaba el saxofón detrás del palenque de paja.
-Ukranian           | uk   | Чуєш їх, доцю, га? Кумедна ж ти, прощайся без ґольфі
+Ukranian           | uk   | Чуєш їх, доцю, га? Кумедна ж ти, прощайся без ґольфів!
 =end table
 
-=begin table :caption<Fonts used by language and code>
+=begin table :caption<Fonts used by language and code [3]>
 Language           | Code | Font        | Notes
 -------------------+------+-------------+------
 Dutch              | nl   |             |
@@ -63,4 +64,6 @@ Ukranian           | uk   |             |
 =head1 Notes
 
 1. [en] The default font is 'DejaVuSerif.ttf' (included with this module).
+2. [nn] The phrase source did not indicate 'nn' or 'nb'.
+3. All font samples use 'DejaVuSerif' unless indicated otherwise (as suggested by its contributer).
 =end pod

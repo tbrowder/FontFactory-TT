@@ -1,7 +1,6 @@
 use Test;
 use Font::AFM;
 use FontFactory;
-use FontFactory::Subs;
 
 %*ENV<METRICS> = "./t/fonts";
 
@@ -103,4 +102,3 @@ $width2 = $c.afm.stringwidth($text, :kern);
 is $width2, $width;
 
 done-testing;
-

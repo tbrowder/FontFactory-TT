@@ -8,20 +8,30 @@ use FontFactory::Subs;
 # comparing an OpenType font and its Type 1 binary and AFM files
 my $basename = "URWBookman-Demi";
 my $aname = "$basename";
-my $oname = "$basename.otf";
-my $tname = "$basename.t1";
+my $oname = "t/fonts/$basename.otf";
+my $tname = "t/fonts/$basename.t1";
 
-my ($a, $o, $t); # font or afm objects
-my $size = 10.3;
+my ($a, $o, $t); # font source files or afm objects
+my $size   = 10.3;
+my $afm-sf = $size/1000.0;
+
+# get the FontFactory object
+my ($ff, $df, $dft1);
+lives-ok {
+    $ff = FontFactory.new;
+}
+lives-ok {
+    $df = $ff.get-docfont: $oname, $size;
+}
+lives-ok {
+    $dft1 = $ff.get-docfont: $tname, $size;
+}
+
 
 # get the Font::AFM object to compare with
-
-# test 1
 lives-ok {
     $a = Font::AFM.new: :name($aname);
 }
-
-# test 2
 is $a.FontName, "URWBookman-Demi";
 
 done-testing;

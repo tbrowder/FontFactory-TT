@@ -1,7 +1,7 @@
 unit class FontFactory::DocFont is export;
 
 use PDF::Lite;
-use PDF::Font::Loader;
+#use PDF::Font::Loader;
 use Font::AFM;
 use Font::FreeType;
 use Font::FreeType::Face;

@@ -34,6 +34,9 @@ lives-ok {
 }
 is $a.FontName, "URWBookman-Demi";
 
+my $text = "A very long line Excently done eXactly and Carefully to Test Kerning.";
+# Need following values for the font and $size:
+
 done-testing;
 
 =finish

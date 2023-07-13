@@ -235,7 +235,27 @@ for %fonts.keys.sort -> $font {
 }
 $fh.close;
 # [$ofilj] Create the "$HOME/.fontfactory/system-fonts.list.json" file
-my $jstr = to-json %fonts-indexed;
+#my $jstr = to-json %fonts-indexed, :sorted-keys(.sort({.Numeric}));
+# from Coke
+sub sort-keys($a, $b) {
+    # in general, all Str keys should precede Int keys
+    if ($a.key ~~ Int) and ($b.key ~~ Int) {
+        $a.key.Int <=> $b.key.Int 
+    }
+    elsif ($a.key ~~ Str) and ($b.key ~~ Str) {
+        $a.key cmp $b.key 
+    }
+    elsif ($a.key ~~ Int) and ($b.key ~~ Str) {
+        $b.key, $a.key
+    }
+    elsif ($a.key ~~ Str) and ($b.key ~~ Int) {
+        $a.key, $b.key
+    }
+    else {
+        die "FATAL: Unknown keys: '{$a.key}' and '{$b.key}'":
+    }
+}
+my $jstr = to-json %fonts-indexed, :pretty, :sorted-keys(&sort-keys);
 spurt $ofilj, $jstr;
 
 #

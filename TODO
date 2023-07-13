@@ -51,4 +51,10 @@ The index number and size are used to create a DocFont object.
 Font samples
 ------------
 
+Font testing
+------------
+
+Use ttf2ufm to extract afm info from a kernable ttf file (DejaVuSerif)
+for testing.
+
 

@@ -2,8 +2,8 @@
 
 =head1 NAME
 
-B<FontFactory> - Provides functions to ease using Unicode I<TrueType>,
-I<OpenType>, and I<Type 1> fonts with I<PDF-generating> modules.
+B<FontFactory> - Provides tools for managing Unicode I<TrueType>,
+I<OpenType>, and I<Type 1> fonts and obtaining their typesetting metrics.
 
 =head1 SYNOPSIS
 
@@ -25,9 +25,11 @@ say $font1.path;        # OUTPUT:
 
 Before installing this module, you should add any additional desired
 fonts such those available as packages for your system (for example,
-the Google Noto fonts are available in Debian package C<fonts-noto>).
+the DejaVu fonts are available in Debian package C<fonts-dejavu>).
+No fonts are available with this module when it is installed, but
+its Github repository includes one in the C</t/fonts> directory.
 
-To get a look at how your fonts appear when printed, install the
+To get a detailed look at how your fonts appear when printed, install the
 program C<fntsample> (Debian package name is the same) and use it with
 a desired font file name to get a detailed sample on an output PDF
 file. See L<https://fntsample.sourceforge.net> for details.
@@ -73,7 +75,7 @@ Note that there may be multiple instances of the same font on your
 system, but only one will be listed. This module uses that file, but
 you can regenerate it at any time by running C<ff-gen-list>. You may
 delete any font entries in the lists, but do not change the format of the first
-three fields of remaing data lines. Comments starting with a C<#> are
+three fields of remaining data lines. Comments starting with a C<#> are
 allowed, and the text is ignored from there to the end of the line.
 
 =head3 User fonts
@@ -117,7 +119,10 @@ class (C<class Font::Factory::DocFont> that includes a specific font face and si
 with functions emulating many of those found in C<Font::AFM>.
 
 The functions permit the user to completely describe his or her desired page
-layout before placing it on a PDF page of the intended size.
+layout before placing it on a PDF page of the intended size. Of course the
+metrics and layout could be used with any other typesetting program with
+suitable filters. File an issue if you are interested in such.
+
 
 =head2 Typical work flow with its current capability
 
@@ -127,10 +132,13 @@ layout before placing it on a PDF page of the intended size.
 =item Get metrics for a string suitable for typesetting in the desired font and size
 =item Get full use of thousands of Unicode glyphs in PDF documents
 
-
 For more details, see the public methods described in L<METHODS|/METHODS.md>.
 
+For information on producing font samples, see L<FONT-SAMPLES|/FONT-SAMPLES.md>.
+
 =head1 See also
+
+=item This author's Raku module C<FontConverter>.
 
 =item This author's Raku module C<FontFactory::Type1>.
 

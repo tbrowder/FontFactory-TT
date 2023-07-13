@@ -2,9 +2,9 @@
 
 =head1 Overview of the FontFactory
 
-Upon installtion, a list of system TrueType, OpenType, and Type1 
-fonts was created both in an installed module, C<FontFactory::FontList>,
-and in the users directory at C<$HOME/.fontfactory/system-fonts.list>.
+Upon installation, a list of system TrueType, OpenType, and Type 1 
+fonts was created in 
+the users directory at C<$HOME/.fontfactory/system-fonts.list>.
 
 The user can create a usable font in several ways by entering
 two arguments, C<$key, $size>, where C<$size> is in points (72 points per inch) 

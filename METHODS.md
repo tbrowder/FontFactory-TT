@@ -5,7 +5,7 @@ Modern typesetting involves using text and digital typefaces (fonts) placed on a
 
 A few terms need to be explained to understand the application of digital fonts using this module as well as **Font::FreeType** which is central to it.
 
-Placing a single line of text using a font of a specific size (expressed as a hight of N points where there are 72 points per inch) involves knowledge of both a single character's metrics as well as its collective metrics when gathered as a multi-glyph line.
+Placing a single line of text using a font of a specific size (expressed as a height of N points where there are 72 points per inch) involves knowledge of both a single character's metrics as well as its collective metrics when gathered as a multi-glyph line.
 
 A glyph is a digital character in the chosen font and it has the following metric characteristics described for our use in placing the character:
 

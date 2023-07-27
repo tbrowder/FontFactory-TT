@@ -2,8 +2,8 @@
 
 =head1 NAME
 
-B<FontFactory> - Provides tools for managing Unicode I<TrueType>,
-I<OpenType>, and I<Type 1> fonts and obtaining their typesetting metrics.
+B<FontFactory> - Provides tools for managing Unicode I<TrueType>
+and I<OpenType> fonts and obtaining their typesetting metrics.
 
 =head1 SYNOPSIS
 
@@ -24,12 +24,12 @@ say $font1.path;        # OUTPUT:
 =head3 Preparation
 
 Before installing this module, you should add any additional desired
-fonts such those available as packages for your system (for example,
+fonts such as those available as packages for your system (for example,
 the DejaVu fonts are available in Debian package C<fonts-dejavu>).
 No fonts are available with this module when it is installed, but
 its Github repository includes one in the C</t/fonts> directory.
 
-To get a detailed look at how your fonts appear when printed, install the
+To get a look at how your fonts appear when printed, install the
 program C<fntsample> (Debian package name is the same) and use it with
 a desired font file name to get a detailed sample on an output PDF
 file. See L<https://fntsample.sourceforge.net> for details.
@@ -50,7 +50,7 @@ those requirements.
 =head3 System fonts
 
 To use this module, you must first generate a list of all the
-TrueType, OpenType, and Type 1 fonts available on your system.  That
+TrueType ans OpenType fonts available on your system.  That
 is automatically accomplished during the installation by C<zef> in its
 build step.  The only directories searched are the following:
 
@@ -106,23 +106,25 @@ Note the fields B<alias>, B<font-name>, and B<location> (parent directory) are r
 The B<alias> is some key you want to use to refer to that font. (This directory
 will be searched before the system fonts list and its alias will override any
 identical system font alias.)
-The B<font-name> B<must> include the suffix ('.otf', '.ttf', or '.t1').
+The B<font-name> B<must> include the suffix ('.otf' or '.ttf').
 The B<notes> field is optional.
 
 =head1 DESCRIPTION
 
 B<FontFactory> is a Unicode font factory similar to C<FontFactory::Type1>, but
-using I<TrueType>, I<OpenType>, and I<Type 1> fonts.
+using I<TrueType> and I<OpenType> fonts.
 It provides functions to ease using Unicode fonts with
 I<PDF-generating> modules.  It does that by defining a font
-class (C<class Font::Factory::DocFont> that includes a specific font face and size along
+class (C<FontFactory::DocFont> that includes a specific font face and size along
 with functions emulating many of those found in C<Font::AFM>.
+
+If the user has some PostScript Type 1 fonts he or she wants to use, they
+may be converted to OpenType using the author's B<FontConverter> module.
 
 The functions permit the user to completely describe his or her desired page
 layout before placing it on a PDF page of the intended size. Of course the
 metrics and layout could be used with any other typesetting program with
 suitable filters. File an issue if you are interested in such.
-
 
 =head2 Typical work flow with its current capability
 
@@ -142,7 +144,7 @@ For information on producing font samples, see L<FONT-SAMPLES|/FONT-SAMPLES.md>.
 
 =item This author's Raku module C<FontFactory::Type1>.
 
-=item David Warring's large collection of PDF Raku modules at L<https://github.com/pdf-raku>.
+=item David Warring's large collection of Raku PDF modules at L<https://github.com/pdf-raku>.
 
 =head1 AUTHOR
 

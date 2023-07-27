@@ -2,7 +2,7 @@
 
 =head1 Overview of the FontFactory
 
-Upon installation, a list of system TrueType, OpenType, and Type 1 
+Upon installation, a list of system TrueType and OpenType
 fonts was created in 
 the users directory at C<$HOME/.fontfactory/system-fonts.list>.
 

@@ -26,11 +26,11 @@ else {
 }
 
 my $ofil  = "$HOME/.fontfactory/system-fonts.list";
-my $ofilj = "$HOME/.fontfactory/system-fonts.list.json";
+#my $ofilj = "$HOME/.fontfactory/system-fonts.list.json";
 # created as an empty file if it doesn't exist, checked
 # if it does:
 my $ofil2  = "$HOME/.fontfactory/my-fonts.list";
-my $ofil2j = "$HOME/.fontfactory/my-fonts.list.json";
+#my $ofil2j = "$HOME/.fontfactory/my-fonts.list.json";
 
 # the following files are for development and are not generated
 # if the 'build' mode is selected (unless 'debug' is selected)
@@ -38,35 +38,29 @@ my $ofil3 = "$pdir/dev/system-fonts.list";
 my $ofil4 = "$pdir/dev/system-fonts-dups.list";
 my $ofil5 = "$pdir/dev/fntsample-fonts.list";
 
-my $ofil3j = "$pdir/dev/system-fonts.list.json";
-my $ofil4j = "$pdir/dev/system-fonts-dups.list.json";
-my $ofil5j = "$pdir/dev/fntsample-fonts.list.json";
+#my $ofil3j = "$pdir/dev/system-fonts.list.json";
+#my $ofil4j = "$pdir/dev/system-fonts-dups.list.json";
+#my $ofil5j = "$pdir/dev/fntsample-fonts.list.#json";
 
 if not @*ARGS {
     print qq:to/HERE/;
     Usage: {$*PROGRAM.basename} go | build [debug]
 
-    Finds TrueType, OpenType, and Type 1 font files and creates a list in
+    Finds TrueType and OpenType font files and creates a list in
     a user's \$HOME in a new file (an old one is overwritten) named
 
         \$HOME/.fontfactory/system-fonts.list
-        \$HOME/.fontfactory/system-fonts.list.json
 
     Creates the following empty file if it doesn't exist (checks it if it
     does):
 
         \$HOME/.fontfactory/my-fonts.list
-        \$HOME/.fontfactory/my-fonts.list.json
 
     If the build mode is not used, other files generated are
 
         \$REPODIR/dev/system-fonts.list
         \$REPODIR/dev/system-fonts-dups.list
         \$REPODIR/dev/fntsample-fonts.list
-
-        \$REPODIR/dev/system-fonts.list.json
-        \$REPODIR/dev/system-fonts-dups.list.json
-        \$REPODIR/dev/fntsample-fonts.list.json
 
     HERE
     exit;
@@ -116,19 +110,17 @@ LINE: for @fc-list -> $line {
 
     # skip all but standard system directories
     #   /usr/share/fonts
-    #   /usr/share/X11/fonts/Type1
     #   /usr/share/X11/fonts/TTF
     #   /usr/local/share/fonts
 
     next LINE unless $path ~~ /^
         | '/usr/share/fonts'
-        | '/usr/share/X11/fonts/Type1'
         | '/usr/share/X11/fonts/TTF'
         | '/usr/local/share/fonts'
     /;
 
     # not interested in other than these for now
-    next LINE unless $path ~~ /'.' [otf|ttf|t1] ':' $/;
+    next LINE unless $path ~~ /'.' [o|t] tf ':' $/;
 
     # get rid of the closing ':'
     $path ~~ s/':'$//;
@@ -144,7 +136,7 @@ LINE: for @fc-list -> $line {
         ++%dups{$font};
     }
     else {
-        %dups{$font} = 1;;
+        %dups{$font} = 1;
     }
 
     my $dir  = $path.IO.parent;
@@ -201,30 +193,19 @@ my $index = 0;
 my %fonts-indexed;
 my @indices;
 my $nkerning = 0;
-my $nafm     = 0;
 for %fonts.keys.sort -> $font {
     ++$index;
     my $dir  = %fonts{$font}<dirs>.head.key;
     my $kern = %fonts{$font}<has-kerning>;
 
-    # if it's Type 1 font, it should have a corresponding AFM file
-    # in the same directory
-    my $afm  = '';
-    if $font ~~ /^:i (\w+) '.t1' $/ {
-        my $name = ~$0;
-        my $path = "$dir/$name.afm";
-        $afm = 'HAS-AFM' if $path.IO.r ;
-    }
-
     if $kern {
-        $fh.say: sprintf "%4d %s %s HAS-KERNING $afm", $index, $font, $dir;
+        $fh.say: sprintf "%4d %s %s HAS-KERNING", $index, $font, $dir;
     }
     else {
-        $fh.say: sprintf "%4d %s %s $afm", $index, $font, $dir;
+        $fh.say: sprintf "%4d %s %s", $index, $font, $dir;
     }
 
     ++$nkerning if $kern;
-    ++$nafm if $afm;
     %fonts{$font}<index> = $index;
     %fonts-indexed{$index} = { 
         font => $font, 
@@ -255,8 +236,8 @@ sub sort-keys($a, $b) {
         die "FATAL: Unknown keys: '{$a.key}' and '{$b.key}'":
     }
 }
-my $jstr = to-json %fonts-indexed, :pretty, :sorted-keys(&sort-keys);
-spurt $ofilj, $jstr;
+#my $jstr = to-json %fonts-indexed, :pretty, :sorted-keys(&sort-keys);
+#spurt $ofilj, $jstr;
 
 #
 # end creating the "$HOME/.fontfactory/system-fonts.list" file
@@ -302,17 +283,16 @@ my $nf = %fonts.elems;
 say "Found $nf TrueType, OpenType, and Type 1 font files.";
 say "Found $dups duplicate font files." if $dups;
 say "Found $nkerning fonts with kerning data.";
-say "Found $nafm fonts with AFM data.";
 say "Creating a list of unique font files...";
 say "  note: max length of basenames: $maxlen";
 say "        basename:                $maxnam";
 say "See output file '$ofil'.";
 say "See output file '$ofil3'.";
-say "See output file '$ofilj'.";
-say "See output file '$ofil3j'.";
+#say "See output file '$ofilj'.";
+#say "See output file '$ofil3j'.";
 if $dups {
     say "See output file '$ofil4'.";
-    say "See output file '$ofil4j'.";
+    #say "See output file '$ofil4j'.";
 }
 say "See output file '$ofil5'.";
-say "See output file '$ofil5j'.";
+#say "See output file '$ofil5j'.";

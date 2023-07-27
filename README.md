@@ -3,7 +3,7 @@
 NAME
 ====
 
-**FontFactory** - Provides functions to ease using Unicode *TrueType*, *OpenType*, and *Type 1* fonts with *PDF-generating* modules.
+**FontFactory** - Provides tools for managing Unicode *TrueType* and *OpenType* fonts and obtaining their typesetting metrics.
 
 SYNOPSIS
 ========
@@ -25,7 +25,7 @@ Installation
 
 ### Preparation
 
-Before installing this module, you should add any additional desired fonts such those available as packages for your system (for example, the Google Noto fonts are available in Debian package `fonts-noto`).
+Before installing this module, you should add any additional desired fonts such as those available as packages for your system (for example, the DejaVu fonts are available in Debian package `fonts-dejavu`). No fonts are available with this module when it is installed, but its Github repository includes one in the `/t/fonts` directory.
 
 To get a look at how your fonts appear when printed, install the program `fntsample` (Debian package name is the same) and use it with a desired font file name to get a detailed sample on an output PDF file. See [https://fntsample.sourceforge.net](https://fntsample.sourceforge.net) for details.
 
@@ -43,7 +43,7 @@ Font lists
 
 ### System fonts
 
-To use this module, you must first generate a list of all the TrueType, OpenType, and Type 1 fonts available on your system. That is automatically accomplished during the installation by `zef` in its build step. The only directories searched are the following:
+To use this module, you must first generate a list of all the TrueType ans OpenType fonts available on your system. That is automatically accomplished during the installation by `zef` in its build step. The only directories searched are the following:
 
   * /usr/share/fonts
 
@@ -61,7 +61,7 @@ The list will be stored in your `$HOME` directory as `$HOME/.fontfactory/system-
     243 Courier.otf /usr/local/fonts/
       #... more entries
 
-Note that there may be multiple instances of the same font on your system, but only one will be listed. This module uses that file, but you can regenerate it at any time by running `ff-gen-list`. You may delete any font entries in the lists, but do not change the format of the first three fields of remaing data lines. Comments starting with a `#` are allowed, and the text is ignored from there to the end of the line.
+Note that there may be multiple instances of the same font on your system, but only one will be listed. This module uses that file, but you can regenerate it at any time by running `ff-gen-list`. You may delete any font entries in the lists, but do not change the format of the first three fields of remaining data lines. Comments starting with a `#` are allowed, and the text is ignored from there to the end of the line.
 
 ### User fonts
 
@@ -83,14 +83,16 @@ The file should look something like this:
       p     Pocus.ttf     /some/dir   my favorite sans serif font
       s     Scroll.otf    /some/dir   best for Jewish calendars
 
-Note the fields **alias**, **font-name**, and **location** (parent directory) are required. The **alias** is some key you want to use to refer to that font. (This directory will be searched before the system fonts list and its alias will override any identical system font alias.) The **font-name** **must** include the suffix ('.otf', '.ttf', or '.t1'). The **notes** field is optional.
+Note the fields **alias**, **font-name**, and **location** (parent directory) are required. The **alias** is some key you want to use to refer to that font. (This directory will be searched before the system fonts list and its alias will override any identical system font alias.) The **font-name** **must** include the suffix ('.otf' or '.ttf'). The **notes** field is optional.
 
 DESCRIPTION
 ===========
 
-**FontFactory** is a Unicode font factory similar to `FontFactory::Type1`, but using *TrueType*, *OpenType*, and *Type 1* fonts. It provides functions to ease using Unicode fonts with *PDF-generating* modules. It does that by defining a font class (`class Font::Factory::DocFont` that includes a specific font face and size along with functions emulating many of those found in `Font::AFM`.
+**FontFactory** is a Unicode font factory similar to `FontFactory::Type1`, but using *TrueType* and *OpenType* fonts. It provides functions to ease using Unicode fonts with *PDF-generating* modules. It does that by defining a font class (`FontFactory::DocFont` that includes a specific font face and size along with functions emulating many of those found in `Font::AFM`.
 
-The functions permit the user to completely describe his or her desired page layout before placing it on a PDF page of the intended size.
+If the user has some PostScript Type 1 fonts he or she wants to use, they may be converted to OpenType using the author's **FontConverter** module.
+
+The functions permit the user to completely describe his or her desired page layout before placing it on a PDF page of the intended size. Of course the metrics and layout could be used with any other typesetting program with suitable filters. File an issue if you are interested in such.
 
 Typical work flow with its current capability
 ---------------------------------------------
@@ -107,12 +109,16 @@ Typical work flow with its current capability
 
 For more details, see the public methods described in [METHODS](/METHODS.md).
 
+For information on producing font samples, see [FONT-SAMPLES](/FONT-SAMPLES.md).
+
 See also
 ========
 
+  * This author's Raku module `FontConverter`.
+
   * This author's Raku module `FontFactory::Type1`.
 
-  * David Warring's large collection of PDF Raku modules at [https://github.com/pdf-raku](https://github.com/pdf-raku).
+  * David Warring's large collection of Raku PDF modules at [https://github.com/pdf-raku](https://github.com/pdf-raku).
 
 AUTHOR
 ======

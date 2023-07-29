@@ -14,10 +14,10 @@ my $ff = FontFactory.new;
 $ff.showfonts;
 ...show first few fonts
 my $font1 = $ff.get-font: 2, 10.2; # font at index 2, set size at 10.2 points
-say $font1.name;        # OUTPUT:
-say $font1.has-kerning; # OUTPUT:
-say $font1.FontBBox;    # OUTPUT:
-say $font1.path;        # OUTPUT:
+say $font1.name;        # OUTPUT: « ␤»
+say $font1.has-kerning; # OUTPUT: « ␤»
+say $font1.FontBBox;    # OUTPUT: « ␤»
+say $font1.path;        # OUTPUT: « ␤»
 ```
 
 Installation
@@ -43,11 +43,9 @@ Font lists
 
 ### System fonts
 
-To use this module, you must first generate a list of all the TrueType ans OpenType fonts available on your system. That is automatically accomplished during the installation by `zef` in its build step. The only directories searched are the following:
+To use this module, you must first generate a list of all the TrueType and OpenType fonts available on your system. That is automatically accomplished during the installation by `zef` in its build step. The only directories searched are the following:
 
   * /usr/share/fonts
-
-  * /usr/share/X11/fonts/Type1
 
   * /usr/share/X11/fonts/TTF
 
@@ -90,7 +88,7 @@ DESCRIPTION
 
 **FontFactory** is a Unicode font factory similar to `FontFactory::Type1`, but using *TrueType* and *OpenType* fonts. It provides functions to ease using Unicode fonts with *PDF-generating* modules. It does that by defining a font class (`FontFactory::DocFont` that includes a specific font face and size along with functions emulating many of those found in `Font::AFM`.
 
-If the user has some PostScript Type 1 fonts he or she wants to use, they may be converted to OpenType using the author's **FontConverter** module.
+If the user has some PostScript Type 1 fonts he or she wants to use, they may be converted to TrueType using the author's **FontConverter** module.
 
 The functions permit the user to completely describe his or her desired page layout before placing it on a PDF page of the intended size. Of course the metrics and layout could be used with any other typesetting program with suitable filters. File an issue if you are interested in such.
 

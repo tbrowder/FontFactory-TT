@@ -13,10 +13,10 @@ my $ff = FontFactory.new;
 $ff.showfonts;
 ...show first few fonts
 my $font1 = $ff.get-font: 2, 10.2; # font at index 2, set size at 10.2 points
-say $font1.name;        # OUTPUT:
-say $font1.has-kerning; # OUTPUT:
-say $font1.FontBBox;    # OUTPUT:
-say $font1.path;        # OUTPUT:
+say $font1.name;        # OUTPUT: « ␤»
+say $font1.has-kerning; # OUTPUT: « ␤»
+say $font1.FontBBox;    # OUTPUT: « ␤»
+say $font1.path;        # OUTPUT: « ␤»
 =end code
 
 =head1 Installation
@@ -50,12 +50,11 @@ those requirements.
 =head3 System fonts
 
 To use this module, you must first generate a list of all the
-TrueType ans OpenType fonts available on your system.  That
+TrueType and OpenType fonts available on your system.  That
 is automatically accomplished during the installation by C<zef> in its
 build step.  The only directories searched are the following:
 
 =item /usr/share/fonts
-=item /usr/share/X11/fonts/Type1
 =item /usr/share/X11/fonts/TTF
 =item /usr/local/share/fonts
 
@@ -119,7 +118,7 @@ class (C<FontFactory::DocFont> that includes a specific font face and size along
 with functions emulating many of those found in C<Font::AFM>.
 
 If the user has some PostScript Type 1 fonts he or she wants to use, they
-may be converted to OpenType using the author's B<FontConverter> module.
+may be converted to TrueType using the author's B<FontConverter> module.
 
 The functions permit the user to completely describe his or her desired page
 layout before placing it on a PDF page of the intended size. Of course the

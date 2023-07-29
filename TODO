@@ -45,8 +45,10 @@ All matches result in the same format as "Showing fonts."
 Using a font
 ------------
 
-The user selects an index number, a size, and a desired reference name. 
-The index number and size are used to create a DocFont object.
+The user selects an index number (or alias or basename [with or without 
+a suffix]), a size, and a desired reference name. 
+The index number and size are used to create a DocFont object which is
+assigned to the referrence name.
 
 Font samples
 ------------
@@ -54,7 +56,17 @@ Font samples
 Font testing
 ------------
 
-Use ttf2ufm to extract afm info from a kernable ttf file (DejaVuSerif)
-for testing.
+Use module FontConverter to extract afm info from a kernable ttf file 
+(DejaVuSerif) for testing.
+
+Font metrics for strings
+------------------------
+
+Create roles and classes to enable coarse to fine-grained typesetting.
+
+Whitespace
+----------
+
+Distinguish between non-breaking and breaking whitespace.
 
 

@@ -1,7 +1,7 @@
 Design, improve, and document better the FF object
 
 The goal is to produce a final product providing the
-same methods as FontFactory::Type1 plus any
+aome of the same methods as FontFactory::Type1 plus any
 additional methods that may be available from
 David Warren's Font::FreeType module.
 

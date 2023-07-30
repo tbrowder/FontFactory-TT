@@ -73,7 +73,7 @@ Note that there may be multiple instances of the same font on your system, but o
 
 ### User fonts
 
-For convenience, you may want to create a another list to associate your oft-used fonts with a short alias. That is done by creating a file named `$HOME/.fontfactory/my-fonts.list`.
+For convenience, you may want to use another list to associate your oft-used fonts with a short alias. That is done by creating a file named `$HOME/.fontfactory/my-fonts.list`. (An empty list is created during installation if it doesn't already exist.)
 
 The file should look something like this:
 
@@ -92,6 +92,10 @@ The file should look something like this:
       s     Scroll.otf    /some/dir   best for Jewish calendars
 
 Note the fields **alias**, **font-name**, and **location** (parent directory) are required. The **alias** is some key you want to use to refer to that font. (This directory will be searched before the system fonts list and its alias will override any identical system font alias.) The **font-name** **must** include the suffix ('.otf' or '.ttf'). The **notes** field is optional.
+
+### User font metrics data
+
+As the FontFactory is used, calculated values for font metrics are saved in files in the user's home directory under `$HOME/.fontfactory/font-metrics/`. The format is subject to change and the files should not be changed by the user, but you may safely delete them when the FontFactory is inactive.
 
 DESCRIPTION
 ===========

@@ -91,9 +91,10 @@ allowed, and the text is ignored from there to the end of the line.
 
 =head3 User fonts
 
-For convenience, you may want to create a another list to associate
+For convenience, you may want to use another list to associate
 your oft-used fonts with a short alias. That is done by creating a
-file named C<$HOME/.fontfactory/my-fonts.list>.
+file named C<$HOME/.fontfactory/my-fonts.list>. (An empty list is
+created during installation if it doesn't already exist.)
 
 The file should look something like this:
 
@@ -119,6 +120,15 @@ will be searched before the system fonts list and its alias will override any
 identical system font alias.)
 The B<font-name> B<must> include the suffix ('.otf' or '.ttf').
 The B<notes> field is optional.
+
+=head3 User font metrics data
+
+As the FontFactory is used, calculated values for font metrics are
+saved in files in the user's home directory under
+C<$HOME/.fontfactory/font-metrics/>. 
+The format is subject to change and the files should not be 
+changed by the user, but you may safely delete them
+when the FontFactory is inactive.
 
 =head1 DESCRIPTION
 

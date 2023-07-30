@@ -13,11 +13,21 @@ use FontFactory;
 my $ff = FontFactory.new;
 $ff.showfonts;
 ...show first few fonts
-my $font1 = $ff.get-font: 2, 10.2; # font at index 2, set size at 10.2 points
-say $font1.name;        # OUTPUT: « ␤»
-say $font1.has-kerning; # OUTPUT: « ␤»
-say $font1.FontBBox;    # OUTPUT: « ␤»
-say $font1.path;        # OUTPUT: « ␤»
+# get a new DocFont object
+my $font = $ff.get-font: 2, 10.2; # font at index 2, set size at 10.2 points
+say $font.name;        # OUTPUT: « ␤»
+say $font.has-kerning; # OUTPUT: « ␤»
+say $font.FontBBox;    # OUTPUT: « ␤»
+say $font.path;        # OUTPUT: « ␤»
+my $text = "Now is the time to act.";
+
+# get a new String object
+my $s = String.new: $text, :$font, :!kern; # :$kern default is True
+say $s.width;
+say $s.bbox;
+# print the text at the top of a PDF::Lite page
+# update the text
+$s.text = "Act alone or with a trusted friend.";
 ```
 
 Installation

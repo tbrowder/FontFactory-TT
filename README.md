@@ -26,8 +26,11 @@ my $s = String.new: $text, :$font, :!kern; # :$kern default is True
 say $s.width;
 say $s.bbox;
 # print the text at the top of a PDF::Lite page
+...
 # update the text
 $s.text = "Act alone or with a trusted friend.";
+# print the text on the next line of the page
+...
 ```
 
 Installation

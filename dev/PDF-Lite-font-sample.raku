@@ -81,6 +81,7 @@ if $show {
 
 my $pdf = PDF::Lite.new;
 my $font-file = find-font :family<DejaVuSerif>;
+
 #say "DEBUG: DejuVuSerif path: '$font-file'"; exit;
 my $font = load-font :file($font-file);
 
@@ -95,12 +96,20 @@ sub make-page(
               PDF::Lite :$pdf!,
               PDF::Lite::Page :$page!,
               :$font!,
-              :%h!,
-              :$size = 10,
+              :$font-size = 10,
               :$media!,
-              :$landscape,
+              :$landscape = False,
+              :%h!, # data
 ) is export {
     my ($cx, $cy);
+
+
+    =begin comment
+    my $up = $font.underlne-position;
+    my $ut = $font.underlne-thickness;
+    note "Underline position:  $up";
+    note "Underline thickness: $ut";
+    =end comment
 
     # portrait
     # use the page media-box
@@ -124,9 +133,10 @@ sub make-page(
         # is this right?
         my $w = $page.media-box[3] - $page.media-box[1];
         my $h = $page.media-box[2] - $page.media-box[0];
+        $cx = $w * 0.5;
 
         my ($leading, $dh);
-        $leading = $dh = 1.3 * $size;
+        $leading = $dh = 1.3 * $font-size;
         # use 1-inch margins
         # left
         #my $Lx = $page.media-box[1] + 72;
@@ -145,7 +155,19 @@ sub make-page(
         # print a page title
         @position = [$cx, $y];
         @box = .print: "FontFactory language font samples", :@position,
-                       :$font, :$size, :align<center>, :!kern; #, :valign<bottom>;
+                       :$font, :font-size(16), :align<center>, :kern; #, :valign<bottom>;
+        =begin comment
+        # TODO file bug report: @box does NOT recognize results of :align (and probably :valign)
+        .MoveTo(@box[0], @box[1]); # y positions are correct, must adjust x left by 1/2 width
+        .LineTo(@box[2], @box[1]);
+        =end comment
+        my $bwidth = @box[2] - @box[0]; 
+        my $bxL = @box[0] - 0.5 * $bwidth;
+        my $bxR = $bxL + $bwidth;
+        .MoveTo($bxL, @box[1]); # y positions are correct, must adjust x left by 1/2 width
+        .LineTo($bxR, @box[1]);
+
+        .CloseStroke;
 
         $y -= 2* $dh;
 
@@ -162,7 +184,7 @@ sub make-page(
 
             # print the line
             @position = [$x, $y];
-            @box = .print: $words, :@position, :$font, :$size, :align<left>, :width($w-144), :!kern; #, :valign<bottom>;
+            @box = .print: $words, :@position, :$font, :$font-size, :align<left>, :width($w-144), :kern; #, :valign<bottom>;
             # use box for vertical adjustment [1, 3];
             $y -= @box[3] - @box[1];
         }

@@ -173,7 +173,7 @@ my constant %default-samples is export = [
     },
     en => {
         lang => 'English',
-        text => 'ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz',
+        text => 'ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789',
     },
     fr => {
         lang => 'French',

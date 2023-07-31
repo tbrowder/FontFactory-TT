@@ -2,8 +2,10 @@
 
 use PDF::Lite;
 use PDF::Content::Page :PageSizes, :&to-landscape;
+use PDF::Font::Loader :load-font, :find-font;
 
-use PDF::Font::Loader :load-font;
+use lib <../lib>;
+use FontFactory::FF-Subs;
 
 # preview of title of output pdf
 my $ofil = "PDF-Lite-font-sample.pdf";
@@ -19,35 +21,19 @@ if not @*ARGS.elems {
     Usage: $p <mode> [options]
 
     Modes
-        in=X   Where X is an input data file (see format below)
-        look=X Where X is a comma-separated list of font search
-                 patterns (not case sensitive)
-        show   Show the default sample text for 13 languages 
+        show   Show the default sample text for 13 languages
         print  Create a PDF of the default text samples
 
     Options
-        paper=A4  Use A4 paper instead of the default US Letter
-                    for output file:
-                      $ofil
-        lang=XY   Where XY is the two-character ISO language code
-                    which limits a search to fonts which support
-                    language XY.
+        A4     Use A4 paper instead of the default US Letter
+               for output file:
+                   $ofil
 
     File an issue if your desired language is not available in the
-    sample text list ('show' and 'print' modes). 
+    sample text list ('show' and 'print' modes).
 
-    See more information about pangrams and a large list of them 
+    See more information about pangrams and a large list of them
     for many languages at 'https:://clagnut.com'.
-
-    The optional input file contains data lines in the following format:
-       # comment
-       # add an optional line of text for the sample, otherwise the default 
-       #   for the selected language is used
-       text: ABCDEF....    # optional
-       <font key 1 | path> 
-       <font key 2 | path> 
-       ...
-
     HERE
     exit
 }
@@ -57,67 +43,126 @@ my ($text, $page);
 my $m1 = 'Letter';
 my $m2 = 'A4';
 my $media = $m1; # the default
+#my $landscape = False;
+my $landscape = True;
 
-for 1..4 -> $num {
-    if $num == 1 {
-        ; #
+my $show  = 0;
+my $print = 0;
+for @*ARGS {
+    when /^:i a4/ {
+        $media = $m2;
     }
-    elsif $num == 2 {
-        ; #
+    when /^:i s/ {
+        ++$show;
+        $print = 0;
     }
-    elsif $num == 3 {
-        $media2 = 'A4';
+    when /^:i p/ {
+        ++$print;
+        $show = 0;
     }
-    elsif $num == 4 {
-        $media2 = 'A4';
-    }
-
-    my $pdf = PDF::Lite.new;
-    my $font-file = find-font :family<DejaVu>, style<serif>;
-    my $font        load-font $font-file;
-
-    # first page
-    $pdf.media-box = %(PageSizes.enums){$media1};
-    $page = $pdf.add-page;
-    $text = "First page";
-    make-page :$pdf, :$page, :$text, :$font, :landscape(False);
-
-    # second page
-    $page = $pdf.add-page;
-    $text = "Second page";
-    make-page :$pdf, :$page, :$text, :$media2, :$font, :landscape(True);
-
-    # finish the document
-    # final title of output pdf
-    my $ofile = "PDF-Lite-media-mixed-{$num}.pdf";
-    $pdf.save-as: $ofile;
-    say "See output file: $ofile";
 }
+
+my %h = %default-samples;
+if $show {
+    say "Showing samples to be printed:";
+    for %h.keys.sort -> $k {
+        my $lang = %h{$k}<lang>;
+        my $text = %h{$k}<text>;
+        print qq:to/HERE/;
+        -------------------------
+          Country code: {$k.uc}
+              Language: $lang
+              Text:     $text
+        HERE
+    }
+    say "-------------------------";
+    exit
+}
+
+my $pdf = PDF::Lite.new;
+my $font-file = find-font :family<DejaVuSerif>;
+#say "DEBUG: DejuVuSerif path: '$font-file'"; exit;
+my $font = load-font :file($font-file);
+
+$pdf.media-box = %(PageSizes.enums){$media};
+$page = $pdf.add-page;
+make-page :$pdf, :$page, :$font, :$media, :%h, :landscape(True);
+$pdf.save-as: $ofil;
 
 # subroutines
 sub make-page(
               PDF::Lite :$pdf!,
               PDF::Lite::Page :$page!,
-              :$text!,
               :$font!,
-              :$media, #! is copy,
-              :$media2, #! is copy,
+              :%h!,
+              :$size = 12,
+              :$media!,
               :$landscape,
 ) is export {
     my ($cx, $cy);
-    if $media {
-        # use the page media-box
-        $page.media-box = %(PageSizes.enums){$media};
-        $cx = 0.5 * ($page.media-box[2] - $page.media-box[0]);
-        $cy = 0.5 * ($page.media-box[3] - $page.media-box[1]);
-    }
-    else {
-        $cx = 0.5 * ($pdf.media-box[2] - $pdf.media-box[0]);
-        $cy = 0.5 * ($pdf.media-box[3] - $pdf.media-box[1]);
+
+    # portrait
+    # use the page media-box
+    $page.media-box = %(PageSizes.enums){$media};
+    $cx = 0.5 * ($page.media-box[2] - $page.media-box[0]);
+    $cy = 0.5 * ($page.media-box[3] - $page.media-box[1]);
+
+    if not $landscape {
+        $page.graphics: {
+            .print: $text, :position[$cx, $cy], :$font, :align<center>, :valign<center>;
+        }
+        return
     }
 
+    my (@box, @position);
     $page.graphics: {
-        #my @box = .say: "Second page", :@position, :$font, :align<center>, :valign<center>;
-        .print: $text, :position[$cx, $cy], :$font, :align<center>, :valign<center>;
+        .Save;
+        .transform: :translate($page.media-box[2], $page.media-box[1]);
+        .transform: :rotate(90 * pi/180); # left (ccw) 90 degrees
+
+        my $w = $page.media-box[3] - $page.media-box[1];
+        my $h = $page.media-box[2] - $page.media-box[0];
+
+        my ($leading, $dh);
+        $leading = $dh = 1.3 * $size;
+        # use 1-inch margins
+        # left
+        my $Lx = $page.media-box[1] + 72;
+        my $lx = $Lx;
+        # top baseline
+        my $Ty = $page.media-box[2] - 72 - $dh; # should be adjusted for leading for the font/size
+        my $ty = $Ty;
+
+        # start at the top left and work down by leading
+        #@position = [$lx, $by];
+        #my @box = .print: "Fourth page (with transformation and rotation)", :@position, :$font,
+        #              :align<center>, :valign<center>;
+
+        # print a page title
+        @position = [$lx, $ty];
+        @box = .print: "FontFactory language font samples", :@position, 
+                       :$font, :$size, :align<center>; #, :valign<bottom>;
+
+        $ty -= 2* $dh;
+        
+        for %h.keys.sort -> $k {
+            my $lang = %h{$k}<lang>;
+            my $text = %h{$k}<text>;
+            my $words = qq:to/HERE/;
+            -------------------------
+              Country code: {$k.uc}
+                  Language: $lang
+                  Text:     $text
+            -------------------------
+            HERE
+
+            # print the line
+            @position = [$lx, $ty];
+            @box = .print: $words, :@position, :$font, :$size, :align<left>; #, :valign<bottom>;
+            # use box for vertical adjustment [1, 3];
+            $ty -= @box[3] - @box[1];
+        }
+
+        .Restore;
     }
 }

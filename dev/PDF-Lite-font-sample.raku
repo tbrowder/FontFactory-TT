@@ -49,7 +49,7 @@ my $landscape = True;
 my $show  = 0;
 my $print = 0;
 for @*ARGS {
-    when /^:i a4/ {
+    when /^:i a4?/ {
         $media = $m2;
     }
     when /^:i s/ {
@@ -96,7 +96,7 @@ sub make-page(
               PDF::Lite::Page :$page!,
               :$font!,
               :%h!,
-              :$size = 12,
+              :$size = 10,
               :$media!,
               :$landscape,
 ) is export {
@@ -121,6 +121,7 @@ sub make-page(
         .transform: :translate($page.media-box[2], $page.media-box[1]);
         .transform: :rotate(90 * pi/180); # left (ccw) 90 degrees
 
+        # is this right?
         my $w = $page.media-box[3] - $page.media-box[1];
         my $h = $page.media-box[2] - $page.media-box[0];
 
@@ -128,11 +129,13 @@ sub make-page(
         $leading = $dh = 1.3 * $size;
         # use 1-inch margins
         # left
-        my $Lx = $page.media-box[1] + 72;
-        my $lx = $Lx;
+        #my $Lx = $page.media-box[1] + 72;
+        my $Lx = 0 + 72;
+        my $x = $Lx;
         # top baseline
-        my $Ty = $page.media-box[2] - 72 - $dh; # should be adjusted for leading for the font/size
-        my $ty = $Ty;
+        #my $Ty = $page.media-box[2] - 72 - $dh; # should be adjusted for leading for the font/size
+        my $Ty = $h - 72 - $dh; # should be adjusted for leading for the font/size
+        my $y = $Ty;
 
         # start at the top left and work down by leading
         #@position = [$lx, $by];
@@ -140,28 +143,28 @@ sub make-page(
         #              :align<center>, :valign<center>;
 
         # print a page title
-        @position = [$lx, $ty];
-        @box = .print: "FontFactory language font samples", :@position, 
-                       :$font, :$size, :align<center>; #, :valign<bottom>;
+        @position = [$cx, $y];
+        @box = .print: "FontFactory language font samples", :@position,
+                       :$font, :$size, :align<center>, :!kern; #, :valign<bottom>;
 
-        $ty -= 2* $dh;
-        
+        $y -= 2* $dh;
+
         for %h.keys.sort -> $k {
             my $lang = %h{$k}<lang>;
             my $text = %h{$k}<text>;
             my $words = qq:to/HERE/;
-            -------------------------
-              Country code: {$k.uc}
-                  Language: $lang
-                  Text:     $text
-            -------------------------
+            -------------------------\n
+              Country code: {$k.uc}\n
+                  Language: $lang\n
+                  Text:     $text\n
+            -------------------------\n
             HERE
 
             # print the line
-            @position = [$lx, $ty];
-            @box = .print: $words, :@position, :$font, :$size, :align<left>; #, :valign<bottom>;
+            @position = [$x, $y];
+            @box = .print: $words, :@position, :$font, :$size, :align<left>, :width($w-144), :!kern; #, :valign<bottom>;
             # use box for vertical adjustment [1, 3];
-            $ty -= @box[3] - @box[1];
+            $y -= @box[3] - @box[1];
         }
 
         .Restore;

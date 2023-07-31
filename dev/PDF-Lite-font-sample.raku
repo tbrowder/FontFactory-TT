@@ -88,6 +88,7 @@ $pdf.media-box = %(PageSizes.enums){$media};
 $page = $pdf.add-page;
 make-page :$pdf, :$page, :$font, :$media, :%h, :landscape(True);
 $pdf.save-as: $ofil;
+say "See output file: $ofil";
 
 # subroutines
 sub make-page(

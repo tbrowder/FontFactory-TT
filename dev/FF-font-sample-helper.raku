@@ -29,15 +29,15 @@ say "      underline-thickness: ", $ff10.underline-thickness;
 say "      underline-thickness2: ", $sf10 * $utraw;
 say "      units-per-EM: ", $ff10.units-per-EM;
 say "      scale-factor: ", $sf10;
-say "      underline-distance: ", $sf10 * $udraw;
+say "      underline-position: ", $ff10.underline-position;
+say "      underline-position2: ", $sf10 * $udraw;
 
-#say "      underline-distance: ", $ff10.underline-distance;
 
 say "    name: ", $ff16.name;
 say "      underline-thickness: ", $ff16.underline-thickness;
 say "      underline-thickness2: ", $sf16 * $utraw;
 say "      units-per-EM: ", $ff16.units-per-EM;
-say "      underline-distance: ", $sf16 * $udraw;
 say "      scale-factor: ", $sf16;
+say "      underline-position: ", $ff16.underline-position;
+say "      underline-position2: ", $sf16 * $udraw;
 
-#say "      underline-distance: ", $ff16.underline-distance;

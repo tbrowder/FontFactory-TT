@@ -164,10 +164,17 @@ sub make-page(
         my $bwidth = @box[2] - @box[0]; 
         my $bxL = @box[0] - 0.5 * $bwidth;
         my $bxR = $bxL + $bwidth;
-        .MoveTo($bxL, @box[1]); # y positions are correct, must adjust x left by 1/2 width
-        .LineTo($bxR, @box[1]);
-
+        # underline the title
+        my $ut =  0.703125; # underline thickness, from docfont
+        my $up = -0.664064; # underline position, from docfont
+        
+        .Save;
+        .SetStrokeGray(0);
+        .SetLineWidth($ut);
+        .MoveTo($bxL, $up); # y positions are correct, must adjust x left by 1/2 width
+        .LineTo($bxR, $up);
         .CloseStroke;
+        .Restore;
 
         $y -= 2* $dh;
 

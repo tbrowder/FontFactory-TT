@@ -4,9 +4,7 @@ use PDF::Lite;
 use PDF::Content::Page :PageSizes, :&to-landscape;
 use PDF::Font::Loader :load-font, :find-font;
 
-use lib <../lib>;
-use FontFactory::FF-Subs;
-
+my %default-samples; # values in BEGIN block at the eof
 # preview of title of output pdf
 my $ofil = "PDF-Lite-font-sample.pdf";
 
@@ -118,61 +116,64 @@ sub make-page(
     $cy = 0.5 * ($page.media-box[3] - $page.media-box[1]);
 
     if not $landscape {
-        $page.graphics: {
-            .print: $text, :position[$cx, $cy], :$font, :align<center>, :valign<center>;
-        }
+        die "FATAL: Tom, fix this";
         return
     }
 
-    my (@box, @position);
+    my (@bbox, @position);
     $page.graphics: {
         .Save;
         .transform: :translate($page.media-box[2], $page.media-box[1]);
         .transform: :rotate(90 * pi/180); # left (ccw) 90 degrees
 
-        # is this right?
+        # is this right? yes, the media-box values haven't changed,
+        # just its orientation with the transformations
         my $w = $page.media-box[3] - $page.media-box[1];
         my $h = $page.media-box[2] - $page.media-box[0];
         $cx = $w * 0.5;
 
-        my ($leading, $dh);
-        $leading = $dh = 1.3 * $font-size;
+        # get the font's values from FreeFont
+        my ($leading, $height, $dh);
+        $leading = $height = $dh = 1.3 * $font-size;
         # use 1-inch margins
         # left
-        #my $Lx = $page.media-box[1] + 72;
         my $Lx = 0 + 72;
         my $x = $Lx;
         # top baseline
-        #my $Ty = $page.media-box[2] - 72 - $dh; # should be adjusted for leading for the font/size
         my $Ty = $h - 72 - $dh; # should be adjusted for leading for the font/size
         my $y = $Ty;
 
         # start at the top left and work down by leading
         #@position = [$lx, $by];
-        #my @box = .print: "Fourth page (with transformation and rotation)", :@position, :$font,
+        #my @bbox = .print: "Fourth page (with transformation and rotation)", :@position, :$font,
         #              :align<center>, :valign<center>;
 
         # print a page title
         @position = [$cx, $y];
-        @box = .print: "FontFactory language font samples", :@position,
+        @bbox = .print: "FontFactory language font samples", :@position,
                        :$font, :font-size(16), :align<center>, :kern; #, :valign<bottom>;
+        if 1 {
+            note "DEBUG: \@bbox with :align\<center>: {@bbox.raku}";
+
+        }
+
         =begin comment
-        # TODO file bug report: @box does NOT recognize results of :align (and probably :valign)
-        .MoveTo(@box[0], @box[1]); # y positions are correct, must adjust x left by 1/2 width
-        .LineTo(@box[2], @box[1]);
+        # TODO file bug report: @bbox does NOT recognize results of :align (and probably :valign)
+        .MoveTo(@bbox[0], @bbox[1]); # y positions are correct, must adjust x left by 1/2 width
+        .LineTo(@bbox[2], @bbox[1]);
         =end comment
-        my $bwidth = @box[2] - @box[0]; 
-        my $bxL = @box[0] - 0.5 * $bwidth;
+        my $bwidth = @bbox[2] - @bbox[0];
+        my $bxL = @bbox[0] - 0.5 * $bwidth;
         my $bxR = $bxL + $bwidth;
         # underline the title
         my $ut =  0.703125; # underline thickness, from docfont
         my $up = -0.664064; # underline position, from docfont
-        
+
         .Save;
         .SetStrokeGray(0);
         .SetLineWidth($ut);
-        .MoveTo($bxL, $up); # y positions are correct, must adjust x left by 1/2 width
-        .LineTo($bxR, $up);
+        .MoveTo($bxL, $y + $up); # y positions are correct, must adjust x left by 1/2 width
+        .LineTo($bxR, $y + $up);
         .CloseStroke;
         .Restore;
 
@@ -191,11 +192,86 @@ sub make-page(
 
             # print the line
             @position = [$x, $y];
-            @box = .print: $words, :@position, :$font, :$font-size, :align<left>, :width($w-144), :kern; #, :valign<bottom>;
+            @bbox = .print: $words, :@position, :$font, :$font-size, :align<left>, :width($w-144), :kern; #, :valign<bottom>;
             # use box for vertical adjustment [1, 3];
-            $y -= @box[3] - @box[1];
+            $y -= @bbox[3] - @bbox[1];
         }
 
         .Restore;
     }
 }
+
+BEGIN {
+%default-samples = [
+    # keyed by two-character ISO language code
+    #     key => {
+    #         lang => "",
+    #         text => "",
+    #         font => "",
+    #     }
+    nl => {
+        lang => 'Dutch',
+        text => 'Quizdeltagerne spiste jordbær med fløde, mens cirkusklovnen Walther spillede pålofon.',
+        font => "",
+    },
+    en => {
+        lang => 'English',
+        text => 'ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789',
+    },
+    fr => {
+        lang => 'French',
+        text => 'Quizdeltagerne spiste jordbær med fløde, mens cirkusklovnen Walther spillede på xylofon.',
+        font => "",
+    },
+    de => {
+        lang => 'German',
+        text => 'Zwölf Boxkämpfer jagen Viktor quer über den großen Sylter Deich.',
+        font => "",
+    },
+    id => {
+        lang => 'Indonesian',
+        text => 'Saya lihat foto Hamengkubuwono XV bersama enam zebra purba cantik yang jatuh dari Al Quranmu.',
+        font => "",
+    },
+    it => {
+        lang => 'Italian',
+        text => 'Ma la volpe, col suo balzo, ha raggiunto il quieto Fido.',
+        font => "",
+    },
+    nb => {
+        lang => 'Norwegian (Bokmål)',
+        text => 'En god stil må først og fremst være klar. Den må være passende. Aristoteles.',
+        font => "",
+    },
+    nn => {
+        lang => 'Norwegian (Nyorsk)',
+        text => "NONE YET",
+        font => "",
+    },
+    pl => {
+        lang => 'Polish',
+        text => 'Pchnąć w tę łódź jeża lub ośm skrzyń fig.',
+        font => "",
+    },
+    ro => {
+        lang => 'Romanian',
+        text => 'Agera vulpe maronie sare peste câinele cel leneş.',
+        font => "",
+    },
+    ru => {
+        lang => 'Russian',
+        text => 'Съешь ещё этих мягких французских булок да выпей же чаю.',
+        font => "",
+    },
+    es => {
+        lang => 'Spanish',
+        text => 'El veloz murciélago hindú comía feliz cardillo y kiwi. La cigüeña tocaba el saxofón detrás del palenque de paja.',
+        font => "",
+    },
+    uk => {
+        lang => 'Ukranian',
+        text => 'Чуєш їх, доцю, га? Кумедна ж ти, прощайся без ґольфів!',
+        font => "",
+    },
+];
+} # end BEGIN

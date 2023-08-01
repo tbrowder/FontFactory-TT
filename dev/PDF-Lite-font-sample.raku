@@ -1,12 +1,27 @@
 #!/bin/env raku
 
+use Font::FreeType;
+use Font::FreeType::Face;
+use Font::FreeType::Raw::Defs;
+use Font::FreeType::Glyph;
+
+# Eliminate duplicate DocFonts. Hash is keyed by "key|size".  # font's size
+
+# hash of fonts and location, etc.
+# hash layout
+# key (alias) => path (dir/basename)
+#             => has-kerning
+#my $face = $!ft.face: $key, :load-flags(FT_LOAD_NO_HINTING);
+
 use PDF::Lite;
 use PDF::Content::Page :PageSizes, :&to-landscape;
 use PDF::Font::Loader :load-font, :find-font;
 
 my %default-samples; # values in BEGIN block at the eof
 # preview of title of output pdf
-my $ofil = "PDF-Lite-font-sample.pdf";
+my $ofil = "PDF-Lite-font-sample-<font>.pdf";
+my $default-font = "DejaVuSerif";
+my $font-file = find-font :family($default-font);
 
 my %m = %(PageSizes.enums);
 my @m = %m.keys.sort;
@@ -19,13 +34,14 @@ if not @*ARGS.elems {
     Usage: $p <mode> [options]
 
     Modes
-        show   Show the default sample text for 13 languages
-        print  Create a PDF of the default text samples
+      show   - Show the default sample text for 13 languages
+      print  - Create a PDF of the default text samples
 
     Options
-        A4     Use A4 paper instead of the default US Letter
-               for output file:
+      A4     - Use A4 paper instead of the default US Letter
+               for the sample output file:
                    $ofil
+      font=F - Where F is a font basename on your system
 
     File an issue if your desired language is not available in the
     sample text list ('show' and 'print' modes).
@@ -46,6 +62,7 @@ my $landscape = True;
 
 my $show  = 0;
 my $print = 0;
+my $user-font; # any input is expected to be a system font basename
 for @*ARGS {
     when /^:i a4?/ {
         $media = $m2;
@@ -57,6 +74,13 @@ for @*ARGS {
     when /^:i p/ {
         ++$print;
         $show = 0;
+    }
+    when /^:i 'font=' (\S+)/ {
+        ++$print;
+        $user-font = ~$0;
+    }
+    default {
+        note "FATAL: Unknown argument '$_'";
     }
 }
 
@@ -78,7 +102,6 @@ if $show {
 }
 
 my $pdf = PDF::Lite.new;
-my $font-file = find-font :family<DejaVuSerif>;
 
 #say "DEBUG: DejuVuSerif path: '$font-file'"; exit;
 my $font = load-font :file($font-file);
@@ -135,9 +158,10 @@ sub make-page(
         # get the font's values from FreeFont
         my ($leading, $height, $dh);
         $leading = $height = $dh = 1.3 * $font-size;
-        # use 1-inch margins
+
+        # use 1-inch margins left and right, 1/2-in top and bottom
         # left
-        my $Lx = 0 + 72;
+        my $Lx = 0 + 36;
         my $x = $Lx;
         # top baseline
         my $Ty = $h - 72 - $dh; # should be adjusted for leading for the font/size
@@ -177,27 +201,73 @@ sub make-page(
         .CloseStroke;
         .Restore;
 
+        # show the text font value
+        $y -= 2* $dh;
+
         $y -= 2* $dh;
 
         for %h.keys.sort -> $k {
+            my $country-code = $k.uc;
             my $lang = %h{$k}<lang>;
             my $text = %h{$k}<text>;
-            my $words = qq:to/HERE/;
-            -------------------------\n
-              Country code: {$k.uc}\n
-                  Language: $lang\n
-                  Text:     $text\n
-            -------------------------\n
-            HERE
 
-            # print the line
+            =begin comment
             @position = [$x, $y];
-            @bbox = .print: $words, :@position, :$font, :$font-size, :align<left>, :width($w-144), :kern; #, :valign<bottom>;
-            # use box for vertical adjustment [1, 3];
+            my $words = qq:to/HERE/;
+            -------------------------
+              Country code: {$k.uc}
+                  Language: $lang
+                  Text:     $text
+            -------------------------
+            =end comment
+
+            # print the dashed in one piece
+            my $dline = "-------------------------";
+            @bbox = .print: $dline, :position[$x, $y], :$font, :$font-size, 
+                            :align<left>, :kern; #, default: :valign<bottom>;
+
+            # use the @bbox for vertical adjustment [1, 3];
+            $y -= @bbox[3] - @bbox[1];
+
+            # print the line data in two pieces
+            #  Country code: {$k.uc}
+            @bbox = .print: "Country code:", :position[$x, $y], :$font, :$font-size, 
+                            :align<left>, :kern;;
+            my $pos1 = @bbox[2];
+            @bbox = .print: "{$k.uc}", :position[$pos1+5, $y], :$font, :$font-size, 
+                            :align<left>, :kern; #, default: :valign<bottom>;
+
+            # use the @bbox for vertical adjustment [1, 3];
+            $y -= @bbox[3] - @bbox[1];
+
+            # print the line data in two pieces
+            #     Language: $lang
+            @bbox = .print: "Language:", :position[$pos1, $y], :$font, :$font-size, 
+                            :align<right>, :kern;;
+            @bbox = .print: "{$lang}", :position[$pos1+5, $y], :$font, :$font-size, 
+                            :align<left>, :kern; #, default: :valign<bottom>;
+
+            # use the @bbox for vertical adjustment [1, 3];
+            $y -= @bbox[3] - @bbox[1];
+
+            # print the line data in two pieces
+            #     Text:     $text
+            @bbox = .print: "Text:", :position[$pos1, $y], :$font, :$font-size, 
+                            :align<right>, :kern;;
+            @bbox = .print: "{$text}", :position[$pos1+5, $y], :$font, :$font-size, 
+                            :align<left>, :kern; #, default: :valign<bottom>;
+
+            # use the @bbox for vertical adjustment [1, 3];
             $y -= @bbox[3] - @bbox[1];
         }
+        # add a closing dashed line
+        # print the dashed in one piece
+        my $dline = "-------------------------";
+        @bbox = .print: $dline, :position[$x, $y], :$font, :$font-size, 
+                            :align<left>, :kern; #, default: :valign<bottom>;
 
-        .Restore;
+        #=== end of all data to be printed on this page
+        .Restore; # end of all data to be printed on this page
     }
 }
 

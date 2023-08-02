@@ -51,7 +51,7 @@ if not @*ARGS.elems {
     Modes
       show   - Show the default sample text for 13 languages
       print  - Create a PDF of the default text samples
-      find   - Finds a font given :family, :slant, and :weight
+      find   - Finds a font given \:family, \:slant, and \:weight
 
     Options
       A4     - Use A4 paper instead of the default US Letter
@@ -76,7 +76,14 @@ my $media = $m1; # the default
 #my $landscape = False;
 my $landscape = True;
 
-my ($family, $slant, $weight);
+# find attributes:
+# mono?
+my $family = 'times';
+my $weight = 'regular';
+my $slant  = 'normal';
+my $all    = True;
+my $serif  = True;
+my $stretch = 'normal';
 my $show  = 0;
 my $print = 0;
 my $find  = 0;
@@ -102,15 +109,15 @@ for @*ARGS {
         $user-font = ~$0;
     }
     when /^'fa='(\S)/ {
-        $family = ~$0
+        $family = ~$0;
         ++$find;
     }
     when /^'sl='(\S)/ {
-        $slant = ~$0
+        $slant = ~$0;
         ++$find;
     }
-    when /^'we=(\S)/ {
-        $weight = ~$0
+    when /^'we='(\S)/ {
+        $weight = ~$0;
         ++$find;
     }
     default {
@@ -119,7 +126,7 @@ for @*ARGS {
 }
 
 if $find {
-    say "Find font with family='', slant='', slant=''";
+    say "Find font with family='$family', slant='$slant', weight='$weight'";
     exit;
 }
 
@@ -216,7 +223,6 @@ sub make-page(
                        :$font, :font-size(16), :align<center>, :kern; #, :valign<bottom>;
         if 1 {
             note "DEBUG: \@bbox with :align\<center>: {@bbox.raku}";
-
         }
 
         =begin comment

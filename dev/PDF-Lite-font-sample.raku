@@ -5,7 +5,6 @@ use Font::FreeType::Face;
 use Font::FreeType::Raw::Defs;
 use Font::FreeType::Glyph;
 
-
 use PDF::Lite;
 use PDF::Content::Page :PageSizes, :&to-landscape;
 use PDF::Font::Loader :load-font, :find-font;
@@ -13,8 +12,10 @@ use PDF::Font::Loader :load-font, :find-font;
 my %default-samples; # values in BEGIN block at the eof
 # preview of title of output pdf
 my $ofil = "PDF-Lite-font-sample-FONT.pdf";
+
 my $default-font = "DejaVuSerif";
 my $title-font = "DejaVuSerif-Bold";
+
 my $font-file = find-font :family($default-font);
 my $font-file-title = find-font :family($title-font);
 my $ft = Font::FreeType.new;
@@ -50,6 +51,7 @@ if not @*ARGS.elems {
     Modes
       show   - Show the default sample text for 13 languages
       print  - Create a PDF of the default text samples
+      find   - Finds a font given :family, :slant, and :weight
 
     Options
       A4     - Use A4 paper instead of the default US Letter
@@ -74,28 +76,51 @@ my $media = $m1; # the default
 #my $landscape = False;
 my $landscape = True;
 
+my ($family, $slant, $weight);
 my $show  = 0;
 my $print = 0;
+my $find  = 0;
 my $user-font; # any input is expected to be a system font basename
 for @*ARGS {
     when /^:i a4?/ {
         $media = $m2;
     }
-    when /^:i s/ {
+    when /^:i sh/ {
         ++$show;
-        $print = 0;
+        $find = $print = 0;
+    }
+    when /^:i fi/ {
+        ++$find;
+        $show = $print = 0;
     }
     when /^:i p/ {
         ++$print;
-        $show = 0;
+        $find = $show = 0;
     }
     when /^:i 'font=' (\S+)/ {
         ++$print;
         $user-font = ~$0;
     }
+    when /^'fa='(\S)/ {
+        $family = ~$0
+        ++$find;
+    }
+    when /^'sl='(\S)/ {
+        $slant = ~$0
+        ++$find;
+    }
+    when /^'we=(\S)/ {
+        $weight = ~$0
+        ++$find;
+    }
     default {
         note "FATAL: Unknown argument '$_'";
     }
+}
+
+if $find {
+    say "Find font with family='', slant='', slant=''";
+    exit;
 }
 
 my %h = %default-samples;

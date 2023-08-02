@@ -5,13 +5,6 @@ use Font::FreeType::Face;
 use Font::FreeType::Raw::Defs;
 use Font::FreeType::Glyph;
 
-# Eliminate duplicate DocFonts. Hash is keyed by "key|size".  # font's size
-
-# hash of fonts and location, etc.
-# hash layout
-# key (alias) => path (dir/basename)
-#             => has-kerning
-#my $face = $!ft.face: $key, :load-flags(FT_LOAD_NO_HINTING);
 
 use PDF::Lite;
 use PDF::Content::Page :PageSizes, :&to-landscape;
@@ -19,9 +12,30 @@ use PDF::Font::Loader :load-font, :find-font;
 
 my %default-samples; # values in BEGIN block at the eof
 # preview of title of output pdf
-my $ofil = "PDF-Lite-font-sample-<font>.pdf";
+my $ofil = "PDF-Lite-font-sample-FONT.pdf";
 my $default-font = "DejaVuSerif";
+my $title-font = "DejaVuSerif-Bold";
 my $font-file = find-font :family($default-font);
+my $font-file-title = find-font :family($title-font);
+my $ft = Font::FreeType.new;
+my $face = $ft.face: $font-file, :load-flags(FT_LOAD_NO_HINTING);
+my $face2 = $ft.face: $font-file-title, :load-flags(FT_LOAD_NO_HINTING);
+
+$face.set-font-size: 10;
+$face2.set-font-size: 16;
+my $sm = $face.scaled-metrics;
+my $sm2 = $face2.scaled-metrics;
+
+say "font name: ", $face.postscript-name;
+say "font height (leading): ", $sm.height;
+say "font underline position: ", $sm.underline-position;
+say "font underline thickness: ", $sm.underline-thickness;
+
+say "title font name: ", $face2.postscript-name;
+say "title font height (leading): ", $sm2.height;
+say "title font underline position: ", $sm2.underline-position;
+say "title font underline thickness: ", $sm2.underline-thickness;
+
 
 my %m = %(PageSizes.enums);
 my @m = %m.keys.sort;
@@ -124,7 +138,6 @@ sub make-page(
 ) is export {
     my ($cx, $cy);
 
-
     =begin comment
     my $up = $font.underlne-position;
     my $ut = $font.underlne-thickness;
@@ -157,7 +170,7 @@ sub make-page(
 
         # get the font's values from FreeFont
         my ($leading, $height, $dh);
-        $leading = $height = $dh = 1.3 * $font-size;
+        $leading = $height = $dh = $sm.height; #1.3 * $font-size;
 
         # use 1-inch margins left and right, 1/2-in top and bottom
         # left
@@ -190,8 +203,8 @@ sub make-page(
         my $bxL = @bbox[0] - 0.5 * $bwidth;
         my $bxR = $bxL + $bwidth;
         # underline the title
-        my $ut =  0.703125; # underline thickness, from docfont
-        my $up = -0.664064; # underline position, from docfont
+        my $ut = $sm.underline-thickness; # 0.703125; # underline thickness, from docfont
+        my $up = $sm.underline-position; # -0.664064; # underline position, from docfont
 
         .Save;
         .SetStrokeGray(0);

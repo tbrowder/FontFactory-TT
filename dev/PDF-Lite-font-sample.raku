@@ -89,36 +89,39 @@ my $print = 0;
 my $find  = 0;
 my $user-font; # any input is expected to be a system font basename
 for @*ARGS {
+    when /^:i 'font=' (\S+)/ {
+        # a local file path
+        ++$print;
+        $user-font = ~$0;
+    }
+    when /^'f[amily]?='(\S)/ {
+        $family = ~$0;
+        ++$find;
+    }
+    when /^'s[lant]?='(\S)/ {
+        $slant = ~$0;
+        ++$find;
+    }
+    when /^'w[eight]?='(\S)/ {
+        $weight = ~$0;
+        ++$find;
+    }
+    # one/two char options
     when /^:i a4?/ {
         $media = $m2;
     }
-    when /^:i sh/ {
-        ++$show;
-        $find = $print = 0;
-    }
-    when /^:i fi/ {
+    # single char options
+    when /^:i f/ {
         ++$find;
         $show = $print = 0;
+    }
+    when /^:i s/ {
+        ++$show;
+        $find = $print = 0;
     }
     when /^:i p/ {
         ++$print;
         $find = $show = 0;
-    }
-    when /^:i 'font=' (\S+)/ {
-        ++$print;
-        $user-font = ~$0;
-    }
-    when /^'fa='(\S)/ {
-        $family = ~$0;
-        ++$find;
-    }
-    when /^'sl='(\S)/ {
-        $slant = ~$0;
-        ++$find;
-    }
-    when /^'we='(\S)/ {
-        $weight = ~$0;
-        ++$find;
     }
     default {
         note "FATAL: Unknown argument '$_'";
@@ -127,6 +130,8 @@ for @*ARGS {
 
 if $find {
     say "Find font with family='$family', slant='$slant', weight='$weight'";
+    my $res = find-font :family($family), :slant($slant), :weight($weight), :kern, :all;
+    say $res;
     exit;
 }
 

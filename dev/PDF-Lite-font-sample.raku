@@ -13,11 +13,15 @@ my %default-samples; # values in BEGIN block at the eof
 # preview of title of output pdf
 my $ofil = "PDF-Lite-font-sample-FONT.pdf";
 
-my $default-font = "DejaVuSerif";
-my $title-font = "DejaVuSerif-Bold";
+#my $default-font = "DejaVuSerif";
+#my $title-font = "DejaVuSerif-Bold";
+my $default-font = "FreeSerif.otf";
+my $title-font = "FreeSerifBold.otf";
 
-my $font-file = find-font :family($default-font);
-my $font-file-title = find-font :family($title-font);
+#my $font-file = find-font :family($default-font);
+#my $font-file-title = find-font :family($title-font);
+my $font-file = "fonts/$default-font";
+my $font-file-title = "fonts/$title-font";
 my $ft = Font::FreeType.new;
 my $face = $ft.face: $font-file, :load-flags(FT_LOAD_NO_HINTING);
 my $face2 = $ft.face: $font-file-title, :load-flags(FT_LOAD_NO_HINTING);

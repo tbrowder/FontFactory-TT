@@ -15,9 +15,8 @@ my $ofil = "PDF-Lite-font-sample-FONT.pdf";
 
 #my $default-font = "DejaVuSerif";
 #my $title-font = "DejaVuSerif-Bold";
-my $default-font = "FreeSerif";
-my $title-font   = "FreeSerifBold";
-
+my $default-font-stem = "FreeSerif";
+my $title-font-stem   = "FreeSerifBold";
 
 #my $font-file = find-font :family($default-font);
 #my $font-file-title = find-font :family($title-font);

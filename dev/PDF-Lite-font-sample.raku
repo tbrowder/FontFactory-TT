@@ -15,19 +15,20 @@ my $ofil = "PDF-Lite-font-sample-FONT.pdf";
 
 #my $default-font = "DejaVuSerif";
 #my $title-font = "DejaVuSerif-Bold";
-my $default-font = "FreeSerif.otf";
-my $title-font = "FreeSerifBold.otf";
+my $default-font = "FreeSerif";
+my $title-font   = "FreeSerifBold";
+
 
 #my $font-file = find-font :family($default-font);
 #my $font-file-title = find-font :family($title-font);
-my $font-file = "fonts/$default-font";
-my $font-file-title = "fonts/$title-font";
+my $font-file = "fonts/$default-font.otf";
+my $title-font-file = "fonts/$title-font.otf";
 my $ft = Font::FreeType.new;
 my $face = $ft.face: $font-file, :load-flags(FT_LOAD_NO_HINTING);
-my $face2 = $ft.face: $font-file-title, :load-flags(FT_LOAD_NO_HINTING);
+my $face2 = $ft.face: $title-font-file, :load-flags(FT_LOAD_NO_HINTING);
 
 $face.set-font-size: 10;
-$face2.set-font-size: 16;
+$face2.set-font-size: 18;
 my $sm = $face.scaled-metrics;
 my $sm2 = $face2.scaled-metrics;
 
@@ -40,10 +41,14 @@ say "title font name: ", $face2.postscript-name;
 say "title font height (leading): ", $sm2.height;
 say "title font underline position: ", $sm2.underline-position;
 say "title font underline thickness: ", $sm2.underline-thickness;
+my $up = $sm2.underline-position;
+my $ut = $sm2.underline-thickness;
 
 
 my %m = %(PageSizes.enums);
 my @m = %m.keys.sort;
+
+$ofil = "PDF-Lite-font-sample-{$default-font}.pdf";
 
 my $debug = 0;
 if not @*ARGS.elems {
@@ -160,10 +165,11 @@ my $pdf = PDF::Lite.new;
 
 #say "DEBUG: DejuVuSerif path: '$font-file'"; exit;
 my $font = load-font :file($font-file);
+my $title-font = load-font :file($title-font-file);
 
 $pdf.media-box = %(PageSizes.enums){$media};
 $page = $pdf.add-page;
-make-page :$pdf, :$page, :$font, :$media, :%h, :landscape(True);
+make-page :$pdf, :$page, :$font, :$title-font, :$media, :%h, :landscape(True);
 $pdf.save-as: $ofil;
 say "See output file: $ofil";
 
@@ -173,6 +179,7 @@ sub make-page(
               PDF::Lite::Page :$page!,
               :$font!,
               :$font-size = 10,
+              :$title-font!,
               :$media!,
               :$landscape = False,
               :%h!, # data
@@ -215,10 +222,10 @@ sub make-page(
 
         # use 1-inch margins left and right, 1/2-in top and bottom
         # left
-        my $Lx = 0 + 36;
+        my $Lx = 0 + 72;
         my $x = $Lx;
         # top baseline
-        my $Ty = $h - 72 - $dh; # should be adjusted for leading for the font/size
+        my $Ty = $h - 36 - $dh; # should be adjusted for leading for the font/size
         my $y = $Ty;
 
         # start at the top left and work down by leading
@@ -229,7 +236,7 @@ sub make-page(
         # print a page title
         @position = [$cx, $y];
         @bbox = .print: "FontFactory language font samples", :@position,
-                       :$font, :font-size(16), :align<center>, :kern; #, :valign<bottom>;
+                       :font($title-font), :font-size(16), :align<center>, :kern; #, :valign<bottom>;
         if 1 {
             note "DEBUG: \@bbox with :align\<center>: {@bbox.raku}";
         }
@@ -276,39 +283,23 @@ sub make-page(
 
             # print the dashed in one piece
             my $dline = "-------------------------";
-            @bbox = .print: $dline, :position[$x, $y], :$font, :$font-size, 
+            @bbox = .print: $dline, :position[$x, $y], :$font, :$font-size,
                             :align<left>, :kern; #, default: :valign<bottom>;
 
             # use the @bbox for vertical adjustment [1, 3];
             $y -= @bbox[3] - @bbox[1];
 
-            # print the line data in two pieces
-            #  Country code: {$k.uc}
-            @bbox = .print: "Country code:", :position[$x, $y], :$font, :$font-size, 
-                            :align<left>, :kern;;
-            my $pos1 = @bbox[2];
-            @bbox = .print: "{$k.uc}", :position[$pos1+5, $y], :$font, :$font-size, 
-                            :align<left>, :kern; #, default: :valign<bottom>;
-
-            # use the @bbox for vertical adjustment [1, 3];
-            $y -= @bbox[3] - @bbox[1];
-
-            # print the line data in two pieces
-            #     Language: $lang
-            @bbox = .print: "Language:", :position[$pos1, $y], :$font, :$font-size, 
-                            :align<right>, :kern;;
-            @bbox = .print: "{$lang}", :position[$pos1+5, $y], :$font, :$font-size, 
-                            :align<left>, :kern; #, default: :valign<bottom>;
+            #  Country code / Language: {$k.uc} / German
+            @bbox = .print: "{$k.uc} - Language: $lang", :position[$x, $y], :$font, :$font-size,
+                            :align<left>, :!kern;
 
             # use the @bbox for vertical adjustment [1, 3];
             $y -= @bbox[3] - @bbox[1];
 
             # print the line data in two pieces
             #     Text:     $text
-            @bbox = .print: "Text:", :position[$pos1, $y], :$font, :$font-size, 
-                            :align<right>, :kern;;
-            @bbox = .print: "{$text}", :position[$pos1+5, $y], :$font, :$font-size, 
-                            :align<left>, :kern; #, default: :valign<bottom>;
+            @bbox = .print: "Text: $text", :position[$x, $y], :$font, :$font-size,
+                            :align<left>, :kern;
 
             # use the @bbox for vertical adjustment [1, 3];
             $y -= @bbox[3] - @bbox[1];
@@ -316,7 +307,7 @@ sub make-page(
         # add a closing dashed line
         # print the dashed in one piece
         my $dline = "-------------------------";
-        @bbox = .print: $dline, :position[$x, $y], :$font, :$font-size, 
+        @bbox = .print: $dline, :position[$x, $y], :$font, :$font-size,
                             :align<left>, :kern; #, default: :valign<bottom>;
 
         #=== end of all data to be printed on this page

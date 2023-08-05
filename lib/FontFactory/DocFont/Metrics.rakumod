@@ -33,10 +33,14 @@ has $.horizontal-advance;
 #| layouts. Always positive.
 has $.vertical-advance;
 
+# TODO decide on correct terminology: 
+#      'width' is Adobe's term for horizontal-advance
 #| The width of the set of glyphs' outlines from the left-most edge to
 #| the right-most edge.
 has $.width;
 
+# TODO decide on correct terminology: 
+#      'height' is actually leading distance (baseline to baseline)
 #| The height of the set of glyphs' outlines from the bottom-most edge
 #| to the top-most edge.
 has $.height;

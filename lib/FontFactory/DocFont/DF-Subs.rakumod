@@ -42,7 +42,7 @@ sub get-gchars(Font::FreeType::Face:D $f, $text, :$debug --> List) is export {
             $c.vertical-advance = 0;
         }
         if not $f.has-horizontal-metrics {
-            $c.horizzontal-advance = 0;
+            $c.horizontal-advance = 0;
         }
 
         #note Dump($c);exit;

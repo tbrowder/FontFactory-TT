@@ -14,7 +14,7 @@
     "Text::Utils",
     "PDF::Font::Loader",
     "Proc::Easier",
-    "Font::FreeType:ver<0.5.0>"
+    "Font::FreeType:ver<0.5.1>"
   ],
   "description": "A management aid for using TrueType and OpenType fonts.",
   "license": "Artistic-2.0",

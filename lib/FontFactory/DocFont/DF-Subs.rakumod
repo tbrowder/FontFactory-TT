@@ -2,6 +2,7 @@ use Font::FreeType;
 use Font::FreeType::Face;
 use Font::FreeType::Glyph;
 use Font::FreeType::Outline;
+use Font::FreeType::BBox;
 use Font::FreeType::Raw::Defs;
 use Font::FreeType::SizeMetrics;
 use Data::Dump;
@@ -13,6 +14,7 @@ use FontFactory::DocFont::GChar;
 sub get-gchar(Font::FreeType::Face:D $f, $text, :$debug --> FontFactory::DocFont::GChar) is export {
     my $char = $text.comb.head;
     my @gchars = get-gchars $f, $char;
+
     @gchars.head;
 } # end sub
 
@@ -45,8 +47,17 @@ sub get-gchars(Font::FreeType::Face:D $f, $text, :$debug --> List) is export {
             $c.horizontal-advance = 0;
         }
 
-        #note Dump($c);exit;
-        #last;
+        # get the bbox
+        ($c.llx, $c.lly, $c.urx, $c.ury) = $g.outline.bounding-box;
+        =begin comment
+        note qq:to/HERE/;
+        llx $c.llx
+        lly $c.lly
+        urx $c.urx
+        ury $c.ury
+        HERE
+        note "DEBUG: exit"; exit;
+        =end comment
 
         @gchars.push: $c;
     }

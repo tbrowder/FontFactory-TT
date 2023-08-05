@@ -4,6 +4,7 @@ unit class FontFactory::DocFont::GChar;
 # plus bounding-box info from its GlyphImage.outline.
 
 use Font::FreeType;
+use Font::FreeType::BBox;
 use Font::FreeType::Face;
 use Font::FreeType::Glyph;
 use Font::FreeType::Outline;
@@ -37,6 +38,10 @@ vertical-advance
 width
 height
 is-outline
+llx
+lly
+urx
+ury
 =end comment
 
 has $.Str is rw;
@@ -49,6 +54,10 @@ has $.vertical-advance is rw;
 has $.width is rw;
 has $.height is rw;
 has $.is-outline is rw;
+has $.llx is rw;
+has $.lly is rw;
+has $.urx is rw;
+has $.ury is rw;
 
 =begin comment
 method new(Font::FreeType::Glyph :$glyph) {

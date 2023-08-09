@@ -13,33 +13,29 @@ my %default-samples; # values in BEGIN block at the eof
 # preview of title of output pdf
 my $ofil = "PDF-Lite-font-sample-FONT.pdf";
 
-#my $default-font = "DejaVuSerif";
-#my $title-font = "DejaVuSerif-Bold";
 my $default-font-stem = "FreeSerif";
 my $title-font-stem   = "FreeSerifBold";
 
-#my $font-file = find-font :family($default-font);
-#my $font-file-title = find-font :family($title-font);
-my $font-file = "fonts/$default-font.otf";
-my $title-font-file = "fonts/$title-font.otf";
+my $font-file = "fonts/{$default-font-stem}.otf";
+my $title-font-file = "fonts/{$title-font-stem}.otf";
 my $ft = Font::FreeType.new;
-my $face = $ft.face: $font-file, :load-flags(FT_LOAD_NO_HINTING);
+my $face  = $ft.face: $font-file, :load-flags(FT_LOAD_NO_HINTING);
 my $face2 = $ft.face: $title-font-file, :load-flags(FT_LOAD_NO_HINTING);
 
 $face.set-font-size: 10;
 $face2.set-font-size: 18;
-my $sm = $face.scaled-metrics;
+my $sm  = $face.scaled-metrics;
 my $sm2 = $face2.scaled-metrics;
 
 say "font name: ", $face.postscript-name;
-say "font height (leading): ", $sm.height;
-say "font underline position: ", $sm.underline-position;
-say "font underline thickness: ", $sm.underline-thickness;
+say "  font height (leading): ", $sm.height;
+say "  font underline position: ", $sm.underline-position;
+say "  font underline thickness: ", $sm.underline-thickness;
 
 say "title font name: ", $face2.postscript-name;
-say "title font height (leading): ", $sm2.height;
-say "title font underline position: ", $sm2.underline-position;
-say "title font underline thickness: ", $sm2.underline-thickness;
+say "  title font height (leading): ", $sm2.height;
+say "  title font underline position: ", $sm2.underline-position;
+say "  title font underline thickness: ", $sm2.underline-thickness;
 my $up = $sm2.underline-position;
 my $ut = $sm2.underline-thickness;
 
@@ -47,7 +43,7 @@ my $ut = $sm2.underline-thickness;
 my %m = %(PageSizes.enums);
 my @m = %m.keys.sort;
 
-$ofil = "PDF-Lite-font-sample-{$default-font}.pdf";
+$ofil = "PDF-Lite-font-sample-{$default-font-stem}.pdf";
 
 my $debug = 0;
 if not @*ARGS.elems {
@@ -57,7 +53,7 @@ if not @*ARGS.elems {
     Usage: $p <mode> [options]
 
     Modes
-      show   - Show the default sample text for 13 languages
+      show   - Show the default sample text for 13 languages 
       print  - Create a PDF of the default text samples
       find   - Finds a font given \:family, \:slant, and \:weight
 
@@ -107,7 +103,7 @@ for @*ARGS {
         ++$find;
     }
     when /^'s[lant]?='(\S)/ {
-        $slant = ~$0;
+        $slant = ~$0; 
         ++$find;
     }
     when /^'w[eight]?='(\S)/ {

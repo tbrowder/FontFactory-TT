@@ -13,8 +13,9 @@
     "JSON::Fast",
     "Text::Utils",
     "PDF::Font::Loader",
+    "PDF::Lite",
     "Proc::Easier",
-    "Font::FreeType:ver<0.5.1>"
+    "Font::FreeType"
   ],
   "description": "A management aid for using TrueType and OpenType fonts.",
   "license": "Artistic-2.0",
@@ -35,7 +36,9 @@
     "FontFactory::FF-Subs": "lib/FontFactory/FF-Subs.rakumod"
   },
   "resources": [
-    "fonts/DejaVuSerif.ttf"
+    "fonts/DejaVuSerif.ttf",
+    "fonts/Times.pfb",
+    "fonts/FreeSerif.otf"
   ],
   "source-url": "https://github.com/tbrowder/FontFactory.git",
   "tags": [

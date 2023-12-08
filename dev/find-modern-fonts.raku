@@ -8,6 +8,8 @@ use Font::FreeType;
 use Font::FreeType::Face;
 use Font::FreeType::Raw::Defs;
 
+use lib <../lib>;
+
 use FontFactory;
 use FontFactory::FF-Subs :build;
 

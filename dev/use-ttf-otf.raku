@@ -13,18 +13,16 @@ use Font::FreeType::SizeMetrics;
 my $font1 = "../t/fonts/DejaVuSerif.ttf";
 
 # for testing
-my $font2 = "../t/fonts/URWBookman-Demi.otf";
-my $font3 = "../t/fonts/URWBookman-Demi.t1";
-my $fontfilex = "../t/fonts/URWBookman-Demi.afm";
+#my $font2 = "../t/fonts/DejaVuSerif.t1a";
+#my $font3 = "../t/fonts/DejaVuSerif.ufm";
+my $fontfilex = "../t/fonts/DejaVuSerif.afm";
 
 if not @*ARGS {
     print qq:to/HERE/;
     Usage: {$*PROGRAM.basename} go | show-all-glyphs [debug]
 
-    Tests use of Font::FreeType using font files:
+    Tests use of Font::FreeType using font file:
         $font1
-        $font2
-        $font3
     as input.
     HERE
     exit
@@ -60,11 +58,12 @@ if 0 and $debug {
 say "== Getting attributes and metrics...";
 my $ft = Font::FreeType.new;
 my $f1 = $ft.face: $font1, :load-flags(FT_LOAD_NO_HINTING);
-my $f2 = $ft.face: $font2, :load-flags(FT_LOAD_NO_HINTING);
-my $f3 = $ft.face: $font3, :load-flags(FT_LOAD_NO_HINTING);
+#my $f2 = $ft.face: $font2, :load-flags(FT_LOAD_NO_HINTING);
+#my $f3 = $ft.face: $font3, :load-flags(FT_LOAD_NO_HINTING);
 
 #for $f1, $f2, $f3 -> $f {
-for $font1, $font2, $font3 -> $ffil {
+#for $font1, $font2, $font3 -> $ffil {
+for $font1 -> $ffil {
     my $f = $ft.face: $ffil, :load-flags(FT_LOAD_NO_HINTING);
     say "    font file name: $ffil";
     say "    family-name: ", $f.family-name;
@@ -117,7 +116,8 @@ for $font1, $font2, $font3 -> $ffil {
     say "max-advance: ", $fm.max-advance;
     say "underline-position: ", $fm.underline-position;
     say "underline-thickness: ", $fm.underline-thickness;
-    say "bbox: ", $fm.bbox; # an array
+
+    say "bbox: ", $fm.bounding-box; # an array
     say "=== end of new scaled metrics:";
 
     # scale factor * units-per-EM = font-size

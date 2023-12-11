@@ -36,9 +36,11 @@
     "FontFactory::FF-Subs": "lib/FontFactory/FF-Subs.rakumod"
   },
   "resources": [
-    "fonts/DejaVuSerif.ttf",
-    "fonts/Times.pfb",
-    "fonts/FreeSerif.otf"
+    "fonts/micrenc.ttf",
+    "fonts/MICR-Encoding-Source-Info/README",
+    "fonts/MICR-Encoding-Source-Info/unzipped/micrenc.ttf",
+    "fonts/MICR-Encoding-Source-Info/unzipped/DigitalGraphicLabs.html",
+    "fonts/MICR-Encoding-Source-Info/unzipped/license.txt"
   ],
   "source-url": "https://github.com/tbrowder/FontFactory.git",
   "tags": [

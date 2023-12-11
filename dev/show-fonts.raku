@@ -1,7 +1,8 @@
 #!/bin/env raku
 
 #use File::Find;
-use PDF::Font::Loader:ver<0.6.10> :load-font, :Weight, :Stretch, :Slant;
+#use PDF::Font::Loader:ver<0.6.10> :load-font, :Weight, :Stretch, :Slant;
+use PDF::Font::Loader:ver<0.7.8> :load-font, :Weight, :Stretch, :Slant;
 use PDF::Content::FontObj;
 
 my $dir = "./fonts";

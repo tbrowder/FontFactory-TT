@@ -1,0 +1,51 @@
+=begin pod
+
+=head1 URW Base 35 Fonts
+
+Debian package: fonts-urw-base35
+
+This module features the URW Base 35 fonts 
+since they continue the heritage of the 35 Adobe
+fonts provided with PostScript printers.
+Additionally, the fonts
+are used in like manner to the FontFactory::Type1
+module to provide a shorthand way to declare a
+font object's type face and size (the combination
+is known as a I<DocFont> object).
+
+The following table provides a mapping of the
+URW names to the original Adobe names
+along with a reference letter to select
+the fonts. 
+
+
+# put Adobe column first
+
+=begin table
+Code URW Adobe
+c   Nimbus Mono L           Courier
+h   Nimbus Sans L           Helvetica
+t   Nimbus Roman No 9       Times
+s   Standard Symbols L      Symbol
+Z   Dingbats                Zaph Dingbats
+
+a   URW Gothic L Book                Avante Garde
+n   Century Schoolbook      New Century Schoolbook
+p   URW Palladio L                   Palatino
+b   URW Bookman
+z   URE Chancery L Medium Italic     Zaph Chancery
+
+=end table
+
+Other fonts with a designated one-character selection key
+are shown in the following table.
+
+The table includes the MICREncoding
+font found in Resources.
+
+=begin table
+Code Font Notes
+m MICREncoding  For non-commercial use; included in Resources                     
+
+=end table
+

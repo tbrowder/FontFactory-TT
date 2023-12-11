@@ -5,7 +5,7 @@ use Data::Dump::Tree;
 use Font::AFM;
 use Test;
 use lib <../lib>;
-use FontFactory::TT;
+use FontFactory;
 
 if not @*ARGS {
     print qq:to/HERE/;
@@ -35,7 +35,7 @@ sub f {
 my $afm  = Font::AFM.new: :name<Times-Roman>;
 my $size = 10.3;
 my $sf   = $size/1000.0;
-my $ff   = FontFactory::TT.new;
+my $ff   = FontFactory.new;
 my $f    = $ff.get-font: 't10d3';
 
 #is $f.sf, $sf;

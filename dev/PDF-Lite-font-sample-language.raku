@@ -1,4 +1,4 @@
-#!/bin/env raku
+#!/usr/bin/env raku
 
 use Font::FreeType;
 use Font::FreeType::Face;
@@ -11,13 +11,15 @@ use PDF::Font::Loader :load-font, :find-font;
 
 my %default-samples; # values in BEGIN block at the eof
 # preview of title of output pdf
-my $ofil = "PDF-Lite-font-sample-FONT.pdf";
+my $ofil  = "PDF-Lite-font-language-sample-FONT.pdf";
 
-my $default-font-stem = "FreeSerif";
-my $title-font-stem   = "FreeSerifBold";
 
-my $font-file = "fonts/{$default-font-stem}.otf";
-my $title-font-file = "fonts/{$title-font-stem}.otf";
+my $font-dir = "/usr/share/fonts/opentype/urw-base35";
+my $default-font-stem = "NimbusRoman-Regular";
+my $title-font-stem   = "NimbusRoman-Bold";
+
+my $font-file = "{$font-dir}/{$default-font-stem}.otf";
+my $title-font-file = "{$font-dir}/{$title-font-stem}.otf";
 my $ft = Font::FreeType.new;
 my $face  = $ft.face: $font-file, :load-flags(FT_LOAD_NO_HINTING);
 my $face2 = $ft.face: $title-font-file, :load-flags(FT_LOAD_NO_HINTING);
@@ -43,7 +45,7 @@ my $ut = $sm2.underline-thickness;
 my %m = %(PageSizes.enums);
 my @m = %m.keys.sort;
 
-$ofil = "PDF-Lite-font-sample-{$default-font-stem}.pdf";
+$ofil  = "PDF-Lite-font-language-sample-{$default-font-stem}.pdf";
 
 my $debug = 0;
 if not @*ARGS.elems {
@@ -134,7 +136,8 @@ for @*ARGS {
 
 if $find {
     say "Find font with family='$family', slant='$slant', weight='$weight'";
-    my $res = find-font :family($family), :slant($slant), :weight($weight), :kern, :all;
+    my $res = find-font :family($family), :slant($slant), :weight($weight), 
+        :kern, :all;
     say $res;
     exit;
 }
@@ -158,8 +161,7 @@ if $show {
 
 my $pdf = PDF::Lite.new;
 
-#say "DEBUG: DejuVuSerif path: '$font-file'"; exit;
-my $font = load-font :file($font-file);
+my $font       = load-font :file($font-file);
 my $title-font = load-font :file($title-font-file);
 
 $pdf.media-box = %(PageSizes.enums){$media};
@@ -229,29 +231,36 @@ sub make-page(
         #              :align<center>, :valign<center>;
 
         # print a page title
+        my $ptitle = "FontFactory Language Samples for Font: $font";
         @position = [$cx, $y];
-        @bbox = .print: "FontFactory language font samples", :@position,
-                       :font($title-font), :font-size(16), :align<center>, :kern; #, :valign<bottom>;
+        @bbox = .print: $ptitle, :@position,
+                       :font($title-font), :font-size(16), :align<center>, :kern; 
+                       #, :valign<bottom>;
         if 1 {
             note "DEBUG: \@bbox with :align\<center>: {@bbox.raku}";
         }
 
         =begin comment
-        # TODO file bug report: @bbox does NOT recognize results of :align (and probably :valign)
-        .MoveTo(@bbox[0], @bbox[1]); # y positions are correct, must adjust x left by 1/2 width
+        # TODO file bug report: @bbox does NOT recognize results of 
+        #   :align (and probably :valign)
+        # y positions are correct, must adjust x left by 1/2 width
+        .MoveTo(@bbox[0], @bbox[1]); 
         .LineTo(@bbox[2], @bbox[1]);
         =end comment
         my $bwidth = @bbox[2] - @bbox[0];
         my $bxL = @bbox[0] - 0.5 * $bwidth;
         my $bxR = $bxL + $bwidth;
         # underline the title
-        my $ut = $sm.underline-thickness; # 0.703125; # underline thickness, from docfont
-        my $up = $sm.underline-position; # -0.664064; # underline position, from docfont
+        # underline thickness, from docfont
+        my $ut = $sm.underline-thickness; # 0.703125; 
+        # underline position, from docfont
+        my $up = $sm.underline-position; # -0.664064; 
 
         .Save;
         .SetStrokeGray(0);
         .SetLineWidth($ut);
-        .MoveTo($bxL, $y + $up); # y positions are correct, must adjust x left by 1/2 width
+        # y positions are correct, must adjust x left by 1/2 width
+        .MoveTo($bxL, $y + $up); 
         .LineTo($bxR, $y + $up);
         .CloseStroke;
         .Restore;
@@ -285,16 +294,16 @@ sub make-page(
             $y -= @bbox[3] - @bbox[1];
 
             #  Country code / Language: {$k.uc} / German
-            @bbox = .print: "{$k.uc} - Language: $lang", :position[$x, $y], :$font, :$font-size,
-                            :align<left>, :!kern;
+            @bbox = .print: "{$k.uc} - Language: $lang", :position[$x, $y], 
+                    :$font, :$font-size, :align<left>, :!kern;
 
             # use the @bbox for vertical adjustment [1, 3];
             $y -= @bbox[3] - @bbox[1];
 
             # print the line data in two pieces
             #     Text:     $text
-            @bbox = .print: "Text: $text", :position[$x, $y], :$font, :$font-size,
-                            :align<left>, :kern;
+            @bbox = .print: "Text: $text", :position[$x, $y], 
+                    :$font, :$font-size, :align<left>, :kern;
 
             # use the @bbox for vertical adjustment [1, 3];
             $y -= @bbox[3] - @bbox[1];
@@ -303,7 +312,7 @@ sub make-page(
         # print the dashed in one piece
         my $dline = "-------------------------";
         @bbox = .print: $dline, :position[$x, $y], :$font, :$font-size,
-                            :align<left>, :kern; #, default: :valign<bottom>;
+                :align<left>, :kern; #, default: :valign<bottom>;
 
         #=== end of all data to be printed on this page
         .Restore; # end of all data to be printed on this page

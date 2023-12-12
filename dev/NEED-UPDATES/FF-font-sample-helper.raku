@@ -1,5 +1,7 @@
 #!/bin/env raku
 
+note "UPDATE after DocFont is updated"; die "Tom, fix this";
+
 use lib <../lib>;
 use FontFactory;
 use FontFactory::DocFont;

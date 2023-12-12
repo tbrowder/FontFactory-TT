@@ -250,12 +250,15 @@ sub make-page(
         my $bwidth = @bbox[2] - @bbox[0];
         my $bxL = @bbox[0] - 0.5 * $bwidth;
         my $bxR = $bxL + $bwidth;
+
+        =begin comment
+        # wait until underline can be centered easily
+ 	
         # underline the title
         # underline thickness, from docfont
         my $ut = $sm.underline-thickness; # 0.703125; 
         # underline position, from docfont
         my $up = $sm.underline-position; # -0.664064; 
-
         .Save;
         .SetStrokeGray(0);
         .SetLineWidth($ut);
@@ -264,6 +267,7 @@ sub make-page(
         .LineTo($bxR, $y + $up);
         .CloseStroke;
         .Restore;
+        = comment
 
         # show the text font value
         $y -= 2* $dh;

@@ -36,6 +36,8 @@ for @ifils -> $f {
     }
 
     for @lines -> $line is copy {
+        $line = strip-comment $line;
+        next if $line !~~ /\S/;
         my @data = $line.split(',');
         for @data.kv -> $i, $field is copy {
             $field = normalize-text $field;

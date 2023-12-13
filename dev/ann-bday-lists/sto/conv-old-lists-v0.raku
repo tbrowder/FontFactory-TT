@@ -7,6 +7,7 @@ my @ifils = <
     anniversaries.txt
 >;
 
+
 use lib '.';
 use Yevent;
 
@@ -57,9 +58,9 @@ for @ifils -> $f {
 
 say "Read data okay.";
 
-# %e - a hash of Yevents keyed by month and day
-# %e<mon><day><ann>[]
-#            <bday>[]
+# %e - a hash of Yevents keyed by date 
+# %e<date><ann>[]
+#         <bday>[]
 my %e; 
 
 for @events -> $e {
@@ -84,59 +85,28 @@ for @events -> $e {
         }
     }
 
+    # the <date> is formed by $year-$mon-$day
+    my $d = Date.new: $year, $mon, $day;
     my $typ = $e.type;
     if $typ ~~ /:i a / {
-        unless %e{$mon}{$day}<ann>:exists {
-            %e{$mon}{$day}<ann> = [];
+        unless %e{$d}<ann>:exists {
+            %e{$d}<ann> = [];
         }
-        %e{$mon}{$day}<ann>.push: $e;
+        %e{$d}<ann>.push: $e;
     }
     elsif $typ ~~ /:i b / {
-        unless %e{$mon}{$day}<bday>:exists {
-            %e{$mon}{$day}<bday> = [];
+        unless %e{$d}<bday>:exists {
+            %e{$d}<bday> = [];
         }
-        %e{$mon}{$day}<bday>.push: $e;
+        %e{$d}<bday>.push: $e;
     }
 
 }
 
 say "The \%e hash is filled.";
 
-my @mons = %e.keys.sort({ $^a <=> $^b }); 
-# say "  $_" for @mons;
-
-for @mons -> $mon {
-    say "Working month $mon";
-    my @days = %e{$mon}.keys.sort({ $^a <=> $^b }); 
-    #say "  $_" for @days;
-    # separate into birthdays and anniversaries for each day
-    DAY: for @days -> $day {
-        my @a = %e{$mon}{$day}<ann>:exists  ?? @(%e{$mon}{$day}<ann>)
-                                            !! [];
-        my @b = %e{$mon}{$day}<bday>:exists ?? @(%e{$mon}{$day}<bday>) 
-                                            !! [];
-        my $na = @a.elems;
-        my $nb = @b.elems;
-        my $n = max $na, $nb;
-        next DAY if not $n;
-
-        #say "  Working day $day";
-        for 0..^$n -> $i {
-            my ($col1, $col2) = "", "";
-            my $t = $i + 1;
-            # put birthdays in column 1
-            if $nb >= $t {
-                $col1 = @b[$i].name;
-            }
-            if $na >= $t {
-                $col2 = @a[$i].name;
-            }
-            say "  '$col1' | '$col2'";
-        }
-    }
-}
-
-=finish
+my @d = %e.keys.sort; 
+# say "  $_" for @d;
 
 say "The \%e hash sorts as desired.";
 say "Ready to produce the list as strings before typesetting it.";

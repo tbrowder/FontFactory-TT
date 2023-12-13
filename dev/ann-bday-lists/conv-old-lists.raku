@@ -24,7 +24,6 @@ if not @*ARGS {
     exit
 }
 
-my %db; #  = get-csv-class-data :class-name<Yevent>, :csv-file<>;
 my @events;
 for @ifils -> $f {
     my @lines = $f.IO.lines;
@@ -49,3 +48,37 @@ for @ifils -> $f {
 }
 
 say "Read data okay.";
+
+my %e; # hash of Yevents keyed by date 
+       #   #%e<date><ann>[]
+       #            <bday>[]
+for @events -> $e {
+    my $day = $e.day;
+    my $mon-abbrev = $e.mon;
+    my $mon;
+    with $mon-abbrev {
+        when /:i jan / { $mon = 1 }
+        when /:i feb / { $mon = 2 }
+        when /:i mar / { $mon = 3 }
+        when /:i apr / { $mon = 4 }
+        when /:i may / { $mon = 5 }
+        when /:i jun / { $mon = 6 }
+        when /:i jul / { $mon = 7 }
+        when /:i aug / { $mon = 8 }
+        when /:i sep / { $mon = 9 }
+        when /:i oct / { $mon = 10 }
+        when /:i nov / { $mon = 11 }
+        when /:i dec / { $mon = 12 }
+        default {
+            die "FATAL: Unknown month abbreviation '$_'";
+        }
+    }
+
+    my $typ = $e.type;
+    if $typ ~~ /:i a / {
+    }
+    elsif $typ ~~ /:i b / {
+    }
+
+}
+

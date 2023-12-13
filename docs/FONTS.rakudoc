@@ -1,12 +1,18 @@
 =begin pod
 
-=head1 URW Base 35 Fonts
+=head1 GNU FreeFont and URW Base 35 Fonts
 
-Debian package: fonts-urw-base35
+Debian packages: fonts-freefont-otf, urw-base35
 
-This module features the URW Base 35 fonts 
-since they continue the heritage of the 35 Adobe
+This module features the GNU FreeFont and URW Base 35 fonts 
+since they are similar to the Adobe
 fonts provided with PostScript printers.
+They have a large number of glyphs from the Unicode
+set and provide multi-language support as well
+as symbole. They also have kerning and ligatures
+which provide more polished typesetting for formal
+documents.
+
 Additionally, the fonts
 are used in like manner to the FontFactory::Type1
 module to provide a shorthand way to declare a
@@ -14,26 +20,26 @@ font object's type face and size (the combination
 is known as a I<DocFont> object).
 
 The following table provides a mapping of the
-URW names to the original Adobe names
+fonts to the similar Adobe names
 along with a reference letter to select
 the fonts. 
-
 
 # put Adobe column first
 
 =begin table
-Code URW Adobe
-c   Nimbus Mono L           Courier
-h   Nimbus Sans L           Helvetica
-t   Nimbus Roman No 9       Times
-s   Standard Symbols L      Symbol
-Z   Dingbats                Zaph Dingbats
+Code Actual Font Adobe          Source
+c   FreeMono          Courier    GNU
+h   FreeSans          Helvetica GNU
+t   FreeSerif       Times GNU
 
-a   URW Gothic L Book                Avante Garde
-n   Century Schoolbook      New Century Schoolbook
-p   URW Palladio L                   Palatino
-b   URW Bookman
-z   URE Chancery L Medium Italic     Zaph Chancery
+s Standard Symbols L Symbol URW
+z Dingbats        Zaph Dingbats URW
+
+a URW Gothic L Book Avante Garde URW
+n Century Schoolbok New Century Schoolbook URW
+p URW Palladio L    Palatino URW
+b URW Bookman   URW
+Z URE Chancery L Medium Italic Zaph Chancery
 
 =end table
 

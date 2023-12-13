@@ -29,7 +29,8 @@ has                      $.path is required; #= path of the input font file
 
 # other attrs
 has          $.sm;       #= scaled metrics
-has          $.sf;       #= scale factor for the font object's EM.size attrs vs the font size
+has          $.sf;       #= scale factor for the font object's EM.size attrs 
+                         #=   vs the font size
 has    GChar %.chars;    #= hash of Glyphs keyed by a Str char
 
 # derived from the face and other Font::FreeType modules
@@ -45,7 +46,8 @@ has          $.has-glyph-names;
 has          $.has-reliable-glyph-names;
 has          $.is-bold;
 has          $.is-italic;
-has          $.font-format;              # TruType, Type 1, BDF, PCF, Type 42, CID Type 42, CFF, PFR, or Windows FNT
+has          $.font-format;              # TruType, Type 1, BDF, PCF, Type 42, 
+                                         #   CID Type 42, CFF, PFR, or Windows FNT
 has          $.num-glyphs;
 has          $.num-faces;                # usually only one
 

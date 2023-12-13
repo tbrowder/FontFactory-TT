@@ -16,7 +16,6 @@ use Font::FreeType::Raw::Defs;
 use Font::FreeType::SizeMetrics;
 
 my $urwdir = "/usr/share/fonts/opentype/urw-base35";
-
 my @urw = find :dir($urwdir), :name(/\.otf$/);
 #say "font file $_" for @urw;
 #exit;
@@ -67,30 +66,18 @@ if 0 and $debug {
     say "DEBUG exit"; exit;
 }
 
-say "== Getting attributes and metrics...";
+# only need one instance of FontFreeType
 my $ft = Font::FreeType.new;
-#my $f1 = $ft.face: $font1, :load-flags(FT_LOAD_NO_HINTING);
-#my $f2 = $ft.face: $font2, :load-flags(FT_LOAD_NO_HINTING);
-#my $f3 = $ft.face: $font3, :load-flags(FT_LOAD_NO_HINTING);
-
-#for $f1, $f2, $f3 -> $f {
-#for $font1, $font2, $font3 -> $ffil {
-#for $font1 -> $ffil {
 for @urw -> $fpath {
-    #my $fnam = $fpath.basename;
-    #my $ffil = "./fonts/$fnam".IO.absolute;
     my $ffil = $fpath.IO.absolute;
-
     say "Using file: $ffil";
     my $f = $ft.face: $ffil, :load-flags(FT_LOAD_NO_HINTING);
+
+    =begin comment
+    # the available attrs
     say "    font file name: $ffil";
     say "    family-name: ", $f.family-name;
     say "    postscript-name: ", $f.postscript-name;
-
-}
-
-=finish
-    =begin comment
     say "    underline-position: ", $f.underline-position;
     say "    underline-thickness: ", $f.underline-thickness;
     say "    units-per-EM: ", $f.units-per-EM;
@@ -100,7 +87,6 @@ for @urw -> $fpath {
     say "    ascender: ", $f.ascender;
     say "    descender: ", $f.descender;
     say "    font-format: ", $f.font-format;
-
     say "    is-scalable: ", $f.is-scalable;
     say "    has-fixed-sizes: ", $f.has-fixed-sizes; # bitmap
     say "    is-fixed-width:", $f.is-fixed-width;
@@ -108,7 +94,6 @@ for @urw -> $fpath {
     say "    has-horizontal-metrics: ", $f.has-horizontal-metrics;
     say "    has-vertical-metrics: ", $f.has-vertical-metrics;
     say "    has-kerning: ", $f.has-kerning;
-
     say "    has-glyph-names: ", $f.has-glyph-names;
     say "    has-reliable-glyph-names: ", $f.has-reliable-glyph-names;
     say "    is-bold: ", $f.is-bold;

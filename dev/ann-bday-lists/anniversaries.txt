@@ -1,22 +1,21 @@
-day , mon , type , name , year , notes
-
-14, mar, a, 1969, Boyce & Glenda Taylor # Glenda and Boyce, 50th in 2019
-25, mar, a, 1995, Charles & Natalie Mize # [Natalie Landon] Mize
-
-11, apr, a, 1965, Fred & Nancy Eddy 
-23, apr, a, 1960, Pat & Lydia O'Connor 
-29, apr, a, 1967, Tom & Missy Browder
-
- 7, may, a, 2006, Kurt & Grace Gray
-
-17, jun, a, 1967, Jeb & Eleanor Stewart
-20, jun, a, 1998, Tom & Emily Browder
-24, Jun, a, 1972, Alan & Gina Tyner
-30, jun, a, 1962, Don & Alacia Rhame
-
- 5, jul, a, 1963, Cort & Lona Proctor
-
-17, aug, a, 1968, Clancy & Sandy Landon
-
-30, sep, a, 1972, Roger & Marion Oelke
-
+day , mon , type ,name,year, notes
+,,,,,
+14, mar, a, Boyce & Glenda Taylor ,1969, 50th in 2019
+25, mar, a, Charles & Natalie Mize,1995,Natalie nee Mize
+,,,,,
+11, apr, a, Fred & Nancy Eddy ,1965,
+23, apr, a, Pat & Lydia O'Connor ,1960,
+29, apr, a, Tom & Missy Browder,1967,
+,,,,,
+7, may, a, Kurt & Grace Gray,2006,
+,,,,,
+17, jun, a, Jeb & Eleanor Stewart,1967,
+20, jun, a, Tom & Emily Browder,1998,
+24, Jun, a, Alan & Gina Tyner,1972,
+30, jun, a, Don & Alacia Rhame,1962,
+,,,,,
+5, jul, a, Cort & Lona Proctor,1963,
+,,,,,
+17, aug, a, Clancy & Sandy Landon,1968,
+,,,,,
+30, sep, a, Roger & Marion Oelke,1972,

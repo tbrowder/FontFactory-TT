@@ -1,5 +1,7 @@
 #!/usr/bin/env raku
 
+use File::Find;
+
 use Font::FreeType;
 use Font::FreeType::Face;
 use Font::FreeType::Raw::Defs;
@@ -9,22 +11,10 @@ use PDF::Lite;
 use PDF::Content::Page :PageSizes, :&to-landscape;
 use PDF::Font::Loader :load-font, :find-font;
 
-my %default-samples; # values in BEGIN block at the eof
-# preview of title of output pdf
-my $ofil  = "PDF-Lite-font-language-sample-FONT.pdf";
+my $ofil  = "PDF-Lite-urw-font-samples.pdf";
+my $urwdir = "/usr/share/fonts/opentype/urw-base35";
+my @urw = find :dir($urwdir), :name(/\.otf$/);
 
-
-=begin comment
-my $font-dir = "/usr/share/fonts/opentype/urw-base35";
-my $default-font-stem = "NimbusRoman-Regular";
-my $title-font-stem   = "NimbusRoman-Bold";
-=end comment
-my $font-dir = "/usr/share/fonts/opentype/freefont";
-my $default-font-stem = "FreeSerif";
-my $title-font-stem   = "FreeSerifBold";
-
-my $font-file = "{$font-dir}/{$default-font-stem}.otf";
-my $title-font-file = "{$font-dir}/{$title-font-stem}.otf";
 my $ft = Font::FreeType.new;
 my $face  = $ft.face: $font-file, :load-flags(FT_LOAD_NO_HINTING);
 my $face2 = $ft.face: $title-font-file, :load-flags(FT_LOAD_NO_HINTING);
@@ -237,7 +227,7 @@ sub make-page(
         #              :align<center>, :valign<center>;
 
         # print a page title
-        my $ptitle = "FontFactory language samples for Font: $font-name";
+        my $ptitle = "FontFactory Language Samples for Font: $font-name";
         @position = [$cx, $y];
         @bbox = .print: $ptitle, :@position,
                        :font($title-font), :font-size(16), :align<center>, :kern;
@@ -328,78 +318,3 @@ sub make-page(
         .Restore; # end of all data to be printed on this page
     }
 }
-
-BEGIN {
-%default-samples = [
-    # keyed by two-character ISO language code
-    #     key => {
-    #         lang => "",
-    #         text => "",
-    #         font => "",
-    #     }
-    nl => {
-        lang => 'Dutch',
-        text => 'Quizdeltagerne spiste jordbær med fløde, mens cirkusklovnen Walther spillede pålofon.',
-        font => "",
-    },
-    en => {
-        lang => 'English',
-        text => 'ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789 Oo Fi fi fii Wa',
-    },
-    fr => {
-        lang => 'French',
-        text => 'Quizdeltagerne spiste jordbær med fløde, mens cirkusklovnen Walther spillede på xylofon.',
-        font => "",
-    },
-    de => {
-        lang => 'German',
-        text => 'Zwölf Boxkämpfer jagen Viktor quer über den großen Sylter Deich.',
-        font => "",
-    },
-    id => {
-        lang => 'Indonesian',
-        text => 'Saya lihat foto Hamengkubuwono XV bersama enam zebra purba cantik yang jatuh dari Al Quranmu.',
-        font => "",
-    },
-    it => {
-        lang => 'Italian',
-        text => 'Ma la volpe, col suo balzo, ha raggiunto il quieto Fido.',
-        font => "",
-    },
-    nb => {
-        lang => 'Norwegian (Bokmål)',
-        text => 'En god stil må først og fremst være klar. Den må være passende. Aristoteles.',
-        font => "",
-    },
-    nn => {
-        lang => 'Norwegian (Nyorsk)',
-        text => "NONE YET",
-        font => "",
-    },
-    pl => {
-        lang => 'Polish',
-        text => 'Pchnąć w tę łódź jeża lub ośm skrzyń fig.',
-        font => "",
-    },
-    ro => {
-        lang => 'Romanian',
-        text => 'Agera vulpe maronie sare peste câinele cel leneş.',
-        font => "",
-    },
-    ru => {
-        lang => 'Russian',
-        text => 'Съешь ещё этих мягких французских булок да выпей же чаю.',
-        font => "",
-    },
-    es => {
-        lang => 'Spanish',
-        text => 'El veloz murciélago hindú comía feliz cardillo y kiwi. La cigüeña tocaba el saxofón detrás del palenque de paja.',
-        font => "",
-    },
-    uk => {
-        lang => 'Ukranian',
-        text => 'Чуєш їх, доцю, га? Кумедна ж ти, прощайся без ґольфів!',
-        font => "",
-    },
-];
-} # end BEGIN

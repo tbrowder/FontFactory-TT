@@ -12,7 +12,11 @@ See lib/Font/FreeType/Face.rakumod:
     method set-font-size(Numeric $width, Numeric $height = $width,
                         Uint $horiz-res = 0, UInt $vert-res = 0) {
 
-Create a method to use ligatures if available (file issue with Font::FreeType)
+Create a method to use ligatures if available (file issue with
+Font::FreeType)
+
+Create useful subs to ease typesetting (to be moved to PDF::Document
+or other suitable publis distro)
 
 Document the practical uses:
 

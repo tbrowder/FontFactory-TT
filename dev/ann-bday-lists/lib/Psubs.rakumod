@@ -1,5 +1,19 @@
 unit module Psub;
 
+#| Classes
+class Cell {
+    has $.text;
+}
+
+class Line {
+    has Cell @.cells;
+}
+
+class Table {
+    has $.title;
+    has Line @.lines;
+}
+
 sub print-lists(
     PDF::Lite::Page $page,
     :$debug,

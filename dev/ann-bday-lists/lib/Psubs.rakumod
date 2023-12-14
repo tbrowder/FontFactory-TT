@@ -1,5 +1,12 @@
 unit module Psub;
 
+=begin comment
+
+Look at the mailing label in xmas for an algorithm
+start.
+
+=end comment
+
 #| subs to be used to produce PDF files
 sub create-cal-event-page(
     :$debug,

@@ -10,7 +10,6 @@ my @ifils = <
 use lib '.';
 use Yevent;
 
-my $ofil = "ann-bday-list.csv";
 my $year = DateTime.new(now).year;
 
 if not @*ARGS {
@@ -32,14 +31,24 @@ if $arg ~~ /^20 (\d\d) $/ {
     $year = +$0;
 }
 
+my $ofil = "missys-ann-bday-list-{$year}.data";
+
 my @events;
-for @ifils -> $f {
+my @hdrs1;
+my @hdrs2;
+
+for @ifils.kv -> $j, $f {
     my @lines = $f.IO.lines;
     my $hdrs  = @lines.shift;
     my @hdrs  = $hdrs.split(',');
     for @hdrs.kv -> $i, $field is copy {
         $field = normalize-text $field;
-        @hdrs[$i] = $field;
+        if $j == 0 {
+            @hdrs1[$i] = $field;
+        }
+        elsif $j == 1 {
+            @hdrs2[$i] = $field;
+        }
     }
 
     for @lines -> $line is copy {
@@ -53,6 +62,12 @@ for @ifils -> $f {
         my $e = Yevent.new: |@data;
         @events.push: $e;
     }
+}
+
+# @hdrs1 and @hdrs2 should be the same
+die "hdrs are different" if @hdrs1.elems != @hdrs2.elems;
+for 0..^@hdrs1.elems -> $i {
+    die "hdrs are differnt at index $i" if @hdrs1[$i] ne @hdrs2[$i];
 }
 
 say "Read data okay.";
@@ -97,7 +112,6 @@ for @events -> $e {
         }
         %e{$mon}{$day}<bday>.push: $e;
     }
-
 }
 
 say "The \%e hash is filled.";
@@ -105,9 +119,17 @@ say "The \%e hash is filled.";
 my @mons = %e.keys.sort({ $^a <=> $^b }); 
 # say "  $_" for @mons;
 
+my $fh = open $ofil, :w;
+
+$fh.say: "year: $year";
+
 for @mons -> $mon {
+
+    $fh.say: "month: $mon";
     say "Working month $mon";
+
     my @days = %e{$mon}.keys.sort({ $^a <=> $^b }); 
+
     #say "  $_" for @days;
     # separate into birthdays and anniversaries for each day
     DAY: for @days -> $day {
@@ -117,28 +139,41 @@ for @mons -> $mon {
                                             !! [];
         my $na = @a.elems;
         my $nb = @b.elems;
-        my $n = max $na, $nb;
+        my $n  = max $na, $nb;
+ 	
         next DAY if not $n;
 
+       
+        # here is the data for a table 
+        #   lay out the table in a text file:
+
+        # month: N
+        # 1 | name yyyy | name yyyy
+        
         #say "  Working day $day";
         for 0..^$n -> $i {
             my ($col1, $col2) = "", "";
             my $t = $i + 1;
             # put birthdays in column 1
             if $nb >= $t {
-                $col1 = @b[$i].name;
+                $col1 = " {@b[$i].name} {@b[$i].year} ";
             }
             if $na >= $t {
-                $col2 = @a[$i].name;
+                $col2 = " {@a[$i].name} {@a[$i].year} ";
             }
             say "  '$col1' | '$col2'";
+            $fh.say: " $day | $col1 | $col2 ";
         }
     }
 }
 
-=finish
+$fh.close;
 
 say "The \%e hash sorts as desired.";
+say "See the data output file '$ofil'";
+
+=finish
+
 say "Ready to produce the list as strings before typesetting it.";
 
 # for each month
@@ -146,5 +181,6 @@ say "Ready to produce the list as strings before typesetting it.";
 #      write two columns
 #         col1  col2
 #         bday  ann
+
 
 

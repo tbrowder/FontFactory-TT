@@ -9,172 +9,96 @@ use Font::FreeType::Glyph;
 
 use PDF::Lite;
 use PDF::Content::Page :PageSizes, :&to-landscape;
+use PDF::Content::Text::Block;
 use PDF::Font::Loader :load-font, :find-font;
 
-my $ofil  = "PDF-Lite-urw-font-samples.pdf";
-my $urwdir = "/usr/share/fonts/opentype/urw-base35";
-my @urw = find :dir($urwdir), :name(/\.otf$/);
+my $ofil   = "missys-bday-ann-lists.pdf";
+my $ffdir  = "/usr/share/fonts/opentype/freefont";
+my $ffil   = "$ffdir/FreeSerif.otf";
+my $ffilB  = "$ffdir/FreeSerifBold.otf";
 
 my $ft = Font::FreeType.new;
-my $face  = $ft.face: $font-file, :load-flags(FT_LOAD_NO_HINTING);
-my $face2 = $ft.face: $title-font-file, :load-flags(FT_LOAD_NO_HINTING);
+my $face  = $ft.face: $ffil, :load-flags(FT_LOAD_NO_HINTING);
+my $faceB = $ft.face: $ffilB, :load-flags(FT_LOAD_NO_HINTING);
 
-$face.set-font-size: 10;
-$face2.set-font-size: 18;
+my $fsiz = 10;
+$face.set-font-size:  $fsiz;
+$faceB.set-font-size: $fsiz;
 my $sm  = $face.scaled-metrics;
-my $sm2 = $face2.scaled-metrics;
+my $smB = $faceB.scaled-metrics;
 
+my $font  = load-font :file($ffil);
+my $fontB = load-font :file($ffilB);
+
+if 0 {
 say "font name: ", $face.postscript-name;
-say "  font height (leading): ", $sm.height;
+say "  font size: ", $fsiz;
+say "  font height (leading or line height): ", $sm.height;
 say "  font underline position: ", $sm.underline-position;
 say "  font underline thickness: ", $sm.underline-thickness;
 
-say "title font name: ", $face2.postscript-name;
-say "  title font height (leading): ", $sm2.height;
-say "  title font underline position: ", $sm2.underline-position;
-say "  title font underline thickness: ", $sm2.underline-thickness;
-my $up = $sm2.underline-position;
-my $ut = $sm2.underline-thickness;
-
+say "bold font name: ", $faceB.postscript-name;
+say "  bold font size: ", $fsiz;
+say "  bold font height (leading or line height): ", $smB.height;
+say "  bold font underline position: ", $smB.underline-position;
+say "  bold font underline thickness: ", $smB.underline-thickness;
+}
 
 my %m = %(PageSizes.enums);
 my @m = %m.keys.sort;
 
-$ofil  = "PDF-Lite-font-language-sample-{$default-font-stem}.pdf";
-
 my $debug = 0;
 if not @*ARGS.elems {
-    my $p = $*PROGRAM.basename;
-
     print qq:to/HERE/;
-    Usage: $p <mode> [options]
+    Usage: {$*PROGRAM.basename} go [debug]
 
-    Modes
-      show   - Show the default sample text for 13 languages
-      print  - Create a PDF of the default text samples
-      find   - Finds a font given \:family, \:slant, and \:weight
+    Creates Missy's birthday and anniversary lists.
 
-    Options
-      A4     - Use A4 paper instead of the default US Letter
-               for the sample output file:
-                   $ofil
-      font=F - Where F is a font basename on your system
-
-    File an issue if your desired language is not available in the
-    sample text list ('show' and 'print' modes).
-
-    See more information about pangrams and a large list of them
-    for many languages at 'https:://clagnut.com'.
     HERE
     exit
 }
 
-my ($text, $page);
+my ($text, $page, $text-obj);
 
 my $m1 = 'Letter';
-my $m2 = 'A4';
 my $media = $m1; # the default
-#my $landscape = False;
-my $landscape = True;
+my $landscape = False;
+#my $landscape = True;
 
-# find attributes:
-# mono?
-my $family = 'times';
-my $weight = 'regular';
-my $slant  = 'normal';
-my $all    = True;
-my $serif  = True;
-my $stretch = 'normal';
-my $show  = 0;
-my $print = 0;
-my $find  = 0;
-my $user-font; # any input is expected to be a system font basename
 for @*ARGS {
-    when /^:i 'font=' (\S+)/ {
-        # a local file path
-        ++$print;
-        $user-font = ~$0;
+    when /^:i g/ {
+        ; # ok
     }
-    when /^'f[amily]?='(\S)/ {
-        $family = ~$0;
-        ++$find;
-    }
-    when /^'s[lant]?='(\S)/ {
-        $slant = ~$0;
-        ++$find;
-    }
-    when /^'w[eight]?='(\S)/ {
-        $weight = ~$0;
-        ++$find;
-    }
-    # one/two char options
-    when /^:i a4?/ {
-        $media = $m2;
-    }
-    # single char options
-    when /^:i f/ {
-        ++$find;
-        $show = $print = 0;
-    }
-    when /^:i s/ {
-        ++$show;
-        $find = $print = 0;
-    }
-    when /^:i p/ {
-        ++$print;
-        $find = $show = 0;
+    when /^:i d/ {
+        ++$debug;
     }
     default {
         note "FATAL: Unknown argument '$_'";
     }
 }
 
-if $find {
-    say "Find font with family='$family', slant='$slant', weight='$weight'";
-    my $res = find-font :family($family), :slant($slant), :weight($weight),
-        :kern, :all;
-    say $res;
-    exit;
-}
-
-my %h = %default-samples;
-if $show {
-    say "Showing samples to be printed:";
-    for %h.keys.sort -> $k {
-        my $lang = %h{$k}<lang>;
-        my $text = %h{$k}<text>;
-        print qq:to/HERE/;
-        -------------------------
-          Country code: {$k.uc}
-              Language: $lang
-              Text:     $text
-        HERE
-    }
-    say "-------------------------";
-    exit
-}
-
 my $pdf = PDF::Lite.new;
 
-my $font       = load-font :file($font-file);
-my $title-font = load-font :file($title-font-file);
-
 $pdf.media-box = %(PageSizes.enums){$media};
-$page = $pdf.add-page;
-make-page :$pdf, :$page, :$font, :$title-font, :$media, :%h, :landscape(True), :font-name($default-font-stem);
+$page   = $pdf.add-page;
+
+my %h;
+make-page :$pdf, :$page, :$font, :$fontB, 
+          :$media, :%h, :landscape(False);
+
 $pdf.save-as: $ofil;
 say "See output file: $ofil";
 
 # subroutines
 sub make-page(
+              @lines, 
               PDF::Lite :$pdf!,
               PDF::Lite::Page :$page!,
               :$font!,
               :$font-size = 10,
-              :$title-font!,
+              :$fontB!,
               :$media!,
               :$landscape = False,
-              :$font-name!,
               :%h!, # data
 ) is export {
     my ($cx, $cy);
@@ -189,25 +113,24 @@ sub make-page(
     # portrait
     # use the page media-box
     $page.media-box = %(PageSizes.enums){$media};
+    my $w = $page.media-box[3] - $page.media-box[1];
+    my $h = $page.media-box[2] - $page.media-box[0];
     $cx = 0.5 * ($page.media-box[2] - $page.media-box[0]);
     $cy = 0.5 * ($page.media-box[3] - $page.media-box[1]);
-
-    if not $landscape {
-        die "FATAL: Tom, fix this";
-        return
-    }
 
     my (@bbox, @position);
     $page.graphics: {
         .Save;
-        .transform: :translate($page.media-box[2], $page.media-box[1]);
-        .transform: :rotate(90 * pi/180); # left (ccw) 90 degrees
 
-        # is this right? yes, the media-box values haven't changed,
-        # just its orientation with the transformations
-        my $w = $page.media-box[3] - $page.media-box[1];
-        my $h = $page.media-box[2] - $page.media-box[0];
-        $cx = $w * 0.5;
+        if $landscape {
+            .transform: :translate($page.media-box[2], $page.media-box[1]);
+            .transform: :rotate(90 * pi/180); # left (ccw) 90 degrees
+            # is this right? yes, the media-box values haven't changed,
+            # just its orientation with the transformations
+            $w = $page.media-box[3] - $page.media-box[1];
+            $h = $page.media-box[2] - $page.media-box[0];
+            $cx = $w * 0.5;
+        }
 
         # get the font's values from FreeFont
         my ($leading, $height, $dh);
@@ -223,18 +146,21 @@ sub make-page(
 
         # start at the top left and work down by leading
         #@position = [$lx, $by];
-        #my @bbox = .print: "Fourth page (with transformation and rotation)", :@position, :$font,
-        #              :align<center>, :valign<center>;
+        #my @bbox = .print: "Fourth page (with transformation and rotation)", 
+        #                   :@position, :$font,
+        #                   :align<center>, :valign<center>;
 
+        =begin comment
         # print a page title
         my $ptitle = "FontFactory Language Samples for Font: $font-name";
         @position = [$cx, $y];
         @bbox = .print: $ptitle, :@position,
-                       :font($title-font), :font-size(16), :align<center>, :kern;
-                       #, :valign<bottom>;
+                        :font($title-font), :font-size(16), :align<center>, :kern;
+                        #, :valign<bottom>;
         if 1 {
             note "DEBUG: \@bbox with :align\<center>: {@bbox.raku}";
         }
+        =end comment
 
         =begin comment
         # TODO file bug report: @bbox does NOT recognize results of
@@ -243,6 +169,7 @@ sub make-page(
         .MoveTo(@bbox[0], @bbox[1]);
         .LineTo(@bbox[2], @bbox[1]);
         =end comment
+
         my $bwidth = @bbox[2] - @bbox[0];
         my $bxL = @bbox[0] - 0.5 * $bwidth;
         my $bxR = $bxL + $bwidth;
@@ -276,13 +203,6 @@ sub make-page(
             my $text = %h{$k}<text>;
 
             =begin comment
-            @position = [$x, $y];
-            my $words = qq:to/HERE/;
-            -------------------------
-              Country code: {$k.uc}
-                  Language: $lang
-                  Text:     $text
-            -------------------------
             =end comment
 
             # print the dashed in one piece
@@ -318,3 +238,16 @@ sub make-page(
         .Restore; # end of all data to be printed on this page
     }
 }
+
+sub print-month(
+    :$page,
+    :$year,
+    :%h, # data: font size, line height, etc.
+    ) is export {
+    =begin comment
+    Given the data for a month of birthdays and anniversaries,
+    print it use FreeSerif and FreeSerifBold.
+    =end comment
+
+}
+

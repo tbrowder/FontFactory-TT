@@ -12,6 +12,9 @@ use PDF::Content::Page :PageSizes, :&to-landscape;
 use PDF::Content::Text::Block;
 use PDF::Font::Loader :load-font, :find-font;
 
+use lib "./lib";
+use Psubs;
+
 my $ofil   = "missys-bday-ann-lists.pdf";
 my $ffdir  = "/usr/share/fonts/opentype/freefont";
 my $ffil   = "$ffdir/FreeSerif.otf";
@@ -21,9 +24,9 @@ my $ft = Font::FreeType.new;
 my $face  = $ft.face: $ffil, :load-flags(FT_LOAD_NO_HINTING);
 my $faceB = $ft.face: $ffilB, :load-flags(FT_LOAD_NO_HINTING);
 
-my $fsiz = 10;
-$face.set-font-size:  $fsiz;
-$faceB.set-font-size: $fsiz;
+my $fsize = 10;
+$face.set-font-size:  $fsize;
+$faceB.set-font-size: $fsize;
 my $sm  = $face.scaled-metrics;
 my $smB = $faceB.scaled-metrics;
 
@@ -32,13 +35,13 @@ my $fontB = load-font :file($ffilB);
 
 if 0 {
 say "font name: ", $face.postscript-name;
-say "  font size: ", $fsiz;
+say "  font size: ", $fsize;
 say "  font height (leading or line height): ", $sm.height;
 say "  font underline position: ", $sm.underline-position;
 say "  font underline thickness: ", $sm.underline-thickness;
 
 say "bold font name: ", $faceB.postscript-name;
-say "  bold font size: ", $fsiz;
+say "  bold font size: ", $fsize;
 say "  bold font height (leading or line height): ", $smB.height;
 say "  bold font underline position: ", $smB.underline-position;
 say "  bold font underline thickness: ", $smB.underline-thickness;
@@ -47,13 +50,41 @@ say "  bold font underline thickness: ", $smB.underline-thickness;
 my %m = %(PageSizes.enums);
 my @m = %m.keys.sort;
 
+my $year = DateTime.new(now).year;
 my $debug = 0;
+# other settings are in a hash
+my %opt;
+# defaults
+%opt<y> = $year;
+%opt<tm> = 36;
+%opt<bm> = 36;
+%opt<lm> = 36;
+%opt<rm> = 36;
+%opt<ma> = 36;
+%opt<la> = False;
+%opt<sb> = False;
+%opt<bw> = 3;
+%opt<fs> = $fsize;
+
 if not @*ARGS.elems {
     print qq:to/HERE/;
-    Usage: {$*PROGRAM.basename} go [debug]
+    Usage: {$*PROGRAM.basename} go [<options...> debug]
 
     Creates Missy's birthday and anniversary lists.
 
+    Options:
+      y=X  - where X is the desired year (default: %opt<y>)
+      fs=X - where X is the desired font size (default: %opt<fs>)
+      bw=X - where X is the desired cell border width font size (default: %opt<bw>)
+      sb   - show cell border (default: %opt<sb>)
+      la   - use landscape orientation (default: %opt<la>)
+      ma=X - X is the page margin (default: %opt<ma>)
+
+    Other options:
+      tm=X - X is page top margin (default: %opt<tm>)
+      bm=X - X is page bottom margin (default: %opt<bm>)
+      lm=X - X is page left margin (default: %opt<lm>)
+      rm=X - X is page right margin (default: %opt<rm>)
     HERE
     exit
 }
@@ -63,7 +94,6 @@ my ($text, $page, $text-obj);
 my $m1 = 'Letter';
 my $media = $m1; # the default
 my $landscape = False;
-#my $landscape = True;
 
 for @*ARGS {
     when /^:i g/ {
@@ -71,6 +101,9 @@ for @*ARGS {
     }
     when /^:i d/ {
         ++$debug;
+    }
+    when /^ (20\d\d) $/ {
+        $year = ~$0;
     }
     default {
         note "FATAL: Unknown argument '$_'";
@@ -89,7 +122,7 @@ make-page :$pdf, :$page, :$font, :$fontB,
 $pdf.save-as: $ofil;
 say "See output file: $ofil";
 
-# subroutines
+# subroutines are in lib/Psubs.rakumod
 sub make-page(
               @lines, 
               PDF::Lite :$pdf!,
@@ -121,7 +154,6 @@ sub make-page(
     my (@bbox, @position);
     $page.graphics: {
         .Save;
-
         if $landscape {
             .transform: :translate($page.media-box[2], $page.media-box[1]);
             .transform: :rotate(90 * pi/180); # left (ccw) 90 degrees
@@ -201,9 +233,6 @@ sub make-page(
             my $country-code = $k.uc;
             my $lang = %h{$k}<lang>;
             my $text = %h{$k}<text>;
-
-            =begin comment
-            =end comment
 
             # print the dashed in one piece
             my $dline = "-------------------------";

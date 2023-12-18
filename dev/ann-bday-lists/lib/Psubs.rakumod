@@ -84,6 +84,7 @@ class Month is export {
     has $.name;
     has @.nchars; # max chars per cell
     has @.titles; # column (cell) titles
+    has Line @.lines;
 
     submethod TWEAK {
         @!titles = "Day", "Birthdays", "Anniversaries";
@@ -92,21 +93,18 @@ class Month is export {
         }
     }
 
-    has Line @.lines;
     method add-line(Line $L, :$debug) {
         for $L.cells.kv -> $i, $c {
             # ignore cell 0 which is a number
             next if $i == 0;
             #next if not $c.text;
             #next if $c.text ~~ Int;
-            if 0 and $debug {
-                note "DEBUG: dumping cell.text.nchars: {$c.text.chars}";
-            }
-            if $c.text and $c.text.chars > @!nchars[$i] {
-                @!nchars[$i] = $c.text.chars;
+            my $nc = $c.text.chars;
+            if $nc > @!nchars[$i] {
+                @!nchars[$i] = $nc;
             }
         }
-        @!lines.push: $L
+        @!lines.push: $L;
     }
 }
 
@@ -221,15 +219,14 @@ sub show-list(@months, :$debug) is export {
     for @months.kv -> $i, $m {
         my $n0 = @nchars[$i];
         my $n1 = $m.nchars[$i];
-        next if $n1 ~~ Any;
+        #next if $n1 ~~ Any;
         #note $n1.WHAT;
-        if 1 { # and $debug {
+        if 0 { # and $debug {
             note qq:to/HERE/;
             DEBUG: month = {$m.month}
             its nchars   = {$n1}
             HERE
         }
-
         #if $m.nchars[$i] > @nchars[$i] {
         if $n1 > $n0 {
             #@nchars[$i] = $m.nchars[$i];
@@ -237,7 +234,7 @@ sub show-list(@months, :$debug) is export {
         }       
     }
     my ($nc1, $nc2, $nc3) = @nchars[0],@nchars[1],@nchars[2];
-    note "DEBUG: \@nchars = {dd @nchars}";
+    note "DEBUG: \@nchars = {dd @nchars}" if $debug;
 
     # now pretty print
     for @months -> $m {
@@ -245,7 +242,7 @@ sub show-list(@months, :$debug) is export {
         print "day | ";
         print sprintf "%-*.*s | ", $nc2, $nc2, "Birthdays";
         print sprintf "%-*.*s", $nc3, $nc3, "Anniversaries";
-        say ();
+        say();
         for $m.lines.kv -> $i, $L {
             my $s1 = $L.cells[0].text;
             my $s2 = $L.cells[1].text;
@@ -253,9 +250,8 @@ sub show-list(@months, :$debug) is export {
             print sprintf " %-2.2s | ", $s1;
             print sprintf "%-*.*s | ", $nc2, $nc2, $s2;
             print sprintf "%-*.*s", $nc3, $nc3, $s3;
-            say ();
+            say();
         }
-
         say()
     }
 

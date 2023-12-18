@@ -10,6 +10,7 @@ role Dimen is export {
     # text dimens based on font and its size
     has $.w; # stringwidth
     has $.h; # height (leading or line height)
+
     # border dimens
     has $.lbw = 3; # left border width
     has $.rbw = 3; # right border width
@@ -49,6 +50,9 @@ role Dimen is export {
 #| Classes
 class Cell does Dimen is export {
     has $.text = "";
+    # setter
+    method set-text($v) { $!text = $v }
+
 
     method show-text(:$font!, :$font-size!, :$x!, :$y!, :$page!) {
         $page.graphics: {
@@ -69,30 +73,53 @@ class Cell does Dimen is export {
 
 class Line does Dimen is export {
     has Cell @.cells;
-    method add-cell(Cell $c) {
-        @!cells.push: $c
+    method add-cell(Cell $v) {
+        @!cells.push: $v
     }
 }
 
-class Table does Dimen is export {
-    has $.title;
-    has Line @.lines;
-}
+#class Month does Dimen is export {
+class Month is export {
+    has $.month; # number
+    has $.name;
+    has @.nchars; # max chars per cell
+    has @.titles; # column (cell) titles
 
-sub print-lists(
-    PDF::Lite::Page $page,
-    :$debug,
-    ) is export {
+    submethod TWEAK {
+        @!titles = "Day", "Birthdays", "Anniversaries";
+        for @!titles.kv -> $i, $v {
+            @!nchars[$i] = $v.chars;
+        }
+    }
+
+    has Line @.lines;
+    method add-line(Line $L, :$debug) {
+        for $L.cells.kv -> $i, $c {
+            # ignore cell 0 which is a number
+            next if $i == 0;
+            #next if not $c.text;
+            #next if $c.text ~~ Int;
+            if 0 and $debug {
+                note "DEBUG: dumping cell.text.nchars: {$c.text.chars}";
+            }
+            if $c.text and $c.text.chars > @!nchars[$i] {
+                @!nchars[$i] = $c.text.chars;
+            }
+        }
+        @!lines.push: $L
+    }
 }
 
 sub import-data($data-file, :$year!, :$debug --> List) is export {
     # Given the speciallly-formatted data file convert the
     # data to a list of month data tables for output to PDF.
-    my @months;
-    my $curr-month; # 1..12
-    my $curr-table;
-    my $curr-line;
-    my ($cell1, $cell2, $cell3);
+    use Date::Names;
+
+    my $d = Date::Names.new; # English date name data
+    my @months;              # array of Month objects
+    my $month;               # 1..12, current month number
+    my $name;                # current month name 
+    my $m;                   # current month object
 
     for $data-file.IO.lines {
         # a double check to ensure we're using the intended year
@@ -103,28 +130,42 @@ sub import-data($data-file, :$year!, :$debug --> List) is export {
         when /^ month':' \h* (\d+) \h* $/ {
             my $n = +$0;
             die "FATAL: Expected months 1 through 12 but got $n" if not (0 < $n < 13);
-            $curr-month = $n;
+            $month = $n;
+            $name  = $d.mon($n);
+            $m     = Month.new: :$month, :$name;
+            @months.push: $m
         }
 
         # a real data line. a Line object
-        when /^ \h* (\d[\d]?) \h* '|' (.+) '|' (.+) / {
-            my $n  = +$0;
-            my $s1 = ~$1;
-            my $s2 = ~$2;
+        when /^ \h* 
+              (\d[\d]?) 
+                  \h* '|' 
+              (<-[|]>*) 
+                  '|' 
+              (<-[|]>*) 
+              $/ {
 
-            die "FATAL: Expected days 1 through 31 but got $n" if not (0 < $n < 32);
+            note "DEBUG: line = '$_'" if 0 and $debug;
+            my $s1 = +$0; # day
+            my $s2 = ~$1; # birthday
+            my $s3 = ~$2; # anniversary
+
+            die "FATAL: Expected days 1 through 31 but got $s1" if not (0 < $s1 < 32);
+            die "FATAL: Unexpected empty day" if not ($s1.defined and $s1 ~~ /\S/);
             
+            my ($c1, $c2, $c3);      # current line cells
+
             # day is cell 1 of 3
-            $cell1 = Cell.new: :text($n);
+            $c1 = Cell.new: :text($s1);
 
             # cells 2 and 3 of 3
 
             # cell 2, birthdays
-            $cell2 = Cell.new;
-            if $s1.defined and $s1 ~~ /\S/ {
+            $c2 = Cell.new;
+            if $s2.defined and $s2 ~~ /\S/ {
                 # break it down, expect: text yyyy
-                $s1 = normalize-text $s1;
-                my @w = $s1.words;
+                $s2 = normalize-text $s2;
+                my @w = $s2.words;
                 note "\@w = {@w.raku}" if 0 and $debug;
                 my $year1 = @w.pop.Int;
                 my $ydiff = 0;
@@ -134,17 +175,17 @@ sub import-data($data-file, :$year!, :$debug --> List) is export {
                 }
                 my $s = @w.join(' ');
                 $s ~= " ($ydiff)" if $ydiff;
-                note "\$s = '$s'" if $debug;
+                note "\$s = '$s'" if 0 and $debug;
 
-                $cell2 = Cell.new: :text($s);
+                $c2.set-text($s);
             }
 
             # cell 3, anniversaries
-            $cell3 = Cell.new;
-            if $s2.defined and $s2 ~~ /\S/ {
+            $c3 = Cell.new;
+            if $s3.defined and $s3 ~~ /\S/ {
                 # break it down, expect: text yyyy
-                $s2 = normalize-text $s2;
-                my @w = $s2.words;
+                $s3 = normalize-text $s3;
+                my @w = $s3.words;
                 note "\@w = {@w.raku}" if 0 and $debug;
                 my $year1 = @w.pop.Int;
                 my $ydiff = 0;
@@ -153,22 +194,74 @@ sub import-data($data-file, :$year!, :$debug --> List) is export {
                 }
                 my $s = @w.join(' ');
                 $s ~= " ($ydiff years)" if $ydiff;
-                note "\$s = '$s'" if $debug;
-                $cell3 = Cell.new: :text($s);
+                note "\$s = '$s'" if 0 and $debug;
+
+                $c3.set-text($s);
             }
 
             # assemble the Line
             my $L = Line.new;
-            $L.add-cell: $cell1;
-            $L.add-cell: $cell2;
-            $L.add-cell: $cell3;
+            $L.add-cell: $c1;
+            $L.add-cell: $c2;
+            $L.add-cell: $c3;
 
             # add the line to the table
+            $m.add-line: $L, :$debug;
         }
         default {
             say "Ignoring line '$_'";
         }
     }
+    @months
+}
+
+sub show-list(@months, :$debug) is export {
+    # first get max chars per cell
+    my @nchars = 0, 0, 0;
+    for @months.kv -> $i, $m {
+        my $n0 = @nchars[$i];
+        my $n1 = $m.nchars[$i];
+        next if $n1 ~~ Any;
+        #note $n1.WHAT;
+        if 1 { # and $debug {
+            note qq:to/HERE/;
+            DEBUG: month = {$m.month}
+            its nchars   = {$n1}
+            HERE
+        }
+
+        #if $m.nchars[$i] > @nchars[$i] {
+        if $n1 > $n0 {
+            #@nchars[$i] = $m.nchars[$i];
+            @nchars[$i] = $n1;
+        }       
+    }
+    my ($nc1, $nc2, $nc3) = @nchars[0],@nchars[1],@nchars[2];
+    note "DEBUG: \@nchars = {dd @nchars}";
+
+    # now pretty print
+    for @months -> $m {
+        say $m.name;
+        print "day | ";
+        print sprintf "%-*.*s | ", $nc2, $nc2, "Birthdays";
+        print sprintf "%-*.*s", $nc3, $nc3, "Anniversaries";
+        say ();
+        for $m.lines.kv -> $i, $L {
+            my $s1 = $L.cells[0].text;
+            my $s2 = $L.cells[1].text;
+            my $s3 = $L.cells[2].text;
+            print sprintf " %-2.2s | ", $s1;
+            print sprintf "%-*.*s | ", $nc2, $nc2, $s2;
+            print sprintf "%-*.*s", $nc3, $nc3, $s3;
+            say ();
+        }
+
+        say()
+    }
+
+
+
+
 
 }
 

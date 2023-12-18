@@ -112,7 +112,10 @@ for @*ARGS {
 
 my $data-file = "missys-ann-bday-list-{$year}.data";
 my @months = import-data $data-file, :$year, :$debug;
-dd @months;
+dd @months if 0 and $debug;
+
+# show prettier list on stdout
+show-list @months;
 
 =finish
 

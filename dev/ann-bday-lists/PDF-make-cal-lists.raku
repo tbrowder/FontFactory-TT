@@ -110,6 +110,12 @@ for @*ARGS {
     }
 }
 
+my $data-file = "missys-ann-bday-list-{$year}.data";
+my @months = import-data $data-file, :$year, :$debug;
+dd @months;
+
+=finish
+
 my $pdf = PDF::Lite.new;
 
 $pdf.media-box = %(PageSizes.enums){$media};

@@ -107,8 +107,8 @@ class Year is export {
     has @.nchars; # max chars per cell
     has @.titles; # column (cell) titles
     submethod TWEAK {
-        my @titles = "Day", "Birthdays", "Anniversaries";
-        for @titles.kv -> $i, $v {
+        @!titles = "Day", "Birthdays", "Anniversaries";
+        for @!titles.kv -> $i, $v {
             @!nchars[$i] = $v.chars;
         }
     }

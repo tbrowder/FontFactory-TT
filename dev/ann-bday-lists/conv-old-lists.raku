@@ -27,7 +27,7 @@ if not @*ARGS {
 }
 
 my $arg = @*ARGS.head;
-if $arg ~~ /^20 (\d\d) $/ {
+if $arg ~~ /^ (20 \d\d) $/ {
     $year = +$0;
 }
 

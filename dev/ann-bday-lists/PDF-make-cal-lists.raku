@@ -102,8 +102,13 @@ for @*ARGS {
     when /^:i d/ {
         ++$debug;
     }
+    when /^ 'y=' (20\d\d) $/ {
+        $year = ~$0;
+        %opt<y> = $year;
+    }
     when /^ (20\d\d) $/ {
         $year = ~$0;
+        %opt<y> = $year;
     }
     default {
         note "FATAL: Unknown argument '$_'";
@@ -124,7 +129,7 @@ exit;
 =end comment
 
 # show prettier list on stdout
-show-list @months;
+show-list @months, :$year;
 
 =finish
 
@@ -134,7 +139,7 @@ $pdf.media-box = %(PageSizes.enums){$media};
 $page   = $pdf.add-page;
 
 my %h;
-make-page :$pdf, :$page, :$font, :$fontB, 
+make-page :$pdf, :$page, :$font, :$fontB,
           :$media, :%h, :landscape(False);
 
 $pdf.save-as: $ofil;
@@ -142,7 +147,7 @@ say "See output file: $ofil";
 
 # subroutines are in lib/Psubs.rakumod
 sub make-page(
-              @lines, 
+              @lines,
               PDF::Lite :$pdf!,
               PDF::Lite::Page :$page!,
               :$font!,
@@ -196,7 +201,7 @@ sub make-page(
 
         # start at the top left and work down by leading
         #@position = [$lx, $by];
-        #my @bbox = .print: "Fourth page (with transformation and rotation)", 
+        #my @bbox = .print: "Fourth page (with transformation and rotation)",
         #                   :@position, :$font,
         #                   :align<center>, :valign<center>;
 
@@ -297,4 +302,3 @@ sub print-month(
     =end comment
 
 }
-

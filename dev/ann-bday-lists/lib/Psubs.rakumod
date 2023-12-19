@@ -17,6 +17,12 @@ role Dimen is export {
     has $.tbh = 3; # top border height
     has $.bbh = 3; # bottom border height
 
+    # setters
+    method lbw($v) { $!lbw = $v }
+    method rbw($v) { $!rbw = $v }
+    method tbh($v) { $!tbh = $v }
+    method bbh($v) { $!bbh = $v }
+
     method width {
         $!lbw + $!w + $!rbw
     }
@@ -40,19 +46,18 @@ role Dimen is export {
             .Restore;
         }
     }
-    # setters
-    method lbw($v) { $!lbw = $v }
-    method rbw($v) { $!rbw = $v }
-    method tbh($v) { $!tbh = $v }
-    method bbh($v) { $!bbh = $v }
 }
 
 #| Classes
 class Cell does Dimen is export {
     has $.text = "";
+
+    method nchars {
+        $!text.chars
+    }
+
     # setter
     method set-text($v) { $!text = $v }
-
 
     method show-text(:$font!, :$font-size!, :$x!, :$y!, :$page!) {
         $page.graphics: {
@@ -73,48 +78,59 @@ class Cell does Dimen is export {
 
 class Line does Dimen is export {
     has Cell @.cells;
-    method add-cell(Cell $v) {
-        @!cells.push: $v
+    method add-cell(Cell $v, :$index!) {
+        @!cells[$index] = $v
     }
 }
 
-#class Month does Dimen is export {
 class Month is export {
     has $.month; # number
     has $.name;
-    has @.nchars; # max chars per cell
-    has @.titles; # column (cell) titles
+    has @.nchars = 0, 0, 0; # max chars per cell
     has Line @.lines;
-
-    submethod TWEAK {
-        @!titles = "Day", "Birthdays", "Anniversaries";
-        for @!titles.kv -> $i, $v {
-            @!nchars[$i] = $v.chars;
-        }
-    }
 
     method add-line(Line $L, :$debug) {
         for $L.cells.kv -> $i, $c {
             # ignore cell 0 which is a number
             next if $i == 0;
-            #next if not $c.text;
-            #next if $c.text ~~ Int;
-            my $nc = $c.text.chars;
-            if $nc > @!nchars[$i] {
-                @!nchars[$i] = $nc;
+            if $c.nchars > @!nchars[$i] {
+                @!nchars[$i] = $c.nchars;
             }
         }
         @!lines.push: $L;
     }
 }
 
-sub import-data($data-file, :$year!, :$debug --> List) is export {
+class Year is export {
+    has $.year where { $_ > 2018 };
+    has Month @.months;
+    has @.nchars; # max chars per cell
+    has @.titles; # column (cell) titles
+    submethod TWEAK {
+        my @titles = "Day", "Birthdays", "Anniversaries";
+        for @titles.kv -> $i, $v {
+            @!nchars[$i] = $v.chars;
+        }
+    }
+    method add-month(Month $m, :$debug) {
+        # updata nchars
+        for $m.nchars.kv -> $i, $v {
+            if $v > @!nchars[$i] {
+                @!nchars[$i] = $v
+            }
+        }
+    }
+}
+
+#sub import-data($data-file, :$year!, :$debug --> List) is export {
+sub import-data($data-file, :$year!, :$debug --> Year) is export {
     # Given the speciallly-formatted data file convert the
     # data to a list of month data tables for output to PDF.
     use Date::Names;
 
+    my $y;                   # Year object
     my $d = Date::Names.new; # English date name data
-    my @months;              # array of Month objects
+    #my @months;              # array of Month objects
     my $month;               # 1..12, current month number
     my $name;                # current month name
     my $m;                   # current month object
@@ -126,14 +142,21 @@ sub import-data($data-file, :$year!, :$debug --> List) is export {
         when /^ year':' \h* (20 \d\d) \h* $/ {
             my $n = +$0;
             die "FATAL: Expected year $year, but got $n" if $n != $year;
+            $y = Year.new: :year($year);
         }
         when /^ month':' \h* (\d+) \h* $/ {
             my $n = +$0;
             die "FATAL: Expected months 1 through 12 but got $n" if not (0 < $n < 13);
+
+            # if we already have a month, add it to the Year 
+            # before starting a new one
+            if $month.defined {
+                $y.add-month: $m;
+            }
             $month = $n;
             $name  = $d.mon($n);
             $m     = Month.new: :$month, :$name;
-            @months.push: $m
+            #@months.push: $m
         }
 
         # a real data line. a Line object
@@ -201,9 +224,9 @@ sub import-data($data-file, :$year!, :$debug --> List) is export {
 
             # assemble the Line
             my $L = Line.new;
-            $L.add-cell: $c1;
-            $L.add-cell: $c2;
-            $L.add-cell: $c3;
+            $L.add-cell: $c1, :index(0);
+            $L.add-cell: $c2, :index(1);
+            $L.add-cell: $c3, :index(2);
 
             # add the line to the table
             $m.add-line: $L, :$debug;
@@ -212,13 +235,16 @@ sub import-data($data-file, :$year!, :$debug --> List) is export {
             say "Ignoring line '$_'";
         }
     }
-    @months
+    $y.add-month: $m;
+    $y
+    #@months
 }
 
-sub show-list(@months, :$year!, :$debug) is export {
+#sub show-list(@months, :$year!, :$debug) is export {
+sub show-list($yr, :$year!, :$debug) is export {
     # first get max chars per cell
     my @nchars = 0, 0, 0;
-    for @months.kv -> $i, $m {
+    for $yr.months.kv -> $i, $m {
         my $n0 = @nchars[$i];
         my $n1 = $m.nchars[$i];
         #next if $n1 ~~ Any;
@@ -240,7 +266,7 @@ sub show-list(@months, :$year!, :$debug) is export {
 
     # now pretty print
     say "year: $year";
-    for @months -> $m {
+    for $yr.months -> $m {
         say $m.name;
         print "day | ";
         print sprintf "%-*.*s | ", $nc2, $nc2, "Birthdays";

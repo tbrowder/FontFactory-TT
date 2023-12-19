@@ -119,6 +119,8 @@ sub import-data($data-file, :$year!, :$debug --> List) is export {
     my $name;                # current month name
     my $m;                   # current month object
 
+    my ($max1, $max2, $max3) = 0,0,0;
+
     for $data-file.IO.lines {
         # a double check to ensure we're using the intended year
         when /^ year':' \h* (20 \d\d) \h* $/ {

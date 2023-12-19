@@ -116,7 +116,7 @@ sub import-data($data-file, :$year!, :$debug --> List) is export {
     my $d = Date::Names.new; # English date name data
     my @months;              # array of Month objects
     my $month;               # 1..12, current month number
-    my $name;                # current month name 
+    my $name;                # current month name
     my $m;                   # current month object
 
     for $data-file.IO.lines {
@@ -135,12 +135,12 @@ sub import-data($data-file, :$year!, :$debug --> List) is export {
         }
 
         # a real data line. a Line object
-        when /^ \h* 
-              (\d[\d]?) 
-                  \h* '|' 
-              (<-[|]>*) 
-                  '|' 
-              (<-[|]>*) 
+        when /^ \h*
+              (\d[\d]?)
+                  \h* '|'
+              (<-[|]>*)
+                  '|'
+              (<-[|]>*)
               $/ {
 
             note "DEBUG: line = '$_'" if 0 and $debug;
@@ -150,7 +150,7 @@ sub import-data($data-file, :$year!, :$debug --> List) is export {
 
             die "FATAL: Expected days 1 through 31 but got $s1" if not (0 < $s1 < 32);
             die "FATAL: Unexpected empty day" if not ($s1.defined and $s1 ~~ /\S/);
-            
+
             my ($c1, $c2, $c3);      # current line cells
 
             # day is cell 1 of 3
@@ -213,7 +213,7 @@ sub import-data($data-file, :$year!, :$debug --> List) is export {
     @months
 }
 
-sub show-list(@months, :$debug) is export {
+sub show-list(@months, :$year!, :$debug) is export {
     # first get max chars per cell
     my @nchars = 0, 0, 0;
     for @months.kv -> $i, $m {
@@ -231,12 +231,13 @@ sub show-list(@months, :$debug) is export {
         if $n1 > $n0 {
             #@nchars[$i] = $m.nchars[$i];
             @nchars[$i] = $n1;
-        }       
+        }
     }
     my ($nc1, $nc2, $nc3) = @nchars[0],@nchars[1],@nchars[2];
     note "DEBUG: \@nchars = {dd @nchars}" if $debug;
 
     # now pretty print
+    say "year: $year";
     for @months -> $m {
         say $m.name;
         print "day | ";

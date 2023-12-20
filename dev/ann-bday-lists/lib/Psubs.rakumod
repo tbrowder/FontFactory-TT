@@ -265,12 +265,7 @@ sub show-list(Year $yr, :$year!, :$debug) is export {
         }
         say()
     }
-
-
-
-
-
-}
+} # sub show-list(Year $yr, :$year!, :$debug) is export {
 
 =begin comment
 

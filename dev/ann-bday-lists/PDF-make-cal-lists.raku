@@ -1,38 +1,42 @@
 #!/usr/bin/env raku
 
-use File::Find;
-
+=begin comment
 use Font::FreeType;
 use Font::FreeType::Face;
 use Font::FreeType::Raw::Defs;
 use Font::FreeType::Glyph;
-
 use PDF::Lite;
 use PDF::Content::Page :PageSizes, :&to-landscape;
 use PDF::Content::Text::Block;
 use PDF::Font::Loader :load-font, :find-font;
+=end comment
 
 use lib "./lib";
 use Psubs;
+use Print;
 
 my $ofil   = "missys-bday-ann-lists.pdf";
 my $ffdir  = "/usr/share/fonts/opentype/freefont";
 my $ffil   = "$ffdir/FreeSerif.otf";
 my $ffilB  = "$ffdir/FreeSerifBold.otf";
+my $fsize = 10;
 
+=begin comment
 my $ft = Font::FreeType.new;
 my $face  = $ft.face: $ffil, :load-flags(FT_LOAD_NO_HINTING);
 my $faceB = $ft.face: $ffilB, :load-flags(FT_LOAD_NO_HINTING);
 
-my $fsize = 10;
 $face.set-font-size:  $fsize;
 $faceB.set-font-size: $fsize;
 my $sm  = $face.scaled-metrics;
 my $smB = $faceB.scaled-metrics;
-
 my $font  = load-font :file($ffil);
 my $fontB = load-font :file($ffilB);
+my %m = %(PageSizes.enums);
+my @m = %m.keys.sort;
+=end comment
 
+=begin comment
 if 0 {
 say "font name: ", $face.postscript-name;
 say "  font size: ", $fsize;
@@ -46,9 +50,8 @@ say "  bold font height (leading or line height): ", $smB.height;
 say "  bold font underline position: ", $smB.underline-position;
 say "  bold font underline thickness: ", $smB.underline-thickness;
 }
+=end comment
 
-my %m = %(PageSizes.enums);
-my @m = %m.keys.sort;
 
 my $year = DateTime.new(now).year;
 my $debug = 0;
@@ -65,6 +68,8 @@ my %opt;
 %opt<sb> = False;
 %opt<bw> = 3;
 %opt<fs> = $fsize;
+%opt<ffil> = $ffil;
+%opt<ffilB> = $ffilB;
 
 if not @*ARGS.elems {
     print qq:to/HERE/;
@@ -117,22 +122,12 @@ for @*ARGS {
 
 my $data-file = "missys-ann-bday-list-{$year}.data";
 my $yr = import-data $data-file, :$year, :$debug;
-#dd @months if 0 and $debug;
-
-=begin comment
-#say @months.elems;
-my $nd = 7; # month 8
-my $m =  @months[$nd];
-say $m.lines.elems;
-dd $m.lines[2]; #.elems;
-#dd $m;
-exit;
-=end comment
 
 # show a prettier list on stdout
 show-list $yr, :$year;
 
 # print a beautiful PDF document
+print-list $yr, :$year, :%opt, :$debug;
 
 =finish
 

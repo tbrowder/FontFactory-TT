@@ -1,7 +1,5 @@
 #!/bin/env raku
 
-#use File::Find;
-#use PDF::Font::Loader:ver<0.6.10> :load-font, :Weight, :Stretch, :Slant;
 use PDF::Font::Loader:ver<0.7.8> :load-font, :Weight, :Stretch, :Slant;
 use PDF::Content::FontObj;
 
@@ -20,7 +18,8 @@ if not $dir.IO.d {
     exit;
 }
 
-my PDF::Content::FontObj $fo = PDF::Font::Loader.load-font: :file<./fonts/Vera.ttf>, :!subset;
+my PDF::Content::FontObj $fo = PDF::Font::Loader.load-font: 
+    :file<./fonts/Vera.ttf>, :!subset;
 say $fo.underline-position;
 
 =finish

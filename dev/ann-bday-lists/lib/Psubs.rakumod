@@ -78,8 +78,8 @@ class Cell does Dimen is export {
 
 class Line does Dimen is export {
     has Cell @.cells;
-    method add-cell(Cell $v, :$index!) {
-        @!cells[$index] = $v
+    method add-cell(Cell $v) {
+        @!cells.push: $v
     }
 }
 
@@ -119,10 +119,10 @@ class Year is export {
                 @!nchars[$i] = $v
             }
         }
+        @!months.push: $m;
     }
-}
+} # class Year
 
-#sub import-data($data-file, :$year!, :$debug --> List) is export {
 sub import-data($data-file, :$year!, :$debug --> Year) is export {
     # Given the speciallly-formatted data file convert the
     # data to a list of month data tables for output to PDF.
@@ -130,12 +130,9 @@ sub import-data($data-file, :$year!, :$debug --> Year) is export {
 
     my $y;                   # Year object
     my $d = Date::Names.new; # English date name data
-    #my @months;              # array of Month objects
     my $month;               # 1..12, current month number
     my $name;                # current month name
     my $m;                   # current month object
-
-    my ($max1, $max2, $max3) = 0,0,0;
 
     for $data-file.IO.lines {
         # a double check to ensure we're using the intended year
@@ -144,19 +141,21 @@ sub import-data($data-file, :$year!, :$debug --> Year) is export {
             die "FATAL: Expected year $year, but got $n" if $n != $year;
             $y = Year.new: :year($year);
         }
+
         when /^ month':' \h* (\d+) \h* $/ {
             my $n = +$0;
             die "FATAL: Expected months 1 through 12 but got $n" if not (0 < $n < 13);
 
             # if we already have a month, add it to the Year 
             # before starting a new one
-            if $month.defined {
+            if $m.defined {
                 $y.add-month: $m;
             }
+           
+            # the next month
             $month = $n;
             $name  = $d.mon($n);
             $m     = Month.new: :$month, :$name;
-            #@months.push: $m
         }
 
         # a real data line. a Line object
@@ -224,45 +223,28 @@ sub import-data($data-file, :$year!, :$debug --> Year) is export {
 
             # assemble the Line
             my $L = Line.new;
-            $L.add-cell: $c1, :index(0);
-            $L.add-cell: $c2, :index(1);
-            $L.add-cell: $c3, :index(2);
+            $L.add-cell: $c1;
+            $L.add-cell: $c2;
+            $L.add-cell: $c3;
 
             # add the line to the table
             $m.add-line: $L, :$debug;
-        }
+
+        } # end of a Line definition
         default {
             say "Ignoring line '$_'";
         }
-    }
+
+    } # end of lines loop
+
+    # add the last month
     $y.add-month: $m;
+
     $y
-    #@months
 }
 
-#sub show-list(@months, :$year!, :$debug) is export {
-sub show-list($yr, :$year!, :$debug) is export {
-    # first get max chars per cell
-    my @nchars = 0, 0, 0;
-    for $yr.months.kv -> $i, $m {
-        my $n0 = @nchars[$i];
-        my $n1 = $m.nchars[$i];
-        #next if $n1 ~~ Any;
-        #note $n1.WHAT;
-        if 0 { # and $debug {
-            note qq:to/HERE/;
-            DEBUG: month = {$m.month}
-            its nchars   = {$n1}
-            HERE
-        }
-        #if $m.nchars[$i] > @nchars[$i] {
-        if $n1 > $n0 {
-            #@nchars[$i] = $m.nchars[$i];
-            @nchars[$i] = $n1;
-        }
-    }
-    my ($nc1, $nc2, $nc3) = @nchars[0],@nchars[1],@nchars[2];
-    note "DEBUG: \@nchars = {dd @nchars}" if $debug;
+sub show-list(Year $yr, :$year!, :$debug) is export {
+    my ($nc1, $nc2, $nc3) = $yr.nchars[0], $yr.nchars[1], $yr.nchars[2];
 
     # now pretty print
     say "year: $year";

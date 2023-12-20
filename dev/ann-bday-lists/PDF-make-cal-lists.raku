@@ -116,9 +116,9 @@ for @*ARGS {
 }
 
 my $data-file = "missys-ann-bday-list-{$year}.data";
-#my @months = import-data $data-file, :$year, :$debug;
 my $yr = import-data $data-file, :$year, :$debug;
 #dd @months if 0 and $debug;
+
 =begin comment
 #say @months.elems;
 my $nd = 7; # month 8
@@ -129,9 +129,10 @@ dd $m.lines[2]; #.elems;
 exit;
 =end comment
 
-# show prettier list on stdout
-#show-list @months, :$year;
+# show a prettier list on stdout
 show-list $yr, :$year;
+
+# print a beautiful PDF document
 
 =finish
 

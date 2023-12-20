@@ -12,6 +12,8 @@ my $fsize = 10;
 
 my $year = DateTime.new(now).year;
 my $debug = 0;
+my $print = False;
+my $show  = False;
 # other settings are in a hash
 my %opt;
 # defaults
@@ -31,9 +33,13 @@ my %opt;
 
 if not @*ARGS.elems {
     print qq:to/HERE/;
-    Usage: {$*PROGRAM.basename} go [<options...> debug]
+    Usage: {$*PROGRAM.basename} go | <mode> [<options...> debug]
 
     Creates Missy's birthday and anniversary lists.
+
+    Modes:
+      show  - pretty print in ASCII to stdout (default with 'go')
+      print - create the lists on beautiful PDF pages
 
     Options:
       y=X  - where X is the desired year (default: %opt<y>)
@@ -58,9 +64,14 @@ my $media = 'Letter';
 my $landscape = False;
 
 for @*ARGS {
-    when /^:i g/ {
-        ; # ok
+    # modes
+    when /^:i g|sh / {
+        $show = True; # or 'go'; ok
     }
+    when /^:i pr / {
+        $print = True;
+    }
+    # options
     when /^:i l/ {
         $landscape = True;
         %opt<la> = $landscape;
@@ -87,18 +98,26 @@ for @*ARGS {
         }
     }
     default {
-        note "FATAL: Unknown argument '$_'";
+        die "FATAL: Unknown argument '$_'";
     }
 }
 
 my $data-file = "missys-ann-bday-list-{$year}.data";
 my $yr = import-data $data-file, :$year, :$debug;
 
-# show a prettier list on stdout
-show-list $yr, :$year;
+if $show {
+    # show a prettier list on stdout
+    show-list $yr, :$year;
+}
+elsif $print {
+    # print a beautiful PDF document
+    print-list $yr, :$year, :%opt, :$debug;
+}
+else {
+    say "No mode was selected."
+}
 
-# print a beautiful PDF document
-print-list $yr, :$year, :%opt, :$debug;
+
 
 =finish
 

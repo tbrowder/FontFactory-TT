@@ -7,17 +7,53 @@ use Font::FreeType::Glyph;
 use PDF::Lite;
 use PDF::Content::Page :PageSizes, :&to-landscape;
 use PDF::Content::Text::Block;
-use PDF::Font::Loader :load-font, :find-font;
+use PDF::Font::Loader:ver<0.7.8> :load-font;
+use PDF::Content::FontObj;
 
-my $ft = Font::FreeType.new;
+use Psubs;
+
+my $ft-shared; 
+
+class Font {
+    # a convenience class like a struct
+    has $.file is required; # font definition file (.otf, .ttf)
+    has $.size is required; # in PS points
+    has $.face;
+    has $.ft;               # shared instance of FreeType
+    has $.sm;
+
+    has PDF::Content::FontObj $.fo; # the actual PDF font object for rendering
+
+    submethod TWEAK {
+        unless $ft-shared.defined {
+            $ft-shared = Font::FreeType.new;
+        }
+        $!ft   = $ft-shared;
+        $!face = $!ft.face: $!file, :load-flags(FT_LOAD_NO_HINTING);
+        $!face.set-font-size: $!size;
+        $!sm   = $!face.scaled-metrics;
+
+        $!fo   = PDF::Font::Loader.load-font: :file($!file), :!subset;
+    }
+
+    method show {
+        say "font name: ", $!face.postscript-name;
+        say "  font size: ", $!size;
+        say "  font height (leading or line height): ", $!sm.height;
+        say "  font underline position: ", $!sm.underline-position;
+        say "  font underline thickness: ", $!sm.underline-thickness;
+    }
+
+    method load() {
+        # this may need the current $pdf object
+my PDF::Content::FontObj $fo = PDF::Font::Loader.load-font: 
+    :file<./fonts/Vera.ttf>, :!subset;
+say $fo.underline-position;
+    }
+}
+
 
 =begin comment
-my $face  = $ft.face: $ffil, :load-flags(FT_LOAD_NO_HINTING);
-my $faceB = $ft.face: $ffilB, :load-flags(FT_LOAD_NO_HINTING);
-$face.set-font-size:  $fsize;
-$faceB.set-font-size: $fsize;
-my $sm  = $face.scaled-metrics;
-my $smB = $faceB.scaled-metrics;
 my $font  = load-font :file($ffil);
 my $fontB = load-font :file($ffilB);
 my %m = %(PageSizes.enums);
@@ -25,20 +61,8 @@ my @m = %m.keys.sort;
 =end comment
 
 =begin comment
-if 0 {
-say "font name: ", $face.postscript-name;
-say "  font size: ", $fsize;
-say "  font height (leading or line height): ", $sm.height;
-say "  font underline position: ", $sm.underline-position;
-say "  font underline thickness: ", $sm.underline-thickness;
-say "bold font name: ", $faceB.postscript-name;
-say "  bold font size: ", $fsize;
-say "  bold font height (leading or line height): ", $smB.height;
-say "  bold font underline position: ", $smB.underline-position;
-say "  bold font underline thickness: ", $smB.underline-thickness;
-}
 =end comment
 
-sub print-list($yr, :$year, :%opt, :$debug) is export {
+sub print-list(Year $yr, :$year!, :%opt!, :$debug) is export {
 }
 

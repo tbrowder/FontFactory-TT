@@ -1,16 +1,5 @@
 #!/usr/bin/env raku
 
-=begin comment
-use Font::FreeType;
-use Font::FreeType::Face;
-use Font::FreeType::Raw::Defs;
-use Font::FreeType::Glyph;
-use PDF::Lite;
-use PDF::Content::Page :PageSizes, :&to-landscape;
-use PDF::Content::Text::Block;
-use PDF::Font::Loader :load-font, :find-font;
-=end comment
-
 use lib "./lib";
 use Psubs;
 use Print;
@@ -20,38 +9,6 @@ my $ffdir  = "/usr/share/fonts/opentype/freefont";
 my $ffil   = "$ffdir/FreeSerif.otf";
 my $ffilB  = "$ffdir/FreeSerifBold.otf";
 my $fsize = 10;
-
-=begin comment
-my $ft = Font::FreeType.new;
-my $face  = $ft.face: $ffil, :load-flags(FT_LOAD_NO_HINTING);
-my $faceB = $ft.face: $ffilB, :load-flags(FT_LOAD_NO_HINTING);
-
-$face.set-font-size:  $fsize;
-$faceB.set-font-size: $fsize;
-my $sm  = $face.scaled-metrics;
-my $smB = $faceB.scaled-metrics;
-my $font  = load-font :file($ffil);
-my $fontB = load-font :file($ffilB);
-my %m = %(PageSizes.enums);
-my @m = %m.keys.sort;
-=end comment
-
-=begin comment
-if 0 {
-say "font name: ", $face.postscript-name;
-say "  font size: ", $fsize;
-say "  font height (leading or line height): ", $sm.height;
-say "  font underline position: ", $sm.underline-position;
-say "  font underline thickness: ", $sm.underline-thickness;
-
-say "bold font name: ", $faceB.postscript-name;
-say "  bold font size: ", $fsize;
-say "  bold font height (leading or line height): ", $smB.height;
-say "  bold font underline position: ", $smB.underline-position;
-say "  bold font underline thickness: ", $smB.underline-thickness;
-}
-=end comment
-
 
 my $year = DateTime.new(now).year;
 my $debug = 0;
@@ -70,6 +27,7 @@ my %opt;
 %opt<fs> = $fsize;
 %opt<ffil> = $ffil;
 %opt<ffilB> = $ffilB;
+%opt<pa> = 'Letter';
 
 if not @*ARGS.elems {
     print qq:to/HERE/;
@@ -84,6 +42,7 @@ if not @*ARGS.elems {
       sb   - show cell border (default: %opt<sb>)
       la   - use landscape orientation (default: %opt<la>)
       ma=X - X is the page margin (default: %opt<ma>)
+      pa=X - X is the paper type (default: %opt<pa>)
 
     Other options:
       tm=X - X is page top margin (default: %opt<tm>)
@@ -95,14 +54,16 @@ if not @*ARGS.elems {
 }
 
 my ($text, $page, $text-obj);
-
-my $m1 = 'Letter';
-my $media = $m1; # the default
+my $media = 'Letter';
 my $landscape = False;
 
 for @*ARGS {
     when /^:i g/ {
         ; # ok
+    }
+    when /^:i l/ {
+        $landscape = True;
+        %opt<la> = $landscape;
     }
     when /^:i d/ {
         ++$debug;
@@ -114,6 +75,16 @@ for @*ARGS {
     when /^ (20\d\d) $/ {
         $year = ~$0;
         %opt<y> = $year;
+    }
+    when /^ 'pa=' (\S+) $/ {
+        my $m = ~$0;
+        if $m ~~ /^:i (l|a) / {
+            $m = ~$0.lc;
+            %opt<pa> = $m eq 'l' ?? 'Letter' !! 'A4';
+        }
+        else {
+            die "FATAL: Unknown paper type '$_', use 'Letter' or 'A4'";
+        }
     }
     default {
         note "FATAL: Unknown argument '$_'";

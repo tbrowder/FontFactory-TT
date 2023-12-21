@@ -10,7 +10,9 @@ use PDF::Content::Text::Block;
 use PDF::Font::Loader:ver<0.7.8> :load-font;
 use PDF::Content::FontObj;
 
+use Classes;
 use Psubs;
+
 
 =begin comment
 my $font  = load-font :file($ffil);

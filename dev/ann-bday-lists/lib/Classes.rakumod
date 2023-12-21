@@ -1,6 +1,15 @@
 unit module Classes;
 
 use PDF::Lite;
+use Font::FreeType;
+use Font::FreeType::Face;
+use Font::FreeType::Glyph;
+use Font::FreeType::Outline;
+use Font::FreeType::Raw::Defs;
+use Font::FreeType::SizeMetrics;
+use PDF::Content::FontObj;
+use PDF::Font::Loader :load-font;
+
 use Text::Utils :normalize-text;
 
 my Font::FreeType $ft-shared;
@@ -162,7 +171,7 @@ class Month is export {
     }
 
     method calc-maxwid(MyFont :$font, :$debug) {
-        for $!lines.cells.kv -> $i, $c {
+        for @!lines.cells.kv -> $i, $c {
             my $s = $c.text;
             my $w = $font.stringwidth: $s;
             if $w > @!maxwid[$i] {
@@ -183,7 +192,7 @@ class Year is export {
         @!titles = "Day", "Birthdays", "Anniversaries";
         for @!titles.kv -> $i, $v {
             @!nchars[$i] = $v.chars;
-            @!maxmid[$i] = 0;
+            @!maxwid[$i] = 0;
         }
     }
 
@@ -198,7 +207,7 @@ class Year is export {
     }
 
     method calc-maxwid(:$debug) {
-        for $!months.maxwid.kv -> $i, $w {
+        for @!months.maxwid.kv -> $i, $w {
             if $w > @!maxwid[$i] {
                 @!maxwid[$i] = $w;
             }

@@ -1,5 +1,7 @@
 unit role FontFactory::DocFont::Metrics;
 
+#| Definitions are those used by FreeType 
+
 #| Note this role is NOT to be used with class GChar UNLESS the
 #| conflicting values are made as methods.
 

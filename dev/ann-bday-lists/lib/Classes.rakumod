@@ -3,7 +3,7 @@ unit module Classes;
 use PDF::Lite;
 use Text::Utils :normalize-text;
 
-use Print;
+Class MyFont {...}
 
 # Considering table placement, the zero
 # reference is its top left corner where

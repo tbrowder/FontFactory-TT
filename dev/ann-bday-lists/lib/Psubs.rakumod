@@ -30,7 +30,7 @@ role Dimen is export {
         $!tbh + $!h + $!bbh
     }
 
-    method show-border($linewidth = 0, :$x, :$y, :$page) {
+    method show-border($linewidth = 0, :$x!, :$y!, :$page!, :$debug) {
         $page.graphics: {
             .Save;
             .transform: :translate($x, $y);
@@ -46,7 +46,7 @@ role Dimen is export {
             .Restore;
         }
     }
-}
+} # role Dimen
 
 #| Classes
 class Cell does Dimen is export {
@@ -59,7 +59,7 @@ class Cell does Dimen is export {
     # setter
     method set-text($v) { $!text = $v }
 
-    method show-text(:$font!, :$font-size!, :$x!, :$y!, :$page!) {
+    method print-text(:$font!, :$font-size!, :$x!, :$y!, :$page!, :$debug) {
         $page.graphics: {
             .Save;
             # We're at the top left corner;
@@ -74,7 +74,7 @@ class Cell does Dimen is export {
             .Restore;
         }
     }
-}
+} # class Cell
 
 class Line does Dimen is export {
     has Cell @.cells;

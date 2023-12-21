@@ -86,6 +86,9 @@ sub print-list(Year $yr, :$year!, :$ofil!, :%opt!, :$debug) is export {
     my $pdf = PDF::Lite.new;
     $pdf.media-box = %(PageSizes.enums){$media};
     my $page   = $pdf.add-page;
+
+    # start writing
+    # first adjust for cell stringwidths
     $pdf.save-as: $ofil;
 }
 

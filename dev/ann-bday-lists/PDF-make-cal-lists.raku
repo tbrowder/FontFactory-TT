@@ -1,6 +1,7 @@
 #!/usr/bin/env raku
 
 use lib "./lib";
+use Classes;
 use Psubs;
 use Print;
 

@@ -9,12 +9,12 @@ use PDF::Content::Text::Block;
 use PDF::Font::Loader:ver<0.7.8> :load-font;
 use PDF::Content::FontObj;
 
+use Classes;
 use Psubs;
 
 my Font::FreeType $ft-shared; 
-
 # A convenience class like a struct
-class Font {
+class MyFont is export {
     has $.file is required; # font definition file (.otf, .ttf)
     has $.size is required; # in PS points
     has $.face;

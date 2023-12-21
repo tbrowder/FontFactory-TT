@@ -1,5 +1,4 @@
 unit module Print;
-
 use Font::FreeType;
 use Font::FreeType::Face;
 use Font::FreeType::Raw::Defs;
@@ -12,10 +11,10 @@ use PDF::Content::FontObj;
 
 use Psubs;
 
-my $ft-shared; 
+my Font::FreeType $ft-shared; 
 
+# A convenience class like a struct
 class Font {
-    # a convenience class like a struct
     has $.file is required; # font definition file (.otf, .ttf)
     has $.size is required; # in PS points
     has $.face;
@@ -26,7 +25,7 @@ class Font {
 
     submethod TWEAK {
         unless $ft-shared.defined {
-            $ft-shared = Font::FreeType.new;
+            $ft-shared .= new;
         }
         $!ft   = $ft-shared;
         $!face = $!ft.face: $!file, :load-flags(FT_LOAD_NO_HINTING);
@@ -44,14 +43,33 @@ class Font {
         say "  font underline thickness: ", $!sm.underline-thickness;
     }
 
+    =begin comment
     method load() {
         # this may need the current $pdf object
-my PDF::Content::FontObj $fo = PDF::Font::Loader.load-font: 
-    :file<./fonts/Vera.ttf>, :!subset;
-say $fo.underline-position;
+        =begin comment
+        my PDF::Content::FontObj $fo = PDF::Font::Loader.load-font: 
+        :file<./fonts/Vera.ttf>, :!subset;
+        say $fo.underline-position;
+        =end comment   
+    }
+    =end comment
+
+    method stringwidth($string, :$debug) {
+        =begin comment
+        # from David Warring:
+        sub stringwidth($face, $string, $point-size = 12) {
+            my $units-per-EM = $face.units-per-EM;
+            my $unscaled = sum $face.for-glyphs($string, { .metrics.hori-advance });
+            return $unscaled * $point-size / $units-per-EM;
+        }
+        =end comment   
+        my $units-per-EM = $!face.units-per-EM;
+        my $unscaled = sum $!face.for-glyphs($string, { 
+                               .metrics.hori-advance
+                           });
+        return $unscaled * $!size / $units-per-EM;
     }
 }
-
 
 =begin comment
 my $font  = load-font :file($ffil);
@@ -60,9 +78,14 @@ my %m = %(PageSizes.enums);
 my @m = %m.keys.sort;
 =end comment
 
-=begin comment
-=end comment
+sub print-list(Year $yr, :$year!, :$ofil!, :%opt!, :$debug) is export {
+    my $f  = Font.new: :file(%opt<ffil>), :size(%opt<fs>), :$debug;
+    my $fB = Font.new: :file(%opt<ffilB>), :size(%opt<fs>), :$debug;
+    my $media = %opt<pa>;
 
-sub print-list(Year $yr, :$year!, :%opt!, :$debug) is export {
+    my $pdf = PDF::Lite.new;
+    $pdf.media-box = %(PageSizes.enums){$media};
+    my $page   = $pdf.add-page;
+    $pdf.save-as: $ofil;
 }
 

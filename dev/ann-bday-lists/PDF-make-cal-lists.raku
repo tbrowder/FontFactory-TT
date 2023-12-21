@@ -4,7 +4,6 @@ use lib "./lib";
 use Psubs;
 use Print;
 
-my $ofil   = "missys-bday-ann-lists.pdf";
 my $ffdir  = "/usr/share/fonts/opentype/freefont";
 my $ffil   = "$ffdir/FreeSerif.otf";
 my $ffilB  = "$ffdir/FreeSerifBold.otf";
@@ -30,6 +29,8 @@ my %opt;
 %opt<ffil> = $ffil;
 %opt<ffilB> = $ffilB;
 %opt<pa> = 'Letter';
+
+my $ofil = "missys-bday-ann-lists.pdf";
 
 if not @*ARGS.elems {
     print qq:to/HERE/;
@@ -111,18 +112,16 @@ if $show {
 }
 elsif $print {
     # print a beautiful PDF document
-    print-list $yr, :$year, :%opt, :$debug;
+    print-list $yr, :$ofil, :$year, :%opt, :$debug;
+    say "See output file: $ofil";
 }
 else {
     say "No mode was selected."
 }
 
-
-
 =finish
 
 my $pdf = PDF::Lite.new;
-
 $pdf.media-box = %(PageSizes.enums){$media};
 $page   = $pdf.add-page;
 

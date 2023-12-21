@@ -147,3 +147,64 @@ class Year is export {
         }
     }
 } # class Year
+
+
+my Font::FreeType $ft-shared;
+
+# A convenience class like a struct
+class MyFont is export {
+    has $.file is required; # font definition file (.otf, .ttf)
+    has $.size is required; # in PS points
+    has $.face;
+    has $.ft;               # shared instance of FreeType
+    has $.sm;
+
+    has PDF::Content::FontObj $.fo; # the actual PDF font object for rendering
+
+    submethod TWEAK {
+        unless $ft-shared.defined {
+            $ft-shared .= new;
+        }
+        $!ft   = $ft-shared;
+        $!face = $!ft.face: $!file, :load-flags(FT_LOAD_NO_HINTING);
+        $!face.set-font-size: $!size;
+        $!sm   = $!face.scaled-metrics;
+
+        $!fo   = PDF::Font::Loader.load-font: :file($!file), :!subset;
+    }
+
+    method show {
+        say "font name: ", $!face.postscript-name;
+        say "  font size: ", $!size;
+        say "  font height (leading or line height): ", $!sm.height;
+        say "  font underline position: ", $!sm.underline-position;
+        say "  font underline thickness: ", $!sm.underline-thickness;
+    }
+
+    =begin comment
+    method load() {
+        # this may need the current $pdf object
+        =begin comment
+        my PDF::Content::FontObj $fo = PDF::Font::Loader.load-font:
+        :file<./fonts/Vera.ttf>, :!subset;
+        say $fo.underline-position;
+        =end comment
+    }
+    =end comment
+
+    method stringwidth($string, :$debug) {
+        =begin comment
+        # from David Warring:
+        sub stringwidth($face, $string, $point-size = 12) {
+            my $units-per-EM = $face.units-per-EM;
+            my $unscaled = sum $face.for-glyphs($string, { .metrics.hori-advance });
+            return $unscaled * $point-size / $units-per-EM;
+        }
+        =end comment
+        my $units-per-EM = $!face.units-per-EM;
+        my $unscaled = sum $!face.for-glyphs($string, {
+                               .metrics.hori-advance
+                           });
+        return $unscaled * $!size / $units-per-EM;
+    }
+}

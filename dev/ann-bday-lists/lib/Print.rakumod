@@ -22,15 +22,17 @@ my @m = %m.keys.sort;
 =end comment
 
 sub print-list(Year $yr, :$year!, :$ofil!, :%opt!, :$debug) is export {
-    my $f  = Font.new: :file(%opt<ffil>), :size(%opt<fs>), :$debug;
-    my $fB = Font.new: :file(%opt<ffilB>), :size(%opt<fs>), :$debug;
+    my $f  = MyFont.new: :file(%opt<ffil>), :size(%opt<fs>), :$debug;
+    my $fB = MyFont.new: :file(%opt<ffilB>), :size(%opt<fs>), :$debug;
     my $media = %opt<pa>;
 
     my $pdf = PDF::Lite.new;
     $pdf.media-box = %(PageSizes.enums){$media};
-    my $page   = $pdf.add-page;
+    my $page       = $pdf.add-page;
 
     # start writing
     # first adjust for cell stringwidths
+    $yr.calculate-maxwidth: :$debug;
+
     $pdf.save-as: $ofil;
 }

@@ -158,7 +158,6 @@ class Month is export {
     has @.nchars = 0, 0, 0; # max chars per cell
     has @.maxwid = 0, 0, 0; # max w (stringwidth) per cell
     has Line @.lines;
-
     method add-line(Line $L, :$debug) {
         for $L.cells.kv -> $i, $c {
             # ignore cell 0 which is a number
@@ -169,7 +168,6 @@ class Month is export {
         }
         @!lines.push: $L;
     }
-
     method calc-maxwid(MyFont :$font, :$debug) {
         for @!lines.cells.kv -> $i, $c {
             my $s = $c.text;
@@ -206,10 +204,12 @@ class Year is export {
         @!months.push: $m;
     }
 
-    method calc-maxwid(:$debug) {
-        for @!months.maxwid.kv -> $i, $w {
-            if $w > @!maxwid[$i] {
-                @!maxwid[$i] = $w;
+    method calculate-maxwidth(:$debug) {
+        for @!months.kv -> $i, $m {
+            for $m.maxwid.kv -> $i, $w {
+                if $w > @!maxwid[$i] {
+                    @!maxwid[$i] = $w;
+                }
             }
         }
     }

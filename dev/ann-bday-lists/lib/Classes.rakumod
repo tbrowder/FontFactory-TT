@@ -55,7 +55,7 @@ class MyFont is export {
     }
     =end comment
 
-    method stringwidth($string, :$debug) {
+    method stringwidth(Str $string, :$debug) {
         =begin comment
         # from David Warring:
         sub stringwidth($face, $string, $point-size = 12) {
@@ -171,7 +171,9 @@ class Month is export {
     method calc-maxwid(MyFont $font, :$debug) {
         for @!lines.kv -> $i, $L {
             for $L.cells.kv -> $i, $c {
-                my $s = $c.text;
+                # first cell has number, fake it
+                my $s;
+                $i == 0 ?? ($s = "Day") !! ($s = $c.text);
                 my $w = $font.stringwidth: $s;
                 if $w > @!maxwid[$i] {
                     @!maxwid[$i] = $w;

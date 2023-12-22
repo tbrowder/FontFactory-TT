@@ -168,12 +168,14 @@ class Month is export {
         }
         @!lines.push: $L;
     }
-    method calc-maxwid(MyFont :$font, :$debug) {
-        for @!lines.cells.kv -> $i, $c {
-            my $s = $c.text;
-            my $w = $font.stringwidth: $s;
-            if $w > @!maxwid[$i] {
-                @!maxwid[$i] = $w;
+    method calc-maxwid(MyFont $font, :$debug) {
+        for @!lines.kv -> $i, $L {
+            for $L.cells.kv -> $i, $c {
+                my $s = $c.text;
+                my $w = $font.stringwidth: $s;
+                if $w > @!maxwid[$i] {
+                    @!maxwid[$i] = $w;
+                }
             }
         }
     }
@@ -204,8 +206,9 @@ class Year is export {
         @!months.push: $m;
     }
 
-    method calculate-maxwidth(:$debug) {
+    method calculate-maxwidth(MyFont $font, :$debug) {
         for @!months.kv -> $i, $m {
+            $m.calc-maxwid: $font;
             for $m.maxwid.kv -> $i, $w {
                 if $w > @!maxwid[$i] {
                     @!maxwid[$i] = $w;

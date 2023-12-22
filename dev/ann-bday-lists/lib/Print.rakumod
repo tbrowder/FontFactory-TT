@@ -13,7 +13,6 @@ use PDF::Content::FontObj;
 use Classes;
 use Psubs;
 
-
 =begin comment
 my $font  = load-font :file($ffil);
 my $fontB = load-font :file($ffilB);
@@ -32,7 +31,9 @@ sub print-list(Year $yr, :$year!, :$ofil!, :%opt!, :$debug) is export {
 
     # start writing
     # first adjust for cell stringwidths
-    $yr.calculate-maxwidth: :$debug;
+    $yr.calculate-maxwidth: $f, :$debug;
+    say "Cell max stringwidths:";
+    .say for $yr.maxwid;
 
     $pdf.save-as: $ofil;
 }

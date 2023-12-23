@@ -9,7 +9,6 @@
     "Abbreviations",
     "Data::Dump",
     "File::Find",
-    "Font::AFM",
     "JSON::Fast",
     "Text::Utils",
     "PDF::Font::Loader",

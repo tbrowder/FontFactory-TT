@@ -2,7 +2,7 @@ unit class FontFactory::DocFont is export;
 
 use PDF::Lite;
 #use PDF::Font::Loader;
-use Font::AFM;
+#use Font::AFM;
 use Font::FreeType;
 use Font::FreeType::Face;
 use Font::FreeType::Glyph;
@@ -39,7 +39,7 @@ has          $.postscript-name;
 has          $.family-name;
 has          $.has-kerning;
 has          $.is-scalable;
-has          $.is-sfnt;                  # is OpenType
+has          $.is-sfnt;                  # is OpenType (or TrueType)
 has          $.has-horizontal-metrics;
 has          $.has-vertical-metrics;
 has          $.has-glyph-names;
@@ -59,7 +59,7 @@ has $.y-ppem;
 has $.ascender;
 has $.descender;
 has $.height;              # line height: recommended distance between baselines
-has $.max-advance;
+has $.max-advance;         # glyph width
 has $.underline-position;
 has $.underline-thickness;
 has $.bounding-box; # an array
@@ -75,7 +75,7 @@ submethod TWEAK {
     $!is-scalable     = $!face.is-scalable;
     $!units-per-EM    = $!face.units-per-EM;
 
-    # is OpenType:
+    # is OpenType (or TruType):
     $!is-sfnt                  = $!face.is-sfnt;
     $!has-horizontal-metrics   = $!face.has-horizontal-metrics;
     $!has-vertical-metrics     = $!face.has-vertical-metrics;
@@ -96,7 +96,7 @@ submethod TWEAK {
     $!y-ppem              = $!sm.y-ppem;
     $!ascender            = $!sm.ascender;
     $!descender           = $!sm.descender;
-    $!height              = $!sm.height;
+    $!height              = $!sm.height;       # leading (line height)
     $!max-advance         = $!sm.max-advance;
     $!underline-position  = $!sm.underline-position;
     $!underline-thickness = $!sm.underline-thickness;

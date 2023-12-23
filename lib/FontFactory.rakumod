@@ -4,7 +4,6 @@ use Font::FreeType;
 use Font::FreeType::Face;
 use Font::FreeType::Raw::Defs;
 use Font::FreeType::Glyph;
-#use Font::FreeType::Outline;
 
 unit class FontFactory;
 
@@ -12,7 +11,7 @@ use FontFactory::DocFont;
 use FontFactory::FF-Subs;
 
 use PDF::Lite;
-use Font::AFM;
+#use Font::AFM;
 
 # Needed to load fonts
 has PDF::Lite $.pdf; # can be provided by the caller
@@ -35,7 +34,10 @@ submethod TWEAK {
 
     # use FontFactory::FF-Subs :get-*-fonts;
 
-    # System fonts are absolutely required:
+    # Some system fonts are absolutely required:
+    #   Debian: /usr/share/fonts/opentype/freefont
+    #   Debian: /usr/share/fonts/opentype/urw-base35
+
     %!fonts = get-system-fonts;
     # All is for naught if system-fonts are not loaded!
     if not %!fonts.elems {
@@ -118,7 +120,8 @@ method show-fonts {
     =end comment
 }
 
-method get-docfont($key,          #= normally the unique index in the current font list
+method get-docfont($key,          #= normally the unique index in the current 
+                                  #=   font list
                    Numeric $size, #= N[.N]
                    --> DocFont
                   ) {
@@ -150,7 +153,7 @@ method get-docfont($key,          #= normally the unique index in the current fo
         $has-kerning = %!fonts{$key}<has-kerning>;
     }
     else {
-        # use a default font provided with the module
+        die "Tom, fix this";
         # in resources
         #   DejaVuSerif.ttf
         #

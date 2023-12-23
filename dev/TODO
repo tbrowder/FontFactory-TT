@@ -1,3 +1,17 @@
+Create a metho for users to define things like:
+
+  what ligatures to use (by language?)
+  
+  fonts (simplify the current direction of FF)
+
+Create method/subs to get Unicode details:
+
+  by hex or decimal or octal codepoint
+
+  by Unicode name
+
+  by Unicode character
+
 Design, improve, and document better the FF object
 
 The goal is to produce a final product providing the aome of the same
@@ -13,10 +27,13 @@ See lib/Font/FreeType/Face.rakumod:
                         Uint $horiz-res = 0, UInt $vert-res = 0) {
 
 Create a method to use ligatures if available (file issue with
-Font::FreeType)
+Font::FreeType). See a list of ligatures for Latin languages at:
+<https://en.wikipedia.org/wiki/Ligature_(writing)>. Note the definition
+of a Latin-script letter has a script property of "Latin' anf the
+general category of 'Letter'.
 
 Create useful subs to ease typesetting (to be moved to PDF::Document
-or other suitable publis distro)
+or other suitable public distro)
 
 Document the practical uses:
 

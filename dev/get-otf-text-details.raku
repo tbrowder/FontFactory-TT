@@ -5,11 +5,12 @@ use Data::Dump;
 use Font::FreeType;
 use Font::FreeType::Face;
 use Font::FreeType::Glyph;
-use Font::FreeType::Outline;
+#use Font::FreeType::Outline;
 use Font::FreeType::Raw::Defs;
 use Font::FreeType::SizeMetrics;
 
-my $ffil = "../t/fonts/DejaVuSerif.ttf";
+my $fdir = "/usr/share/fonts/opentype/freefont";
+my $ffil = "{$fdir}/FreeSerif.otf";
 
 use lib <../lib>;
 use FontFactory::Classes;

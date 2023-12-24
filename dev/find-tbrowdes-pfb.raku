@@ -7,15 +7,14 @@ my $HOME = %*ENV<HOME> // '.';
 my $pdir = $*CWD.IO.parent;
 #say "DEBUG: parent dir is: $pdir"; exit;
 
+#my $ofil = "$HOME/.fontfactory-type1/my-fonts.list";
 my $ofil = "$HOME/.fontfactory-type1/my-fonts.list";
 
 if not @*ARGS {
     print qq:to/HERE/;
     Usage: {$*PROGRAM.basename} go | Delete [debug]
 
-    Finds .pfa, .pfb, and .afm Type 1 font files and creates a list in
-    tbrowder's \$HOME in a file named 
-        $ofil
+    Finds .pfa, .pfb, and .afm Type 1 font files and sends the list to stdout.
         
     If the 'Delete' mode is selected, you will be asked for confirmation.
     HERE

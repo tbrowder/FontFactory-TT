@@ -1,4 +1,7 @@
-Create a metho for users to define things like:
+Modify find*tbrowde* prog to ignore known free system fonts
+(ensure most all Debian fonts are installed).
+
+Create a method for users to define things like:
 
   what ligatures to use (by language?)
   

@@ -7,7 +7,7 @@ if not @*ARGS {
     print qq:to/HERE/;
     Usage: {$*PROGRAM.basename} go | debug
 
-    Exerxises the 'Font::AFM' methods.
+    Exercises the 'Font::AFM' methods.
     HERE
     exit
 }

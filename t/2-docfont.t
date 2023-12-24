@@ -1,5 +1,6 @@
 use Test;
 
+use Number::More :ALL;
 use FontFactory;
 use FontFactory::DocFont;
 use FontFactory::FF-Subs;
@@ -59,7 +60,7 @@ for $s.comb.kv -> $i, $v {
     say "  .ord ", $v.ord;
     say "  .ord.base(16) (hex) ", $v.ord.base(16);
     say "                (hex) ", $hex;
-#    say "  hex ($hex) to decimal {'$hex'.base(16).parse-base(10)}";
+    say "  hex ($hex) to decimal ", hex2dec $hex;
     say "  .ord.chr ", $v.ord.chr;
     say "  .uniname ", $v.uniname;
     say "  .uniname.uniparse ", $v.uniname.uniparse;

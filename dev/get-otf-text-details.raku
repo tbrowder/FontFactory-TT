@@ -267,7 +267,8 @@ $f.for-glyphs: $text, -> $g {
     say "        right-bearing ", $g.right-bearing;
     say "        is-outline ", $g.is-outline;
     my $b = $g.outline.bounding-box;
-    say "        bbox (char BBoX): ", sprintf("%f %f %f %f", $b.x-min, $b.y-min, $b.x-max, $b.y-max);
+    say "        bbox (char BBoX): ", sprintf("%f %f %f %f", 
+                     $b.x-min, $b.y-min, $b.x-max, $b.y-max);
     $left = $f.glyph-name-from-index: $g.index;
     say "        \@charmaps[\$f.charmaps[{$g.index}\}] = $left";
 

@@ -1,5 +1,12 @@
 NEW PLAN MAKE THIS A SEPARATE PROJECT
-  as of 2023-12-11
+  as of 2023-12-11 (updated on 2023-12-24)
+
+List recommended OpenType font collections available with
+Debian.
+
+Define a "standard" English ligature list to handle. Document
+it in the README. Fonts marked "LIGA" must contain those
+ligatures.
 
 Reorganize the font handling.
 
@@ -12,12 +19,12 @@ List creation with Build
 The static arrays created in $HOME/.fontfactory/system-fonts.list 
 will contain lines like this:
 
-  basename directory [KERN if True]
+  basename directory [KERN if True] [LIGA if True]
 
 The format of the user's file, 'my-fonts.list', will be slightly
 different:
 
-  basename directory notes (which may contain KERN)
+  basename directory notes (which may contain KERN and LIGA)
 
 When creating a FontFactory object, the two lists will be 
 combined, but any user fonts found in the system fonts
@@ -25,7 +32,7 @@ list will be eliminated. The combined list will be
 sorted alpabetically by basename.
 The user font lines will have its lines look like this:
 
-  basename directory [KERN if True] [USER if True] [any notes]
+  basename directory [KERN if True] [LIGA if True] [USER if True] [any notes]
 
 
 Showing fonts
@@ -33,7 +40,7 @@ Showing fonts
 
 When showing the fonts, the list will look like this:
 
-  [list index] basename [KERN if True] [USER if True] [any notes]
+  [list index] basename [KERN if True] [LIGA if True] [USER if True] [any notes]
 
 Finding fonts
 -------------
@@ -51,7 +58,7 @@ Using a font
 The user selects an index number (or alias or basename [with or without 
 a suffix]), a size, and a desired reference name. 
 The index number and size are used to create a DocFont object which is
-assigned to the referrence name.
+assigned to the reference name.
 
 Font samples
 ------------
@@ -59,8 +66,8 @@ Font samples
 Font testing
 ------------
 
-Use module FontConverter to extract afm info from a kernable ttf file 
-(DejaVuSerif) for testing.
+Use module FontConverter to extract afm info from a kernable otf file 
+with ligatures (FreeSerif) for testing.
 
 Font metrics for strings
 ------------------------

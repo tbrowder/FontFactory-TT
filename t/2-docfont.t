@@ -52,7 +52,20 @@ is @gchars[3].char-code, 100, "char-code for 'd'";
 #say "name {$_.char-code}" for @gchars;
 
 
-#my $s = $df.String: "some text;
+my $s = "a word";
+for $s.comb.kv -> $i, $v {
+    my $hex = $v.ord.base(16);
+    say "string character: '$v'";
+    say "  .ord ", $v.ord;
+    say "  .ord.base(16) (hex) ", $v.ord.base(16);
+    say "                (hex) ", $hex;
+#    say "  hex ($hex) to decimal {'$hex'.base(16).parse-base(10)}";
+    say "  .ord.chr ", $v.ord.chr;
+    say "  .uniname ", $v.uniname;
+    say "  .uniname.uniparse ", $v.uniname.uniparse;
+
+}
+
 #isa-ok $s, FontFactory::String;
 
 done-testing;

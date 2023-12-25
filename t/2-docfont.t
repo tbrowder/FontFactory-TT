@@ -54,6 +54,27 @@ is @gchars[3].char-code, 100, "char-code for 'd'";
 
 
 my $s = "a word";
+my @ord;
+my @hex;
+for $s.comb -> $v {
+    @ord.push: $v.ord;
+    my $hex = dec2hex $v.ord;
+    @hex.push: $hex;
+}
+my $s2;
+for @ord -> $o {
+    $s2 ~= $o.chr;
+}
+is $s2, $s, "roundtrip Str/ord/chr/Str";
+
+$s2 = "";
+for @hex -> $h {
+    my $ord = hex2dec $h;
+    $s2 ~= $ord.chr;
+}
+is $s2, $s, "roundtrip Str/ord/hex/ord/chr/Str";
+
+=begin comment
 for $s.comb.kv -> $i, $v {
     my $hex = $v.ord.base(16);
     say "string character: '$v'";
@@ -64,8 +85,8 @@ for $s.comb.kv -> $i, $v {
     say "  .ord.chr ", $v.ord.chr;
     say "  .uniname ", $v.uniname;
     say "  .uniname.uniparse ", $v.uniname.uniparse;
-
 }
+=end comment
 
 #isa-ok $s, FontFactory::String;
 

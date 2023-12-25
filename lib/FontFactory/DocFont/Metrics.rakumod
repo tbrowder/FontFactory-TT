@@ -1,9 +1,9 @@
 unit role FontFactory::DocFont::Metrics;
 
-#| Definitions are those used by FreeType 
-
 #| Note this role is NOT to be used with class GChar UNLESS the
-#| conflicting values are made as methods.
+#| conflicting values (height or line-height) are made as methods.
+
+#| Definitions are those used by FreeType 
 
 #| The highest edge of the glyph or highest of a set of glyphs
 #| (relative to the baseline).
@@ -35,10 +35,8 @@ has $.horizontal-advance;
 #| layouts. Always positive.
 has $.vertical-advance;
 
-# TODO decide on correct terminology: 
-#      'width' is Adobe's term for horizontal-advance
 #| The width of the set of glyphs' outlines from the left-most edge to
-#| the right-most edge.
+#| the right-most edge. (Note 'width' is Adobe's term for horizontal-advance.)
 has $.width;
 
 # TODO decide on correct terminology: 

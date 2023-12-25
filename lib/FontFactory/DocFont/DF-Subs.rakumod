@@ -11,14 +11,30 @@ unit module FontFactory::DocFont::DF-Subs;
 
 use FontFactory::DocFont::GChar;
 
-sub get-gchar(Font::FreeType::Face:D $f, $text, :$debug --> FontFactory::DocFont::GChar) is export {
+#| Get the first character of 'text' as a GChar, Use
+#| the ':tail' or ':last' argument to get the last
+#| character in 'text'.
+sub get-gchar(
+    Font::FreeType::Face:D $f, 
+    $text, 
+    :$tail, #= take the last char instead of the first
+    :$last, #= take the last char instead of the first
+    :$debug 
+    --> FontFactory::DocFont::GChar) is export {
+
     my $char = $text.comb.head;
     my @gchars = get-gchars $f, $char;
 
-    @gchars.head;
+    my $c = $tail.defined or $last.defined ?? @gchars.tail !! @gchars.head;
+    $c
 } # end sub
 
-sub get-gchars(Font::FreeType::Face:D $f, $text, :$debug --> List) is export {
+sub get-gchars(
+    Font::FreeType::Face:D $f, 
+    $text, 
+    :$debug 
+    --> List) is export {
+
     my @gchars;
     $f.for-glyphs: $text, -> Font::FreeType::Glyph:D $g {
         my $c = FontFactory::DocFont::GChar.new;

@@ -1,3 +1,10 @@
+Create a doc table showing Font::FreeType used attributes versus FT_* C library 
+names (see FreeType documentation).
+
+Find a .ttf or .otf font that purports to be similar to the Adobe Type 1
+fonts (urw-base-35 OR freefont) and test its metrics against Font::AFM and its 
+Type 1 font.
+
 Modify find*tbrowde* prog to ignore known free system fonts
 (ensure most all Debian fonts are installed).
 

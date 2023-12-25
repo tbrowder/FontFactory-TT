@@ -1,7 +1,7 @@
 unit role FontFactory::DocFont::Metrics;
 
 #| Note this role is NOT to be used with class GChar UNLESS the
-#| conflicting values (height or line-height) are made as methods.
+#| conflicting values (height or line-height ??) are made as methods.
 
 #| Definitions are those used by FreeType 
 
@@ -37,12 +37,14 @@ has $.vertical-advance;
 
 #| The width of the set of glyphs' outlines from the left-most edge to
 #| the right-most edge. (Note 'width' is Adobe's term for horizontal-advance.)
-has $.width;
+has $.width; #= same as Font::AFM's 'stringwidth' for multiple glyphs
 
 # TODO decide on correct terminology: 
 #      'height' is actually leading distance (baseline to baseline)
 #| The height of the set of glyphs' outlines from the bottom-most edge
-#| to the top-most edge.
+#| to the top-most edge. (Note this is not yet clearly defined in Raku's
+#| 'Font::FreeType', but 'height' is clearly defined in 'FreeType's 
+#| documentation as baseline differential.)
 has $.height;
 
 #| Bbox info for the set of glyphs

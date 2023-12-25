@@ -51,18 +51,25 @@ has          $.font-format;              # TruType, Type 1, BDF, PCF, Type 42,
 has          $.num-glyphs;
 has          $.num-faces;                # usually only one
 
-# 11 scaled font metrics only valid AFTER .set-font-size is called in TWEAK
-has $.x-scale;
-has $.y-scale;
-has $.x-ppem;
-has $.y-ppem;
+# These should be "face" metrics, not "glyph" metrics (although some
+# apply to individual glyphs as shown by an asterisk in an adjoining
+# comment).
+#
+# scaled face metrics only valid AFTER .set-font-size is called in TWEAK
+has $.x-scale;             # *
+has $.y-scale;             # *
+has $.x-ppem;              # *
+has $.y-ppem;              # *
+has $.underline-position;  # *
+has $.underline-thickness; # *
+
+# The following metrics apply to the collection of glyphs as the max of
+# all glyphs:
 has $.ascender;
 has $.descender;
 has $.height;              # line height: recommended distance between baselines
-has $.max-advance;         # glyph width
-has $.underline-position;
-has $.underline-thickness;
-has $.bounding-box; # an array
+has $.max-advance;         # face width
+has $.bounding-box;        # an array of max/min bbox values for all glyphs
 
 submethod TWEAK {
     $!face.set-font-size: $!size;
@@ -75,7 +82,7 @@ submethod TWEAK {
     $!is-scalable     = $!face.is-scalable;
     $!units-per-EM    = $!face.units-per-EM;
 
-    # is OpenType (or TruType):
+    # is OpenType (or TrueType):
     $!is-sfnt                  = $!face.is-sfnt;
     $!has-horizontal-metrics   = $!face.has-horizontal-metrics;
     $!has-vertical-metrics     = $!face.has-vertical-metrics;

@@ -153,11 +153,11 @@ method get-docfont($key,          #= normally the unique index in the current
         $has-kerning = %!fonts{$key}<has-kerning>;
     }
     else {
-        die "Tom, fix this";
-        # in resources
-        #   DejaVuSerif.ttf
+        #die "Tom, fix this";
+        # in ./resources
+        #   FreeSerif.ttf
         #
-        $path        = ""; #%!system-fonts{$key}<path>;
+        $path        = "./resources/fonts/FreeSerif.otf"; #%!system-fonts{$key}<path>;
         $has-kerning = True;
     }
 

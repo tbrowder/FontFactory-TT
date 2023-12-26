@@ -14,6 +14,7 @@ if not @*ARGS {
 ++$debug if @*ARGS.head ~~ /d/;
 
 my $kern-test-string = "With Viry City Did Fir Yp Care To Test Kern On Pip Que Rg";
+my $string = $kern-test-string;
 
 my %results = [
     Times-Roman  => [],

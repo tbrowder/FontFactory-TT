@@ -6,6 +6,7 @@ use Font::FreeType::Raw::Defs;
 use Font::FreeType::SizeMetrics;
 use Data::Dump;
 
+use Constants;
 unit module FontFactory::FF-Subs;
 
 # moved from /build/bin.find-system-fonts

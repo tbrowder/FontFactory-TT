@@ -9,14 +9,10 @@ use Font::FreeType::Glyph;
 use Font::FreeType::Raw::Defs;
 use Font::FreeType::SizeMetrics;
 
+use Constants;
 use FontFactory::DocFont::GChar;
 use FontFactory::DocFont::DF-Subs;
 #use FontFactory::Classes;
-
-my constant LLX is export = 0; # bounding-box index for left bound
-my constant LLY is export = 1; # bounding-box index for lower bound
-my constant URX is export = 2; # bounding-box index for right bound
-my constant URY is export = 3; # bounding-box index for upper bound
 
 #use Data::Dump;
 
@@ -46,8 +42,9 @@ has          $.has-glyph-names;
 has          $.has-reliable-glyph-names;
 has          $.is-bold;
 has          $.is-italic;
-has          $.font-format;              # TruType, Type 1, BDF, PCF, Type 42, 
-                                         #   CID Type 42, CFF, PFR, or Windows FNT
+has          $.font-format;              # OpenType, TrueType, Type 1, BDF, PCF, 
+                                         #   Type 42, CID Type 42, CFF, PFR, 
+                                         #   or Windows FNT
 has          $.num-glyphs;
 has          $.num-faces;                # usually only one
 
@@ -62,14 +59,15 @@ has $.x-ppem;              # *
 has $.y-ppem;              # *
 has $.underline-position;  # *
 has $.underline-thickness; # *
+has $.line-height;         # * line height: recommended distance between baselines
 
 # The following metrics apply to the collection of glyphs as the max of
 # all glyphs:
-has $.ascender;
-has $.descender;
-has $.height;              # line height: recommended distance between baselines
-has $.max-advance;         # face width
-has $.bounding-box;        # an array of max/min bbox values for all glyphs
+has $.Ascender;
+has $.Descender;
+has $.Height;              # height of bounding box
+has $.Max-advance;         # face width
+has $.Bounding-box;        # an array of max/min bbox values for all glyphs
 
 submethod TWEAK {
     $!face.set-font-size: $!size;
@@ -101,13 +99,14 @@ submethod TWEAK {
     $!y-scale             = $!sm.y-scale;
     $!x-ppem              = $!sm.x-ppem;
     $!y-ppem              = $!sm.y-ppem;
-    $!ascender            = $!sm.ascender;
-    $!descender           = $!sm.descender;
-    $!height              = $!sm.height;       # leading (line height)
-    $!max-advance         = $!sm.max-advance;
     $!underline-position  = $!sm.underline-position;
     $!underline-thickness = $!sm.underline-thickness;
-    $!bounding-box        = $!sm.bounding-box; # an array
+
+    $!Ascender            = $!sm.ascender;
+    $!Descender           = $!sm.descender;
+    $!Height              = $!sm.height;       # leading (line height)
+    $!Max-advance         = $!sm.max-advance;
+    $!Bounding-box        = $!sm.bounding-box; # an array
 
     # scale factor * units-per-EM = font-size
     # thus: scale factor = font-size / units-per-EM
@@ -140,7 +139,7 @@ method glyphs($chars --> List) {
 }
 
 =begin comment
-#| Provid a String from text
+#| Provide a String from text
 method String(Str:D $text --> FontFactory::Classes::String) {
     FontFactory::Classes::String.new: $text;
 }
@@ -198,7 +197,8 @@ method RightBearing(Str $s?, :$kern) {
 		return self.FontBBox[URX]
 	}
 # get the horizontal bound
-#    my $delta = $Last-width - $Last-urx; # amount of width past the $ux of the last char
+#    my $delta = $Last-width - $Last-urx; # amount of width past the $ux of the 
+                                          # last char
 
 	my $str-width = self.stringwidth($s, :$kern);
 	my $last-char = $s.comb.tail;

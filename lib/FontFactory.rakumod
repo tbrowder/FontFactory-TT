@@ -7,6 +7,7 @@ use Font::FreeType::Glyph;
 
 unit class FontFactory;
 
+use Constants;
 use FontFactory::DocFont;
 use FontFactory::FF-Subs;
 
@@ -125,7 +126,6 @@ method get-docfont($key,          #= normally the unique index in the current
                    Numeric $size, #= N[.N]
                    --> DocFont
                   ) {
-
     # create a unique internal name
     my $id = "$key|$size";
     if %!docfonts{$id}:exists {
@@ -161,13 +161,12 @@ method get-docfont($key,          #= normally the unique index in the current
         $has-kerning = True;
     }
 
-    # need a face
+    # need a face 
     my $face = $!ft.face: $path, :load-flags(FT_LOAD_NO_HINTING);
     my $df = DocFont.new: :$face, :$size, :$id, :$path;
     %!docfonts{$id} = $df;
     $df
 }
-
 
 my constant %params = [
     # key is two-letter ISO language code (lower-case)

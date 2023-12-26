@@ -22,6 +22,7 @@
   "name": "FontFactory",
   "perl": "6.d",
   "provides": {
+    "Constants": "lib/Constants.rakumod",
     "FontFactory": "lib/FontFactory.rakumod",
     "FontFactory::DocFont": "lib/FontFactory/DocFont.rakumod",
     "FontFactory::DocFont::DF-Subs": "lib/FontFactory/DocFont/DF-Subs.rakumod",

@@ -25,7 +25,7 @@ sub get-gchar(
     my $char = $text.comb.head;
     my @gchars = get-gchars $f, $char;
 
-    my $c = $tail.defined or $last.defined ?? @gchars.tail !! @gchars.head;
+    my $c = ($tail.defined or $last.defined) ?? @gchars.tail !! @gchars.head;
     $c
 } # end sub
 

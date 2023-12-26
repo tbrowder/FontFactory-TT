@@ -1,11 +1,15 @@
 use Test;
 
 use Number::More :ALL;
+uss Font::AFM;
 use FontFactory;
 use FontFactory::DocFont;
 use FontFactory::FF-Subs;
 use FontFactory::DocFont::GChar;
 use FontFactory::DocFont::DF-Subs;
+
+# Compare results of metrics of an OpenType font (FreeSerif) with
+# that of an equivalent Type 1 (Times-Roman).
 
 my $ff = FontFactory.new;
 isa-ok $ff, FontFactory;

@@ -1,3 +1,7 @@
+Create a doc table showing FontFactory methods and their
+equivalent Font::AFM method.
+
+
 Create a doc table showing Font::FreeType used attributes versus FT_* C library 
 names (see FreeType documentation).
 

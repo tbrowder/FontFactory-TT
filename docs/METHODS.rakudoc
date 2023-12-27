@@ -29,7 +29,8 @@ the desired baseline.
 =begin item 
 Bounding box ('bbox' or 'BBox') 
 
-1 - The rectangle that bounds the horizontal and vertical limits of the outline of a glyph. 
+1 - The rectangle that bounds the horizontal and vertical limits of 
+the outline of a glyph. 
 The bounding box is described as a list of four numbers, expressed as
 PostScript points (72 per inch), representing the C<x> and C<y>
 coordinates of the lower-left corner and the C<x> and C<y> coordinates
@@ -67,8 +68,8 @@ equivalent of the dimensions in the chosen point size the values are
 multiplied by a scale factor: point size / [number of 'units'].
 
 For example, given a character, say 'B', in a font with a size of 12.3
-points with its glyph's raw metrics width being 700 units in a 1000-unit square, find the
-glyph's final width in points:
+points with its glyph's raw metrics width being 700 units in a 1000-unit square, 
+find the glyph's final width in points:
 
 =begin code
 scale factor = 12.3/1000 = 0.0123
@@ -84,6 +85,43 @@ C<Font::AFM> but are constructed from data herein and have been
 adjusted for the C<DocFont> object's font size.
 
 Some methods have short aliases for convenience in coding.
+
+The following table shows the Font::Factory attributes and methods versus 
+their equivalents in Font::AFM.
+
+=begin table :caption<For a font Face (a collection of glyphs)>
+FontFactory             | Font::AFM | Notes
+------------------------+-----------+------
+Ascender                |           |
+Descender               |           |
+Height                  |           |
+Width                   |           |
+Horizontal-advance      |           |
+BBox                    |           |
+Top-bearing             |           |
+Left-bearing            |           |
+Bottom-bearing          |           |
+Right-bearing           |           |
+Underline-position      |           |
+Underline-thickness     |           |
+Strikethrough-position  |           |
+Strikethrough-thickness |           |
+=end table
+
+=begin table :caption<For a glyph (individual character)>
+FontFactory             | Font::AFM | Notes
+------------------------+-----------+------
+ascender                |           |
+descender               |           |
+height                  |           |
+width                   |           |
+horizontal-advance      |           |
+bbox                    |           |
+top-bearing             |           |
+left-bearing            |           |
+bottom-bearing          |           |
+right-bearing           |           |
+=end table
 
 =head3 B<StrikethroughPosition>
 

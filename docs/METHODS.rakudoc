@@ -16,9 +16,10 @@ central to it.
 Placing a single line of text using a font of a specific size
 (expressed as a height of N points where there are 72 points per inch)
 involves knowledge of both a single character's metrics as well as its
-collective metrics when gathered as a multi-glyph line.
+collective metrics when gathered as a multi-glyph string or block
+of text.
 
-A glyph is a digital character in the chosen font and it has the
+A glyph is a digital character in the chosen font, and it has the
 following metric characteristics described for our use in placing the
 character:
 
@@ -96,7 +97,7 @@ Ascender                |           |
 Descender               |           |
 Height                  |           |
 Width                   |           |
-Horizontal-advance      |           |
+X-advance               |           |
 BBox                    |           |
 Top-bearing             |           |
 Left-bearing            |           |
@@ -115,7 +116,7 @@ ascender                |           |
 descender               |           |
 height                  |           |
 width                   |           |
-horizontal-advance      |           |
+x-advance               |           |
 bbox                    |           |
 top-bearing             |           |
 left-bearing            |           |
@@ -123,236 +124,115 @@ bottom-bearing          |           |
 right-bearing           |           |
 =end table
 
-=head3 B<StrikethroughPosition>
+=head3 B<Strikethrough-position>
 
 Provides the position of the strikethrough line as the midheight of
 the lower-case 'm'
 
-=begin code
-method StrikethroughPosition {...}
-=end code
-
-alias: C<sp>
-
-=head3 B<StrikethroughThickness>
+=head3 B<Strikethrough-thickness>
 
 Provides the suggested thickness of the strikethrough line for the font size
 
-=begin code
-method StrikethroughThickness {...}
-=end code
-
-alias: C<st>
-
-=head3 B<LeftBearing>
+=head3 B<Left-bearing>
 
 The left sidebearing is defined as the first character's BBox[0] distance from its origin.
 
-=begin code
-method LeftBearing(Str $s?) {...}
-=end code
-
-alias: C<lb>
-
-=head3 B<RightBearing>
+=head3 B<Right-bearing>
 
 Get the value of the rightmost outline in a character or string
-=begin code
-method RightBearing(Str $s?) {...}
-=end code
 
-alias: C<rb>
-
-=head3 B<TopBearing>
+=head3 B<Top-bearing>
 
 Get the value of the topmost outline in a character or string
-=begin code
-method TopBearing(Str $s?) {...}
-=end code
 
-alias: C<tb>
-
-=head3 B<BottomBearing>
+=head3 B<Bottom-bearing>
 
 Get the value of the bottommost outline in a character or string
-=begin code
-method BottomBearing(Str $s?) {...}
-=end code
 
-alias: C<bb>
-
-=head3 B<LineHeight>
+=head3 B<Line-height>
 
 Get the maximum vertical space required for any single line of
 text or, optionally, for a specific string
 
-=begin code
-method LineHeight(Str $s?) {...}
-=end code
-
-alias: C<lh>
-
-=head3 B<StringBBox>
+=head3 B<BBox>
 
 Returns a list of the bounding box of the input string or the FontBBox
 if a string is not provided.  The user may choose to to kern the
 string.
 
-=begin code
-method StringBBox(Str $s?, Bool :$kern --> List) {...}
-=end code
-
-alias: C<sbb>
-
-=head3 B<Wx>
-
-Hash of glyph names and their width
-=begin code
-method Wx(--> Hash) {...}
-=end code
-
-=head3 B<BBox>
-
-Hash of glyph names and their bounding boxes
-=begin code
-method BBox(--> Hash) {...}
-=end code
-
 =head3 B<stringwidth>
 
 Provides the width of string for the font size. The kerned width is provided
 if C<$kern> is C<True>.
-=begin code
-method stringwidth($string, Bool :$kern) {...}
-=end code
 
-=head3 B<FontBBox>
-
-Array of the overall font bounding box
-=begin code
-method FontBBox(--> Array) {...}
-=end code
-
-=head3 B<UnderlinePosition>
+=head3 B<Underline-position>
 
 Provides the designed distance of the underline below the baseline for the font size
-=begin code
-method UnderlinePosition {...}
-=end code
 
-alias: C<up>
-
-=head3 B<UnderlineThickness>
+=head3 B<Underline-thickness>
 
 Provides the designed thickness of the underline for the font size
-=begin code
-method UnderlineThickness {...}
-=end code
 
-alias: C<ut>
-
-=head3 B<IsFixedPitch>
+=head3 B<Is-fixedPitch>
 
 If true, the font is a fixed-pitch (monospaced) font, e.g., 'Courier'.
-=begin code
-method IsFixedPitch {...}
-=end code
 
 =head3 B<FontName>
 
 The name of the font as presented to the PostScript language
 C<findfont> operator, e.g., 'Times-Roman'.
-=begin code
-method FontName {...}
-=end code
 
 =head3 B<FullName>
 
 Unique, human-readable name for an individual font, e.g., 'Times Roman'.
-=begin code
-method FullName {...}
-=end code
 
 =head3 B<FamilyName>
 
 Human-readable name for a group of fonts that are stylistic variants of
 a single design', e.g., 'Times'.
-=begin code
-method FamilyName {...}
-=end code
 
 =head3 B<Weight>
 
 Human-readable name for the weight or "boldness" attribute of a font.
 Examples are 'Roman', 'Bold', and 'Light'.
-=begin code
-method Weight {...}
-=end code
 
 =head3 B<ItalicAngle>
 
 Angle in degrees counterclockwise from the vertical of the dominate 
 vertical strokes of the font.
-=begin code
-method ItalicAngle {...}
-=end code
 
 =head3 B<Version>
 
 Version of the font.
-=begin code
-method Version {...}
-=end code
 
 =head3 B<Notice>
 
 Trademark or copyright notice, if applicable.
-=begin code
-method Notice {...}
-=end code
 
 =head3 B<Comment>
 
 Comments found in the font file.
-=begin code
-method Comment {...}
-=end code
 
 =head3 B<EncodingScheme>
 
 The name of the standard encoding scheme for the font.
 Most Adobe fonts use the 'AdobeStandardEncoding'.
 Special fonts might state 'FontSpecific'.
-=begin code
-method EncodingScheme {...}
-=end code
 
 =head3 B<CapHeight>
 
 Usually the y-value of the top of the capital 'H'.
-=begin code
-method CapHeight {...}
-=end code
 
 =head3 B<XHeight>
 
 Typically the y-value of the top of the lowercase 'x'.
-=begin code
-method XHeight {...}
-=end code
 
 =head3 B<Ascender>
 
 Typically the y-value of the top of the lowercase 'd'.
-=begin code
-method Ascender {...}
-=end code
 
 =head3 B<Descender>
 
 Typically the y-value of the bottom of the lowercase 'p'.
-=begin code
-method Descender {...}
-=end code
 
 =end pod

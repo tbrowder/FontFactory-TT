@@ -1,0 +1,25 @@
+=begin pod
+
+=head1 Ligatures
+
+Fine typesetting includes the ability to use ligatures
+if available in a font file. That capability
+is included herein, and the font-analysis tools can
+identify those fonts (usually OpenType) which
+have ligatures as single characters.
+The GNU FreeFont collection does include ligatures.
+
+Not all possible ligatures may be wanted, so FF provies
+a way for users to turn on or off those desired for a
+document.
+
+Following is a table of ligatures defined in a Wikipedia
+article for Latin languages.
+
+=begin table :caption<Latin language ligatures>
+Non-ligature | Ligature code | Ligature code 
+             | (hexadecimal) | (decimal)
+-------------+---------------+--------------
+=end table
+
+=end pod

@@ -1,0 +1,22 @@
+=begin pod
+
+=head1 Purpose
+
+This module was designed so the author can manage fonts
+and use them to create PDF documents using PDF::Lite.
+
+PDF::Lite can handle typesetting painlessly but the
+author likes to have more control over the process
+of placing text on a blank page.
+
+The process goes something like this:
+
+=item Select fonts using FF
+
+=item Select paper size and orientation
+
+=item Start writing...
+
+=begin code
+=end code
+

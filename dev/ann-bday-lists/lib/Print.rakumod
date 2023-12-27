@@ -35,5 +35,16 @@ sub print-list(Year $yr, :$year!, :$ofil!, :%opt!, :$debug) is export {
     say "Cell max stringwidths:";
     .say for $yr.maxwid;
 
+    # now print portrait one column of months
+    if $debug {
+        print "DEBUG: orientation: ";
+        if %opt<la> ~~ /True/ {
+            say "Landscape";
+        }
+        else {
+            say "Portrait";
+        }
+    }
+
     $pdf.save-as: $ofil;
 }

@@ -10,19 +10,19 @@ use FontFactory::DocFont::DF-Subs;
 my $ff = FontFactory.new;
 isa-ok $ff, FontFactory;
 
-my $df = $ff.get-docfont: "t/fonts/DejaVuSerif.ttf", 14;
+my $df = $ff.get-docfont: "t/fonts/FreeSerif.otf", 14;
 isa-ok $df, FontFactory::DocFont;
 is $df.size, 14, "font size is 14";
-is $df.name, "DejaVuSerif.ttf", "font file basenane";
-is $df.postscript-name, "DejaVuSerif", "PostScript name";
-is $df.family-name, "DejaVu Serif", "family name";
+is $df.name, "FreeSerif.otf", "font file basenane";
+is $df.postscript-name, "FreeSerif", "PostScript name";
+is $df.family-name, "FreeSerif", "family name";
 is $df.has-kerning, True, "has kerning";
 is $df.is-scalable, True, "is scalable";
-is $df.units-per-EM, 2048, "2048 units-per-em";
+is $df.units-per-EM, 1000, "1000 units-per-em";
 is $df.is-sfnt, True, "is-sfnt";
 is $df.is-bold, False, "is-bold";
 is $df.is-italic, False, "is-italic";
-is $df.font-format, "TrueType", "font-format: TrueType";
+is $df.font-format, "CFF", "font-format: CFF (OpenType)";
 is $df.has-horizontal-metrics, True, "has-horizontal-metrics";
 is $df.has-vertical-metrics, False, "has-vertical-metrics";
 

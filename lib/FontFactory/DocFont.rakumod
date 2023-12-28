@@ -10,7 +10,7 @@ use Font::FreeType::Raw::Defs;
 use Font::FreeType::SizeMetrics;
 
 use Constants;
-use FontFactory::DocFont::GChar;
+use FontFactory::DocFont::Gchar;
 use FontFactory::DocFont::DF-Subs;
 #use FontFactory::Classes;
 
@@ -27,7 +27,7 @@ has                      $.path is required; #= path of the input font file
 has          $.sm;       #= scaled metrics
 has          $.sf;       #= scale factor for the font object's EM.size attrs 
                          #=   vs the font size
-has    GChar %.chars;    #= hash of Glyphs keyed by a Str char
+has    Gchar %.chars;    #= hash of Glyphs keyed by a Str char
 
 # derived from the face and other Font::FreeType modules
 has          $.units-per-EM;
@@ -121,17 +121,17 @@ submethod TWEAK {
 #| Provide basename
 method name  { $!path.IO.basename }
 
-#| Given a character, return its GChar object
-method glyph($char --> GChar) {
+#| Given a character, return its Gchar object
+method glyph($char --> Gchar) {
     unless %!chars{$char}:exists {
         # get the needed glyph from lib/*/Subs.rakumod
-        my GChar $c = get-gchar $!face, $char;
+        my Gchar $c = get-gchar $!face, $char;
         %!chars{$char} = $c;
     }
     %!chars{$char};
 }
 
-#| Given a string of characters, return its GChar objects
+#| Given a string of characters, return its Gchar objects
 method glyphs($chars --> List) {
     my @gchars;
     @gchars.push(self.glyph($_)) for $chars.comb;

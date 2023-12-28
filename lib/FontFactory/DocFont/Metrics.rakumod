@@ -1,6 +1,6 @@
 unit role FontFactory::DocFont::Metrics;
 
-#| Note this role is NOT to be used with class GChar UNLESS the
+#| Note this role is NOT to be used with class Gchar UNLESS the
 #| conflicting values (height or line-height ??) are made as methods.
 
 #| Definitions are those used by FreeType 

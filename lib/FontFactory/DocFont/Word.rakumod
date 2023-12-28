@@ -1,11 +1,11 @@
 use FontFactory::DocFont::String;
-use FontFactory::DocFont::GChar;
+use FontFactory::DocFont::Gchar;
 
 unit class FontFactory::DocFont::Word is FontFactory::DocFont::String ;
 
 # may NOT have spaces, may NOT have embedded newlines
 has       $.text is required;
-has GChar @.chars;
+has Gchar @.chars;
 TWEAK {
     die "FATAL: a Word may not have spaces or embedded newlines" if $!text ~~ /\n|\s/;
 }

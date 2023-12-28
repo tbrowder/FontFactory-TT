@@ -9,9 +9,9 @@ use Data::Dump;
 
 unit module FontFactory::DocFont::DF-Subs;
 
-use FontFactory::DocFont::GChar;
+use FontFactory::DocFont::Gchar;
 
-#| Get the first character of 'text' as a GChar, Use
+#| Get the first character of 'text' as a Gchar, Use
 #| the ':tail' or ':last' argument to get the last
 #| character in 'text'.
 sub get-gchar(
@@ -20,7 +20,7 @@ sub get-gchar(
     :$tail, #= take the last char instead of the first
     :$last, #= take the last char instead of the first
     :$debug 
-    --> FontFactory::DocFont::GChar) is export {
+    --> FontFactory::DocFont::Gchar) is export {
 
     my $char = $text.comb.head;
     my @gchars = get-gchars $f, $char;
@@ -37,7 +37,7 @@ sub get-gchars(
 
     my @gchars;
     $f.for-glyphs: $text, -> Font::FreeType::Glyph:D $g {
-        my $c = FontFactory::DocFont::GChar.new;
+        my $c = FontFactory::DocFont::Gchar.new;
         # set all attrs here, remember, $g disappears when leaving here
         my @attrs = <
             Str

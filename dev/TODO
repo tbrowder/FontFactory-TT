@@ -1,7 +1,6 @@
 Create a doc table showing FontFactory methods and their
 equivalent Font::AFM method.
 
-
 Create a doc table showing Font::FreeType used attributes versus FT_* C library 
 names (see FreeType documentation).
 
@@ -43,7 +42,7 @@ See lib/Font/FreeType/Face.rakumod:
 Create a method to use ligatures if available (file issue with
 Font::FreeType). See a list of ligatures for Latin languages at:
 <https://en.wikipedia.org/wiki/Ligature_(writing)>. Note the definition
-of a Latin-script letter has a script property of "Latin' anf the
+of a Latin-script letter has a script property of "Latin' and the
 general category of 'Letter'.
 
 Create useful subs to ease typesetting (to be moved to PDF::Document

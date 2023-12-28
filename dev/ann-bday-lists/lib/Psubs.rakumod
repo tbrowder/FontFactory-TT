@@ -127,7 +127,6 @@ sub import-data($data-file, :$year!, :$debug --> Year) is export {
 
 sub show-list(Year $yr, :$year!, :$debug) is export {
     my ($nc1, $nc2, $nc3) = $yr.nchars[0], $yr.nchars[1], $yr.nchars[2];
-
     # now pretty print
     say "year: $year";
     for $yr.months -> $m {

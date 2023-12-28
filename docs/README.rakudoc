@@ -21,7 +21,7 @@ say $font.path;        # OUTPUT: « ␤»
 my $text = "Now is the time to act.";
 
 # get a new String object
-my $s = String.new: $text, :$font, :!kern; # :$kern default is True
+my $s = $font.String.new: $text, :!kern; # :$kern default is True
 say $s.width;
 say $s.bbox;
 # print the text at the top of a PDF::Lite page

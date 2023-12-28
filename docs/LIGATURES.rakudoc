@@ -9,17 +9,22 @@ identify those fonts (usually OpenType) which
 have ligatures as single characters.
 The GNU FreeFont collection does include ligatures.
 
-Not all possible ligatures may be wanted, so FF provies
+Not all possible ligatures may be wanted, so FF provides
 a way for users to turn on or off those desired for a
 document.
 
-Following is a table of ligatures defined in a Wikipedia
-article for Latin languages.
+Following is a table of commonly-used ligatures 
+that will be provided automatically.
 
 =begin table :caption<Latin language ligatures>
 Non-ligature | Ligature code | Ligature code 
              | (hexadecimal) | (decimal)
 -------------+---------------+--------------
+ff           |   U+fb00      | 64256
+ffi          |   U+fb03      | 64259
+ffl          |   U+fb04      | 64260
+fi           |   U+fb01      | 64257
+fl           |   U+fb02      | 64258
 =end table
 
 =end pod

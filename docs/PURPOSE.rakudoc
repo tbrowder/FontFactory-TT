@@ -5,7 +5,7 @@
 This module was designed so the author can manage fonts
 and use them to create PDF documents using PDF::Lite.
 
-PDF::Lite can handle typesetting painlessly but the
+PDF::Lite can handle typesetting painlessly, but the
 author likes to have more control over the process
 of placing text on a blank page.
 
@@ -18,5 +18,17 @@ The process goes something like this:
 =item Start writing...
 
 =begin code
+my \FF = FontFactory.new;
+my $fs12d3 = FF.new: fs12d3; # fs is the code for font FreeSerif
+                             # 12d3 is the code for 12.3 points
+my $text = "The Final Touch";
+my $s = $fs12d3.string: $text;
 =end code
+
+Now String object C<$s> has the font metrics of the input string
+using OpenType font FreeSerif set at 12.3 points. The String C<$s>
+text will use ligatures and its metrics will include kerning
+if the font provides the appropriate data (which FreeSerif does).
+
+
 

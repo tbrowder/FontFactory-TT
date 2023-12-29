@@ -25,6 +25,18 @@ sub print-list(Year $yr, :$year!, :$ofil!, :%opt!, :$debug) is export {
     my $fB = MyFont.new: :file(%opt<ffilB>), :size(%opt<fs>), :$debug;
     my $media = %opt<media>;
 
+    if $debug {
+        my $s = "Fore aWard";
+        my @c = $f.kern-info: $s;
+        note qq:to/HERE/;
+        DEBUG: kern info for string '$s'
+            {@c.head.raku}
+            {@c.tail.raku}
+
+        Early exit.
+        HERE
+        exit;
+    }
     my $pdf = PDF::Lite.new;
     $pdf.media-box = %(PageSizes.enums){$media};
     my $page;

@@ -55,7 +55,19 @@ class MyFont is export {
     }
     =end comment
 
+
+    method kern-info(Str $string, :$debug) {
+        $!fo.kern: $string
+    }
+
     method stringwidth(Str $string, :$debug) {
+        if $debug {
+            my @c = self.kern-info: $string;
+            note qq:to/HERE/;
+            DEBUG: kern info for string '$string':
+                {dd @c}
+            HERE
+        }
         # Note :!kern for now
         =begin comment
         # from David Warring:

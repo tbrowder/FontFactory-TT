@@ -168,6 +168,11 @@ class Month is export {
         }
         @!lines.push: $L;
     }
+    method height(MyFont $font, :$debug) {
+        # print height
+        #   title line height
+        #   plus height of the Lines
+    }
     method calc-maxwid(MyFont $font, :$debug) {
         for @!lines.kv -> $i, $L {
             for $L.cells.kv -> $i, $c {

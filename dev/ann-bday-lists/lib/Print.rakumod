@@ -32,8 +32,10 @@ sub print-list(Year $yr, :$year!, :$ofil!, :%opt!, :$debug) is export {
     # start writing
     # first adjust for cell stringwidths
     $yr.calculate-maxwidth: $f, :$debug;
-    say "Cell max stringwidths:";
-    .say for $yr.maxwid;
+    if $debug {
+        say "Cell max stringwidths:";
+        .say for $yr.maxwid;
+    }
 
     # now print in portrait format one column of months
     if $debug {
@@ -49,12 +51,15 @@ sub print-list(Year $yr, :$year!, :$ofil!, :%opt!, :$debug) is export {
     # divide the list of months into equal chunks to
     # print on a page
 
-    my ($nc1, $nc2, $nc3) = $yr.nchars[0], $yr.nchars[1], $yr.nchars[2];
+    #my ($nc1, $nc2, $nc3) = $yr.nchars[0], $yr.nchars[1], $yr.nchars[2];
     # now pretty print
     say "year: $year";
 
     # decide how many months on one page
-    my $nmons-per-page = 2;
+    my $nrows-per-page = 2;
+    my $ncols-per-page = 1;
+    my $nmons-per-page = $nrows-per-page * $ncols-per-page;
+
     my $npages-needed = 12 div $nmons-per-page;
     say "Need {$npages-needed} pages at {$nmons-per-page} months per page";
 
@@ -62,12 +67,35 @@ sub print-list(Year $yr, :$year!, :$ofil!, :%opt!, :$debug) is export {
     $page = $pdf.add-page;
     my $page-mons = 0;
     my $npages    = 0;
+    my $topy = 11*72 - 36; # page height less top margin
+    my $boty = 36; # bottom margin
+    my $delta-x = 0; # horizontal space between month boxes
+    my $delta-y = 0; # vertical space between month boxes
     MONTH: for $yr.months -> $m {
+        my $mnum = $m.number;
+
+        ROW: for 0..^$nrows-per-page -> $row {
+        my $rnum = $row+1;
+
         ++$page-mons;
+        COLUMN: for 0..^$ncols-per-page -> $col {
+        my $cnum = $col+1;
 
         #==================
         # print on the page
         #==================
+        # get the proper x,y for the top-left corner of the Month object
+        my $h = $m.h; # height of month box
+        my $w = $m.w; # width of month box
+
+        my $x = 36; 
+        # start x depends on column (0..^$ncols)
+        $x += $col * ($w + $delta-x);
+
+        my $y = 0;  
+        # start y depends on position in the page (0..^$page-mons)
+
+
 
         #==================
         # results
@@ -110,7 +138,9 @@ sub print-list(Year $yr, :$year!, :$ofil!, :%opt!, :$debug) is export {
         say()
         =end comment
 
-    } # end month loop
+        } # end COLUMN loop
+        } # end ROW loop
+    } # end MONTH loop
 
 
 

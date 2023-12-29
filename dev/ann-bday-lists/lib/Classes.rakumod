@@ -56,6 +56,7 @@ class MyFont is export {
     =end comment
 
     method stringwidth(Str $string, :$debug) {
+        # Note :!kern for now
         =begin comment
         # from David Warring:
         sub stringwidth($face, $string, $point-size = 12) {

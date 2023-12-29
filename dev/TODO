@@ -1,3 +1,5 @@
+Implement kerning in DocFont (see PDF::* methods)
+
 Create a doc table showing FontFactory methods and their
 equivalent Font::AFM method.
 

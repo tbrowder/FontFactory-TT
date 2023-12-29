@@ -23,7 +23,7 @@ my @m = %m.keys.sort;
 sub print-list(Year $yr, :$year!, :$ofil!, :%opt!, :$debug) is export {
     my $f  = MyFont.new: :file(%opt<ffil>), :size(%opt<fs>), :$debug;
     my $fB = MyFont.new: :file(%opt<ffilB>), :size(%opt<fs>), :$debug;
-    my $media = %opt<pa>;
+    my $media = %opt<media>;
 
     my $pdf = PDF::Lite.new;
     $pdf.media-box = %(PageSizes.enums){$media};
@@ -40,7 +40,7 @@ sub print-list(Year $yr, :$year!, :$ofil!, :%opt!, :$debug) is export {
     # now print in portrait format one column of months
     if $debug {
         print "DEBUG: orientation: ";
-        if %opt<la> ~~ /True/ {
+        if %opt<landscape> ~~ /True/ {
             say "Landscape";
         }
         else {

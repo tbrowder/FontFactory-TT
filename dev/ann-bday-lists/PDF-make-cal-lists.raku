@@ -22,14 +22,14 @@ my %opt;
 %opt<bm> = 36;
 %opt<lm> = 36;
 %opt<rm> = 36;
-%opt<ma> = 36;
-%opt<la> = False;
+%opt<ma> = 36; # margins 1/2 inch
+%opt<landscape> = False;
 %opt<sb> = False;
-%opt<bw> = 3;
+%opt<bw> = 3; # default Cell border width
 %opt<fs> = $fsize;
 %opt<ffil> = $ffil;
 %opt<ffilB> = $ffilB;
-%opt<pa> = 'Letter';
+%opt<media> = 'Letter';
 
 my $ofil = "missys-bday-ann-lists.pdf";
 
@@ -48,9 +48,9 @@ if not @*ARGS.elems {
       fs=X - where X is the desired font size (default: %opt<fs>)
       bw=X - where X is the desired cell border width font size (default: %opt<bw>)
       sb   - show cell border (default: %opt<sb>)
-      la   - use landscape orientation (default: %opt<la>)
+      la   - use landscape orientation (default: %opt<landscape>)
       ma=X - X is the page margin (default: %opt<ma>)
-      pa=X - X is the paper type (default: %opt<pa>)
+      pa=X - X is the paper type (default: %opt<media>)
 
     Other options:
       tm=X - X is page top margin (default: %opt<tm>)

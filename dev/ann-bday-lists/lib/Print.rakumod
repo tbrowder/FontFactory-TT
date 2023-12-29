@@ -85,8 +85,9 @@ sub print-list(Year $yr, :$year!, :$ofil!, :%opt!, :$debug) is export {
         # print on the page
         #==================
         # get the proper x,y for the top-left corner of the Month object
-        my $h = $m.h; # height of month box
-        my $w = $m.w; # width of month box
+        my $w = 0; # $m.width;  # width of month box
+        my $h = 0; # $m.height; # height of month box
+        ($w, $h) = $m.print: $f, $fB; # does not render unless $page is defined
 
         my $x = 36; 
         # start x depends on column (0..^$ncols)

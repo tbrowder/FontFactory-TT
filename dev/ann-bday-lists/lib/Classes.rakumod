@@ -14,7 +14,7 @@ use Text::Utils :normalize-text;
 
 my Font::FreeType $ft-shared;
 
-# A convenience class like a struct
+# A convenience class like a struct until FontFactory is published
 class MyFont is export {
     has $.file is required; # font definition file (.otf, .ttf)
     has $.size is required; # in PS points
@@ -153,8 +153,12 @@ class Line does Dimen is export {
 }
 
 class Month is export {
-    has $.month; # number
+    has $.number; # 1..12
     has $.name;
+
+    #has $.width;  # print height at font and size
+    #has $.height; # print width at font and size
+
     has @.nchars = 0, 0, 0; # max chars per cell
     has @.maxwid = 0, 0, 0; # max w (stringwidth) per cell
     has Line @.lines;
@@ -168,11 +172,29 @@ class Month is export {
         }
         @!lines.push: $L;
     }
-    method height(MyFont $font, :$debug) {
-        # print height
-        #   title line height
-        #   plus height of the Lines
+
+    method print(MyFont $font, 
+                 MyFont $fontB,
+                 :$x = 0, :$y = 0, 
+                 PDF::Lite::Page :$page, 
+                 :$debug --> List) {
+
+        # Given the x,y of the top-left corner, print the Month box
+        # at its default size. Return the width and height of that
+        # box in points.
+        my ($width, $height) = 0, 0;
+
+        # translate to the top-left corner
+        #   print the month name (if $page.defined)
+        #   for each Line
+        #     for each Cell
+        #       draw its grid lines (if $page.defined)
+        #       render its text left-justified (if $page.defined)
+        #   return final width, height 
+
+        $width, $height
     }
+
     method calc-maxwid(MyFont $font, :$debug) {
         for @!lines.kv -> $i, $L {
             for $L.cells.kv -> $i, $c {
@@ -223,4 +245,8 @@ class Year is export {
             }
         }
     }
+
+    # for typesetting
+    # given a range of Month objects and a font and font size,
+    #   calculate the 
 } # class Year

@@ -21,6 +21,7 @@ class MyFont is export {
     has $.face;
     has $.ft;               # shared instance of FreeType
     has $.sm;
+    has $.uem;
 
     has PDF::Content::FontObj $.fo; # the actual PDF font object for rendering
 
@@ -32,8 +33,10 @@ class MyFont is export {
         $!face = $!ft.face: $!file, :load-flags(FT_LOAD_NO_HINTING);
         $!face.set-font-size: $!size;
         $!sm   = $!face.scaled-metrics;
+        $!uem  = $!face.units-per-EM;
 
         $!fo   = PDF::Font::Loader.load-font: :file($!file), :!subset;
+        # what about the Enc thingy?
     }
 
     method show {
@@ -57,16 +60,29 @@ class MyFont is export {
 
 
     method kern-info(Str $string, :$debug) {
-        $!fo.kern: $string
+        my @a = $!fo.kern: $string; # unscaled data
+        my @c = @a.head.Array; # an array of character groups 
+                               # alternating with kern values
+        my $u = @a.tail.head;  # an unscaled value: total kerned width?
+        my $k = 0;             # add kern values
+        # to scale: $unscaled * $point-size / $units-per-EM;
+        for @c -> $v {
+            #note "DEBUG kern-info: v = '$v' and is a {$v.^name}" if $debug;
+            next unless $v ~~ Numeric; #/^ \'? <[.0..9]>+ \'? $/; # NumStr; # Numeric;
+            my $n = $v.Numeric;
+            note "DEBUG: yea! found a Numeric: $v" if $debug;
+            $k += $n;
+        }
+        # for now assume it's total kerned width
+        $u, $k, $u+$k
     }
 
     method stringwidth(Str $string, :$debug) {
         if $debug {
-            my @c = self.kern-info: $string;
+            my @k = self.kern-info: $string;
             note qq:to/HERE/;
             DEBUG: kern info for string '$string':
-                raw (unscaled) kern data: {@c.head.raku} 
-                raw (unscaled) kern data: {@c.tail.raku}
+                {@k.raku}
             HERE
         }
         # Note :!kern for now
@@ -82,7 +98,17 @@ class MyFont is export {
         my $unscaled = sum $!face.for-glyphs($string, {
                                .metrics.hori-advance
                            });
+        my $uk = self.kern-info: $string;
+        if $debug {
+            note qq:to/HERE/;
+            DEBUG kerning
+                input string:   '$string'
+                unkerned width: $unscaled
+                kerned width:   $uk
+            HERE
+        }
         return $unscaled * $!size / $units-per-EM;
+        #return $unscaled; # * $!size / $units-per-EM;
     }
 } # Class MyFont
 

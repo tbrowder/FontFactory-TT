@@ -65,7 +65,8 @@ class MyFont is export {
             my @c = self.kern-info: $string;
             note qq:to/HERE/;
             DEBUG: kern info for string '$string':
-                {dd @c}
+                raw (unscaled) kern data: {@c.head.raku} 
+                raw (unscaled) kern data: {@c.tail.raku}
             HERE
         }
         # Note :!kern for now

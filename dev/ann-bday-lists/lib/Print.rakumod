@@ -25,8 +25,8 @@ sub print-list(Year $yr, :$year!, :$ofil!, :%opt!, :$debug) is export {
     my $fB = MyFont.new: :file(%opt<ffilB>), :size(%opt<fs>), :$debug;
     my $media = %opt<media>;
 
-    if $debug {
-        my $s = "Fore aWard";
+    if 0 and $debug {
+        my $s = "Fore aWard"; # <== a great kern test!!
         my @c = $f.kern-info: $s;
         note qq:to/HERE/;
         DEBUG: kern info for string '$s'
@@ -44,13 +44,13 @@ sub print-list(Year $yr, :$year!, :$ofil!, :%opt!, :$debug) is export {
     # start writing
     # first adjust for cell stringwidths
     $yr.calculate-maxwidth: $f, :$debug;
-    if $debug {
+    if 0 and $debug {
         say "Cell max stringwidths:";
         .say for $yr.maxwid;
     }
 
     # now print in portrait format one column of months
-    if $debug {
+    if 0 and $debug {
         print "DEBUG: orientation: ";
         if %opt<landscape> ~~ /True/ {
             say "Landscape";

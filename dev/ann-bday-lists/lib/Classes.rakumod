@@ -1,16 +1,24 @@
 unit module Classes;
 
+use Text::Utils :normalize-text;
+
+use NativeCall;
 use PDF::Lite;
 use Font::FreeType;
+use Font::FreeType::Error;
 use Font::FreeType::Face;
 use Font::FreeType::Glyph;
 use Font::FreeType::Outline;
+use Font::FreeType::Raw;
 use Font::FreeType::Raw::Defs;
+use Font::FreeType::CharMap;
 use Font::FreeType::SizeMetrics;
+use Font::FreeType::BBox;
 use PDF::Content::FontObj;
 use PDF::Font::Loader :load-font;
+use Method::Also;
 
-use Text::Utils :normalize-text;
+constant Dot6 = Font::FreeType::Raw::Defs::Dot6;
 
 my Font::FreeType $ft-shared;
 
@@ -22,10 +30,14 @@ class MyFont is export {
     has $.ft;               # shared instance of FreeType
     has $.sm;
     has $.uem;
+    has $.raw;
+    has $.metrics-delegate;
+    has $.scaled-metrics;
+    has $.ft-lib;
 
     has PDF::Content::FontObj $.fo; # the actual PDF font object for rendering
 
-    submethod TWEAK {
+    submethod TWEAK(Str :$attach-file) {
         unless $ft-shared.defined {
             $ft-shared .= new;
         }
@@ -34,9 +46,21 @@ class MyFont is export {
         $!face.set-font-size: $!size;
         $!sm   = $!face.scaled-metrics;
         $!uem  = $!face.units-per-EM;
+        $!raw  = $!face.raw;
 
         $!fo   = PDF::Font::Loader.load-font: :file($!file), :!subset;
         # what about the Enc thingy?
+        
+        self.attach-file($_) with $attach-file;
+    }
+
+    my class Vector {
+        has FT_Vector $!raw;
+        has UInt:D $.scale = Dot6;
+        submethod TWEAK(FT_Vector:D :$!raw!) {}
+        method x { $!raw.x /$!scale }
+        method y { $!raw.y /$!scale }
+        method gist { $.x ~ ' ' ~ $.y }
     }
 
     method show {
@@ -77,6 +101,9 @@ class MyFont is export {
         $u, $k, $u+$k
     }
 
+    method kerning(Str $string, :$debug) {
+    }
+
     method stringwidth(Str $string, :$debug) {
         if $debug {
             my @k = self.kern-info: $string;
@@ -95,6 +122,39 @@ class MyFont is export {
         }
         =end comment
         my $units-per-EM = $!face.units-per-EM;
+        my $k = 0;
+        my ($left, $right);
+        for $string.comb -> $c {
+            # danger, Str $c may not be recognized@!
+
+            #note "c: $c";
+            #next;
+            if $left.defined and $c.defined {
+                my FT_UInt $Lidx = $!raw.FT_Get_Char_Index($left.ord);
+                my FT_UInt $Ridx = $!raw.FT_Get_Char_Index($c.ord);
+                note "DEBUG left char index = $Lidx";
+                note "DEBUG right char index = $Ridx";
+                my FT_Vector $vec .= new;
+                my UInt $mode = $!metrics-delegate === $!scaled-metrics 
+                                ?? FT_KERNING_UNFITTED !! FT_KERNING_UNSCALED;
+
+                ft-try {$!raw.FT_Get_Kerning($Lidx, $Ridx, 
+                    $mode, $vec);};
+                $right = $c;
+                note "left: $left";
+                note "right: $right";
+                # get kern from the pair
+                my $delta = $!face.kerning($left, $right);
+                #note "DEBUG delta = '{$delta.raku}' debug exit"; exit;
+                $k += $delta.x;
+                # swap
+                $left = $c;
+            }
+            else {
+                $left = $c;
+            }
+        }
+        note "total kern values: $k";
         my $unscaled = sum $!face.for-glyphs($string, {
                                .metrics.hori-advance
                            });

@@ -55,6 +55,7 @@ class MyFont is export {
     }
 
     my class Vector {
+        # required for handling kerning
         has FT_Vector $!raw;
         has UInt:D $.scale = Dot6;
         submethod TWEAK(FT_Vector:D :$!raw!) {}
@@ -64,6 +65,8 @@ class MyFont is export {
     }
 
     method show {
+        # TODO: other characteristics are available like italic angle and other
+        #       ones seen in Font::AFM
         say "font name: ", $!face.postscript-name;
         say "  font size: ", $!size;
         say "  font height (leading or line height): ", $!sm.height;
@@ -71,40 +74,29 @@ class MyFont is export {
         say "  font underline thickness: ", $!sm.underline-thickness;
     }
 
-    =begin comment
-    method load() {
-        # this may need the current $pdf object
-        =begin comment
-        my PDF::Content::FontObj $fo = PDF::Font::Loader.load-font:
-        :file<./fonts/Vera.ttf>, :!subset;
-        say $fo.underline-position;
-        =end comment
-    }
-    =end comment
-
     method kern-info(Str $string, :$debug) {
         my @a = $!fo.kern: $string; # unscaled data
         my @c = @a.head.Array; # an array of character groups 
                                # alternating with kern values
-        my $u = @a.tail.head;  # an unscaled value: total kerned width?
-        my $k = 0;             # add kern values
+        my $u = @a.tail.head;  # an unscaled value: total unkerned width?
+        my $k = 0;             # accumulate kern values
         # to scale: $unscaled * $point-size / $units-per-EM;
         for @c -> $v {
-            #note "DEBUG kern-info: v = '$v' and is a {$v.^name}" if $debug;
-            next unless $v ~~ Numeric; #/^ \'? <[.0..9]>+ \'? $/; # NumStr; # Numeric;
+            next unless $v ~~ Numeric;
             my $n = $v.Numeric;
             note "DEBUG: yea! found a Numeric: $v" if $debug;
             $k += $n;
         }
         # for now assume it's total kerned width
-        $u, $k, $u+$k
-    }
+        # $u, $k, $u+$k
+        # scale it
+        $u*10/$!face.units-per-EM,
+        $k*10/$!face.units-per-EM,
+        ($u+$k)*10/$!face.units-per-EM
 
-    method kerning(Str $string, :$debug) {
     }
 
     method stringwidth(Str $string, :$kern, :$debug) {
-        # Note :!kern for now
         =begin comment
         # from David Warring:
         sub stringwidth($face, $string, $point-size = 12) {
@@ -113,38 +105,33 @@ class MyFont is export {
             return $unscaled * $point-size / $units-per-EM;
         }
         =end comment
-        my $units-per-EM = $!face.units-per-EM;
 
         my $k = 0;
         if $kern {
-        my ($left, $right);
-        for $string.comb -> $c {
-            if $left.defined and $c.defined {
-                my FT_UInt $Lidx = $!raw.FT_Get_Char_Index($left.ord);
-                my FT_UInt $Ridx = $!raw.FT_Get_Char_Index($c.ord);
-                note "DEBUG left char index = $Lidx";
-                note "DEBUG right char index = $Ridx";
+            my @chars = $string.comb;
+            my $left = @chars.shift;
+            my FT_UInt $Lidx = $!raw.FT_Get_Char_Index($left.ord);
+            for @chars -> $right {
+                my FT_UInt $Ridx = $!raw.FT_Get_Char_Index($right.ord);
+                note "DEBUG left char index = $Lidx" if $debug;
+                note "DEBUG right char index = $Ridx" if $debug;
                 my FT_Vector $vec .= new;
                 my UInt $mode = $!metrics-delegate === $!scaled-metrics 
                                 ?? FT_KERNING_UNFITTED !! FT_KERNING_UNSCALED;
-
                 ft-try {$!raw.FT_Get_Kerning($Lidx, $Ridx, 
                     $mode, $vec);};
-                $right = $c;
-                note "left: $left";
-                note "right: $right";
-                # get kern from the pair
+                note "left: $left" if $debug;
+                note "right: $right" if $debug;
+                # get kern from the pair via a Vector
                 my $delta = $!face.kerning($left, $right);
                 #note "DEBUG delta = '{$delta.raku}' debug exit"; exit;
-                $k += $delta.x;
-                # swap
-                $left = $c;
+                $k += $delta.x; # horizontal kerning
+
+                # swap right to left 
+                $left = $right;
+                $Lidx = $Ridx;
             }
-            else {
-                $left = $c;
-            }
-        }
-        note "total kern values: $k" if $debug;
+            note "total kern values: $k" if $debug;
         } # end if $kern proc
 
         my $unscaled = sum $!face.for-glyphs($string, {
@@ -160,7 +147,7 @@ class MyFont is export {
             HERE
         }
         
-        my $strwid = $unscaled * $!size / $units-per-EM;
+        my $strwid = $unscaled * $!size / $!face.units-per-EM;
         if $kern {
             $strwid += $k;
         }

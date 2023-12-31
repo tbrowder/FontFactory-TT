@@ -28,11 +28,13 @@ sub print-list(Year $yr, :$year!, :$ofil!, :%opt!, :$debug) is export {
     if 1 and $debug {
         my $s = "Fore aWard"; # <== a great kern test!!
         my @k = $f.kern-info: $s; #, :$debug;
-        my $x = $f.stringwidth: $s; #, :$debug;
+        my $u = $f.stringwidth: $s; #, :$debug;
+        my $k = $f.stringwidth: $s, :kern; #, :$debug;
         note qq:to/HERE/;
         DEBUG: kern info for string '$s'
             raw, unscaled kern data:        {@k.raku}
-            scaled, non-kerned stringwidth: $x
+            scaled, non-kerned stringwidth: $u
+            scaled, kerned stringwidth:     $k
 
         Early exit.
         HERE

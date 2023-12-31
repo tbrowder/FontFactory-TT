@@ -82,7 +82,6 @@ class MyFont is export {
     }
     =end comment
 
-
     method kern-info(Str $string, :$debug) {
         my @a = $!fo.kern: $string; # unscaled data
         my @c = @a.head.Array; # an array of character groups 
@@ -104,14 +103,7 @@ class MyFont is export {
     method kerning(Str $string, :$debug) {
     }
 
-    method stringwidth(Str $string, :$debug) {
-        if $debug {
-            my @k = self.kern-info: $string;
-            note qq:to/HERE/;
-            DEBUG: kern info for string '$string':
-                {@k.raku}
-            HERE
-        }
+    method stringwidth(Str $string, :$kern, :$debug) {
         # Note :!kern for now
         =begin comment
         # from David Warring:
@@ -122,13 +114,11 @@ class MyFont is export {
         }
         =end comment
         my $units-per-EM = $!face.units-per-EM;
+
         my $k = 0;
+        if $kern {
         my ($left, $right);
         for $string.comb -> $c {
-            # danger, Str $c may not be recognized@!
-
-            #note "c: $c";
-            #next;
             if $left.defined and $c.defined {
                 my FT_UInt $Lidx = $!raw.FT_Get_Char_Index($left.ord);
                 my FT_UInt $Ridx = $!raw.FT_Get_Char_Index($c.ord);
@@ -154,12 +144,14 @@ class MyFont is export {
                 $left = $c;
             }
         }
-        note "total kern values: $k";
+        note "total kern values: $k" if $debug;
+        } # end if $kern proc
+
         my $unscaled = sum $!face.for-glyphs($string, {
                                .metrics.hori-advance
                            });
-        my $uk = self.kern-info: $string;
         if $debug {
+            my $uk = self.kern-info: $string;
             note qq:to/HERE/;
             DEBUG kerning
                 input string:   '$string'
@@ -167,8 +159,12 @@ class MyFont is export {
                 kerned width:   $uk
             HERE
         }
-        return $unscaled * $!size / $units-per-EM;
-        #return $unscaled; # * $!size / $units-per-EM;
+        
+        my $strwid = $unscaled * $!size / $units-per-EM;
+        if $kern {
+            $strwid += $k;
+        }
+        $strwid
     }
 } # Class MyFont
 

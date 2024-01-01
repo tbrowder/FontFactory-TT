@@ -29,6 +29,7 @@ class MyFont is export {
     has $.face;
     has $.ft;               # shared instance of FreeType
     has $.sm;
+
     has $.uem;
     has $.raw;
     has $.metrics-delegate;
@@ -267,17 +268,28 @@ class Month is export {
         # Given the x,y of the top-left corner, print the Month box
         # at its default size. Return the width and height of that
         # box in points.
+        #
         # If the input width is > 0, that width is considered a fixed
         # width.
         my $height = 0;
 
         # translate to the top-left corner
+        # track Month max width and height
         #   print the month name (if $page.defined)
+        #   determine its height as lineheight plus delta-y to following Line top
+        #   add height to month height
+        
+        #   track max Cell width for all Lines
         #   for each Line
+        #     determine its height as lineheight + top/bottom border space
+        #     add height to month height
+
         #     for each Cell
+        #       determine its width as stringlength kerned + left/right border space
+                add width as max Line Cell width if so
+
         #       draw its grid lines (if $page.defined)
         #       render its text left-justified (if $page.defined)
-
 
         #   return final width, height 
         $width, $height

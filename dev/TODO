@@ -1,3 +1,8 @@
+Create a PDF drawing showing key dimensions of an individual
+character as well as a string of characters (with and without
+kerning). Create a drawing showing the same metrics for the
+collection of glyphs in a font.
+
 Implement kerning in DocFont (see PDF::* methods)
 
 Create a doc table showing FontFactory methods and their

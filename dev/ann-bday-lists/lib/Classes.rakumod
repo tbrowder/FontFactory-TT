@@ -97,13 +97,17 @@ class MyFont is export {
 
     }
 
+    method bbox(Str $string, :$kern, :$debug) {
+        # LLX is == $string.comb.head.bbox[LLX] (scaled)
+    }
+
     method left-bearing(Str $string, :$debug) {
-        # is == $string.bbox[LLX] (scaled)
+        # LLX is == $string.comb.head.bbox[LLX] (scaled)
         
     }
 
     method right-bearing(Str $string, :$kern, :$debug) {
-        # is == $string.stringwidth - $string.comb.tail.bbox[URX] (scaled)
+        # URX is == $string.stringwidth - $string.comb.tail.bbox[URX] (scaled)
     }
 
     method stringwidth(Str $string, :$kern, :$debug) {

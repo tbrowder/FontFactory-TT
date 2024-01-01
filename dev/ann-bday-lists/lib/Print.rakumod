@@ -25,7 +25,7 @@ sub print-list(Year $yr, :$year!, :$ofil!, :%opt!, :$debug) is export {
     my $fB = MyFont.new: :file(%opt<ffilB>), :size(%opt<fs>), :$debug;
     my $media = %opt<media>;
 
-    if 1 and $debug {
+    if 0 and $debug {
         my $s = "Fore aWard"; # <== a great kern test!!
         my @k = $f.kern-info: $s; #, :$debug;
         my $u = $f.stringwidth: $s; #, :$debug;
@@ -40,6 +40,7 @@ sub print-list(Year $yr, :$year!, :$ofil!, :%opt!, :$debug) is export {
         HERE
         exit;
     }
+
     my $pdf = PDF::Lite.new;
     $pdf.media-box = %(PageSizes.enums){$media};
     my $page;
@@ -159,8 +160,25 @@ sub print-list(Year $yr, :$year!, :$ofil!, :%opt!, :$debug) is export {
     } # end MONTH loop
 
 
-
     # see sub show...
 
     $pdf.save-as: $ofil;
 }
+
+sub print-month($page, Month :$month!, :$x!, :$y!, :$debug) is export {
+    # x,y of the top-left corner, translate to it
+    $page.graphics: {
+        .Save;
+        .transform: :translate($x, $y);
+
+
+
+
+
+
+
+        .Restore;
+    }
+    
+}
+

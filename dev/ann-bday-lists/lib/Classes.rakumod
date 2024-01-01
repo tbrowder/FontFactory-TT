@@ -2,7 +2,7 @@ unit module Classes;
 
 use Text::Utils :normalize-text;
 
-use NativeCall;
+#use NativeCall;
 use PDF::Lite;
 use Font::FreeType;
 use Font::FreeType::Error;
@@ -183,6 +183,7 @@ role Dimen is export {
     }
 
     method print-border($linewidth = 0, :$x!, :$y!, :$page!, :$debug) {
+        # x,y is at the top-left corner
         $page.graphics: {
             .Save;
             .transform: :translate($x, $y);
@@ -259,13 +260,16 @@ class Month is export {
     method print(MyFont $font, 
                  MyFont $fontB,
                  :$x = 0, :$y = 0, 
+                 :$width is copy = 0,
                  PDF::Lite::Page :$page, 
                  :$debug --> List) {
 
         # Given the x,y of the top-left corner, print the Month box
         # at its default size. Return the width and height of that
         # box in points.
-        my ($width, $height) = 0, 0;
+        # If the input width is > 0, that width is considered a fixed
+        # width.
+        my $height = 0;
 
         # translate to the top-left corner
         #   print the month name (if $page.defined)
@@ -273,8 +277,9 @@ class Month is export {
         #     for each Cell
         #       draw its grid lines (if $page.defined)
         #       render its text left-justified (if $page.defined)
-        #   return final width, height 
 
+
+        #   return final width, height 
         $width, $height
     }
 

@@ -12,4 +12,3 @@ own version).
 Note kerning handling in Font::FreeType...Face
 see t/10metrics_verasans.t
    .kerning at end of file
-

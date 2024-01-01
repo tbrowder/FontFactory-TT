@@ -97,6 +97,15 @@ class MyFont is export {
 
     }
 
+    method left-bearing(Str $string, :$debug) {
+        # is == $string.bbox[LLX] (scaled)
+        
+    }
+
+    method right-bearing(Str $string, :$kern, :$debug) {
+        # is == $string.stringwidth - $string.comb.tail.bbox[URX] (scaled)
+    }
+
     method stringwidth(Str $string, :$kern, :$debug) {
         =begin comment
         # from David Warring:

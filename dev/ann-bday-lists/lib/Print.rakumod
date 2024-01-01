@@ -25,14 +25,13 @@ sub print-list(Year $yr, :$year!, :$ofil!, :%opt!, :$debug) is export {
     my $fB = MyFont.new: :file(%opt<ffilB>), :size(%opt<fs>), :$debug;
     my $media = %opt<media>;
 
-    if 0 and $debug {
+    if 1 and $debug {
         my $s = "Fore aWard"; # <== a great kern test!!
         my @k = $f.kern-info: $s; #, :$debug;
         my $u = $f.stringwidth: $s; #, :$debug;
         my $k = $f.stringwidth: $s, :kern; #, :$debug;
         note qq:to/HERE/;
         DEBUG: kern info for string '$s'
-            raw, unscaled kern data:        {@k.raku}
             scaled, non-kerned stringwidth: $u
             scaled, kerned stringwidth:     $k
 

@@ -15,7 +15,7 @@ use Font::FreeType::CharMap;
 use Font::FreeType::SizeMetrics;
 use Font::FreeType::BBox;
 use PDF::Content::FontObj;
-use PDF::Font::Loader :load-font;
+use PDF::Font::Loader :&load-font;
 use Method::Also;
 
 constant Dot6 = Font::FreeType::Raw::Defs::Dot6;
@@ -29,12 +29,13 @@ class MyFont is export {
     has $.face;
     has $.ft;               # shared instance of FreeType
     has $.sm;
+    has $.sf; # scale factor: fsize / units-per-EM
 
-    has $.uem;
-    has $.raw;
-    has $.metrics-delegate;
-    has $.scaled-metrics;
-    has $.ft-lib;
+#    has $.uem;
+#    has $.raw;
+#    has $.metrics-delegate;
+#    has $.scaled-metrics;
+#    has $.ft-lib;
 
     has PDF::Content::FontObj $.fo; # the actual PDF font object for rendering
 
@@ -46,15 +47,17 @@ class MyFont is export {
         $!face = $!ft.face: $!file, :load-flags(FT_LOAD_NO_HINTING);
         $!face.set-font-size: $!size;
         $!sm   = $!face.scaled-metrics;
-        $!uem  = $!face.units-per-EM;
-        $!raw  = $!face.raw;
+        $!sf   = $!size / $!face.units-per-EM; # scale factor: fsize / units-per-EM
+#       $!uem  = $!face.units-per-EM;
+#       $!raw  = $!face.raw;
 
         $!fo   = PDF::Font::Loader.load-font: :file($!file), :!subset;
         # what about the Enc thingy?
         
-        self.attach-file($_) with $attach-file;
+#        self.attach-file($_) with $attach-file;
     }
 
+=begin comment
     my class Vector {
         # required for handling kerning
         has FT_Vector $!raw;
@@ -64,6 +67,7 @@ class MyFont is export {
         method y { $!raw.y /$!scale }
         method gist { $.x ~ ' ' ~ $.y }
     }
+=end comment
 
     method show {
         # TODO: other characteristics are available like italic angle and other
@@ -110,6 +114,16 @@ class MyFont is export {
         # URX is == $string.stringwidth - $string.comb.tail.bbox[URX] (scaled)
     }
 
+    # stringwidth is a method of FontObj (with kerning!)
+    method stringwidth(Str $string, :$kern, :$debug) {
+        if $kern {
+            $!sf * $!fo.stringwidth: $string, :$kern;
+        }
+        else {
+            $!sf * $!fo.stringwidth: $string;
+        }
+    }
+=begin comment
     method stringwidth(Str $string, :$kern, :$debug) {
         =begin comment
         # from David Warring:
@@ -160,13 +174,14 @@ class MyFont is export {
                 kerned width:   $uk
             HERE
         }
-        
         my $strwid = $unscaled * $!size / $!face.units-per-EM;
         if $kern {
             $strwid += $k;
         }
         $strwid
     }
+=end comment
+
 } # Class MyFont
 
 # Considering table placement, the zero
@@ -299,7 +314,7 @@ class Month is export {
 
         #     for each Cell
         #       determine its width as stringlength kerned + left/right border space
-                add width as max Line Cell width if so
+        #       add width as max Line Cell width if so
 
         #       draw its grid lines (if $page.defined)
         #       render its text left-justified (if $page.defined)

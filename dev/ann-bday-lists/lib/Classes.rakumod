@@ -98,24 +98,41 @@ class MyFont is export {
         $u*10/$!face.units-per-EM,
         $k*10/$!face.units-per-EM,
         ($u+$k)*10/$!face.units-per-EM
-
     }
 
-    method bbox(Str $string, :$kern, :$debug) {
-        # LLX is == $string.comb.head.bbox[LLX] (scaled)
-    }
+    #method bbox(Str $string, :$kern, :$debug) {
+    #    # LLX is == $string.comb.head.bbox[LLX] (scaled)
+    #}
 
     method left-bearing(Str $string, :$debug) {
-        # LLX is == $string.comb.head.bbox[LLX] (scaled)
-        
+        my $lc = $string.comb.head;
+        self.char-left-bearing: $lc
+    }
+
+    method width($string, :$kern, :$debug) {
+        # stringwidth - (left-bearing of leftmost
+        # glyph) - (right-bearing of right-most glyph)
+        my $lc = $string.comb.head;
+        my $rc = $string.comb.tail;
+        my $sw = self.stringwidth($string, :$kern);
+        $sw - self.char-left-bearing($lc) - self.char-right-bearing($rc)
     }
 
     method right-bearing(Str $string, :$kern, :$debug) {
-        # URX is == $string.stringwidth - $string.comb.tail.bbox[URX] (scaled)
+        # TODO nail this down, what does right-bearing of string really mean?
+        #      how is it actually used?
+
+        # more complicated. defined as "distance from
+        #   horizontal-advance to right edge of glyph"
+        my $rc = $string.comb.tail;
+        my $sw = self.stringwidth($string, :$kern);
+        $sw - self.char-right-bearing: $rc;
     }
 
     # stringwidth is a method of FontObj (with kerning!)
     method stringwidth(Str $string, :$kern, :$debug) {
+        # distance from origin to point where next glyph's
+        # origin will be
         if $kern {
             $!sf * $!fo.stringwidth: $string, :$kern;
         }
@@ -123,6 +140,54 @@ class MyFont is export {
             $!sf * $!fo.stringwidth: $string;
         }
     }
+
+    method char-left-bearing(Str $string, :$debug) {
+        my $s = $string.comb.head;
+        my $sw = self.stringwidth: $s;
+        my $lb = 0;
+        $!face.for-glyphs($s, { 
+            my $bb = .bbox;
+            $lb    = $bb.x-min; # .left-bearing;
+        });
+        $lb
+    }
+    method char-right-bearing(Str $string, :$debug) {
+        my $s = $string.comb.head;
+        my $sw = self.stringwidth: $s;
+        my $rb = 0;
+        $!face.for-glyphs($string, { 
+            my $bb = .bbox;
+            $rb = $sw - $bb.x-max;
+        });
+        $rb
+    }
+
+    method char-width(Str $string, :$debug) {
+        my $s = $string.comb.head;
+        my $sw = self.stringwidth: $s;
+        my $w = 0;
+        $!face.for-glyphs($string, { 
+            my $bb = .bbox;
+            $w = $bb.x-max - $bb.x-min;
+        });
+        $w
+    }
+
+    # vertical metrics will require iterating over the glyphs of the
+    # string
+    method vertical-metrics(Str $string, :$debug --> List) {
+        my ($top, $bot) = 0, 0;
+        $!face.for-glyphs($string, { 
+            my $bb = .bbox;
+            my $y = $bb.y-max; # .top-bearing;
+            my $h = .height;
+            my $b = $y - $h; # bottom bearing
+            $top = $y if $y > $top;
+            $bot = $b if $b < $bot;
+        });
+        $top, $bot, $top-$bot
+    }
+
 =begin comment
     method stringwidth(Str $string, :$kern, :$debug) {
         =begin comment

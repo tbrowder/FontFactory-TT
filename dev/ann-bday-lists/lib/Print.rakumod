@@ -30,10 +30,31 @@ sub print-list(Year $yr, :$year!, :$ofil!, :%opt!, :$debug) is export {
         my @k = $f.kern-info: $s; #, :$debug;
         my $u = $f.stringwidth: $s; #, :$debug;
         my $k = $f.stringwidth: $s, :kern; #, :$debug;
+        my ($tb, $bb, $h) = -100, -100, -100;
+        ($tb, $bb, $h) = $f.vertical-metrics: $s;
+
+        my ($uw, $kw) = -100, -100;
+        $uw = $f.width: $s;
+        $kw = $f.width: $s, :kern;
+
+        my ($lb, $rb) = -100, -100;
+        $lb = $f.left-bearing: $s;
+        $rb = $f.right-bearing: $s;
         note qq:to/HERE/;
-        DEBUG: kern info for string '$s'
-            scaled, non-kerned stringwidth: $u
-            scaled, kerned stringwidth:     $k
+        DEBUG: 
+            scaled string metrics for string '$s'
+              non-kerned 
+                  stringwidth: $u
+                  width:       $uw
+              kerned 
+                  stringwidth: $k
+                  width:       $kw
+
+              left-bearing:    $lb
+              right-bearing:   $rb
+              top-bearing:     $tb
+              bottom-bearing:  $bb
+              height:          $h 
 
         Early exit.
         HERE

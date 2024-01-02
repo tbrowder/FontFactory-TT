@@ -1,3 +1,6 @@
+Test all OTF fonts to find closest to Font::AFM Times-Roman (see OTF
+tests at FontFactory::Type1.
+
 Create a PDF drawing showing key dimensions of an individual
 character as well as a string of characters (with and without
 kerning). Create a drawing showing the same metrics for the

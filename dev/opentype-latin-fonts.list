@@ -1,7 +1,17 @@
-i  fonts-texgyre - OpenType fonts based on URW Fonts
-i A fonts-urw-base35 - font set metric-compatible with the 35 PostScript Level 2 Base Fonts
-i  fonts-ebgaramond - EB Garamond OpenType fonts
+# Do these have Type 1 versions?
+i A fonts-urw-base35 - OpenType font set metric-compatible with the 
+        35 PostScript Level 2 Base Fonts
+    (have Type 1 versions!!)
+
 i A fonts-freefont-otf - Freefont Serif, Sans and Mono OpenType fonts
-p  fonts-hack-otf - Hack OpenType fonts (transitional package for fonts-hack)
-p  fonts-lmodern - OpenType fonts based on Computer Modern
-i  fonts-texgyre - OpenType fonts based on URW Fonts
+    (no Type 1 version)
+
+i   fonts-texgyre - OpenType fonts based on URW Fonts
+    (no Type 1 version)
+
+i   fonts-ebgaramond - EB Garamond OpenType fonts
+    (its README indicates the fonts are a WIP)
+
+# other Latin .otf fonts
+p   fonts-hack-otf - Hack OpenType fonts (transitional package for fonts-hack)
+p   fonts-lmodern - OpenType fonts based on Computer Modern

@@ -7,62 +7,9 @@ my (%alist, %ulist); # defined in BEGIN block
 # ~/mydata/tbrowde-home/font-stuff
 # pertinent list:
 my $adobe-dir = "/home/tbrowde/mydata/tbrowde-home/font-stuff/afm";
-%alist = [
-cb => 'Courier-Bold.afm',
-cbo => 'Courier-BoldOblique.afm',
-co => 'Courier-Oblique.afm',
-c => 'Courier.afm',
-hb => 'Helvetica-Bold.afm',
-hbo => 'Helvetica-BoldOblique.afm',
-ho => 'Helvetica-Oblique.afm',
-h => 'Helvetica.afm',
-s => 'Symbol.afm',
-tb => 'Times-Bold.afm',
-tbi => 'Times-BoldItalic.afm',
-ti => 'Times-Italic.afm',
-tr => 'Times-Roman.afm',
-z => 'ZapfDingbats.afm',
-];
-	
+
 # source of urw equiv AFM files
 my $urw-dir = "/usr/share/fonts/type1/urw-base35";
-%ulist = [
-0 => 'C059-BdIta.afm',
-1 => 'C059-Bold.afm',
-2 => 'C059-Italic.afm',
-3 => 'C059-Roman.afm',
-4 => 'D050000L.afm',
-5 => 'NimbusMonoPS-Bold.afm',
-6 => 'NimbusMonoPS-BoldItalic.afm',
-7 => 'NimbusMonoPS-Italic.afm',
-8 => 'NimbusMonoPS-Regular.afm',
-9 => 'NimbusRoman-Bold.afm',
-10 => 'NimbusRoman-BoldItalic.afm',
-11 => 'NimbusRoman-Italic.afm',
-12 => 'NimbusRoman-Regular.afm',
-13 => 'NimbusSans-Bold.afm',
-14 => 'NimbusSans-BoldItalic.afm',
-15 => 'NimbusSans-Italic.afm',
-16 => 'NimbusSans-Regular.afm',
-17 => 'NimbusSansNarrow-Bold.afm',
-18 => 'NimbusSansNarrow-BoldOblique.afm',
-19 => 'NimbusSansNarrow-Oblique.afm',
-20 => 'NimbusSansNarrow-Regular.afm',
-21 => 'P052-Bold.afm',
-22 => 'P052-BoldItalic.afm',
-23 => 'P052-Italic.afm',
-24 => 'P052-Roman.afm',
-25 => 'StandardSymbolsPS.afm',
-26 => 'URWBookman-Demi.afm',
-27 => 'URWBookman-DemiItalic.afm',
-28 => 'URWBookman-Light.afm',
-29 => 'URWBookman-LightItalic.afm',
-30 => 'URWGothic-Book.afm',
-31 => 'URWGothic-BookOblique.afm',
-32 => 'URWGothic-Demi.afm',
-33 => 'URWGothic-DemiOblique.afm',
-34 => 'Z003-MediumItalic.afm',
-];
 
 my $debug = 0;
 if not @*ARGS {
@@ -188,3 +135,59 @@ for %alist.kv -> $code, $basename {
     ($kerned, $width) = $afm.kern($string, $fontsize, :kern, :%glyphs);
     }
 }
+
+BEGION {
+    %alist = [
+        cb => 'Courier-Bold.afm',
+        cbo => 'Courier-BoldOblique.afm',
+        co => 'Courier-Oblique.afm',
+        c => 'Courier.afm',
+        hb => 'Helvetica-Bold.afm',
+        hbo => 'Helvetica-BoldOblique.afm',
+        ho => 'Helvetica-Oblique.afm',
+        h => 'Helvetica.afm',
+        s => 'Symbol.afm',
+        tb => 'Times-Bold.afm',
+        tbi => 'Times-BoldItalic.afm',
+        ti => 'Times-Italic.afm',
+        tr => 'Times-Roman.afm',
+        z => 'ZapfDingbats.afm',
+    ];
+    %ulist = [
+        0 => 'C059-BdIta.afm',
+        1 => 'C059-Bold.afm',
+        2 => 'C059-Italic.afm',
+        3 => 'C059-Roman.afm',
+        4 => 'D050000L.afm',
+        5 => 'NimbusMonoPS-Bold.afm',
+        6 => 'NimbusMonoPS-BoldItalic.afm',
+        7 => 'NimbusMonoPS-Italic.afm',
+        8 => 'NimbusMonoPS-Regular.afm',
+        9 => 'NimbusRoman-Bold.afm',
+        10 => 'NimbusRoman-BoldItalic.afm',
+        11 => 'NimbusRoman-Italic.afm',
+        12 => 'NimbusRoman-Regular.afm',
+        13 => 'NimbusSans-Bold.afm',
+        14 => 'NimbusSans-BoldItalic.afm',
+        15 => 'NimbusSans-Italic.afm',
+        16 => 'NimbusSans-Regular.afm',
+        17 => 'NimbusSansNarrow-Bold.afm',
+        18 => 'NimbusSansNarrow-BoldOblique.afm',
+        19 => 'NimbusSansNarrow-Oblique.afm',
+        20 => 'NimbusSansNarrow-Regular.afm',
+        21 => 'P052-Bold.afm',
+        22 => 'P052-BoldItalic.afm',
+        23 => 'P052-Italic.afm',
+        24 => 'P052-Roman.afm',
+        25 => 'StandardSymbolsPS.afm',
+        26 => 'URWBookman-Demi.afm',
+        27 => 'URWBookman-DemiItalic.afm',
+        28 => 'URWBookman-Light.afm',
+        29 => 'URWBookman-LightItalic.afm',
+        30 => 'URWGothic-Book.afm',
+        31 => 'URWGothic-BookOblique.afm',
+        32 => 'URWGothic-Demi.afm',
+        33 => 'URWGothic-DemiOblique.afm',
+        34 => 'Z003-MediumItalic.afm',
+    ];
+} # end of BEGIN block

@@ -2,6 +2,9 @@
 
 use Font::AFM;
 
+my $kern-test-string = "With Viry City Did Fir Yp Care To Test Kern On Pip Que Rg";
+my $string = "With Viry City Did Fir Yp Care To Test Kern On Pip Que Rg";
+
 my (%alist, %ulist); # defined in BEGIN block
 # source of Adobe base font AFM files:
 # ~/mydata/tbrowde-home/font-stuff
@@ -28,7 +31,7 @@ if not @*ARGS {
 my ($res, $res2, $kerned, $kerned2, $width, $width2);
 my $size = 10;
 
-for %alist.kv -> $code, $basename {
+ALIST: for %alist.kv -> $code, $basename {
     my Font::AFM $afm;
 
     # the name here should be an absolute path
@@ -36,7 +39,7 @@ for %alist.kv -> $code, $basename {
     $afm = Font::AFM.new: :name($path);
 
     # iterate over the URW fonts
-    for %ulist.kv -> $code2, $basename2 {
+    ULIST: for %ulist.kv -> $code2, $basename2 {
         my Font::AFM $afm2;
         my $path2 = "$urw-dir/{$basename2}"; #.IO.absolute;
         $afm2 = Font::AFM.new: :name($path);
@@ -44,99 +47,102 @@ for %alist.kv -> $code, $basename {
         $res  = $afm.FontName;
         $res2 = $afm2.FontName;
 
-    # 3
-    $res = $afm.FullName;
-    $res2 = $afm2.FullName;
+        # 3
+        $res = $afm.FullName;
+        $res2 = $afm2.FullName;
 
-    # 4
-    $res = $afm.FamilyName;
-    $res = $afm.FamilyName;
+        # 4
+        $res = $afm.FamilyName;
+        $res2 = $afm2.FamilyName;
 
-    # 5
-    $res = $afm.Weight;
-    $res = $afm.Weight;
+        # 5
+        $res = $afm.Weight;
+        $res2 = $afm2.Weight;
 
-    # 6
-    $res = $afm.ItalicAngle;
-    $res = $afm.ItalicAngle;
+        # 6
+        $res = $afm.ItalicAngle;
+        $res2 = $afm2.ItalicAngle;
 
-    # 7
-    $res = $afm.IsFixedPitch;
-    $res = $afm.IsFixedPitch;
+        # 7
+        $res = $afm.IsFixedPitch;
+        $res2 = $afm2.IsFixedPitch;
 
-    # 8
-    $res = $afm.FontBBox;
-    $res = $afm.FontBBox;
+        # 8
+        $res = $afm.FontBBox;
+        $res2 = $afm2.FontBBox;
 
-    # 9
-    $res = $afm.KernData;
-    $res = $afm.KernData;
+        # 9
+        $res = $afm.KernData;
+        $res2 = $afm2.KernData;
 
-    # 10
-    $res = $afm.UnderlinePosition;
-    $res = $afm.UnderlinePosition;
+        # 10
+        $res = $afm.UnderlinePosition;
+        $res2 = $afm2.UnderlinePosition;
 
-    # 11
-    $res = $afm.UnderlineThickness;
-    $res = $afm.UnderlineThickness;
+        # 11
+        $res = $afm.UnderlineThickness;
+        $res2 = $afm2.UnderlineThickness;
 
-    # 12
-    $res = $afm.Version;
-    $res = $afm.Version;
+        # 12
+        $res = $afm.Version;
+        $res2 = $afm2.Version;
 
-    # 13
-    $res = $afm.Notice;
-    $res = $afm.Notice;
+        # 13
+        $res = $afm.Notice;
+        $res2 = $afm2.Notice;
 
-    # 14
-    $res = $afm.Comment;
-    $res = $afm.Comment;
+        # 14
+        $res = $afm.Comment;
+        $res2 = $afm2.Comment;
 
-    # 15
-    $res = $afm.EncodingScheme;
-    $res = $afm.EncodingScheme;
+        # 15
+        $res = $afm.EncodingScheme;
+        $res2 = $afm2.EncodingScheme;
 
-    # 16
-    $res = $afm.CapHeight;
-    $res = $afm.CapHeight;
+        # 16
+        $res = $afm.CapHeight;
+        $res2 = $afm2.CapHeight;
 
-    # 17
-    $res = $afm.XHeight;
-    $res = $afm.XHeight;
+        # 17
+        $res = $afm.XHeight;
+        $res2 = $afm2.XHeight;
 
-    # 18
-    $res = $afm.Ascender;
-    $res = $afm.Ascender;
+        # 18
+        $res = $afm.Ascender;
+        $res2 = $afm2.Ascender;
 
-    # 19
-    $res = $afm.Descender;
-    $res = $afm.Descender;
+        # 19
+        $res = $afm.Descender;
+        $res2 = $afm2.Descender;
 
-    # 20
-    $res = $afm.Wx;
-    $res = $afm.Wx;
+        # 20
+        $res = $afm.Wx;
+        $res2 = $afm2.Wx;
 
-    # 21
-    $res = $afm.BBox;
-    $res = $afm.BBox;
+        # 21
+        $res = $afm.BBox;
+        $res2 = $afm2.BBox;
 
-    # 22
-    my $fontsize = $size;
-    $res = $afm.stringwidth($string, $fontsize, :kern);
-    $res = $afm.stringwidth($string, $fontsize, :kern);
+        # 22
+        my $fontsize = $size;
+        $res = $afm.stringwidth($string, $fontsize, :kern);
+        $res2 = $afm2.stringwidth($string, $fontsize, :kern);
 
-    # 23
-    $res = $afm.stringwidth($string, $fontsize, :!kern);
-    $res = $afm.stringwidth($string, $fontsize, :!kern);
+        # 23
+        $res = $afm.stringwidth($string, $fontsize, :!kern);
+        $res2 = $afm2.stringwidth($string, $fontsize, :!kern);
 
-    # 24
-    my (%glyphs, %glyphs2);
-    ($kerned, $width) = $afm.kern($string, $fontsize, :kern, :%glyphs);
-    ($kerned, $width) = $afm.kern($string, $fontsize, :kern, :%glyphs);
+        # 24
+        my (%glyphs, %glyphs2);
+        ($kerned, $width) = $afm.kern($string, $fontsize, :kern, :%glyphs);
+        ($kerned2, $width2) = $afm.kern($string, $fontsize, :kern, :%glyphs);
+
+        say "Finished with $code and $code2";
+        last ALIST if $debug;
     }
 }
 
-BEGION {
+BEGIN {
     %alist = [
         cb => 'Courier-Bold.afm',
         cbo => 'Courier-BoldOblique.afm',

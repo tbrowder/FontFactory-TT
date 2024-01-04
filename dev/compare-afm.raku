@@ -2,6 +2,9 @@
 
 use Font::AFM;
 
+use lib <./lib>;
+use CompSubs;
+
 my $kern-test-string = "With Viry City Did Fir Yp Care To Test Kern On Pip Que Rg";
 my $string = "With Viry City Did Fir Yp Care To Test Kern On Pip Que Rg";
 
@@ -14,18 +17,67 @@ my $adobe-dir = "/home/tbrowde/mydata/tbrowde-home/font-stuff/afm";
 # source of urw equiv AFM files
 my $urw-dir = "/usr/share/fonts/type1/urw-base35";
 
+# modes
+my $list = 0;
+my $comp = 0;
+my $show = 0;
+# options
 my $debug = 0;
 if not @*ARGS {
     print qq:to/HERE/;
-    Usage: {$*PROGRAM.basename} go | debug
+    Usage: {$*PROGRAM.basename} go | <mode> [...options...]
 
-    Compares afm files between two fonts.
-      (based on exe 'show-afm-methods.raku' in this directory)
+    Extracts AFM data for Type 1 font files for various
+    purposes. The files of primary interest are the URW 
+    base 35 files which are supposed to be metrically
+    equivalent to the original Adobe standard 35 files.
+
+    Modes:
+      show   - lists the Adobe fonts and their codes
+      list   - lists the Adobe files and their URW equivalents
+      comp=X - where X is the code for the Adobe file; compares
+                 key metrics between the Adobe file and its URW 
+                 equivalent
+    Options:
+      debug
     HERE
     exit
 }
-++$debug if @*ARGS.head ~~ /d/;
 
+for @*ARGS {
+    when /^:i d/ { ++$debug }
+    when /^:i s/ { ++$show  }
+    when /^:i l/ { ++$list  }
+    when /^:i c[omp]? '=' (\S+) / {
+        $comp = ~$0;
+        unless %alist{$comp}:exists {
+            say "FATAL: Adobe font code '$comp' is unrecognized.";
+            say "  Known codes are:";
+            &show # exits from there
+        }
+    }
+    default {
+        say "FATAL: Unknown arg '$_'"; 
+        exit;
+    }
+}
+
+if $comp {
+    comp $comp, :$debug;
+    exit
+}
+if $show {
+    show :$debug;
+    exit
+}
+if $list {
+    list :$debug;
+    exit
+}
+
+=finish
+
+# create subs for a lib
 # iterate over the Adobe fonts trying to find
 # the closest matching URW font
 my ($res, $res2, $kerned, $kerned2, $width, $width2);

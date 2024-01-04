@@ -8,35 +8,27 @@ use CompSubs;
 my $kern-test-string = "With Viry City Did Fir Yp Care To Test Kern On Pip Que Rg";
 my $string = "With Viry City Did Fir Yp Care To Test Kern On Pip Que Rg";
 
-my (%pairs, %alist, %ulist); # defined in BEGIN block
-# source of Adobe base font AFM files:
-# ~/mydata/tbrowde-home/font-stuff
-# pertinent list:
-my $adobe-dir = "/home/tbrowde/mydata/tbrowde-home/font-stuff/afm";
-
-# source of urw equiv AFM files
-my $urw-dir = "/usr/share/fonts/type1/urw-base35";
-
 # modes
-my $list = 0;
-my $comp = 0;
-my $show = 0;
+my $list  = 0;
+my $comp  = 0;
+my $show  = 0;
+my $ushow = 0;
 # options
 my $debug = 0;
 if not @*ARGS {
     print qq:to/HERE/;
-    Usage: {$*PROGRAM.basename} go | <mode> [...options...]
+    Usage: {$*PROGRAM.basename} <mode> [...options...]
 
     Extracts AFM data for Type 1 font files for various
-    purposes. The files of primary interest are the URW 
+    purposes. The files of primary interest are the URW
     base 35 files which are supposed to be metrically
     equivalent to the original Adobe standard 35 files.
 
     Modes:
       show   - lists the Adobe fonts and their codes
+      ushow  - lists the URW fonts and their codes
       list   - lists the Adobe files and their URW equivalents
-      comp=X - where X is the code for the Adobe file; compares
-                 key metrics between the Adobe file and its URW 
+      comp   - compares metrics between the Adobe file and its URW
                  equivalent
     Options:
       debug
@@ -44,30 +36,29 @@ if not @*ARGS {
     exit
 }
 
+my $code;
 for @*ARGS {
     when /^:i d/ { ++$debug }
     when /^:i s/ { ++$show  }
+    when /^:i u/ { ++$ushow }
     when /^:i l/ { ++$list  }
-    when /^:i c[omp]? '=' (\S+) / {
-        $comp = ~$0;
-        unless %alist{$comp}:exists {
-            say "FATAL: Adobe font code '$comp' is unrecognized.";
-            say "  Known codes are:";
-            &show # exits from there
-        }
-    }
+    when /^:i c/ { ++$comp  }
     default {
-        say "FATAL: Unknown arg '$_'"; 
+        say "FATAL: Unknown arg '$_'";
         exit;
     }
 }
 
 if $comp {
-    comp $comp, :$debug;
+    comp :$debug;
     exit
 }
 if $show {
     show :$debug;
+    exit
+}
+if $ushow {
+    ushow :$debug;
     exit
 }
 if $list {
@@ -112,7 +103,7 @@ ALIST: for %alist.kv -> $code, $basename {
         say "URW code $code2, basename $basename2";
 
         my Font::AFM $afm2;
-        my $path2 = "$urw-dir/{$basename2}"; #.IO.absolute;
+        my $path2 = "$urw-dir/{$basename2}";
         $afm2 = Font::AFM.new: :name($path2);
 
         $res  = $afm.FontName;
@@ -229,76 +220,3 @@ ALIST: for %alist.kv -> $code, $basename {
     say "Finished listing URW font data";
     exit;
 }
-
-BEGIN {
-    %pairs = [
-        # key is Adobe, value is URW
-        cb => 0,
-        cbo => 0,
-        co => 0,
-        c => 0,
-        hb => 0,
-        hbo => 0,
-        ho => 0,
-        h => 0,
-        s => 0,
-        tb => 0,
-        tbi => 0,
-        ti => 0,
-        tr => 0,
-        z => 0,
-    ];
-    %alist = [
-        cb => 'Courier-Bold.afm',
-        cbo => 'Courier-BoldOblique.afm',
-        co => 'Courier-Oblique.afm',
-        c => 'Courier.afm',
-        hb => 'Helvetica-Bold.afm',
-        hbo => 'Helvetica-BoldOblique.afm',
-        ho => 'Helvetica-Oblique.afm',
-        h => 'Helvetica.afm',
-        s => 'Symbol.afm',
-        tb => 'Times-Bold.afm',
-        tbi => 'Times-BoldItalic.afm',
-        ti => 'Times-Italic.afm',
-        tr => 'Times-Roman.afm',
-        z => 'ZapfDingbats.afm',
-    ];
-    %ulist = [
-        0 => 'C059-BdIta.afm',
-        1 => 'C059-Bold.afm',
-        2 => 'C059-Italic.afm',
-        3 => 'C059-Roman.afm',
-        4 => 'D050000L.afm',
-        5 => 'NimbusMonoPS-Bold.afm',
-        6 => 'NimbusMonoPS-BoldItalic.afm',
-        7 => 'NimbusMonoPS-Italic.afm',
-        8 => 'NimbusMonoPS-Regular.afm',
-        9 => 'NimbusRoman-Bold.afm',
-        10 => 'NimbusRoman-BoldItalic.afm',
-        11 => 'NimbusRoman-Italic.afm',
-        12 => 'NimbusRoman-Regular.afm',
-        13 => 'NimbusSans-Bold.afm',
-        14 => 'NimbusSans-BoldItalic.afm',
-        15 => 'NimbusSans-Italic.afm',
-        16 => 'NimbusSans-Regular.afm',
-        17 => 'NimbusSansNarrow-Bold.afm',
-        18 => 'NimbusSansNarrow-BoldOblique.afm',
-        19 => 'NimbusSansNarrow-Oblique.afm',
-        20 => 'NimbusSansNarrow-Regular.afm',
-        21 => 'P052-Bold.afm',
-        22 => 'P052-BoldItalic.afm',
-        23 => 'P052-Italic.afm',
-        24 => 'P052-Roman.afm',
-        25 => 'StandardSymbolsPS.afm',
-        26 => 'URWBookman-Demi.afm',
-        27 => 'URWBookman-DemiItalic.afm',
-        28 => 'URWBookman-Light.afm',
-        29 => 'URWBookman-LightItalic.afm',
-        30 => 'URWGothic-Book.afm',
-        31 => 'URWGothic-BookOblique.afm',
-        32 => 'URWGothic-Demi.afm',
-        33 => 'URWGothic-DemiOblique.afm',
-        34 => 'Z003-MediumItalic.afm',
-    ];
-} # end of BEGIN block

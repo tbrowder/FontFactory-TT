@@ -123,7 +123,13 @@ ALIST: for %alist.kv -> $code, $basename {
         # 14
         $res = $afm.Comment;
         $res2 = $afm2.Comment;
-        say "  Comment: ", $res2;
+        $res2 ~~ s:g/\n/ /;
+        $res2 ~~ s/Development/Development./;
+        my @parts = $res2.split("Development.", :v).Array;
+        my $p1 = @parts.shift;
+        my $p2 = @parts.join(" ");
+        say "  Comment: ", $p1;
+        say "           ", $p2;
 
         # 15
         $res = $afm.EncodingScheme;

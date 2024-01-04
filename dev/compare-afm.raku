@@ -5,7 +5,7 @@ use Font::AFM;
 my $kern-test-string = "With Viry City Did Fir Yp Care To Test Kern On Pip Que Rg";
 my $string = "With Viry City Did Fir Yp Care To Test Kern On Pip Que Rg";
 
-my (%alist, %ulist); # defined in BEGIN block
+my (%pairs, %alist, %ulist); # defined in BEGIN block
 # source of Adobe base font AFM files:
 # ~/mydata/tbrowde-home/font-stuff
 # pertinent list:
@@ -31,6 +31,19 @@ if not @*ARGS {
 my ($res, $res2, $kerned, $kerned2, $width, $width2);
 my $size = 10;
 
+# Note code numbers in the URW relate to the
+#  following names:
+#    P052     - Palatino
+#    Z003     - Zaph Chancery
+#    D050000L - Zaph Dingbats Std
+#    C059     - New Century Schoolbook
+my %substlist = [
+    P052     =>  'Palatino',
+    Z003     =>  'Zaph Chancery',
+    D050000L =>  'Zaph Dingbats Std',
+    C059     =>  'New Century Schoolbook',
+];
+
 ALIST: for %alist.kv -> $code, $basename {
     my Font::AFM $afm;
 
@@ -39,21 +52,36 @@ ALIST: for %alist.kv -> $code, $basename {
     $afm = Font::AFM.new: :name($path);
 
     # iterate over the URW fonts
-    ULIST: for %ulist.kv -> $code2, $basename2 {
+    ULIST: for %ulist.keys.sort({ $^a <=> $^b }) -> $k {
+        my $code2 = $k;
+        my $basename2 = %ulist{$k};
+        #code2, $basename2 {
+
+        say "URW code $code2, basename $basename2";
+
         my Font::AFM $afm2;
         my $path2 = "$urw-dir/{$basename2}"; #.IO.absolute;
-        $afm2 = Font::AFM.new: :name($path);
+        $afm2 = Font::AFM.new: :name($path2);
 
         $res  = $afm.FontName;
         $res2 = $afm2.FontName;
+        say "  FontName: ", $res2;
 
         # 3
         $res = $afm.FullName;
         $res2 = $afm2.FullName;
+        say "  FullName: ", $res2;
 
         # 4
         $res = $afm.FamilyName;
         $res2 = $afm2.FamilyName;
+        for %substlist.kv -> $k, $v {
+            if $res2 ~~ /^ $k $/ {
+                $res2 = $v
+            }
+        }
+
+        say "  FamilyName: ", $res2;
 
         # 5
         $res = $afm.Weight;
@@ -90,10 +118,12 @@ ALIST: for %alist.kv -> $code, $basename {
         # 13
         $res = $afm.Notice;
         $res2 = $afm2.Notice;
+        say "  Notice: ", $res2;
 
         # 14
         $res = $afm.Comment;
         $res2 = $afm2.Comment;
+        say "  Comment: ", $res2;
 
         # 15
         $res = $afm.EncodingScheme;
@@ -137,12 +167,29 @@ ALIST: for %alist.kv -> $code, $basename {
         ($kerned, $width) = $afm.kern($string, $fontsize, :kern, :%glyphs);
         ($kerned2, $width2) = $afm.kern($string, $fontsize, :kern, :%glyphs);
 
-        say "Finished with $code and $code2";
-        last ALIST if $debug;
     }
+    say "Finished listing URW font data";
+    exit;
 }
 
 BEGIN {
+    %pairs = [
+        # key is Adobe, value is URW
+        cb => 0,
+        cbo => 0,
+        co => 0,
+        c => 0,
+        hb => 0,
+        hbo => 0,
+        ho => 0,
+        h => 0,
+        s => 0,
+        tb => 0,
+        tbi => 0,
+        ti => 0,
+        tr => 0,
+        z => 0,
+    ];
     %alist = [
         cb => 'Courier-Bold.afm',
         cbo => 'Courier-BoldOblique.afm',

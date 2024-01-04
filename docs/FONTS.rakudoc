@@ -20,26 +20,25 @@ font object's type face and size (the combination
 is known as a I<DocFont> object).
 
 The following table provides a mapping of the
-fonts to the similar Adobe names
+URW font names to the familiar Adobe names
 along with a reference letter to select
 the fonts. 
 
-# put Adobe column first
-
 =begin table
-Code Actual Font Adobe          Source
-c   FreeMono          Courier    GNU
-h   FreeSans          Helvetica GNU
-t   FreeSerif       Times GNU
+Code Adobe   URW       
+c   Courier | Nimbus Mono L
+h   Helvetica | Nimbus Sans L
+t   Times | Nimbus Roman No9 L
 
-s Standard Symbols L Symbol URW
-z Dingbats        Zaph Dingbats URW
+s Symbol  |     Symbols L 
+z  Zaph Dingbats | Dingbats
 
-a URW Gothic L Book Avante Garde URW
-n Century Schoolbok New Century Schoolbook URW
-p URW Palladio L    Palatino URW
-b URW Bookman   URW
-Z URE Chancery L Medium Italic Zaph Chancery
+a Avante Garde | URW Gothic L Book
+n New Century Schoolbok | Century Schoolbook
+
+p Palatino | URW Palladio L
+b  (none) | URW Bookman  
+Z Zaph Chancery | URW Chancery L Medium Italic 
 
 =end table
 

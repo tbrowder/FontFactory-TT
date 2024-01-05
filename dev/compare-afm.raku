@@ -13,6 +13,7 @@ my $list  = 0;
 my $comp  = 0;
 my $show  = 0;
 my $ushow = 0;
+my $tshow = 0;
 # options
 my $debug = 0;
 if not @*ARGS {
@@ -27,6 +28,7 @@ if not @*ARGS {
     Modes:
       show   - lists the Adobe fonts and their codes
       ushow  - lists the URW fonts and their codes
+      tshow  - lists the TeX-Gyre fonts and their codes
       list   - lists the Adobe files and their URW equivalents
       comp   - compares metrics between the Adobe file and its URW
                  equivalent
@@ -41,6 +43,7 @@ for @*ARGS {
     when /^:i d/ { ++$debug }
     when /^:i s/ { ++$show  }
     when /^:i u/ { ++$ushow }
+    when /^:i t/ { ++$tshow }
     when /^:i l/ { ++$list  }
     when /^:i c/ { ++$comp  }
     default {
@@ -59,6 +62,10 @@ if $show {
 }
 if $ushow {
     ushow :$debug;
+    exit
+}
+if $tshow {
+    tshow :$debug;
     exit
 }
 if $list {

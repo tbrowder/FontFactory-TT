@@ -1,0 +1,13 @@
+/usr/share/texmf/doc/fonts/tex-gyre/MANIFEST-TeX-Gyre-Adventor.txt
+/usr/share/texmf/doc/fonts/tex-gyre/MANIFEST-TeX-Gyre-Bonum.txt
+/usr/share/texmf/doc/fonts/tex-gyre/MANIFEST-TeX-Gyre-Chorus.txt
+/usr/share/texmf/doc/fonts/tex-gyre/MANIFEST-TeX-Gyre-Cursor.txt
+/usr/share/texmf/doc/fonts/tex-gyre/MANIFEST-TeX-Gyre-Heros.txt
+/usr/share/texmf/doc/fonts/tex-gyre/MANIFEST-TeX-Gyre-Pagella.txt
+/usr/share/texmf/doc/fonts/tex-gyre/MANIFEST-TeX-Gyre-Schola.txt
+/usr/share/texmf/doc/fonts/tex-gyre/MANIFEST-TeX-Gyre-Termes.txt
+/usr/share/texmf/doc/fonts/tex-gyre-math/MANIFEST-TeX-Gyre-Bonum-Math.txt
+/usr/share/texmf/doc/fonts/tex-gyre-math/MANIFEST-TeX-Gyre-DejaVu-Math.txt
+/usr/share/texmf/doc/fonts/tex-gyre-math/MANIFEST-TeX-Gyre-Pagella-Math.txt
+/usr/share/texmf/doc/fonts/tex-gyre-math/MANIFEST-TeX-Gyre-Schola-Math.txt
+/usr/share/texmf/doc/fonts/tex-gyre-math/MANIFEST-TeX-Gyre-Termes-Math.txt

@@ -1,0 +1,13 @@
+/usr/share/doc/fonts-texgyre/README-TeX-Gyre-Adventor.txt
+/usr/share/doc/fonts-texgyre/README-TeX-Gyre-Bonum-Math.txt
+/usr/share/doc/fonts-texgyre/README-TeX-Gyre-Bonum.txt
+/usr/share/doc/fonts-texgyre/README-TeX-Gyre-Chorus.txt
+/usr/share/doc/fonts-texgyre/README-TeX-Gyre-Cursor.txt
+/usr/share/doc/fonts-texgyre/README-TeX-Gyre-DejaVu-Math.txt
+/usr/share/doc/fonts-texgyre/README-TeX-Gyre-Heros.txt
+/usr/share/doc/fonts-texgyre/README-TeX-Gyre-Pagella-Math.txt
+/usr/share/doc/fonts-texgyre/README-TeX-Gyre-Pagella.txt
+/usr/share/doc/fonts-texgyre/README-TeX-Gyre-Schola-Math.txt
+/usr/share/doc/fonts-texgyre/README-TeX-Gyre-Schola.txt
+/usr/share/doc/fonts-texgyre/README-TeX-Gyre-Termes-Math.txt
+/usr/share/doc/fonts-texgyre/README-TeX-Gyre-Termes.txt

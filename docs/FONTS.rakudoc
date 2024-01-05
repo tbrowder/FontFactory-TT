@@ -25,19 +25,19 @@ along with a reference letter to select
 the fonts. 
 
 =begin table
-Code Adobe   URW       
-c   Courier | Nimbus Mono L
-h   Helvetica | Nimbus Sans L
-t   Times | Nimbus Roman No9 L
+Code Adobe | URW | Tex-Gyre 
+c   Courier | Nimbus Mono L | Cursor
+h   Helvetica | Nimbus Sans L | Heros
+t   Times | Nimbus Roman No9 L | Termes
 
-s Symbol  |     Symbols L 
-z  Zaph Dingbats | Dingbats
+s Symbol  |     Symbols L | (none)
+z  Zaph Dingbats | Dingbats | Chorus
 
-a Avante Garde | URW Gothic L Book
-n New Century Schoolbok | Century Schoolbook
+a Avante Garde | URW Gothic L Book | Adventor
+n New Century Schoolbok | Century Schoolbook | Schola
 
-p Palatino | URW Palladio L
-b  (none) | URW Bookman  
+p Palatino | URW Palladio L | Pagella
+b  (none) | URW Bookman | Bonum
 Z Zaph Chancery | URW Chancery L Medium Italic 
 
 =end table

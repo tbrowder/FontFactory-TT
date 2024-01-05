@@ -26,6 +26,11 @@ sub print-list(Year $yr, :$year!, :$ofil!, :%opt!, :$debug) is export {
     my $media = %opt<media>;
 
     if 1 and $debug {
+        note qq:to/HERE/;
+        Font info:
+          has kerning: {$f.face.has-kerning}
+        HERE
+
         my $s = "Fore aWard"; # <== a great kern test!!
         my @k = $f.kern-info: $s; #, :$debug;
         my $u = $f.stringwidth: $s; #, :$debug;

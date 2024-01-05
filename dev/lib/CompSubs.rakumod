@@ -5,17 +5,31 @@ use Font::AFM;
 # ~/mydata/tbrowde-home/font-stuff
 # pertinent list:
 our $adobe-dir is export = "/home/tbrowde/mydata/tbrowde-home/font-stuff/afm";
-
 # source of urw equiv AFM files
 our $urw-dir is export = "/usr/share/fonts/type1/urw-base35";
+# source of tex-gyre equiv AFM files
+our $tex-dir is export = "/usr/share/texmf/fonts/afm/public/tex-gyre";
 
 our %pairs is export; # defined at end
+our %tex-pairs is export; # defined at end
 our %alist is export; # defined at end
 our %ulist is export; # defined at end
+our %tlist is export; # defined at end
 
 sub show(:$debug) is export {
     for %alist.keys.sort -> $code {
         my $basename = %alist{$code};
+        my $c = sprintf '%-*.*s', 4, 4, $code;
+        my $b = $basename;
+        $b ~~ s/\.afm$//;
+        say "code $c: $b";
+    }
+
+    exit;
+}
+sub tshow(:$debug) is export {
+    for %tlist.keys.sort({ $^a <=> $^b }) -> $code {
+        my $basename = %tlist{$code};
         my $c = sprintf '%-*.*s', 4, 4, $code;
         my $b = $basename;
         $b ~~ s/\.afm$//;
@@ -56,8 +70,8 @@ sub list(:$debug) is export {
     exit;
 }
 
-sub comp(:$do-kern = True, #False, 
-         :$do-no-kern = False, #True, 
+sub comp(:$do-kern = True, #False,
+         :$do-no-kern = False, #True,
          :$debug) is export {
     my $fsize  = 10;
     my $string = "A Fort Awaits";
@@ -119,18 +133,37 @@ sub comp(:$do-kern = True, #False,
     exit;
 }
 
+%tex-pairs = [
+    # key is Adobe, value is TeX-Gyre code for the equivalent
+    #   (exception, z is not defined)
+    cb  =>  0, #
+    cbo =>  0,
+    co  =>  0,
+    c   =>  0,
+    hb  =>  0, #
+    hbo =>  0,
+    ho  =>  0,
+    h   =>  0,
+    s   =>  0,
+    tb  =>  0,
+    tbi =>  0,
+    ti  =>  0,
+    tr  =>  0,
+    z   => -1,
+];
+
 %pairs = [
     # key is Adobe, value is URW code for the equivalent
     cb  =>  5, # Nimbus Mono PS
     cbo =>  6,
     co  =>  7,
     c   =>  8,
-    hb  => 13, # Nimbus Sans  
+    hb  => 13, # Nimbus Sans
     hbo => 14,
     ho  => 15,
     h   => 16,
     s   => 25, # Standard Symbols L
-    tb  =>  9, # Nimbus Roman Bold 
+    tb  =>  9, # Nimbus Roman Bold
     tbi => 10,
     ti  => 11,
     tr  => 12,
@@ -191,4 +224,40 @@ sub comp(:$do-kern = True, #False,
     32 => 'URWGothic-Demi.afm',
     33 => 'URWGothic-DemiOblique.afm',
     34 => 'Z003-MediumItalic.afm',
+];
+
+%tlist = [
+     0 => 'qagb.afm',   # qag - Adventor
+     1 => 'qagbi.afm',
+     2 => 'qagr.afm',
+     3 => 'qagri.afm',
+     4 => 'qbkb.afm',   # qbk - Bonum
+     5 => 'qbkbi.afm',
+     6 => 'qbkr.afm',
+     7 => 'qbkri.afm',
+     8 => 'qcrb.afm',   # qcr - Cursor
+     9 => 'qcrbi.afm',
+    10 => 'qcrr.afm',
+    11 => 'qcrri.afm',
+    12 => 'qcsb.afm',   # qcs - Schola
+    13 => 'qcsbi.afm',
+    14 => 'qcsr.afm',
+    15 => 'qcsri.afm',
+    16 => 'qhvb.afm',   # qhv - Heros
+    17 => 'qhvbi.afm',
+    18 => 'qhvcb.afm',
+    19 => 'qhvcbi.afm',
+    20 => 'qhvcr.afm',
+    21 => 'qhvcri.afm',
+    22 => 'qhvr.afm',
+    23 => 'qhvri.afm',
+    24 => 'qplb.afm',   # qpl - Pagella
+    25 => 'qplbi.afm',
+    26 => 'qplr.afm',
+    27 => 'qplri.afm',
+    28 => 'qtmb.afm',   # qtm - Termes
+    29 => 'qtmbi.afm',
+    30 => 'qtmr.afm',
+    31 => 'qtmri.afm',
+    32 => 'qzcmi.afm',  # qz - Chorus
 ];

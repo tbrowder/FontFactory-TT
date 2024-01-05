@@ -55,7 +55,9 @@ sub list(:$debug) is export {
 
     exit;
 }
-sub comp(:$do-kern = False, :$do-no-kern = True, :$debug) is export {
+sub comp(:$do-kern = True, #False, 
+         :$do-no-kern = False, #True, 
+         :$debug) is export {
     my $fsize  = 10;
     my $string = "A Fort Awaits";
     say "Comparing paired fonts with string '$string' at $fsize points";

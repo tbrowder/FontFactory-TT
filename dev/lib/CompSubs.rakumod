@@ -55,6 +55,7 @@ sub list(:$debug) is export {
 
     exit;
 }
+
 sub comp(:$do-kern = True, #False, 
          :$do-no-kern = False, #True, 
          :$debug) is export {
@@ -84,21 +85,35 @@ sub comp(:$do-kern = True, #False,
         $afm  = Font::AFM.new: :name($path);
         $afm2 = Font::AFM.new: :name($path2);
 
-        if $do-kern {
-        say "    With kerning";
-        $res  = $afm.stringwidth($string, $fsize, :kern);
-        $res2 = $afm2.stringwidth($string, $fsize, :kern);
-        say "      $res";
-        say "      $res2";
-        }
-
-        if $do-no-kern {
-        say "    No kerning";
+        #if 1 or $do-no-kern {
+        #say "    No kerning";
         $res = $afm.stringwidth($string, $fsize, :!kern);
         $res2 = $afm2.stringwidth($string, $fsize, :!kern);
-        say "      $res";
-        say "      $res2";
-        }
+        my $nk  = $res;
+        my $nk2 = $res2;
+        #say "      $res";
+        #say "      $res2";
+        #}
+
+        #if 1 or $do-kern {
+        #say "    With kerning";
+        $res  = $afm.stringwidth($string, $fsize, :kern);
+        $res2 = $afm2.stringwidth($string, $fsize, :kern);
+        my $k  = $res;
+        my $k2 = $res2;
+        my $d = $k - $nk;
+        my $d2 = $k2 - $nk2;
+        my $p  = sprintf "%05.3f", $d/$nk;
+        my $p2 = sprintf "%05.3f", $d2/$nk2;
+        say "    Kern delta: $p";
+        say "    Kern delta: $p2";
+
+
+        #say "      $res";
+        #say "      $res2";
+        #}
+
+        # report percent dif kern/no-kern
     }
 
     exit;

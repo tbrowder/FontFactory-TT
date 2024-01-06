@@ -105,8 +105,8 @@ class MyFont is export {
     #}
 
     method left-bearing(Str $string, :$debug) {
-        my $lc = $string.comb.head;
-        self.char-left-bearing: $lc
+        my $lchar = $string.comb.head;
+        self.char-left-bearing: $lchar
     }
 
     method width($string, :$kern, :$debug) {
@@ -118,15 +118,26 @@ class MyFont is export {
         $sw - self.char-left-bearing($lc) - self.char-right-bearing($rc)
     }
 
-    method right-bearing(Str $string, :$kern, :$debug) {
+    method right-bearing(Str $string, :$kern, :$from-left, :$debug) {
         # TODO nail this down, what does right-bearing of string really mean?
         #      how is it actually used?
 
         # more complicated. defined as "distance from
         #   horizontal-advance to right edge of glyph"
-        my $rc = $string.comb.tail;
-        my $sw = self.stringwidth($string, :$kern);
-        $sw - self.char-right-bearing: $rc;
+        my $rchar = $string.comb.tail;
+        my $rb;
+        if $from-left {
+            # practical definition
+            # distance from stringwidth less right bearing of last glyph
+            my $sw = self.stringwidth($string, :$kern);
+            $rb = $sw - self.char-right-bearing: $rchar;
+        }
+        else {
+            # conventional definition
+            # right bearing of last glyph
+            $rb = self.char-right-bearing: $rchar;
+        }
+        $rb
     }
 
     # stringwidth is a method of FontObj (with kerning!)

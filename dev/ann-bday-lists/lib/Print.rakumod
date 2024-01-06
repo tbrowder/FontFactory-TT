@@ -39,12 +39,18 @@ sub print-list(Year $yr, :$year!, :$ofil!, :%opt!, :$debug) is export {
         ($tb, $bb, $h) = $f.vertical-metrics: $s;
 
         my ($uw, $kw) = -100, -100;
-        $uw = $f.width: $s;
+        $uw = $f.width: $s, :!kern;
         $kw = $f.width: $s, :kern;
 
-        my ($lb, $rb) = -100, -100;
+        my ($lb, $rb, $rbu) = -100, -100, -100;
+        my ($rbl, $rbul) = -100, -100;
         $lb = $f.left-bearing: $s;
-        $rb = $f.right-bearing: $s;
+        $rbu = $f.right-bearing: $s, :!kern;
+        $rb = $f.right-bearing: $s, :kern;
+
+        $rbul = $f.right-bearing: $s, :!kern, :from-left;
+        $rbl = $f.right-bearing: $s, :kern, :from-left;
+
         note qq:to/HERE/;
         DEBUG: 
             scaled string metrics for string '$s'
@@ -56,7 +62,10 @@ sub print-list(Year $yr, :$year!, :$ofil!, :%opt!, :$debug) is export {
                   width:       $kw
 
               left-bearing:    $lb
-              right-bearing:   $rb
+              right-bearing:   $rbu # non-kerned
+              right-bearing:   $rb  # kerned
+              right-bearing:   $rbul # non-kerned (from left)
+              right-bearing:   $rbl  # kerned (from left)
               top-bearing:     $tb
               bottom-bearing:  $bb
               height:          $h 

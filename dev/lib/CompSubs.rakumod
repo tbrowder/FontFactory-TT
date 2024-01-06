@@ -170,6 +170,24 @@ sub comp(:$do-kern = True, #False,
     z   =>  4, # Zaph Dingbats Std
 ];
 
+%slist = [
+    # OpenType font substitute list for Adobe core fonts
+    # code   # file 
+    cb  => "", # TeX
+    cbo => "", # TeX
+    co  => "", # TeX
+    c   => "", # TeX
+    hb  => "FreeSansBold", # has TrueType kerning
+    hbo => "FreeSansBoldOblique", # has TrueType kerning
+    ho  => "FreeSansOblique", # has TrueType kerning
+    h   => "FreeSans", # has TrueType kerning
+    s   => "", # ?
+    tb  => "FreeSerifBold", # has TrueType kerning
+    tbi => "FreeSerifBoldItalic", # has TrueType kerning
+    ti  => "FreeSerifItalic", # has TrueType kerning
+    tr  => "FreeSerif", # has TrueType kerning
+    z   => "", # ?
+];
 %alist = [
     # code   # file basename
     cb  => 'Courier-Bold.afm',

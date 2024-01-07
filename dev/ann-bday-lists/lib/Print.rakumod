@@ -247,7 +247,7 @@ sub print-figure($page, :$font!, :$x!, :$y!, :$debug) is export {
 }
 
 sub hex2string(@hex, :$debug --> Str) is export {
-    # converts a list of Unicode hex numbers to a string
+    # converts a list of Unicode hex char code numbers to a string
     my $s;
     for @hex -> $h {
         my $ord = hex2dec $h;
@@ -256,13 +256,40 @@ sub hex2string(@hex, :$debug --> Str) is export {
     $s
 }
 
-sub dec2string(@dex, :$debug --> Str) is export {
-    # converts a list of Unicode decimakl numbers to a string
+sub dec2string(@dec, :$debug --> Str) is export {
+    # converts a list of Unicode char code decimal numbers to a string
     my $s;
-    for @hex -> $h {
-        my $ord = hex2dec $h;
+    for @dec -> $ord {
         $s ~= $ord.chr;
     }
     $s
+}
+
+sub get-ligatures(:$hex, :$debug --> Hash) is export {
+    # Returns a hash of non-ligatures and their decimal 
+    # Unicode char codes (or hex codes if desired)
+    =begin comment
+    ff  =>       |   U+fb00      | 64256
+    ffi =>       |   U+fb03      | 64259
+    ffl =>       |   U+fb04      | 64260
+    fi  =>       |   U+fb01      | 64257
+    fl  =>       |   U+fb02      | 64258
+    =end comment
+    my %h;
+    if $hex {
+        %h<ff>  = 0xfb00;
+        %h<ffi> = 0xfb03;
+        %h<ffl> = 0xfb04;
+        %h<fi>  = 0xfb01;
+        %h<fl>  = 0xfb02;
+    }
+    else {
+        %h<ff>  = 64256;
+        %h<ffi> = 64259;
+        %h<ffl> = 64260;
+        %h<fi>  = 64257;
+        %h<fl>  = 64258;
+    }
+    %h
 }
 

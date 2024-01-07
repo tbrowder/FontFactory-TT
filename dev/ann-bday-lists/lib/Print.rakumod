@@ -204,15 +204,53 @@ sub print-month($page, Month :$month!, :$x!, :$y!, :$debug) is export {
     $page.graphics: {
         .Save;
         .transform: :translate($x, $y);
+        # do the work
 
-
-
-
-
-
-
+        # finished
         .Restore;
     }
-    
+}
+
+sub print-figure($page, :$font!, :$x!, :$y!, :$debug) is export {
+    # x,y of the top-left corner, translate to it
+    $page.graphics: {
+        .Save;
+        .transform: :translate($x, $y);
+        # do the work
+        # select a font and scale of, say, 72 points
+        # draw an origin and baseline
+        # print a 'g', draw its bbox, x-advance, bearings, width,
+        #   height
+        .transform: :translate(20, -90);
+        .MoveTo -10,0;
+        .LineTo 70,0; # baseline, x-axis
+        .MoveTo 0,-10;
+        .LineTo 0,80; # y-axis
+        .print: "g", :position[0, 0], :$font, :font-size(72);
+                            # :align<left>, :kern; #, default: :valign<bottom>;
+
+        # on another baseline
+        .transform: :translate(0, -90);
+        .MoveTo -10,0;
+        .LineTo 70,0; # baseline, x-axis
+        # print  'We' without kerning
+        # to its right print the 'We' with kerning
+        .print: "We", :position[0, 0], :$font, :font-size(72);
+        .print: "We", :position[30, 0], :$font, :font-size(72), :kern;
+
+        # on another baseline 
+        # show the 'f' non-ligatures adjacent to their ligatures
+
+        # finished
+        .Restore;
+    }
+}
+
+sub hex2string(@hex, :$debug --> Str) is export {
+    # converts a list of Unicode hex numbers to a string
+    my $s = ""; 
+    for @hex -> $h {
+    }
+    $s
 }
 

@@ -12,9 +12,10 @@ use FontFactory;
 my $ff = FontFactory.new;
 $ff.showfonts;
 ...show first few fonts
-# get a new DocFont object
-my $t12d2 = $ff.get-font: 't12d2'; # font at index 't', set size at 12.2 points
-my $f2 = $ff.get-font: 2, 10.3; # font at index 2, set size at 10.3 points
+# get a new DocFont object in one of three ways:
+my $t12d2 = $ff.get-font: 't12d2';   # font at index 't', 12.2 points
+my $f2 = $ff.get-font: 2, 10.3;      # font at index 2, size 10.3 points
+my $f3 = $ff.get-font: 10.3, :$path; # font file at $path, size 10.3 points
 say $t12d2.name;        # OUTPUT: « ␤»
 say $t12d2.has-kerning; # OUTPUT: « ␤»
 say $t12d2.path;        # OUTPUT: « ␤»
@@ -22,8 +23,8 @@ my $text = "AV field";
 
 # get a new String object
 my $s = $t12d2.String.new: $text, :!kern; # :$kern default is True
-say $s.width;
-say $s.bbox;
+say $s.width;      # OUTPUT: « ␤»
+say $s.bbox.x-min; # OUTPUT: « ␤»
 # print the text at the top of a PDF::Lite page
 ...
 # update the text
@@ -36,23 +37,23 @@ $s.text = "Act alone or with a trusted friend.";
 
 =head3 Preparation
 
-This module requires certain font packages. On Debian systems they are:
+This module requires certain font packages which are installed
+if needed during the C<zef> installation. On Debian systems they are:
 
-=item
-=item
-=item
+=item fonts-freefont-otf
+=item fonts-urw-base35
+=item fonts-texgyre
+=item fntsample
 
-During the build process on a Debian system they should be installed.
-
-To get a look at how your fonts appear when printed, install the
-program C<fntsample> (Debian package name is the same) and use it with
+To get a look at how your fonts appear when printed, use the
+program C<fntsample> with
 a desired font file name to get a detailed sample on an output PDF
 file. See L<https://fntsample.sourceforge.net> for details.
 
 =head3 Install with C<zef>
 
-When you are satisfied with your font collection, proceed with C<zef
-install FontFactory>.
+The installation build also includes a font that can be used to
+create checks.
 
 =head2 Font licenses
 
@@ -66,8 +67,7 @@ those requirements.
 
 To use this module, you must have a list of the base OpenType
 fonts in your home directory.
-That
-is automatically accomplished during the installation by C<zef> in its
+That is automatically accomplished during the installation by C<zef> in its
 build step.
 
 The list will be stored in your C<$HOME> directory as
@@ -97,7 +97,7 @@ The file should look something like this:
 =begin code
 # A valid data line contains three fields (words separated by one 
 # or more spaces):
-#   1. alias
+#   1. alias (number or alpha string)
 #   2. font-name (with extension)
 #   3. location (parent directory)
 # All data on a line after the third field are ignored with one 

@@ -13,18 +13,19 @@ use FontFactory;
 my $ff = FontFactory.new;
 $ff.showfonts;
 ...show first few fonts
-# get a new DocFont object
-my $font = $ff.get-font: 2, 10.2; # font at index 2, set size at 10.2 points
-say $font.name;        # OUTPUT: « ␤»
-say $font.has-kerning; # OUTPUT: « ␤»
-say $font.FontBBox;    # OUTPUT: « ␤»
-say $font.path;        # OUTPUT: « ␤»
-my $text = "Now is the time to act.";
+# get a new DocFont object in one of three ways:
+my $t12d2 = $ff.get-font: 't12d2';   # font at index 't', 12.2 points
+my $f2 = $ff.get-font: 2, 10.3;      # font at index 2, size 10.3 points
+my $f3 = $ff.get-font: 10.3, :$path; # font file at $path, size 10.3 points
+say $t12d2.name;        # OUTPUT: « ␤»
+say $t12d2.has-kerning; # OUTPUT: « ␤»
+say $t12d2.path;        # OUTPUT: « ␤»
+my $text = "AV field";
 
 # get a new String object
-my $s = String.new: $text, :$font, :!kern; # :$kern default is True
-say $s.width;
-say $s.bbox;
+my $s = $t12d2.String.new: $text, :!kern; # :$kern default is True
+say $s.width;      # OUTPUT: « ␤»
+say $s.bbox.x-min; # OUTPUT: « ␤»
 # print the text at the top of a PDF::Lite page
 ...
 # update the text
@@ -38,13 +39,21 @@ Installation
 
 ### Preparation
 
-Before installing this module, you should add any additional desired fonts such as those available as packages for your system (for example, the DejaVu fonts are available in Debian package `fonts-dejavu`). No fonts are available with this module when it is installed, but its Github repository includes one in the `/t/fonts` directory.
+This module requires certain font packages which are installed if needed during the `zef` installation. On Debian systems they are:
 
-To get a look at how your fonts appear when printed, install the program `fntsample` (Debian package name is the same) and use it with a desired font file name to get a detailed sample on an output PDF file. See [https://fntsample.sourceforge.net](https://fntsample.sourceforge.net) for details.
+  * fonts-freefont-otf
+
+  * fonts-urw-base35
+
+  * fonts-texgyre
+
+  * fntsample
+
+To get a look at how your fonts appear when printed, use the program `fntsample` with a desired font file name to get a detailed sample on an output PDF file. See [https://fntsample.sourceforge.net](https://fntsample.sourceforge.net) for details.
 
 ### Install with `zef`
 
-When you are satisfied with your font collection, proceed with `zef install FontFactory`.
+The installation build also includes a font that can be used to create checks.
 
 Font licenses
 -------------
@@ -56,23 +65,15 @@ Font lists
 
 ### System fonts
 
-To use this module, you must first generate a list of all the TrueType and OpenType fonts available on your system. That is automatically accomplished during the installation by `zef` in its build step. The only directories searched are the following:
+To use this module, you must have a list of the base OpenType fonts in your home directory. That is automatically accomplished during the installation by `zef` in its build step.
 
-  * /usr/share/fonts
+The list will be stored in your `$HOME` directory as `$HOME/.fontfactory/system-fonts.list`. That file looks like this:
 
-  * /usr/share/X11/fonts/TTF
-
-  * /usr/local/share/fonts
-
-The list will be stored in your `$HOME` directory as `$HOME/.fontfactory/system-fonts.list`. That file looks something like this:
-
-    # font-index font-name location has-kerning?
-    2 Blarney.ttf /usr/src/fonts/ HAS-KERNING
-      #... more entries
-    243 Courier.otf /usr/local/fonts/
+    # font-index font-base-name location has-kerning?
+    t  basename  /usr/share/..  HAS-KERNING # replacement for Adobe Times-Roman
       #... more entries
 
-Note that there may be multiple instances of the same font on your system, but only one will be listed. This module uses that file, but you can regenerate it at any time by running `ff-gen-list`. You may delete any font entries in the lists, but do not change the format of the first three fields of remaining data lines. Comments starting with a `#` are allowed, and the text is ignored from there to the end of the line.
+You may delete any font entries in the list, but do not change the format of the first three fields of remaining data lines. Comments starting with a `#` are allowed, and the text is ignored from there to the end of the line.
 
 ### User fonts
 
@@ -82,7 +83,7 @@ The file should look something like this:
 
     # A valid data line contains three fields (words separated by one 
     # or more spaces):
-    #   1. alias
+    #   1. alias (number or alpha string)
     #   2. font-name (with extension)
     #   3. location (parent directory)
     # All data on a line after the third field are ignored with one 

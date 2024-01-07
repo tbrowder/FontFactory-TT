@@ -5,9 +5,9 @@ Modern typesetting involves using text and digital typefaces (fonts) placed on a
 
 A few terms need to be explained to understand the application of digital fonts using this module as well as **Font::FreeType** which is central to it.
 
-Placing a single line of text using a font of a specific size (expressed as a height of N points where there are 72 points per inch) involves knowledge of both a single character's metrics as well as its collective metrics when gathered as a multi-glyph line.
+Placing a single line of text using a font of a specific size (expressed as a height of N points where there are 72 points per inch) involves knowledge of both a single character's metrics as well as its collective metrics when gathered as a multi-glyph string or block of text.
 
-A glyph is a digital character in the chosen font and it has the following metric characteristics described for our use in placing the character:
+A glyph is a digital character in the chosen font, and it has the following metric characteristics described for our use in placing the character:
 
   * Origin - Vertically centered on the baseline of the line of text, it is the reference point to be used when placing the glyph on the desired baseline.
 
@@ -47,191 +47,125 @@ The following methods are similar to those found in module `Font::AFM` but are c
 
 Some methods have short aliases for convenience in coding.
 
-### **StrikethroughPosition**
+The following table shows the Font::Factory attributes and methods versus their equivalents in Font::AFM.
+
+<table class="pod-table">
+<caption>For a font Face (a collection of glyphs)</caption>
+<thead><tr>
+<th>FontFactory</th> <th>Font::AFM</th> <th>Notes</th>
+</tr></thead>
+<tbody>
+<tr> <td>Ascender</td> <td></td> <td></td> </tr> <tr> <td>Descender</td> <td></td> <td></td> </tr> <tr> <td>Height</td> <td></td> <td></td> </tr> <tr> <td>Width</td> <td></td> <td></td> </tr> <tr> <td>X-advance</td> <td></td> <td></td> </tr> <tr> <td>BBox</td> <td></td> <td></td> </tr> <tr> <td>Top-bearing</td> <td></td> <td></td> </tr> <tr> <td>Left-bearing</td> <td></td> <td></td> </tr> <tr> <td>Bottom-bearing</td> <td></td> <td></td> </tr> <tr> <td>Right-bearing</td> <td></td> <td></td> </tr> <tr> <td>Underline-position</td> <td></td> <td></td> </tr> <tr> <td>Underline-thickness</td> <td></td> <td></td> </tr> <tr> <td>Strikethrough-position</td> <td></td> <td></td> </tr> <tr> <td>Strikethrough-thickness</td> <td></td> <td></td> </tr>
+</tbody>
+</table>
+
+<table class="pod-table">
+<caption>For a glyph (individual character)</caption>
+<thead><tr>
+<th>FontFactory</th> <th>Font::AFM</th> <th>Notes</th>
+</tr></thead>
+<tbody>
+<tr> <td>ascender</td> <td></td> <td></td> </tr> <tr> <td>descender</td> <td></td> <td></td> </tr> <tr> <td>height</td> <td></td> <td></td> </tr> <tr> <td>width</td> <td></td> <td></td> </tr> <tr> <td>x-advance</td> <td></td> <td></td> </tr> <tr> <td>bbox</td> <td></td> <td></td> </tr> <tr> <td>top-bearing</td> <td></td> <td></td> </tr> <tr> <td>left-bearing</td> <td></td> <td></td> </tr> <tr> <td>bottom-bearing</td> <td></td> <td></td> </tr> <tr> <td>right-bearing</td> <td></td> <td></td> </tr>
+</tbody>
+</table>
+
+### **Strikethrough-position**
 
 Provides the position of the strikethrough line as the midheight of the lower-case 'm'
 
-    method StrikethroughPosition {...}
-
-alias: `sp`
-
-### **StrikethroughThickness**
+### **Strikethrough-thickness**
 
 Provides the suggested thickness of the strikethrough line for the font size
 
-    method StrikethroughThickness {...}
-
-alias: `st`
-
-### **LeftBearing**
+### **Left-bearing**
 
 The left sidebearing is defined as the first character's BBox[0] distance from its origin.
 
-    method LeftBearing(Str $s?) {...}
-
-alias: `lb`
-
-### **RightBearing**
+### **Right-bearing**
 
 Get the value of the rightmost outline in a character or string
 
-    method RightBearing(Str $s?) {...}
-
-alias: `rb`
-
-### **TopBearing**
+### **Top-bearing**
 
 Get the value of the topmost outline in a character or string
 
-    method TopBearing(Str $s?) {...}
-
-alias: `tb`
-
-### **BottomBearing**
+### **Bottom-bearing**
 
 Get the value of the bottommost outline in a character or string
 
-    method BottomBearing(Str $s?) {...}
-
-alias: `bb`
-
-### **LineHeight**
+### **Line-height**
 
 Get the maximum vertical space required for any single line of text or, optionally, for a specific string
 
-    method LineHeight(Str $s?) {...}
-
-alias: `lh`
-
-### **StringBBox**
-
-Returns a list of the bounding box of the input string or the FontBBox if a string is not provided. The user may choose to to kern the string.
-
-    method StringBBox(Str $s?, Bool :$kern --> List) {...}
-
-alias: `sbb`
-
-### **Wx**
-
-Hash of glyph names and their width
-
-    method Wx(--> Hash) {...}
-
 ### **BBox**
 
-Hash of glyph names and their bounding boxes
-
-    method BBox(--> Hash) {...}
+Returns a list of the bounding box of the input string or the FontBBox if a string is not provided. The user may choose to to kern the string.
 
 ### **stringwidth**
 
 Provides the width of string for the font size. The kerned width is provided if `$kern` is `True`.
 
-    method stringwidth($string, Bool :$kern) {...}
-
-### **FontBBox**
-
-Array of the overall font bounding box
-
-    method FontBBox(--> Array) {...}
-
-### **UnderlinePosition**
+### **Underline-position**
 
 Provides the designed distance of the underline below the baseline for the font size
 
-    method UnderlinePosition {...}
-
-alias: `up`
-
-### **UnderlineThickness**
+### **Underline-thickness**
 
 Provides the designed thickness of the underline for the font size
 
-    method UnderlineThickness {...}
-
-alias: `ut`
-
-### **IsFixedPitch**
+### **Is-fixedPitch**
 
 If true, the font is a fixed-pitch (monospaced) font, e.g., 'Courier'.
-
-    method IsFixedPitch {...}
 
 ### **FontName**
 
 The name of the font as presented to the PostScript language `findfont` operator, e.g., 'Times-Roman'.
 
-    method FontName {...}
-
 ### **FullName**
 
 Unique, human-readable name for an individual font, e.g., 'Times Roman'.
-
-    method FullName {...}
 
 ### **FamilyName**
 
 Human-readable name for a group of fonts that are stylistic variants of a single design', e.g., 'Times'.
 
-    method FamilyName {...}
-
 ### **Weight**
 
 Human-readable name for the weight or "boldness" attribute of a font. Examples are 'Roman', 'Bold', and 'Light'.
-
-    method Weight {...}
 
 ### **ItalicAngle**
 
 Angle in degrees counterclockwise from the vertical of the dominate vertical strokes of the font.
 
-    method ItalicAngle {...}
-
 ### **Version**
 
 Version of the font.
-
-    method Version {...}
 
 ### **Notice**
 
 Trademark or copyright notice, if applicable.
 
-    method Notice {...}
-
 ### **Comment**
 
 Comments found in the font file.
-
-    method Comment {...}
 
 ### **EncodingScheme**
 
 The name of the standard encoding scheme for the font. Most Adobe fonts use the 'AdobeStandardEncoding'. Special fonts might state 'FontSpecific'.
 
-    method EncodingScheme {...}
-
 ### **CapHeight**
 
 Usually the y-value of the top of the capital 'H'.
-
-    method CapHeight {...}
 
 ### **XHeight**
 
 Typically the y-value of the top of the lowercase 'x'.
 
-    method XHeight {...}
-
 ### **Ascender**
 
 Typically the y-value of the top of the lowercase 'd'.
 
-    method Ascender {...}
-
 ### **Descender**
 
 Typically the y-value of the bottom of the lowercase 'p'.
-
-    method Descender {...}
 

@@ -248,8 +248,20 @@ sub print-figure($page, :$font!, :$x!, :$y!, :$debug) is export {
 
 sub hex2string(@hex, :$debug --> Str) is export {
     # converts a list of Unicode hex numbers to a string
-    my $s = ""; 
+    my $s;
     for @hex -> $h {
+        my $ord = hex2dec $h;
+        $s ~= $ord.chr;
+    }
+    $s
+}
+
+sub dec2string(@dex, :$debug --> Str) is export {
+    # converts a list of Unicode decimakl numbers to a string
+    my $s;
+    for @hex -> $h {
+        my $ord = hex2dec $h;
+        $s ~= $ord.chr;
     }
     $s
 }

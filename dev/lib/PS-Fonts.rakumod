@@ -1,5 +1,7 @@
 unit module PS-Fonts;
 
+=finish
+
 our %TEMPLATE {
     # 13 level 1 codes
     cb

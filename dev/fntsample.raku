@@ -6,25 +6,49 @@ use Font::FreeType::Glyph;
 use Font::FreeType::Raw::Defs;
 use Font::FreeType::SizeMetrics;
 
+use Proc::Easier;
+
 use lib <./lib>;
-use Fntsample;
+use PS-Fonts;
 
 # vars defined in BEGIN block
 my (%fonts, $fdir, $udir, $tdir);
 
 my $ft = Font::FreeType.new;
-for %fonts.keys.sort -> $code {
-}
 
-my $f = $ft.face: $ffil, :load-flags(FT_LOAD_NO_HINTING);
-   say "    font file name: $ffil";
-   say "    family-name: ", $f.family-name;
-   say "    postscript-name: ", $f.postscript-name;
+=begin comment
+    cb  => {
+        adobe  => "Courier-Bold",
+        PS-level  => 1,
+        # Cursor - TeX-Gyre
+        file   => "$tdir/texgyrecursor-bold.otf",
+        glyphs => "",
+    }
+=end comment
+
+for %fonts.keys.sort -> $code {
+    my $ffil = %fonts{$code}<file>;
+    my $plvl = %fonts{$code}<PS-level>;
+    my $anam = %fonts{$code}<adobe>;
+    my $glyp = %fonts{$code}<glyphs>;
+
+    my $f = $ft.face: $ffil, :load-flags(FT_LOAD_NO_HINTING);
+
+    say "Font code $code:";
+    say "    font file name: {$ffil.IO.basename}";
+    say "    family-name: ", $f.family-name;
+    say "    postscript-name: ", $f.postscript-name;
+
+    say "    PostScript level: ", $plvl;
+    say "    Adobe equivalent: ", $anam;
+    say "    Glyph range: ", $glyp;
+
+}
 
 BEGIN {
 # Adobe codes, OTF equivalents
 # source of freefont equiv files
-$fdir = "/usr/share/";
+$fdir = "/usr/share/fonts/opentype/freefont";
 # source of urw equiv files
 $udir = "/usr/share/fonts/opentype/urw-base35";
 # source of tex-gyre equiv files
@@ -39,28 +63,28 @@ $tdir = "/usr/share/texmf/fonts/opentype/public/tex-gyre";
         adobe  => "Courier-Bold",
         PS-level  => 1,
         # Cursor - TeX-Gyre
-        file   => "$tdir/texgyrecursorbold.otf",
+        file   => "$tdir/texgyrecursor-bold.otf",
         glyphs => "",
-    }
+    },
     cbo => {
         adobe  => "Courier-BoldOblique",
         PS-level  => 1,
         # Cursor - TeX-Gyre
-        file   => "$tdir/texgyrecursorbolditalic.otf",
+        file   => "$tdir/texgyrecursor-bolditalic.otf",
         glyphs => ""
     },
     co  => {
         adobe  => "Courier-Oblique",
         PS-level  => 1,
         # Cursor - TeX-Gyre
-        file   => "$tdir/texgyrecursoritalic.otf",
+        file   => "$tdir/texgyrecursor-italic.otf",
         glyphs => "",
     },
     c   => {
         adobe  => "Courier",
         PS-level  => 1,
         # Cursor - TeX-Gyre
-        file   => "$tdir/texgyrecursor.otf",
+        file   => "$tdir/texgyrecursor-regular.otf",
         glyphs => "",
     },
     hb  => {
@@ -119,12 +143,11 @@ $tdir = "/usr/share/texmf/fonts/opentype/public/tex-gyre";
         glyphs => "",
     },
     z   => {
-        adobe  => "Zaph Dingbats",
+        adobe  => "ITC Zaph Dingbats",
         PS-level  => 2,
         # URW 
         file   => "/$udir/D050000L.otf", # is this right?
         glyphs => "",
-        adobe  => "",
     },
 
 ];

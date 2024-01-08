@@ -5,7 +5,6 @@ use Data::Dump;
 use Font::FreeType;
 use Font::FreeType::Face;
 use Font::FreeType::Glyph;
-#use Font::FreeType::Outline;
 use Font::FreeType::Raw::Defs;
 use Font::FreeType::SizeMetrics;
 
@@ -56,7 +55,6 @@ my $fb = $f.bounding-box;
 if $debug {
    say "== Getting attributes and metrics...";
    say "    font file name: $ffil";
-
    say "    family-name: ", $f.family-name;
    say "    postscript-name: ", $f.postscript-name;
    say "    underline-position: ", $f.underline-position;

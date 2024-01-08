@@ -172,21 +172,21 @@ sub comp(:$do-kern = True, #False,
 
 %slist = [
     # OpenType font substitute list for Adobe core fonts
-    # code   # file 
-    cb  => "", # TeX
-    cbo => "", # TeX
-    co  => "", # TeX
-    c   => "", # TeX
+    # code   # file
+    cb  => "", # Cursor - TeX-Gyre
+    cbo => "", # Cursor - TeX-Gyre
+    co  => "", # Cursor - TeX-Gyre
+    c   => "", # Cursor - TeX-Gyre
     hb  => "FreeSansBold", # has TrueType kerning
     hbo => "FreeSansBoldOblique", # has TrueType kerning
     ho  => "FreeSansOblique", # has TrueType kerning
     h   => "FreeSans", # has TrueType kerning
-    s   => "", # ?
+    s   => "", # URW
     tb  => "FreeSerifBold", # has TrueType kerning
     tbi => "FreeSerifBoldItalic", # has TrueType kerning
     ti  => "FreeSerifItalic", # has TrueType kerning
     tr  => "FreeSerif", # has TrueType kerning
-    z   => "", # ?
+    z   => "", # URW
 ];
 %alist = [
     # code   # file basename

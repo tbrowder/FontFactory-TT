@@ -39,7 +39,7 @@ our %TEMPLATE {
     pb
     pbi
     zmi
-    Z
+    z
     
     CODE => {
         PS-level => 1,

@@ -50,6 +50,7 @@ our %TEMPLATE {
 }
 
 our %afonts is export {
+    # afonts with the equivalent substitute fonts
 }
 
 our %ufonts is export {

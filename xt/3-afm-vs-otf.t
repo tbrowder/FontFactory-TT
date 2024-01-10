@@ -34,7 +34,7 @@ done-testing;
 
 =finish
 
-my FontFactory::DocFont::Gchar $c .= new: Font:::FreeType::Glyph(:glyph('A');
+my FontFactory::DocFont::Gchar $c .= new: Font:g::FreeType::Glyph(:glyph('A');
 isa-ok $c, FontFactory::DocFont::Gchar, "isa-ok Gchar";
 is $c.Str, 'A', "Str ('A' string characrter)";
 

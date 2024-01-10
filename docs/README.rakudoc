@@ -3,7 +3,7 @@
 =head1 NAME
 
 B<FontFactory> - Provides tools for managing Unicode I<TrueType>
-and I<OpenType> fonts and obtaining their typesetting metrics.
+and I<OpenType> fonts (OTF) and obtaining their typesetting metrics.
 
 =head1 SYNOPSIS
 
@@ -33,27 +33,121 @@ $s.text = "Act alone or with a trusted friend.";
 ...
 =end code
 
+=head1 Introduction
+
+The system fonts used as default are from the font collections listed
+below. The object is to provide OpenType fonts equivalent to the
+original Adobe Level 1 and Level 2 PostScript Type 1 fonts shown in
+the follwowing table.
+
+=begin table
+Adobe Family Name      |PostScript Level
+-----------------------+----------------
+Courier                | 1
+Helvetica              | 1
+Times                  | 1
+Symbol                 | 1
+ITC Avant Garde Gothic | 2
+ITC Bookman            | 2
+Helvetica Narrow       | 2
+New Century Schoolbook | 2
+Palatino               | 2
+ITC Zapf Chancery      | 2
+ITC Zaph Dingbats      | 2
+=end table
+
+In the Author's opinion, from research on OpenType fonts (OTF), the
+preferred sets are the I<TeX-Gyre> and I<URW Base 35> (for those fonts
+not available with Tex-Gyre). However, because of current limitations
+with Font::FreeType's and PDF::Font::Loader's handling of OpenType
+fonts, kerning is not yet available with OTF fonts using the standard
+OTF I<CFF> kerning tables. The only OTF fonts with I<Type1> kerning
+tables the author has found are those in the I<GNU FreeFont>
+collection.
+
+The complete set of Adobe font families and their styles are shown in
+the two tables below. Each entry has a unique reference code (not
+case-sensitive) recognized by FF in its primary (and easiest) font
+face selection mode.
+
+The first table contains the same data (including the reference code) used
+in FontFactory::Type1, but the font files used are OpenType
+equivalents. The second table contains Adobe PostScript Level 2 data
+with new (but unique) reference codes.
+
+=begin table
+Ref. Code | Adobe Font Face (PS Level 1)
+----------+----------------
+ c        | Courier
+ cb       | Courier Bold
+ co       | Courier Oblique
+ cbo      | Courier Bold Oblique
+ h        | Helvetica
+ hb       | Helvetica Bold
+ ho       | Helvetica Oblique
+ hbo      | Helvetica Bold Oblique
+ t        | Times
+ tb       | Times Bold
+ ti       | Times Italic
+ tbi      | Times Bold Italiic
+ s        | Symbol
+=end table
+
+=begin table
+Ref. Code | Adobe Font Face (PS Level 2)
+----------+----------------
+ ab       | ITC Avant Garde Gothic Book
+ abo      | ITC Avant Garde Gothic Book Oblique
+ ad       | ITC Avant Garde Gothic Demi
+ ado      | ITC Avant Garde Gothic Demi Oblique
+ bl       | ITC Bookman Light
+ bli      | ITC Bookman Light Italic
+ bd       | ITC Bookman Demi
+ bdi      | ITC Bookman Demi Italic
+ hn       | Helvetica Narrow
+ hno      | Helvetica Narrow Oblique
+ hnb      | Helvetica Narrow Bold
+ hnbo     | Helvetica Narrow Bold Oblique
+ sbr      | New Century Schoolbook Roman
+ sbi      | New Century Schoolbook Italic
+ sbb      | New Century Schoolbook Bold
+ sbbi     | New Century Schoolbook Bold Italic
+ pr       | Palatino Roman
+ pb       | Palatino Bold
+ pi       | Palatino Italic
+ pbi      | Palatino Bold Italic
+ zcmi     | ITC Zapf Chancery Medium Italic
+ z        | ITC Zaph Dingbats
+=end table
+
 =head1 Installation
 
 =head3 Preparation
 
-This module requires certain font packages which are installed
-if needed during the C<zef> installation. On Debian systems they are:
+This module requires certain fonts which are expected to be available
+during the C<zef> installation. On Debian systems they are included in
+these standard packages:
 
 =item fonts-freefont-otf
 =item fonts-urw-base35
 =item fonts-texgyre
 =item fntsample
 
-To get a look at how your fonts appear when printed, use the
-program C<fntsample> with
-a desired font file name to get a detailed sample on an output PDF
-file. See L<https://fntsample.sourceforge.net> for details.
+On other systems you may obtain the files from their sources:
+
+=item L<TeX-Gyre|https://ctan.mirrors.hoobly.com/fonts/tex-gyre/opentype/>
+=item L<URW Base 35|https://github.com/ArtifexSoftware/urw-base35-fonts/tree/master/fonts>
+=item L<GNU FreeFont|https://www.gnu.org/software/freefont/index.html>
+
+To get a look at how your fonts appear when printed, use the program
+C<fntsample> with a desired font file name to get a detailed sample on
+an output PDF file. See L<https://fntsample.sourceforge.net> for
+details.
 
 =head3 Install with C<zef>
 
-The installation build also includes a font that can be used to
-create checks.
+The installation build also includes a font that can be used to create
+checks.
 
 =head2 Font licenses
 
@@ -65,10 +159,9 @@ those requirements.
 
 =head3 System fonts
 
-To use this module, you must have a list of the base OpenType
-fonts in your home directory.
-That is automatically accomplished during the installation by C<zef> in its
-build step.
+To use this module, you must have a list of the 35 base OpenType fonts in
+your home directory.  That is automatically accomplished during the
+installation by C<zef> in its build step.
 
 The list will be stored in your C<$HOME> directory as
 C<$HOME/.fontfactory/system-fonts.list>.  That file looks like
@@ -76,33 +169,33 @@ this:
 
 =begin code
 # font-index font-base-name location has-kerning?
-t  basename  /usr/share/..  HAS-KERNING # replacement for Adobe Times-Roman
+t  basename  /usr/share/..  HAS-KERNING # equivalent replacement for Adobe Times-Roman
   #... more entries
 =end code
 
-You may
-delete any font entries in the list, but do not change the format of the first
-three fields of remaining data lines. Comments starting with a C<#> are
-allowed, and the text is ignored from there to the end of the line.
+You may delete any font entries in the list, but do not change the
+format of the first three fields of remaining data lines. Comments
+starting with a C<#> are allowed, and the text is ignored from there
+to the end of the line.
 
 =head3 User fonts
 
-For convenience, you may want to use another list to associate
-your oft-used fonts with a short alias. That is done by creating a
-file named C<$HOME/.fontfactory/my-fonts.list>. (An empty list is
-created during installation if it doesn't already exist.)
+For convenience, you may want to use another list to associate your
+oft-used fonts with a short alias. That is done by creating a file
+named C<$HOME/.fontfactory/my-fonts.list>. (An empty list is created
+during installation if it doesn't already exist.)
 
 The file should look something like this:
 
 =begin code
-# A valid data line contains three fields (words separated by one 
+# A valid data line contains three fields (words separated by one
 # or more spaces):
-#   1. alias (number or alpha string)
+#   1. alias (number OR alpha string)
 #   2. font-name (with extension)
 #   3. location (parent directory)
-# All data on a line after the third field are ignored with one 
-# exception: any 'KERN' or 'kern' found will flag the font as having a 
-# kerning capability.
+# All data on a line after the third field are ignored with one
+# exception: any 'KERN' or 'kern' found will flag the font as having a
+# Tyupe 1 kerning capability.
 # Blank or comment lines like this are ignored.
   100   Blarney.ttf   ~/.fonts    kerning my favorite serif font
   c     Courier.otf   /some/dir   my favorite monospaced font
@@ -110,30 +203,21 @@ The file should look something like this:
   s     Scroll.otf    /some/dir   best for Jewish calendars
 =end code
 
-Note the fields B<alias>, B<font-name>, and B<location> (parent directory) are required.
-The B<alias> is some key you want to use to refer to that font. (This directory
-will be searched before the system fonts list and its alias will override any
-identical system font alias.)
-The B<font-name> B<must> include the suffix ('.otf' or '.ttf').
-The B<notes> field is optional.
-
-=head3 User font metrics data
-
-As the FontFactory is used, calculated values for font metrics are
-saved in files in the user's home directory under
-C<$HOME/.fontfactory/font-metrics/>. 
-The format is subject to change and the files should not be 
-changed by the user, but you may safely delete them
-when the FontFactory is inactive.
+Note the fields B<alias>, B<font-name>, and B<location> (parent
+directory) are required.  The B<alias> is some key you want to use to
+refer to that font. (This directory will be searched before the system
+fonts list and its alias will override any identical system font
+alias.)  The B<font-name> B<must> include the suffix ('.otf' or
+'.ttf').  The B<notes> field is optional.
 
 =head1 DESCRIPTION
 
-B<FontFactory> is a Unicode font factory similar to C<FontFactory::Type1>, but
-using I<TrueType> and I<OpenType> fonts.
+B<FontFactory> is a Unicode font factory similar to
+C<FontFactory::Type1>, but using I<TrueType> and I<OpenType> fonts.
 It provides functions to ease using Unicode fonts with
-I<PDF-generating> modules.  It does that by defining a font
-class (C<FontFactory::DocFont> that includes a specific font face and size along
-with functions emulating many of those found in C<Font::AFM>.
+I<PDF-generating> modules.  It does that by defining a font class
+(C<FontFactory::DocFont>) that includes a specific font face and size
+along with functions emulating many of those found in C<Font::AFM>.
 
 If the user has some PostScript Type 1 fonts he or she wants to use, they
 may be converted to TrueType using the author's B<FontConverter> module.
@@ -146,7 +230,6 @@ suitable filters. File an issue if you are interested in such.
 =head2 Typical work flow with its current capability
 
 =item Show fonts avaliable on your host by key, basename, directory, and kerning capability
-=item Search for a specific font by name pattern or attribute (e.g., serif, monospaced, bold, italic, kerning)
 =item Generate PDF documents with samples of selected fonts and sizes
 =item Get metrics for a string suitable for typesetting in the desired font and size
 =item Get full use of thousands of Unicode glyphs in PDF documents

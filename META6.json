@@ -27,7 +27,8 @@
     "FontFactory::DocFont": "lib/FontFactory/DocFont.rakumod",
     "FontFactory::DocFont::DF-Subs": "lib/FontFactory/DocFont/DF-Subs.rakumod",
     "FontFactory::DocFont::Gchar": "lib/FontFactory/DocFont/Gchar.rakumod",
-    "FontFactory::FF-Subs": "lib/FontFactory/FF-Subs.rakumod"
+    "FontFactory::FF-Subs": "lib/FontFactory/FF-Subs.rakumod",
+    "PS-Fonts": "lib/PS-Fonts.rakumod"
   },
   "resources": [
     "fonts/micrenc.ttf",

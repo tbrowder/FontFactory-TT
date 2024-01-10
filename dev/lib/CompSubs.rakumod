@@ -149,7 +149,7 @@ sub comp(:$do-kern = True, #False,
     tb  =>  0,
     tbi =>  0,
     ti  =>  0,
-    tr  =>  0,
+    t   =>  0,
     z   => -1,
 ];
 
@@ -167,7 +167,7 @@ sub comp(:$do-kern = True, #False,
     tb  =>  9, # Nimbus Roman Bold
     tbi => 10,
     ti  => 11,
-    tr  => 12,
+    t   => 12,
     z   =>  4, # Zaph Dingbats Std
 ];
 
@@ -186,7 +186,9 @@ sub comp(:$do-kern = True, #False,
     tb  => "FreeSerifBold", # has TrueType kerning
     tbi => "FreeSerifBoldItalic", # has TrueType kerning
     ti  => "FreeSerifItalic", # has TrueType kerning
-    tr  => "FreeSerif", # has TrueType kerning
+    t   => "FreeSerif", # has TrueType kerning
+
+    # level 2
     z   => "", # URW
 ];
 %alist = [
@@ -203,7 +205,7 @@ sub comp(:$do-kern = True, #False,
     tb  => 'Times-Bold.afm',
     tbi => 'Times-BoldItalic.afm',
     ti  => 'Times-Italic.afm',
-    tr  => 'Times-Roman.afm',
+    t   => 'Times-Roman.afm',
     z   => 'ZapfDingbats.afm',
 ];
 

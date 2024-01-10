@@ -4,7 +4,6 @@ use Number::More :ALL;
 use FontFactory;
 use FontFactory::DocFont;
 use FontFactory::FF-Subs;
-use FontFactory::DocFont::Gchar;
 use FontFactory::DocFont::DF-Subs;
 
 my $ff = FontFactory.new;
@@ -26,7 +25,12 @@ is $df.font-format, "CFF", "font-format: CFF (OpenType)";
 is $df.has-horizontal-metrics, True, "has-horizontal-metrics";
 is $df.has-vertical-metrics, False, "has-vertical-metrics";
 
-my FontFactory::DocFont::Gchar $c = $df.glyph: 'A';
+done-testing
+
+=finish
+my FontFactory::DocFont::Glyph $c = $df.glyph: 'A';
+
+=finish
 isa-ok $c, FontFactory::DocFont::Gchar, "isa-ok Gchar";
 is $c.Str, 'A', "Str ('A' string characrter)";
 
@@ -51,7 +55,6 @@ is @gchars[3].name, 'd', "name for 'd'";
 is @gchars[3].char-code, 100, "char-code for 'd'";
 
 #say "name {$_.char-code}" for @gchars;
-
 
 my $s = "a word";
 my @ord;

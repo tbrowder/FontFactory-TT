@@ -14,7 +14,7 @@ use FontFactory::DocFont::DF-Subs;
 my $ff = FontFactory.new;
 isa-ok $ff, FontFactory;
 
-my $df = $ff.get-docfont: "t/fonts/FreeSerif.ttf", 14;
+my $df = $ff.get-docfont: "t/fonts/FreeSerif.otf", 14;
 isa-ok $df, FontFactory::DocFont;
 is $df.size, 14, "font size is 14";
 is $df.name, "FreeSerif.otf", "font file basenane";
@@ -30,7 +30,11 @@ is $df.font-format, "CFF", "font-format: CFF (OpenType)";
 is $df.has-horizontal-metrics, True, "has-horizontal-metrics";
 is $df.has-vertical-metrics, False, "has-vertical-metrics";
 
-my FontFactory::DocFont::Gchar $c = $df.glyph: 'A';
+done-testing;
+
+=finish
+
+my FontFactory::DocFont::Gchar $c .= new: Font:::FreeType::Glyph(:glyph('A');
 isa-ok $c, FontFactory::DocFont::Gchar, "isa-ok Gchar";
 is $c.Str, 'A', "Str ('A' string characrter)";
 

@@ -15,6 +15,7 @@ our %tex-pairs is export; # defined at end
 our %alist is export; # defined at end
 our %ulist is export; # defined at end
 our %tlist is export; # defined at end
+our %slist is export; # defined at end
 
 sub show(:$debug) is export {
     for %alist.keys.sort -> $code {

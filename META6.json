@@ -26,14 +26,7 @@
     "FontFactory": "lib/FontFactory.rakumod",
     "FontFactory::DocFont": "lib/FontFactory/DocFont.rakumod",
     "FontFactory::DocFont::DF-Subs": "lib/FontFactory/DocFont/DF-Subs.rakumod",
-    "FontFactory::DocFont::Doc": "lib/FontFactory/DocFont/Doc.rakumod",
     "FontFactory::DocFont::Gchar": "lib/FontFactory/DocFont/Gchar.rakumod",
-    "FontFactory::DocFont::Line": "lib/FontFactory/DocFont/Line.rakumod",
-    "FontFactory::DocFont::Metrics": "lib/FontFactory/DocFont/Metrics.rakumod",
-    "FontFactory::DocFont::Page": "lib/FontFactory/DocFont/Page.rakumod",
-    "FontFactory::DocFont::Para": "lib/FontFactory/DocFont/Para.rakumod",
-    "FontFactory::DocFont::String": "lib/FontFactory/DocFont/String.rakumod",
-    "FontFactory::DocFont::Word": "lib/FontFactory/DocFont/Word.rakumod",
     "FontFactory::FF-Subs": "lib/FontFactory/FF-Subs.rakumod"
   },
   "resources": [

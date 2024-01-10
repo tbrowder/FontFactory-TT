@@ -1,5 +1,5 @@
 use FontFactory::DocFont::Metrics;
-wuse FontFactory::DocFont::Page;
+use FontFactory::DocFont::Para;
 
 unit class FontFactory::DocFont::Page does FontFactory::DocFont::Metrics;
 

@@ -42,7 +42,6 @@ for %fonts.keys.sort -> $code {
     say "    PostScript level: ", $plvl;
     say "    Adobe equivalent: ", $anam;
     say "    Glyph range: ", $glyp;
-
 }
 
 BEGIN {
@@ -58,6 +57,7 @@ $tdir = "/usr/share/texmf/fonts/opentype/public/tex-gyre";
     #   values are: font file
     #               unicode glyph range
     # OpenType font substitute list for Adobe core fonts
+    #  Adobe names are from wikipedia.org/wiki/PostScript_fonts
     # code   # file data
     cb  => {
         adobe  => "Courier-Bold",

@@ -5,7 +5,7 @@ use lib <./t/lib>;
 use Utils;
 
 my $size = 10.3;
-my $name = "./dev/Times-Roman.afm";
+my $name = "./t/fonts/Times-Roman.afm";
 my $text = "Some string";
 
 my ($llx, $lly, $urx, $ury);

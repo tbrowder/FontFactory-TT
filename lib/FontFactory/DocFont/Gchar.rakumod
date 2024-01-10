@@ -59,7 +59,7 @@ has $.lly is rw;
 has $.urx is rw;
 has $.ury is rw;
 
-=begin comment
+#=begin comment
 method new(Font::FreeType::Glyph :$glyph) {
     my $g = $glyph;
     self.bless(
@@ -75,4 +75,4 @@ method new(Font::FreeType::Glyph :$glyph) {
         :ury($g.outline.bounding-box.y-max),
     )
 }
-=end comment
+#=end comment

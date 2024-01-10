@@ -67,7 +67,7 @@ for @ord -> $o {
 }
 is $s2, $s, "roundtrip Str/ord/chr/Str";
 
-s2 = "";
+$s2 = "";
 for @hex -> $h {
     my $ord = hex2dec $h;
     $s2 ~= $ord.chr;

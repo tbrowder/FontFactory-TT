@@ -3,6 +3,7 @@
 # Debian Open Type fonts packages: 
 #   tex-gyre
 #   urw-base35
+#   freefont
 
 use File::Find;
 use Data::Dump::Tree;
@@ -68,12 +69,13 @@ if 0 and $debug {
 
 # only need one instance of FontFreeType
 my $ft = Font::FreeType.new;
+
 for @urw -> $fpath {
     my $ffil = $fpath.IO.absolute;
     say "Using file: $ffil";
     my $f = $ft.face: $ffil, :load-flags(FT_LOAD_NO_HINTING);
 
-    =begin comment
+    #=begin comment
     # the available attrs
     say "    font file name: $ffil";
     say "    family-name: ", $f.family-name;
@@ -141,13 +143,13 @@ for @urw -> $fpath {
     say "        ascender: ", $sf*$f.ascender;
     say "        descender: ", $sf*$f.descender;
 
-
     if $all-glyphs {
         my $mapped = True;
         my @charmap;
         my @chardata;
         my $i = 0;
-        $f.forall-chars: :!load, :flags(FT_LOAD_NO_HINTING), -> Font::FreeType::Glyph:D $_ {
+        $f.forall-chars: :!load, :flags(FT_LOAD_NO_HINTING), -> 
+                                     Font::FreeType::Glyph:D $_ {
             # apparently not all chars have an outline
             my $bbox = $_.is-outline ?? $_.outline.bbox !! False;
 
@@ -173,6 +175,7 @@ for @urw -> $fpath {
             }
             say "    x$hex   $char-code  $index  $uniname   $char";
             =end comment
+
             say "    x$hex   $char-code  $index  $uniname   $char";
             my $s = "    x$hex   $char-code  $index  $uniname   $char";
             @chardata[$i] = $s;
@@ -214,7 +217,7 @@ for @urw -> $fpath {
         say "        index ", $g.index;
         say "        char-code ", $g.char-code;
         say "        char-code.ord ", $g.char-code.ord;
-        say "        text '$text'";;
+        say "        text '$text'";
         say "        text.ords (ords are char-codes) ", $text.ords.raku;
         say "        text.ords.elems ", $text.ords.elems;
         say "        text.comb.gist ", $text.comb.gist;
@@ -241,7 +244,8 @@ for @urw -> $fpath {
         say "        right-bearing ", $g.right-bearing;
         say "        is-outline ", $g.is-outline;
         my $b = $g.outline.bbox;
-        say "        bbox (char BBoX): ", sprintf("%f %f %f %f", $b.x-min, $b.y-min, $b.x-max, $b.y-max);
+        say "        bbox (char BBoX): ", 
+                     sprintf("%f %f %f %f", $b.x-min, $b.y-min, $b.x-max, $b.y-max);
         $left = $f.glyph-name-from-index: $g.index;
         say "        \@charmaps[\$f.charmaps[{$g.index}]] = $left";
 
@@ -253,7 +257,7 @@ for @urw -> $fpath {
             my $x = $v.x; # * $sf;
             my $y = $v.y; # * $sf;
 
-            say "        kerning x, y '$lchar', '$rchar':", sprintf("%f %f", $x, $y);
+            say "        kerning x, y '$lchar', '$rchar': ", sprintf("%f %f", $x, $y);
         }
     } 
     say "Showing only the first font.";

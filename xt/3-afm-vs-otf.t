@@ -26,7 +26,7 @@ is $df.units-per-EM, 1000, "1000 units-per-em";
 is $df.is-sfnt, True, "is-sfnt";
 is $df.is-bold, False, "is-bold";
 is $df.is-italic, False, "is-italic";
-is $df.font-format, "CFF", "font-format: CFF (OpenType)";
+is $df.font-format, "OpenType", "font-format: OpenType (CFF)";
 is $df.has-horizontal-metrics, True, "has-horizontal-metrics";
 is $df.has-vertical-metrics, False, "has-vertical-metrics";
 

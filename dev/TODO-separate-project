@@ -11,7 +11,7 @@ ligatures.
 Reorganize the font handling.
 
 After much experimenting, I think the best
-way to organize the fonts are into two lists.
+way is to organize the fonts into two lists.
 
 List creation with Build
 ------------------------

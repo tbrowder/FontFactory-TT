@@ -12,8 +12,9 @@ my $fdir = "/usr/share/fonts/opentype/freefont";
 my $ffil = "{$fdir}/FreeSerif.otf";
 
 use lib <../lib>;
-use FontFactory::Classes;
-use FontFactory::Subs;
+#use FontFactory::Classes;
+use FontFactory::DocFont; #Classes;
+#use FontFactory::FF-Subs;
 
 my $text-in = "The Piano.";
 
@@ -176,8 +177,8 @@ say "        ascender: ", $sf*$f.ascender;
 say "        descender: ", $sf*$f.descender;
 =end comment
 
-=begin comment
-# moved to /lib/FontFactory/Subs.rakumod
+#=begin comment
+# moved to /lib/FontFactory/FF-Subs.rakumod
 sub get-glyphs(Font::FreeType::Face:D $f,  :$debug --> Hash) is export {
     my %glyphs;
 
@@ -218,7 +219,7 @@ sub get-glyphs(Font::FreeType::Face:D $f,  :$debug --> Hash) is export {
     %glyphs;
 
 } # end of sub
-=end comment
+#=end comment
 
 =finish
 

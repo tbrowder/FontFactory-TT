@@ -1,5 +1,6 @@
 unit module Print;
 
+use Number::More :ALL;
 use Font::FreeType;
 use Font::FreeType::Face;
 use Font::FreeType::Raw::Defs;
@@ -7,7 +8,7 @@ use Font::FreeType::Glyph;
 use PDF::Lite;
 use PDF::Content::Page :PageSizes, :&to-landscape;
 use PDF::Content::Text::Block;
-use PDF::Font::Loader:ver<0.7.8> :load-font;
+#use PDF::Font::Loader:ver<0.7.8> :load-font;
 use PDF::Content::FontObj;
 
 use Classes;
@@ -222,17 +223,17 @@ sub print-figure($page, :$font!, :$x!, :$y!, :$debug) is export {
         # print a 'g', draw its bbox, x-advance, bearings, width,
         #   height
         .transform: :translate(20, -90);
-        .MoveTo -10,0;
-        .LineTo 70,0; # baseline, x-axis
-        .MoveTo 0,-10;
-        .LineTo 0,80; # y-axis
+        .MoveTo: -10,0;
+        .LineTo: 70,0; # baseline, x-axis
+        .MoveTo: 0,-10;
+        .LineTo: 0,80; # y-axis
         .print: "g", :position[0, 0], :$font, :font-size(72);
                             # :align<left>, :kern; #, default: :valign<bottom>;
 
         # on another baseline
         .transform: :translate(0, -90);
-        .MoveTo -10,0;
-        .LineTo 70,0; # baseline, x-axis
+        .MoveTo: -10,0;
+        .LineTo: 70,0; # baseline, x-axis
         # print  'We' without kerning
         # to its right print the 'We' with kerning
         .print: "We", :position[0, 0], :$font, :font-size(72);

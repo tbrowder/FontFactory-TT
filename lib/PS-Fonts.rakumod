@@ -219,6 +219,8 @@ our %font-codes = [
 our $tdir = "";
 our $udir = "";
 our $fdir = "";
+
+=begin comment
 our %afonts is export {
     # afonts with the equivalent substitute fonts
 }
@@ -231,3 +233,5 @@ our %tfonts is export {
 
 our %ffonts is export {
 }
+
+=end comment

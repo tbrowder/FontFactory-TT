@@ -1,7 +1,8 @@
 unit class FontFactory::DocFont::Gchar;
 
-# Has some of the same attributes as the ephemeral class Font::FreeType::Glyph
-# plus bounding-box info from its GlyphImage.outline.
+# Has some of the same attributes as the ephemeral class
+# Font::FreeType::Glyph plus bounding-box info from its
+# GlyphImage.outline.
 
 use Font::FreeType;
 use Font::FreeType::BBox;

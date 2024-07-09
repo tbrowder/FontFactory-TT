@@ -7,6 +7,9 @@ use Font::FreeType::SizeMetrics;
 use Data::Dump;
 
 use Constants;
+
+use FontFactory::DocFont::Gchar;
+
 unit module FontFactory::FF-Subs;
 
 # moved from /build/bin.find-system-fonts
@@ -159,6 +162,50 @@ sub check-my-fonts-list($homedir, :$free-type,:$debug) is export(:build) {
         $fh.close;
     }
 } # end sub
+
+# moved from dev/get-otf-text-details.raku
+sub get-glyphs(Font::FreeType::Face:D $f,  :$debug --> Hash) is export {
+
+    my %glyphs;
+
+    $f.forall-glyphs: :!load, :flags(FT_LOAD_NO_HINTING), -> Font::FreeType::Glyph:D $g {
+        my $char = $g.char-code.chr;
+        my $uni  = $g.char-code.chr.uniname;
+        my $dec  = $g.char-code;
+        my $hex  = $g.char-code.base(16);
+
+        my $bbox = $g.outline.bounding-box;
+        my $llx  = $bbox.x-min;
+        my $lly  = $bbox.y-min;
+        my $urx  = $bbox.x-max;
+        my $ury  = $bbox.y-max;
+
+        # save ALL glyph data in a Char object
+        #%glyphs{$char} = Char.new(
+        %glyphs{$char} = FontFactory::DocFont::Gchar.new(
+            :left-bearing($g.left-bearing),
+            :right-bearing($g.right-bearing),
+            :horizontal-advance($g.horizontal-advance // 0),
+            :vertical-advance($g.vertical-advance // 0),
+            :width($g.width),
+            :height($g.height),
+            :format($g.format),
+            :uniname($uni),
+            :$dec,
+            :$hex,
+            :name($g.name // 0),
+            :Str($g.Str), # unicode character
+            :is-outline($g.is-outline),
+            :$llx,
+            :$lly,
+            :$urx,
+            :$ury,
+        );
+    }
+
+    %glyphs;
+
+} # end of sub
 
 my constant %default-samples is export = [
     # keyed by two-character ISO language code

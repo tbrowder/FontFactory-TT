@@ -2,22 +2,62 @@
 
 use File::Find;
 
+# Note you don't need these modules
+# unless you need individual
+# string dimensions such as 
+# leading (line-spacing), etc.
 use Font::FreeType;
 use Font::FreeType::Face;
 use Font::FreeType::Raw::Defs;
 use Font::FreeType::Glyph;
 
+# for each font we can define a DocFont
+# class that has at least the following
+# attributes::
+#   font file path
+#   font object (load-font)
+#   font face
+#   
+# we avoid the issue of possible
+# duplicate names by strictly
+# controlling the font source files
 use PDF::Lite;
 use PDF::Content::Page :PageSizes, :&to-landscape;
 use PDF::Font::Loader :load-font, :find-font;
 
-my $ofil  = "PDF-Lite-urw-font-samples.pdf";
-my $urwdir = "/usr/share/fonts/opentype/urw-base35";
-my @urw = find :dir($urwdir), :name(/\.otf$/);
+my $ofil  = "PDF-Lite-Gnu-FreeFont-samples.pdf";
 
+# it's a diff dir on Mac
+# the installation dir:
+my $gnufreefontdir = "/usr/share/fonts/opentype/freefont";
+my @gff = find :dir($gnufreefontdir), :name(/\.otf$/);
+
+my $pdf = PDF::Lite.new;
+
+# TOTO: add page numbers upper right of page
+my $npages = @gff.elems;
+my $curr-page = 0;
+
+my $face2 = 0; #  = "FreeSerifBold";
+my $face3 = 0; #  = "FreeSerif";
+my $f2 = "FreeSerifBold.otf";
+my $f3 = "FreeSerif.otf";
+my @faces;
+for @gff -> $font-file {
+
+++$curr-page;
 my $ft = Font::FreeType.new;
 my $face  = $ft.face: $font-file, :load-flags(FT_LOAD_NO_HINTING);
-my $face2 = $ft.face: $title-font-file, :load-flags(FT_LOAD_NO_HINTING);
+unless $face2 {
+    my $b = $font-file.IO.basename;
+    $face2 = $face if $b eq $f2;
+}
+unless $face3 {
+    my $b = $font-file.IO.basename;
+    $face3 = $face if $b eq $f3;
+}
+
+#my $face2 = $ft.face: $title-font-file, :load-flags(FT_LOAD_NO_HINTING);
 
 $face.set-font-size: 10;
 $face2.set-font-size: 18;
@@ -36,12 +76,10 @@ say "  title font underline thickness: ", $sm2.underline-thickness;
 my $up = $sm2.underline-position;
 my $ut = $sm2.underline-thickness;
 
-
 my %m = %(PageSizes.enums);
 my @m = %m.keys.sort;
 
-$ofil  = "PDF-Lite-font-language-sample-{$default-font-stem}.pdf";
-
+#=== move this code chunk WAY up
 my $debug = 0;
 if not @*ARGS.elems {
     my $p = $*PROGRAM.basename;
@@ -68,45 +106,19 @@ if not @*ARGS.elems {
     HERE
     exit
 }
+#=== move code chunk above WAY up
 
 my ($text, $page);
 
 my $m1 = 'Letter';
 my $m2 = 'A4';
 my $media = $m1; # the default
-#my $landscape = False;
 my $landscape = True;
 
 # find attributes:
-# mono?
-my $family = 'times';
-my $weight = 'regular';
-my $slant  = 'normal';
-my $all    = True;
-my $serif  = True;
-my $stretch = 'normal';
-my $show  = 0;
-my $print = 0;
-my $find  = 0;
-my $user-font; # any input is expected to be a system font basename
+# NOT using find-font
+
 for @*ARGS {
-    when /^:i 'font=' (\S+)/ {
-        # a local file path
-        ++$print;
-        $user-font = ~$0;
-    }
-    when /^'f[amily]?='(\S)/ {
-        $family = ~$0;
-        ++$find;
-    }
-    when /^'s[lant]?='(\S)/ {
-        $slant = ~$0;
-        ++$find;
-    }
-    when /^'w[eight]?='(\S)/ {
-        $weight = ~$0;
-        ++$find;
-    }
     # one/two char options
     when /^:i a4?/ {
         $media = $m2;
@@ -129,14 +141,6 @@ for @*ARGS {
     }
 }
 
-if $find {
-    say "Find font with family='$family', slant='$slant', weight='$weight'";
-    my $res = find-font :family($family), :slant($slant), :weight($weight),
-        :kern, :all;
-    say $res;
-    exit;
-}
-
 my %h = %default-samples;
 if $show {
     say "Showing samples to be printed:";
@@ -154,17 +158,22 @@ if $show {
     exit
 }
 
-my $pdf = PDF::Lite.new;
-
 my $font       = load-font :file($font-file);
 my $title-font = load-font :file($title-font-file);
 
 $pdf.media-box = %(PageSizes.enums){$media};
+
 $page = $pdf.add-page;
 make-page :$pdf, :$page, :$font, :$title-font, :$media, :%h, :landscape(True), :font-name($default-font-stem);
+
+} # end of pages loop
+
+# end the document
 $pdf.save-as: $ofil;
+#my $landscape = False;
 say "See output file: $ofil";
 
+#====================================
 # subroutines
 sub make-page(
               PDF::Lite :$pdf!,
@@ -231,7 +240,11 @@ sub make-page(
         @position = [$cx, $y];
         @bbox = .print: $ptitle, :@position,
                        :font($title-font), :font-size(16), :align<center>, :kern;
-                       #, :valign<bottom>;
+my $pn = "Page $curr-page of $npages"; # upper-right, right-justified
+        @position = [$rx, $y];
+        @bbox = .print: $pn, :@position,
+                       :font($pn-font), :font-size(10), :align<right>, :kern;
+
         if 1 {
             note "DEBUG: \@bbox with :align\<center>: {@bbox.raku}";
         }
@@ -318,3 +331,78 @@ sub make-page(
         .Restore; # end of all data to be printed on this page
     }
 }
+
+BEGIN {
+%default-samples = [
+    # keyed by two-character ISO language code
+    #     key => {
+    #         lang => "",
+    #         text => "",
+    #         font => "",
+    #     }
+    nl => {
+        lang => 'Dutch',
+        text => 'Quizdeltagerne spiste jordbær med fløde, mens cirkusklovnen Walther spillede pålofon.',
+        font => "",
+    },
+    en => {
+        lang => 'English',
+        text => 'ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789 Oo Fi fi fii Wa',
+    },
+    fr => {
+        lang => 'French',
+        text => 'Quizdeltagerne spiste jordbær med fløde, mens cirkusklovnen Walther spillede på xylofon.',
+        font => "",
+    },
+    de => {
+        lang => 'German',
+        text => 'Zwölf Boxkämpfer jagen Viktor quer über den großen Sylter Deich.',
+        font => "",
+    },
+    id => {
+        lang => 'Indonesian',
+        text => 'Saya lihat foto Hamengkubuwono XV bersama enam zebra purba cantik yang jatuh dari Al Quranmu.',
+        font => "",
+    },
+    it => {
+        lang => 'Italian',
+        text => 'Ma la volpe, col suo balzo, ha raggiunto il quieto Fido.',
+        font => "",
+    },
+    nb => {
+        lang => 'Norwegian (Bokmål)',
+        text => 'En god stil må først og fremst være klar. Den må være passende. Aristoteles.',
+        font => "",
+    },
+    nn => {
+        lang => 'Norwegian (Nyorsk)',
+        text => "NONE YET",
+        font => "",
+    },
+    pl => {
+        lang => 'Polish',
+        text => 'Pchnąć w tę łódź jeża lub ośm skrzyń fig.',
+        font => "",
+    },
+    ro => {
+        lang => 'Romanian',
+        text => 'Agera vulpe maronie sare peste câinele cel leneş.',
+        font => "",
+    },
+    ru => {
+        lang => 'Russian',
+        text => 'Съешь ещё этих мягких французских булок да выпей же чаю.',
+        font => "",
+    },
+    es => {
+        lang => 'Spanish',
+        text => 'El veloz murciélago hindú comía feliz cardillo y kiwi. La cigüeña tocaba el saxofón detrás del palenque de paja.',
+        font => "",
+    },
+    uk => {
+        lang => 'Ukranian',
+        text => 'Чуєш їх, доцю, га? Кумедна ж ти, прощайся без ґольфів!',
+        font => "",
+    },
+];
+} # end BEGIN

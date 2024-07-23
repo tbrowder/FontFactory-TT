@@ -1,6 +1,9 @@
 #!/usr/bin/env raku
 
 use File::Find;
+use QueryOS;
+
+my $os = QueryOS.new;
 
 # Note you don't need these modules
 # unless you need individual
@@ -11,26 +14,62 @@ use Font::FreeType::Face;
 use Font::FreeType::Raw::Defs;
 use Font::FreeType::Glyph;
 
-# for each font we can define a DocFont
+my $fft = Font::FreeType.new;
+
+# For each font we can define a DocFont
 # class that has at least the following
 # attributes::
 #   font file path
 #   font object (load-font)
 #   font face
-#   
-# we avoid the issue of possible
+class DocFont {
+    has $.path is required;
+    has $.fo;
+    has $.basename; # basename of path
+    has $.name;     # basename w/o suffix
+    has $.face;
+    submethod TWEAK {
+        $!basename = $!path.IO.basename;
+        $!name = $!basename.parts("");
+        $!fo = load-font $!path;
+        $!face  = $fft.face: $!path, :load-flags(FT_LOAD_NO_HINTING);
+    }
+}
+   
+# We avoid the issue of possible
 # duplicate names by strictly
-# controlling the font source files
+# controlling the font source files.
+#
+# We make a default size attribute
+# for ease of consistent document
+# creation, but we use a factory
+# parent class producer
+# to avoid actual font object
+# duplication.
+
+my %fo; # key: font name (w/o suffix)
+        #   value: font object
+
 use PDF::Lite;
 use PDF::Content::Page :PageSizes, :&to-landscape;
-use PDF::Font::Loader :load-font, :find-font;
+use PDF::Font::Loader :load-font;
 
 my $ofil  = "PDF-Lite-Gnu-FreeFont-samples.pdf";
 
 # it's a diff dir on Mac
-# the installation dir:
-my $gnufreefontdir = "/usr/share/fonts/opentype/freefont";
-my @gff = find :dir($gnufreefontdir), :name(/\.otf$/);
+# the default installation dir:
+my $gnuffdir;
+if $os.is-linux {
+    $gnuffdir = "/usr/share/fonts/opentype/freefont";
+}
+elsif $os.is-macos {
+    $gnuffdir = "/usr/share/fonts/opentype/freefont";
+}
+else {
+    $gnuffdir = "/usr/share/fonts/opentype/freefont";
+}
+
+my @gff = find :dir($gnuffdir), :name(/\.otf$/);
 
 my $pdf = PDF::Lite.new;
 
@@ -43,19 +82,20 @@ my $face3 = 0; #  = "FreeSerif";
 my $f2 = "FreeSerifBold.otf";
 my $f3 = "FreeSerif.otf";
 my @faces;
-for @gff -> $font-file {
 
-++$curr-page;
-my $ft = Font::FreeType.new;
-my $face  = $ft.face: $font-file, :load-flags(FT_LOAD_NO_HINTING);
-unless $face2 {
-    my $b = $font-file.IO.basename;
-    $face2 = $face if $b eq $f2;
-}
-unless $face3 {
-    my $b = $font-file.IO.basename;
-    $face3 = $face if $b eq $f3;
-}
+for @gff -> $path {
+    ++$curr-page;
+    my $df = DocFont.new: :$path;
+
+    my $face  = $ft.face: $path, :load-flags(FT_LOAD_NO_HINTING);
+    unless $face2 {
+        my $b = $font-file.IO.basename;
+        $face2 = $face if $b eq $f2;
+    }
+    unless $face3 {
+        my $b = $font-file.IO.basename;
+        $face3 = $face if $b eq $f3;
+    }
 
 #my $face2 = $ft.face: $title-font-file, :load-flags(FT_LOAD_NO_HINTING);
 

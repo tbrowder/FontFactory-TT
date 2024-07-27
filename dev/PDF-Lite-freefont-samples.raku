@@ -3,18 +3,18 @@
 use File::Find;
 use QueryOS;
 
-my $os = QueryOS.new;
+my $os = OS.new;
 
 # Note you don't need these modules
 # unless you need individual
-# string dimensions such as 
+# string dimensions such as
 # leading (line-spacing), etc.
 use Font::FreeType;
 use Font::FreeType::Face;
 use Font::FreeType::Raw::Defs;
 use Font::FreeType::Glyph;
 
-my $fft = Font::FreeType.new;
+my Font::FreeType $fft .= new;
 
 # For each font we can define a DocFont
 # class that has at least the following
@@ -22,20 +22,28 @@ my $fft = Font::FreeType.new;
 #   font file path
 #   font object (load-font)
 #   font face
+my $ffil = "fonts/FreeSerif.otf";
 class DocFont {
     has $.path is required;
     has $.fo;
     has $.basename; # basename of path
     has $.name;     # basename w/o suffix
-    has $.face;
-    submethod TWEAK {
+    has Font::FreeType::Face $.face;
+
+    submethod TWEAK() {
+        my $fc = $fft.new;
+        #my $face = $fft.face($ffil, :load-flags(FT_LOAD_NO_HINTING));
+        my $face = $fft.face($ffil);
+        die unless $!path.IO.r;
         $!basename = $!path.IO.basename;
-        $!name = $!basename.parts("");
-        $!fo = load-font $!path;
-        $!face  = $fft.face: $!path, :load-flags(FT_LOAD_NO_HINTING);
+        $!name = $!path;
+        $!name ~~ s/:i '.otf' $//; # $!basename     = 0; #$!path.IO.extension.parts("");
+        $!fo       = load-font :file($!path);
+        #$!face     = $fft.face($!path, :load-flags(FT_LOAD_NO_HINTING));
+        $!face     = $face; # $fft.face($!path);
     }
 }
-   
+
 # We avoid the issue of possible
 # duplicate names by strictly
 # controlling the font source files.
@@ -46,6 +54,37 @@ class DocFont {
 # parent class producer
 # to avoid actual font object
 # duplication.
+
+use lib "../lib";
+#my constant %default-samples is export = [
+use FontFactory::FF-Subs;
+
+#=== move this code chunk WAY up
+my $debug = 0;
+if not @*ARGS.elems {
+    my $p = $*PROGRAM.basename;
+
+    print qq:to/HERE/;
+    Usage: $p <mode> [options]
+
+    Modes
+      show   - Show the default sample text for 13 languages
+      print  - Create a PDF of the default text samples
+
+    Options
+      A4     - Use A4 paper instead of the default US Letter
+
+    File an issue if your desired language is not available in the
+    sample text list ('show' and 'print' modes).
+
+    See more information about pangrams and a large list of them
+    for many languages at 'https:://clagnut.com'.
+    HERE
+    exit
+}
+#=== move code chunk above WAY up
+
+my ($print, $show) = 0, 0;
 
 my %fo; # key: font name (w/o suffix)
         #   value: font object
@@ -70,6 +109,11 @@ else {
 }
 
 my @gff = find :dir($gnuffdir), :name(/\.otf$/);
+my %f;
+for @gff -> $ffil {
+    my $b = $ffil.IO.basename;
+    %f{$b} = $ffil;
+}
 
 my $pdf = PDF::Lite.new;
 
@@ -79,132 +123,104 @@ my $curr-page = 0;
 
 my $face2 = 0; #  = "FreeSerifBold";
 my $face3 = 0; #  = "FreeSerif";
-my $f2 = "FreeSerifBold.otf";
-my $f3 = "FreeSerif.otf";
+my $f2 = %f<FreeSerifBold.otf>; #"FreeSerifBold.otf";
+my $f3 = %f<FreeSerif.otf>; #"FreeSerif.otf";
+my $title-font-file = $f2;
+my $pn-font = load-font :file($f3);
 my @faces;
 
+# pages loop
 for @gff -> $path {
+    die unless $path.IO.r;
     ++$curr-page;
     my $df = DocFont.new: :$path;
 
-    my $face  = $ft.face: $path, :load-flags(FT_LOAD_NO_HINTING);
+    my $face  = $df.face($path); #, :load-flags(FT_LOAD);
     unless $face2 {
-        my $b = $font-file.IO.basename;
+        my $b = $f2.IO.basename;
         $face2 = $face if $b eq $f2;
     }
     unless $face3 {
-        my $b = $font-file.IO.basename;
+        my $b = $f3.IO.basename;
         $face3 = $face if $b eq $f3;
     }
 
-#my $face2 = $ft.face: $title-font-file, :load-flags(FT_LOAD_NO_HINTING);
+    #my $face2 = $ft.face: $title-font-file, :load-flags(FT_LOAD_NO_HINTING);
 
-$face.set-font-size: 10;
-$face2.set-font-size: 18;
-my $sm  = $face.scaled-metrics;
-my $sm2 = $face2.scaled-metrics;
+    $face.set-font-size: 10;
+    $face2.set-font-size: 18;
+    my $sm  = $face.scaled-metrics;
+    my $sm2 = $face2.scaled-metrics;
 
-say "font name: ", $face.postscript-name;
-say "  font height (leading): ", $sm.height;
-say "  font underline position: ", $sm.underline-position;
-say "  font underline thickness: ", $sm.underline-thickness;
+    say "font name: ", $face.postscript-name;
+    say "  font height (leading): ", $sm.height;
+    say "  font underline position: ", $sm.underline-position;
+    say "  font underline thickness: ", $sm.underline-thickness;
 
-say "title font name: ", $face2.postscript-name;
-say "  title font height (leading): ", $sm2.height;
-say "  title font underline position: ", $sm2.underline-position;
-say "  title font underline thickness: ", $sm2.underline-thickness;
-my $up = $sm2.underline-position;
-my $ut = $sm2.underline-thickness;
+    say "title font name: ", $face2.postscript-name;
+    say "  title font height (leading): ", $sm2.height;
+    say "  title font underline position: ", $sm2.underline-position;
+    say "  title font underline thickness: ", $sm2.underline-thickness;
+    my $up = $sm2.underline-position;
+    my $ut = $sm2.underline-thickness;
 
-my %m = %(PageSizes.enums);
-my @m = %m.keys.sort;
+    my %m = %(PageSizes.enums);
+    my @m = %m.keys.sort;
 
-#=== move this code chunk WAY up
-my $debug = 0;
-if not @*ARGS.elems {
-    my $p = $*PROGRAM.basename;
+    my ($text, $page);
 
-    print qq:to/HERE/;
-    Usage: $p <mode> [options]
+    my $m1 = 'Letter';
+    my $m2 = 'A4';
+    my $media = $m1; # the default
+    my $landscape = True;
 
-    Modes
-      show   - Show the default sample text for 13 languages
-      print  - Create a PDF of the default text samples
-      find   - Finds a font given \:family, \:slant, and \:weight
+    # find attributes:
+    # NOT using find-font
 
-    Options
-      A4     - Use A4 paper instead of the default US Letter
-               for the sample output file:
-                   $ofil
-      font=F - Where F is a font basename on your system
-
-    File an issue if your desired language is not available in the
-    sample text list ('show' and 'print' modes).
-
-    See more information about pangrams and a large list of them
-    for many languages at 'https:://clagnut.com'.
-    HERE
-    exit
-}
-#=== move code chunk above WAY up
-
-my ($text, $page);
-
-my $m1 = 'Letter';
-my $m2 = 'A4';
-my $media = $m1; # the default
-my $landscape = True;
-
-# find attributes:
-# NOT using find-font
-
-for @*ARGS {
-    # one/two char options
-    when /^:i a4?/ {
-        $media = $m2;
+    for @*ARGS {
+        # one/two char options
+        when /^:i a4?/ {
+            $media = $m2;
+        }
+        # single char options
+        when /^:i s/ {
+            ++$show;
+            $print = 0;
+        }
+        when /^:i p/ {
+            ++$print;
+            $show = 0;
+        }
+        default {
+            note "FATAL: Unknown argument '$_'";
+        }
     }
-    # single char options
-    when /^:i f/ {
-        ++$find;
-        $show = $print = 0;
-    }
-    when /^:i s/ {
-        ++$show;
-        $find = $print = 0;
-    }
-    when /^:i p/ {
-        ++$print;
-        $find = $show = 0;
-    }
-    default {
-        note "FATAL: Unknown argument '$_'";
-    }
-}
 
-my %h = %default-samples;
-if $show {
-    say "Showing samples to be printed:";
-    for %h.keys.sort -> $k {
-        my $lang = %h{$k}<lang>;
-        my $text = %h{$k}<text>;
-        print qq:to/HERE/;
-        -------------------------
-          Country code: {$k.uc}
-              Language: $lang
-              Text:     $text
-        HERE
+    my %h = %default-samples;
+    if $show {
+        say "Showing samples to be printed:";
+        for %h.keys.sort -> $k {
+            my $lang = %h{$k}<lang>;
+            my $text = %h{$k}<text>;
+            print qq:to/HERE/;
+            -------------------------
+            Country code: {$k.uc}
+            Language: $lang
+                       Text:     $text
+            HERE
+        }
+        say "-------------------------";
+        exit
     }
-    say "-------------------------";
-    exit
-}
 
-my $font       = load-font :file($font-file);
-my $title-font = load-font :file($title-font-file);
+    my $font       = load-font :file($path);
+    my $title-font = load-font :file($title-font-file);
 
-$pdf.media-box = %(PageSizes.enums){$media};
+    $pdf.media-box = %(PageSizes.enums){$media};
 
-$page = $pdf.add-page;
-make-page :$pdf, :$page, :$font, :$title-font, :$media, :%h, :landscape(True), :font-name($default-font-stem);
+    $page = $pdf.add-page;
+    make-page :$pdf, :$page, :$font, :$title-font, :$media,
+              :%h, :landscape(True), :font-name($face2.postscript-name);
 
 } # end of pages loop
 
@@ -257,10 +273,10 @@ sub make-page(
         my $w = $page.media-box[3] - $page.media-box[1];
         my $h = $page.media-box[2] - $page.media-box[0];
         $cx = $w * 0.5;
-
+        my $rx = $w; # ??
         # get the font's values from FreeFont
         my ($leading, $height, $dh);
-        $leading = $height = $dh = $sm.height; #1.3 * $font-size;
+        $leading = $height = $dh = 13; #$sm.height; #1.3 * $font-size;
 
         # use 1-inch margins left and right, 1/2-in top and bottom
         # left
@@ -280,7 +296,7 @@ sub make-page(
         @position = [$cx, $y];
         @bbox = .print: $ptitle, :@position,
                        :font($title-font), :font-size(16), :align<center>, :kern;
-my $pn = "Page $curr-page of $npages"; # upper-right, right-justified
+        my $pn = "Page $curr-page of $npages"; # upper-right, right-justified
         @position = [$rx, $y];
         @bbox = .print: $pn, :@position,
                        :font($pn-font), :font-size(10), :align<right>, :kern;
@@ -319,8 +335,6 @@ my $pn = "Page $curr-page of $npages"; # upper-right, right-justified
         =end comment
 
         # show the text font value
-        $y -= 2* $dh;
-
         $y -= 2* $dh;
 
         for %h.keys.sort -> $k {
@@ -371,78 +385,3 @@ my $pn = "Page $curr-page of $npages"; # upper-right, right-justified
         .Restore; # end of all data to be printed on this page
     }
 }
-
-BEGIN {
-%default-samples = [
-    # keyed by two-character ISO language code
-    #     key => {
-    #         lang => "",
-    #         text => "",
-    #         font => "",
-    #     }
-    nl => {
-        lang => 'Dutch',
-        text => 'Quizdeltagerne spiste jordbær med fløde, mens cirkusklovnen Walther spillede pålofon.',
-        font => "",
-    },
-    en => {
-        lang => 'English',
-        text => 'ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789 Oo Fi fi fii Wa',
-    },
-    fr => {
-        lang => 'French',
-        text => 'Quizdeltagerne spiste jordbær med fløde, mens cirkusklovnen Walther spillede på xylofon.',
-        font => "",
-    },
-    de => {
-        lang => 'German',
-        text => 'Zwölf Boxkämpfer jagen Viktor quer über den großen Sylter Deich.',
-        font => "",
-    },
-    id => {
-        lang => 'Indonesian',
-        text => 'Saya lihat foto Hamengkubuwono XV bersama enam zebra purba cantik yang jatuh dari Al Quranmu.',
-        font => "",
-    },
-    it => {
-        lang => 'Italian',
-        text => 'Ma la volpe, col suo balzo, ha raggiunto il quieto Fido.',
-        font => "",
-    },
-    nb => {
-        lang => 'Norwegian (Bokmål)',
-        text => 'En god stil må først og fremst være klar. Den må være passende. Aristoteles.',
-        font => "",
-    },
-    nn => {
-        lang => 'Norwegian (Nyorsk)',
-        text => "NONE YET",
-        font => "",
-    },
-    pl => {
-        lang => 'Polish',
-        text => 'Pchnąć w tę łódź jeża lub ośm skrzyń fig.',
-        font => "",
-    },
-    ro => {
-        lang => 'Romanian',
-        text => 'Agera vulpe maronie sare peste câinele cel leneş.',
-        font => "",
-    },
-    ru => {
-        lang => 'Russian',
-        text => 'Съешь ещё этих мягких французских булок да выпей же чаю.',
-        font => "",
-    },
-    es => {
-        lang => 'Spanish',
-        text => 'El veloz murciélago hindú comía feliz cardillo y kiwi. La cigüeña tocaba el saxofón detrás del palenque de paja.',
-        font => "",
-    },
-    uk => {
-        lang => 'Ukranian',
-        text => 'Чуєш їх, доцю, га? Кумедна ж ти, прощайся без ґольфів!',
-        font => "",
-    },
-];
-} # end BEGIN
